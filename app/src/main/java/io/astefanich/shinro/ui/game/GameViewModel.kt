@@ -7,11 +7,11 @@ import androidx.lifecycle.ViewModel
 class GameViewModel: ViewModel() {
 
     private val score = 10
-    private val _marblesRemaining = MutableLiveData<String>()
-    val marblesRemaining: LiveData<String>
+    private val _marblesRemaining = MutableLiveData<Int>()
+    val marblesRemaining: LiveData<Int>
         get() = _marblesRemaining
 
     init {
-        _marblesRemaining.value = "12"
+        _marblesRemaining.value = 10
     }
 }
