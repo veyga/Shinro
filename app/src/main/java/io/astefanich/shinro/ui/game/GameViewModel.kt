@@ -12,6 +12,6 @@ class GameViewModel: ViewModel() {
         get() = _marblesRemaining
 
     init {
-        _marblesRemaining.value = "10"
+        _marblesRemaining.value = "12"
     }
 }
