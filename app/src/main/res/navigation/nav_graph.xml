@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/gameFragment">
+    app:startDestination="@id/game_destination">
 
     <fragment
-        android:id="@+id/gameFragment"
+        android:id="@+id/game_destination"
         android:name="io.astefanich.shinro.ui.game.GameFragment"
-        android:label="fragment_game"
-        tools:layout="@layout/fragment_game" />
+        android:label="game_fragment"
+        tools:layout="@layout/game_fragment" />
 </navigation>
