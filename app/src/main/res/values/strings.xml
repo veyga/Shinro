@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Shinro</string>
+    <string name="clear">Clear</string>
+    <string name="undo">Undo</string>
+    <string name="incomplete">Incomplete</string>
     <string name="board_num_fmt">Board\n  %d</string>
     <string name="difficulty_fmt">Difficulty: %s</string>
-    <string name="marbles_remaining_fmt">Marbles Remaining: %d</string>
+    <string name="marbles_remaining_fmt">Remaining:\n%d</string>
 </resources>
