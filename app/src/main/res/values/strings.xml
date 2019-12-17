@@ -3,6 +3,7 @@
     <string name="clear">Clear</string>
     <string name="undo">Undo</string>
     <string name="board_num_fmt">Puzzle\n  %d</string>
+    <string name="completed_fmt">%s</string>
     <string name="difficulty_fmt">Difficulty: %s</string>
     <string name="marbles_remaining_fmt">Remaining:\n%d</string>
 </resources>

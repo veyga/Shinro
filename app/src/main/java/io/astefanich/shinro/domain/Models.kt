@@ -11,5 +11,5 @@ data class Board(
     val boardNum: Int,
     val difficulty: Difficulty,
     val cells: Array<Array<Cell>>,
-    var isSolved: Boolean = false
+    var completed: Boolean = false
 )

@@ -28,7 +28,7 @@ class GameFragment : Fragment() {
 
         binding= DataBindingUtil.inflate(inflater,R.layout.game_fragment,container,false)
         viewModel = ViewModelProviders.of(this).get(GameViewModel::class.java)
-        binding.viewModel = viewModel
+        binding.vm = viewModel
         binding.setLifecycleOwner(this)
         return binding.root
     }

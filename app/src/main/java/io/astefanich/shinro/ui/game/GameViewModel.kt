@@ -18,7 +18,13 @@ class GameViewModel : ViewModel() {
         get() = _board
 
 
-    fun solvedStateStr(): String = if (_board.value!!.isSolved) "COMPLETE" else "INCOMPLETE"
+    //caching the completion status of the puzzle
+    private val _solvedState = MutableLiveData<String>()
+    val solvedState: LiveData<String>
+        get() = _solvedState
+//        get() = if (_board.value!!.isSolved) "COMPLETE" else "INCOMPLETE"
+
+//    fun solvedStateStr(): String = if (_board.value!!.isSolved) "COMPLETE" else "INCOMPLETE"
 
     init {
         _marblesRemaining.value = 10

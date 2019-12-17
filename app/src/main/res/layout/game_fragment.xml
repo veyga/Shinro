@@ -7,7 +7,7 @@
     <data>
 
         <variable
-            name="viewModel"
+            name="vm"
             type="io.astefanich.shinro.ui.game.GameViewModel" />
     </data>
 
@@ -34,25 +34,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:text="@{@string/board_num_fmt(viewModel.board.boardNum)}"
+            android:text="@{@string/board_num_fmt(vm.board.boardNum)}"
             android:textAlignment="center"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/title_text"
             tools:text="@string/board_num_fmt" />
-
-        <TextView
-            android:id="@+id/difficulty"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@{@string/difficulty_fmt(viewModel.board.difficulty)}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/board_number"
-            tools:text="@{@string/difficulty_fmt(viewModel.board.difficulty)}" />
 
         <ImageView
             android:id="@+id/previous_arrow"
@@ -76,18 +64,31 @@
             app:layout_constraintStart_toEndOf="@+id/board_number"
             app:layout_constraintTop_toTopOf="parent" />
 
-
         <TextView
-            android:id="@+id/completion_status"
+            android:id="@+id/difficulty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="@{viewModel.solvedStateStr()}"
+            android:text="@{@string/difficulty_fmt(vm.board.difficulty)}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/board_number"
+            tools:text="DIFFICULTY" />
+
+
+        <TextView
+            android:id="@+id/solved_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@{String.valueOf(vm.board.completed)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/difficulty"
-            tools:text="@{viewModel.solvedStateStr()}" />
+            tools:text="INCOMPLETE" />
 
+        <!--            app:solvedStatus="@{vm.board.completed}"-->
         <TextView
             android:id="@+id/clear_board"
             android:layout_width="wrap_content"
@@ -119,23 +120,23 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:text="@{@string/marbles_remaining_fmt(viewModel.marblesRemaining)}"
+            android:text="@{@string/marbles_remaining_fmt(vm.marblesRemaining)}"
             android:textAlignment="center"
             android:textSize="10sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="@string/marbles_remaining_fmt" />
 
-        <include
-            android:id="@+id/board"
-            layout="@layout/board"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/completion_status" />
+<!--        <include-->
+<!--            android:id="@+id/board"-->
+<!--            layout="@layout/board"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginBottom="16dp"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/completion_status" />-->
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
