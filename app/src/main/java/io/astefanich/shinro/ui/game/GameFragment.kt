@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.navArgs
 
 import io.astefanich.shinro.R
 import io.astefanich.shinro.databinding.GameFragmentBinding
@@ -19,6 +20,7 @@ class GameFragment : Fragment() {
 
 
     private lateinit var viewModel: GameViewModel
+    private lateinit var viewModelFactory: GameViewModelFactory
     private lateinit var binding: GameFragmentBinding
 
     override fun onCreateView(
@@ -26,8 +28,12 @@ class GameFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        binding= DataBindingUtil.inflate(inflater,R.layout.game_fragment,container,false)
-        viewModel = ViewModelProviders.of(this).get(GameViewModel::class.java)
+        binding = DataBindingUtil.inflate(inflater, R.layout.game_fragment, container, false)
+
+        val gameFragmentArgs by navArgs<GameFragmentArgs>()
+
+        viewModelFactory = GameViewModelFactory(gameFragmentArgs.boardId)
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(GameViewModel::class.java)
         binding.vm = viewModel
         binding.setLifecycleOwner(this)
         return binding.root

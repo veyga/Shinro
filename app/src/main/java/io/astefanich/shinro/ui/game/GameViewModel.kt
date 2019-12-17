@@ -7,17 +7,19 @@ import io.astefanich.shinro.domain.Board
 import io.astefanich.shinro.domain.Cell
 import io.astefanich.shinro.domain.Difficulty
 
-class GameViewModel : ViewModel() {
+class GameViewModel(boardId: Int) : ViewModel() {
+
 
     private val _board = MutableLiveData<Board>()
     val board: LiveData<Board>
         get() = _board
 
-
-    fun cellChar(row:Int, col:Int): Char = _board.value!!.cells[row][col].current
-
     init {
-        _board.value =
+        _board.value = getBoardById(boardId)
+    }
+
+    private fun getBoardById(boardId: Int): Board {
+        val boards = arrayOf(
             Board(
                 1, Difficulty.EASY,
                 arrayOf(
@@ -45,7 +47,66 @@ class GameViewModel : ViewModel() {
                         Cell('O', 'O')
                     )
                 )
+            ), Board(
+                2, Difficulty.HARD,
+                arrayOf(
+                    //row 0
+                    arrayOf(
+                        Cell('j', 'j'),
+                        Cell('1', '1'),
+                        Cell('2', '2'),
+                        Cell('1', '1'),
+                        Cell('1', '1'),
+                        Cell('1', '1'),
+                        Cell('3', '3'),
+                        Cell('2', '2'),
+                        Cell('1', '1')
+                    ),
+                    arrayOf(
+                        Cell('2', '2'),
+                        Cell('O', 'M'),
+                        Cell('O', 'O'),
+                        Cell('C', 'C'),
+                        Cell('E', 'E'),
+                        Cell('E', 'E'),
+                        Cell('O', 'M'),
+                        Cell('O', 'O'),
+                        Cell('O', 'O')
+                    )
+                )
+            ), Board(
+                3, Difficulty.HARD,
+                arrayOf(
+                    //row 0
+                    arrayOf(
+                        Cell('j', 'j'),
+                        Cell('1', '1'),
+                        Cell('2', '2'),
+                        Cell('1', '1'),
+                        Cell('1', '1'),
+                        Cell('1', '1'),
+                        Cell('3', '3'),
+                        Cell('2', '2'),
+                        Cell('1', '1')
+                    ),
+                    arrayOf(
+                        Cell('2', '2'),
+                        Cell('O', 'M'),
+                        Cell('O', 'O'),
+                        Cell('C', 'C'),
+                        Cell('E', 'E'),
+                        Cell('E', 'E'),
+                        Cell('O', 'M'),
+                        Cell('O', 'O'),
+                        Cell('O', 'O')
+                    )
+                )
             )
-    }
+        )
 
+        if (boardId == 0)
+            return boards[0]
+        else
+            return boards[boardId-1]
+    }
 }

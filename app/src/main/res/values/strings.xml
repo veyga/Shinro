@@ -2,8 +2,13 @@
     <string name="app_name">Shinro</string>
     <string name="clear">Clear</string>
     <string name="undo">Undo</string>
+    <string name="play">Play!</string>
     <string name="board_num_fmt">Puzzle\n  %d</string>
     <string name="completed_fmt">%s</string>
     <string name="difficulty_fmt">Difficulty: %s</string>
     <string name="marbles_remaining_fmt">Remaining:\n%d</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>
