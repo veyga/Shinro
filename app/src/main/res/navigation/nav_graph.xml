@@ -46,4 +46,9 @@
         android:name="io.astefanich.shinro.ui.title.TipsFragment"
         android:label="tips_fragment"
         tools:layout="@layout/tips_fragment" />
+    <fragment
+        android:id="@+id/check_back_destination"
+        android:name="io.astefanich.shinro.ui.title.CheckBackFragment"
+        android:label="check_back_fragment"
+        tools:layout="@layout/check_back_fragment" />
 </navigation>
