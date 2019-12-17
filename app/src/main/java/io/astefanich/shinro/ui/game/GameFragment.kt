@@ -2,14 +2,13 @@ package io.astefanich.shinro.ui.game
 
 
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.navigation.ui.NavigationUI
 
 import io.astefanich.shinro.R
 import io.astefanich.shinro.databinding.GameFragmentBinding
@@ -18,7 +17,6 @@ import io.astefanich.shinro.databinding.GameFragmentBinding
  * A simple [Fragment] subclass.
  */
 class GameFragment : Fragment() {
-
 
     private lateinit var viewModel: GameViewModel
     private lateinit var viewModelFactory: GameViewModelFactory
@@ -42,8 +40,18 @@ class GameFragment : Fragment() {
         }
         binding.vm = viewModel
         binding.setLifecycleOwner(this)
+        setHasOptionsMenu(true)
         return binding.root
     }
 
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater?.inflate(R.menu.overflow_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return NavigationUI.onNavDestinationSelected(item!!, view!!.findNavController())
+                || super.onOptionsItemSelected(item)
+    }
 }
