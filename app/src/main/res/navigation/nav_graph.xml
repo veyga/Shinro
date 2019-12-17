@@ -31,4 +31,19 @@
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_left" />
     </fragment>
+    <fragment
+        android:id="@+id/about_destination"
+        android:name="io.astefanich.shinro.ui.title.AboutFragment"
+        android:label="about_fragment"
+        tools:layout="@layout/about_fragment" />
+    <fragment
+        android:id="@+id/rules_destination"
+        android:name="io.astefanich.shinro.ui.title.RulesFragment"
+        android:label="rules_fragment"
+        tools:layout="@layout/rules_fragment" />
+    <fragment
+        android:id="@+id/tipsFragment"
+        android:name="io.astefanich.shinro.ui.title.TipsFragment"
+        android:label="tips_fragment"
+        tools:layout="@layout/tips_fragment" />
 </navigation>
