@@ -120,7 +120,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:text="@{@string/marbles_remaining_fmt(vm.marblesRemaining)}"
+            android:text="@{@string/marbles_remaining_fmt(vm.board.marblesRemaining)}"
             android:textAlignment="center"
             android:textSize="10sp"
             app:layout_constraintEnd_toEndOf="parent"

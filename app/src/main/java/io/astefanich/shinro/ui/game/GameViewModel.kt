@@ -9,27 +9,14 @@ import io.astefanich.shinro.domain.Difficulty
 
 class GameViewModel : ViewModel() {
 
-    private val _marblesRemaining = MutableLiveData<Int>()
-    val marblesRemaining: LiveData<Int>
-        get() = _marblesRemaining
-
     private val _board = MutableLiveData<Board>()
     val board: LiveData<Board>
         get() = _board
 
 
-    //caching the completion status of the puzzle
-//    private val _solvedState = MutableLiveData<String>()
-//    val solvedState: LiveData<String>
-//        get() = _solvedState
-//        get() = if (_board.value!!.isSolved) "COMPLETE" else "INCOMPLETE"
-
-//    fun solvedStateStr(): String = if (_board.value!!.isSolved) "COMPLETE" else "INCOMPLETE"
-
     fun cellChar(row:Int, col:Int): Char = _board.value!!.cells[row][col].current
 
     init {
-        _marblesRemaining.value = 10
         _board.value =
             Board(
                 1, Difficulty.EASY,
