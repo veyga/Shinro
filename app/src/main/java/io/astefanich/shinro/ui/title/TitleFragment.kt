@@ -21,12 +21,18 @@ class TitleFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+
         val binding: TitleFragmentBinding =
             DataBindingUtil.inflate(inflater, R.layout.title_fragment, container, false)
 
-        binding.playButton.setOnClickListener{
+        binding.playButton.setOnClickListener {
             findNavController().navigate(TitleFragmentDirections.actionTitleToGame(0))
+        }
+        binding.howToPlayButton.setOnClickListener {
+            findNavController().navigate(TitleFragmentDirections.actionTitleToRules())
+        }
+        binding.aboutButton.setOnClickListener {
+            findNavController().navigate(TitleFragmentDirections.actionTitleToAbout())
         }
         return binding.root
     }

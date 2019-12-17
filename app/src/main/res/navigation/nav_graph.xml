@@ -16,7 +16,18 @@
             android:defaultValue="0" />
         <action
             android:id="@+id/action_game_destination_self"
-            app:destination="@id/game_destination" />
+            app:destination="@id/game_destination"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_game_to_check_back"
+            app:destination="@id/check_back_destination"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/title_destination"
@@ -28,6 +39,20 @@
             app:destination="@id/game_destination"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_title_to_rules"
+            app:destination="@id/rules_destination"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_title_to_about"
+            app:destination="@id/about_destination"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_left" />
     </fragment>
@@ -42,7 +67,7 @@
         android:label="rules_fragment"
         tools:layout="@layout/rules_fragment" />
     <fragment
-        android:id="@+id/tipsFragment"
+        android:id="@+id/tips_destination"
         android:name="io.astefanich.shinro.ui.title.TipsFragment"
         android:label="tips_fragment"
         tools:layout="@layout/tips_fragment" />
