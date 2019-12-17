@@ -3,9 +3,12 @@ package io.astefanich.shinro.util
 import android.view.View
 import androidx.databinding.BindingAdapter
 import androidx.databinding.BindingConversion
+import androidx.databinding.InverseMethod
 
 //@BindingConversion
-//internal fun solvedStatus(status: Boolean) = if (status) "COMPLETE" else "INCOMPLETE"
+//fun solvedStatus(status: Boolean):String = if (status) "COMPLETE" else "INCOMPLETE"
 
-@BindingAdapter("solvedStatus")
-fun setText(view: View, status: Boolean): String = if (status) "COMPLETE" else "INCOMPLETE"
+
+
+
+
