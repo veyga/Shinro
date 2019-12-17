@@ -14,6 +14,9 @@
             android:name="boardId"
             app:argType="integer"
             android:defaultValue="0" />
+        <action
+            android:id="@+id/action_game_destination_self"
+            app:destination="@id/game_destination" />
     </fragment>
     <fragment
         android:id="@+id/title_destination"

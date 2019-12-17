@@ -18,6 +18,11 @@ class GameViewModel(boardId: Int) : ViewModel() {
         _board.value = getBoardById(boardId)
     }
 
+
+    internal fun nextPuzzle(){
+
+    }
+
     private fun getBoardById(boardId: Int): Board {
         val boards = arrayOf(
             Board(
@@ -48,7 +53,7 @@ class GameViewModel(boardId: Int) : ViewModel() {
                     )
                 )
             ), Board(
-                2, Difficulty.HARD,
+                2, Difficulty.MEDIUM,
                 arrayOf(
                     //row 0
                     arrayOf(
