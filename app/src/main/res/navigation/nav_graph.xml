@@ -6,30 +6,6 @@
     app:startDestination="@id/title_destination">
 
     <fragment
-        android:id="@+id/game_destination"
-        android:name="io.astefanich.shinro.ui.game.GameFragment"
-        android:label="game_fragment"
-        tools:layout="@layout/game_fragment" >
-        <argument
-            android:name="boardId"
-            app:argType="integer"
-            android:defaultValue="0" />
-        <action
-            android:id="@+id/action_game_destination_self"
-            app:destination="@id/game_destination"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-        <action
-            android:id="@+id/action_game_to_check_back"
-            app:destination="@id/check_back_destination"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-    </fragment>
-    <fragment
         android:id="@+id/title_destination"
         android:name="io.astefanich.shinro.ui.title.TitleFragment"
         android:label="title_fragment"
@@ -55,6 +31,30 @@
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_left" />
+    </fragment>
+    <fragment
+        android:id="@+id/game_destination"
+        android:name="io.astefanich.shinro.ui.game.GameFragment"
+        android:label="game_fragment"
+        tools:layout="@layout/game_fragment" >
+        <argument
+            android:name="boardId"
+            app:argType="integer"
+            android:defaultValue="0" />
+        <action
+            android:id="@+id/action_game_destination_self"
+            app:destination="@id/game_destination"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_game_to_check_back"
+            app:destination="@id/check_back_destination"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/about_destination"

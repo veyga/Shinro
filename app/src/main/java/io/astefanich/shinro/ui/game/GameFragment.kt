@@ -2,14 +2,14 @@ package io.astefanich.shinro.ui.game
 
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
-import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.NavigationUI
-
 import io.astefanich.shinro.R
 import io.astefanich.shinro.databinding.GameFragmentBinding
 
@@ -38,6 +38,10 @@ class GameFragment : Fragment() {
             view.findNavController()
                 .navigate(GameFragmentDirections.actionGameDestinationSelf(viewModel.board.value!!.boardNum + 1))
         }
+        binding.previousArrow.setOnClickListener { view ->
+            view.findNavController()
+                .navigate(GameFragmentDirections.actionGameDestinationSelf(viewModel.board.value!!.boardNum - 1))
+        }
         binding.vm = viewModel
         binding.setLifecycleOwner(this)
         setHasOptionsMenu(true)
@@ -50,7 +54,12 @@ class GameFragment : Fragment() {
         inflater?.inflate(R.menu.overflow_menu, menu)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.i("GameFragment", "destroyed")
+    }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        //TODO need to use transaction manager so options pop back to game
         return NavigationUI.onNavDestinationSelected(item!!, view!!.findNavController())
                 || super.onOptionsItemSelected(item)
     }
