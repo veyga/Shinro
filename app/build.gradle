@@ -4,6 +4,10 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: "androidx.navigation.safeargs.kotlin"
 
+kapt {
+    correctErrorTypes = true
+}
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.0"
@@ -47,6 +51,8 @@ dependencies {
     implementation 'com.google.dagger:dagger-android-support:2.24'
     kapt 'com.google.dagger:dagger-compiler:2.24'
     kapt 'com.google.dagger:dagger-android-processor:2.24'
+    implementation 'com.radutopor.viewmodelfactory:annotations:1.0.0'
+    kapt 'com.radutopor.viewmodelfactory:processor:1.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'

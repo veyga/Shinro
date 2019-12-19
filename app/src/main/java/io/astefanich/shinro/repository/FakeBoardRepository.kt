@@ -2,7 +2,6 @@ package io.astefanich.shinro.repository
 
 import io.astefanich.shinro.domain.Board
 import io.astefanich.shinro.domain.Difficulty
-import timber.log.Timber
 import javax.inject.Inject
 
 class FakeBoardRepository @Inject constructor() : BoardRepository {
@@ -14,14 +13,9 @@ class FakeBoardRepository @Inject constructor() : BoardRepository {
             Board(3, Difficulty.HARD)
         )
 
-        Timber.i("boardrepo called with id: $boardId")
-        var boardToReturn: Board
-        if (boardId == 0)
-            boardToReturn = boards[0]
+        return if (boardId == 0)
+            boards[0]
         else
-            boardToReturn = boards[boardId - 1]
-
-        Timber.i("returning board: ${boardToReturn}")
-        return boardToReturn
+            boards[boardId - 1]
     }
 }

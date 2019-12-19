@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.NavigationUI
+import dagger.android.support.AndroidSupportInjection
 import io.astefanich.shinro.R
 import io.astefanich.shinro.databinding.GameFragmentBinding
 import javax.inject.Inject
@@ -19,9 +20,9 @@ import javax.inject.Inject
  */
 class GameFragment : Fragment() {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
 
+    @Inject
+    lateinit var viewModelFactory: GameViewModelFactory2
     private lateinit var viewModel: GameViewModel
     private lateinit var binding: GameFragmentBinding
 
@@ -30,19 +31,22 @@ class GameFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
+        AndroidSupportInjection.inject(this)
+
         binding = DataBindingUtil.inflate(inflater, R.layout.game_fragment, container, false)
 
         val gameFragmentArgs by navArgs<GameFragmentArgs>()
-
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(GameViewModel::class.java)
+        val boardId = gameFragmentArgs.boardId
+        viewModel = ViewModelProviders.of(this, viewModelFactory.create(boardId + 1))
+            .get(GameViewModel::class.java)
 
         binding.nextArrow.setOnClickListener { view ->
             view.findNavController()
-                .navigate(GameFragmentDirections.actionGameDestinationSelf(viewModel.board.value!!.boardNum + 1))
+                .navigate(GameFragmentDirections.actionGameDestinationSelf(boardId + 1))
         }
         binding.previousArrow.setOnClickListener { view ->
             view.findNavController()
-                .navigate(GameFragmentDirections.actionGameDestinationSelf(viewModel.board.value!!.boardNum - 1))
+                .navigate(GameFragmentDirections.actionGameDestinationSelf(boardId - 1))
         }
         binding.vm = viewModel
         binding.setLifecycleOwner(this)
