@@ -5,6 +5,7 @@ import dagger.Binds
 import dagger.MapKey
 import dagger.Module
 import dagger.multibindings.IntoMap
+import io.astefanich.shinro.ui.game.GameViewModel
 import io.astefanich.shinro.ui.game.TitleViewModel
 import java.lang.annotation.Documented
 import java.lang.annotation.ElementType
@@ -16,8 +17,8 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(TitleViewModel::class)
-    abstract fun bindTitleViewModel(viewModel: TitleViewModel): ViewModel
+    @ViewModelKey(GameViewModel::class)
+    abstract fun gameTitleViewModel(viewModel: GameViewModel): ViewModel
 }
 
 

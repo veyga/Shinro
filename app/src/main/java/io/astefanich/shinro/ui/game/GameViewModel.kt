@@ -7,7 +7,8 @@ import io.astefanich.shinro.domain.Board
 import io.astefanich.shinro.repository.BoardRepository
 import javax.inject.Inject
 
-class GameViewModel(boardId: Int) : ViewModel() {
+class GameViewModel @Inject constructor(val repository: BoardRepository, val boardId: Int) :
+    ViewModel() {
 
 
     private val _board = MutableLiveData<Board>()
@@ -15,8 +16,8 @@ class GameViewModel(boardId: Int) : ViewModel() {
         get() = _board
 
 
-    @Inject
-    lateinit var repository: BoardRepository
+//    @Inject
+//    lateinit var repository: BoardRepository
 
 
     init {
