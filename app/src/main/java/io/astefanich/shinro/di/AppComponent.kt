@@ -12,14 +12,15 @@ import javax.inject.Singleton
     modules = [
         AndroidInjectionModule::class,
         AndroidSupportInjectionModule::class,
-        ShinroAppModule::class
+        ActivityInjectorsModule::class,
+        AppModule::class
     ]
 )
-interface ShinroAppComponent : AndroidInjector<ShinroApplication> {
+interface AppComponent : AndroidInjector<ShinroApplication> {
 
     @Component.Builder
     interface Builder {
-        fun build(): ShinroAppComponent
+        fun build(): AppComponent
     }
 
 }

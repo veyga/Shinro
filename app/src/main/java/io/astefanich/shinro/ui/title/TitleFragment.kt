@@ -9,16 +9,21 @@ import androidx.navigation.fragment.findNavController
 
 import io.astefanich.shinro.R
 import io.astefanich.shinro.databinding.TitleFragmentBinding
+import io.astefanich.shinro.repository.BoardRepository
+import timber.log.Timber
+import javax.inject.Inject
 
 /**
  * A simple [Fragment] subclass.
  */
 class TitleFragment : Fragment() {
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
 
         val binding: TitleFragmentBinding =
             DataBindingUtil.inflate(inflater, R.layout.title_fragment, container, false)
