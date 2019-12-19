@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.astefanich.shinro.domain.Board
 import io.astefanich.shinro.repository.BoardRepository
+import javax.inject.Inject
 
 class GameViewModel(boardId: Int) : ViewModel() {
 
@@ -13,7 +14,10 @@ class GameViewModel(boardId: Int) : ViewModel() {
     val board: LiveData<Board>
         get() = _board
 
-    private val repository = BoardRepository()
+
+    @Inject
+    lateinit var repository: BoardRepository
+
 
     init {
         _board.value = repository.getBoardById(boardId)
