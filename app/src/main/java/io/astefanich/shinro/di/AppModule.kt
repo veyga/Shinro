@@ -1,16 +1,14 @@
 package io.astefanich.shinro.di
 
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import io.astefanich.shinro.repository.BoardRepository
+import io.astefanich.shinro.repository.FakeBoardRepository
 
 @Module
 abstract class AppModule {
 
-    @Module
-    companion object {
+    @Binds
+    internal abstract fun providesBoardRepository(board: FakeBoardRepository): BoardRepository
 
-        @Provides
-        internal fun providesBoardRepository(): BoardRepository = BoardRepository()
-    }
 }

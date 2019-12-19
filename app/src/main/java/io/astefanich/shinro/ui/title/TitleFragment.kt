@@ -6,6 +6,7 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
+import dagger.android.DaggerFragment
 
 import io.astefanich.shinro.R
 import io.astefanich.shinro.databinding.TitleFragmentBinding
@@ -17,6 +18,9 @@ import javax.inject.Inject
  * A simple [Fragment] subclass.
  */
 class TitleFragment : Fragment() {
+
+//    @Inject
+//    lateinit var repository: BoardRepository
 
 
     override fun onCreateView(
@@ -38,6 +42,8 @@ class TitleFragment : Fragment() {
             findNavController().navigate(TitleFragmentDirections.actionTitleToAbout())
         }
 
+
+//        Timber.i("repo is null? ${repository == null}")
         return binding.root
     }
 
