@@ -6,7 +6,7 @@ import io.astefanich.shinro.repository.BoardRepository
 import io.astefanich.shinro.repository.FakeBoardRepository
 import javax.inject.Singleton
 
-@Module
+@Module(includes = arrayOf(ViewModelModule::class))
 abstract class AppModule {
 
     @Singleton
