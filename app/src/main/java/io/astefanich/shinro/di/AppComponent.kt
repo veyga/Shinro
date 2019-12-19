@@ -1,5 +1,7 @@
 package io.astefanich.shinro.di
 
+import android.app.Application
+import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
 import dagger.android.AndroidInjector
@@ -20,6 +22,8 @@ interface AppComponent : AndroidInjector<ShinroApplication> {
 
     @Component.Builder
     interface Builder {
+        @BindsInstance
+        fun application(application: Application): Builder
         fun build(): AppComponent
     }
 

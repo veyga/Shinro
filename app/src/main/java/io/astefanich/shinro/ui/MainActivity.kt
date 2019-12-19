@@ -15,7 +15,7 @@ class MainActivity : DaggerAppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        Timber.i("repo is null? ${repository == null}")
+        Timber.i("activity repo is null? ${repository == null}")
         Timber.i(repository.getBoardById(0).toString())
     }
 

@@ -7,7 +7,9 @@ import timber.log.Timber
 
 class ShinroApplication : DaggerApplication() {
 
-    private val appInjector = DaggerAppComponent.builder().build()
+    private val appInjector = DaggerAppComponent.builder()
+                                                .application(this)
+                                                .build()
 
     override fun onCreate() {
         super.onCreate()

@@ -3,6 +3,7 @@ package io.astefanich.shinro.ui.title
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
@@ -28,19 +29,20 @@ class TitleFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
+        Toast.makeText(activity, "title fragment", Toast.LENGTH_SHORT).show()
 
         val binding: TitleFragmentBinding =
             DataBindingUtil.inflate(inflater, R.layout.title_fragment, container, false)
 
-        binding.playButton.setOnClickListener {
-            findNavController().navigate(TitleFragmentDirections.actionTitleToGame(0))
-        }
-        binding.howToPlayButton.setOnClickListener {
-            findNavController().navigate(TitleFragmentDirections.actionTitleToRules())
-        }
-        binding.aboutButton.setOnClickListener {
-            findNavController().navigate(TitleFragmentDirections.actionTitleToAbout())
-        }
+//        binding.playButton.setOnClickListener {
+//            findNavController().navigate(TitleFragmentDirections.actionTitleToGame(0))
+//        }
+//        binding.howToPlayButton.setOnClickListener {
+//            findNavController().navigate(TitleFragmentDirections.actionTitleToRules())
+//        }
+//        binding.aboutButton.setOnClickListener {
+//            findNavController().navigate(TitleFragmentDirections.actionTitleToAbout())
+//        }
 
 
 //        Timber.i("repo is null? ${repository == null}")
