@@ -17,9 +17,5 @@ class ShinroApplication : DaggerApplication() {
     }
     override fun applicationInjector(): AppComponent   = appInjector
 
-//    override fun applicationInjector(): AndroidInjector<ShinroApplication> {
-//        return DaggerAppComponent.builder().build()
-//    }
-
 }
 
