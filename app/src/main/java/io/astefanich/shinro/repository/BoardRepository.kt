@@ -5,6 +5,8 @@ import io.astefanich.shinro.domain.Board
 
 interface BoardRepository {
 
+    fun getAllBoards(): LiveData<List<Board>>
+
     fun getBoardById(boardId: Int): LiveData<Board>
 
 }

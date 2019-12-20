@@ -42,13 +42,14 @@ class AppModule {
 
     @Singleton
     @Provides
-    internal fun providesAppDatabase(application: Application, boards: Array<Board>): AppDatabase {
+    internal fun providesInMemoryAppDatabase(application: Application, boards: Array<Board>): AppDatabase {
 
         Timber.i("providing in memory db")
         lateinit var appDatabase: AppDatabase
         appDatabase = Room.inMemoryDatabaseBuilder(
             application, AppDatabase::class.java
         )
+            .allowMainThreadQueries()
             .fallbackToDestructiveMigration()
             .addCallback(object : RoomDatabase.Callback() {
 

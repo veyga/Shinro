@@ -9,6 +9,12 @@ import javax.inject.Singleton
 @Singleton
 class FakeBoardRepository @Inject constructor(val boards: Array<Board>) : BoardRepository {
 
+    override fun getAllBoards(): LiveData<List<Board>> {
+        val items = MutableLiveData<List<Board>>()
+        items.value = boards.toList()
+        return items
+    }
+
 
     override fun getBoardById(boardId: Int): LiveData<Board> {
 
