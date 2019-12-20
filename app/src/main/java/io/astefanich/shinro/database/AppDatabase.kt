@@ -8,5 +8,5 @@ import io.astefanich.shinro.domain.Board
 abstract class AppDatabase : RoomDatabase() {
 
 //    val DATABASE_NAME = "app_db"
-    abstract val boardDao: BoardDao
+    abstract fun boardDao(): BoardDao
 }

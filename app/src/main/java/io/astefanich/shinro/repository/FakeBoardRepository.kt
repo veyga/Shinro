@@ -7,16 +7,11 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class FakeBoardRepository (val difficulties:Triple<String,String,String>) : BoardRepository {
+class FakeBoardRepository @Inject constructor(val boards: Array<Board>) : BoardRepository {
 
 
     override fun getBoardById(boardId: Int): LiveData<Board> {
 
-        val boards = arrayOf(
-            Board(1, difficulties.first),
-            Board(2, difficulties.second),
-            Board(3, difficulties.third)
-        )
 
         //if boardId is 0, user is coming from title screen.
         //return lowest incomplete board

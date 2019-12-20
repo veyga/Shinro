@@ -9,6 +9,7 @@ import javax.inject.Singleton
 @Singleton
 class BoardRepositoryImpl @Inject constructor(val boardDao: BoardDao) : BoardRepository {
 
+
     override fun getBoardById(boardId: Int): LiveData<Board> = boardDao.getBoardById(boardId)
 
 }
