@@ -12,34 +12,63 @@ import io.astefanich.shinro.repository.FakeBoardRepository
 import javax.inject.Singleton
 
 @Module
-abstract class AppModule {
+class AppModule {
 
     @Singleton
-    @Binds
-    internal abstract fun providesBoardRepository(board: FakeBoardRepository): BoardRepository
+    @Provides
+    internal fun providesBoardRepository(): BoardRepository {
+        return FakeBoardRepository(Triple("EASY", "MEDIUM", "HARD"))
+    }
 
-    @Module
-    companion object {
+    @Singleton
+    @Provides
+    internal fun providesAppDatabase(application: Application): AppDatabase {
+        return Room.inMemoryDatabaseBuilder(
+            application,
+            AppDatabase::class.java
+        ).allowMainThreadQueries()
+            .build()
 
-        @Provides
-        internal fun providesAppDatabase(application: Application): AppDatabase {
-            return Room.inMemoryDatabaseBuilder(
-                application,
-                AppDatabase::class.java
-            ).allowMainThreadQueries()
-                .build()
+    }
 
-        }
-
-        @Provides
-        internal fun providesBoardDao(database: AppDatabase): BoardDao {
-            return database.boardDao
-        }
-
-
-        @Provides
-        internal fun providesDifficulties(): Triple<String, String, String> {
-            return Triple("EASY", "MEDIUM", "HARD")
-        }
+    @Singleton
+    @Provides
+    internal fun providesBoardDao(database: AppDatabase): BoardDao {
+        return database.boardDao
     }
 }
+
+//@Module
+//abstract class AppModule {
+//
+////    @Singleton
+////    @Binds
+////    internal abstract fun providesBoardRepository(repository: FakeBoardRepository): BoardRepository
+//
+//    @Module
+//    companion object {
+//
+//        @Singleton
+//        @Provides
+//        internal fun providesAppDatabase(application: Application): AppDatabase {
+//            return Room.inMemoryDatabaseBuilder(
+//                application,
+//                AppDatabase::class.java
+//            ).allowMainThreadQueries()
+//                .build()
+//
+//        }
+//
+//        @Singleton
+//        @Provides
+//        internal fun providesBoardDao(database: AppDatabase): BoardDao {
+//            return database.boardDao
+//        }
+//
+//        @Singleton
+//        @Provides
+//        internal fun providesBoardRepository(): BoardRepository {
+//            return FakeBoardRepository(Triple("EASY", "MEDIUM", "HARD"))
+//        }
+//    }
+//}

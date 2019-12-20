@@ -21,8 +21,8 @@ import javax.inject.Inject
 class GameFragment : Fragment() {
 
 
-//    @Inject
-//    lateinit var viewModelFactory: GameViewModelFactory2
+    @Inject
+    lateinit var viewModelFactory: GameViewModelFactory2
     private lateinit var viewModel: GameViewModel
     private lateinit var binding: GameFragmentBinding
 
@@ -37,19 +37,19 @@ class GameFragment : Fragment() {
 
         val gameFragmentArgs by navArgs<GameFragmentArgs>()
         val boardId = gameFragmentArgs.boardId
-//        viewModel = ViewModelProviders.of(this, viewModelFactory.create(boardId + 1))
-//            .get(GameViewModel::class.java)
-//
-//        binding.nextArrow.setOnClickListener { view ->
-//            view.findNavController()
-//                .navigate(GameFragmentDirections.actionGameDestinationSelf(boardId + 1))
-//        }
-//        binding.previousArrow.setOnClickListener { view ->
-//            view.findNavController()
-//                .navigate(GameFragmentDirections.actionGameDestinationSelf(boardId - 1))
-//        }
-//        binding.vm = viewModel
-//        binding.setLifecycleOwner(this)
+        viewModel = ViewModelProviders.of(this, viewModelFactory.create(boardId + 1))
+            .get(GameViewModel::class.java)
+
+        binding.nextArrow.setOnClickListener { view ->
+            view.findNavController()
+                .navigate(GameFragmentDirections.actionGameDestinationSelf(boardId + 1))
+        }
+        binding.previousArrow.setOnClickListener { view ->
+            view.findNavController()
+                .navigate(GameFragmentDirections.actionGameDestinationSelf(boardId - 1))
+        }
+        binding.vm = viewModel
+        binding.setLifecycleOwner(this)
         setHasOptionsMenu(true)
         return binding.root
     }

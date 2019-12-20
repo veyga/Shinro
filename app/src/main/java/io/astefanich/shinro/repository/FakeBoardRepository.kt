@@ -1,16 +1,14 @@
 package io.astefanich.shinro.repository
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import io.astefanich.shinro.domain.Board
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class FakeBoardRepository @Inject constructor() : BoardRepository {
+class FakeBoardRepository (val difficulties:Triple<String,String,String>) : BoardRepository {
 
-
-    @Inject
-    lateinit var difficulties: Triple<String, String, String>
 
     override fun getBoardById(boardId: Int): LiveData<Board> {
 
@@ -22,9 +20,12 @@ class FakeBoardRepository @Inject constructor() : BoardRepository {
 
         //if boardId is 0, user is coming from title screen.
         //return lowest incomplete board
-        return if (boardId == 0)
-            boards[0] as LiveData<Board>
+        val item = MutableLiveData<Board>()
+        if (boardId == 0)
+            item.value = boards[0]
         else
-            boards[boardId - 1] as LiveData<Board>
+            item.value = boards[boardId - 1]
+
+        return item
     }
 }
