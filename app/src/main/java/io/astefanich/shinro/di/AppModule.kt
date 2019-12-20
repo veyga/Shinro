@@ -18,15 +18,36 @@ import javax.inject.Singleton
 @Module
 class AppModule {
 
+    @Singleton
+//    @Provides
+    internal fun providesAppDatabaseFromFile(application: Application): AppDatabase {
+        Timber.i("providing db from file")
+        return Room.databaseBuilder(application, AppDatabase::class.java, "ShinroDB")
+            .createFromAsset("shinro.db")
+            .addCallback(object : RoomDatabase.Callback() {
+
+                override fun onCreate(db: SupportSQLiteDatabase) {
+                    super.onCreate(db)
+                    Timber.i("ONCREATE") //not getting logged
+                }
+
+                override fun onOpen(db: SupportSQLiteDatabase) {
+                    super.onOpen(db)
+                    Timber.i("ONOPEN") //not getting logged
+                }
+            })
+            .build()
+
+    }
 
     @Singleton
     @Provides
     internal fun providesAppDatabase(application: Application, boards: Array<Board>): AppDatabase {
 
+        Timber.i("providing in memory db")
         lateinit var appDatabase: AppDatabase
         appDatabase = Room.inMemoryDatabaseBuilder(
-            application,
-            AppDatabase::class.java
+            application, AppDatabase::class.java
         )
             .fallbackToDestructiveMigration()
             .addCallback(object : RoomDatabase.Callback() {
@@ -51,18 +72,21 @@ class AppModule {
     @Singleton
     @Provides
     internal fun providesBoardDao(database: AppDatabase): BoardDao {
+        Timber.i("providing boardDao")
         return database.boardDao()
     }
 
     @Singleton
-//    @Provides
+    @Provides
     internal fun providesFakeBoardRepository(boards: Array<Board>): BoardRepository {
+        Timber.i("fake repo provided")
         return FakeBoardRepository(boards)
     }
 
     @Singleton
-    @Provides
+//    @Provides
     internal fun providesBoardRepositoryImpl(dao: BoardDao): BoardRepository {
+        Timber.i("real repo provided")
         return BoardRepositoryImpl(dao)
     }
 

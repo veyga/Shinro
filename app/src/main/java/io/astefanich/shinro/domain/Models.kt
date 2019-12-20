@@ -18,7 +18,7 @@ data class Board(
 
     var completed: Boolean = false,
 
-    @ColumnInfo(name = "marbles_remaining")
-    var marblesRemaining: Int = 10
+    @ColumnInfo(name = "marbles_placed")
+    var marblesPlaced: Int = 0
 )
 
