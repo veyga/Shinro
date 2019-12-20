@@ -55,5 +55,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/how_to_play_button"
             tools:text="@string/about" />
+
+        <Button
+            android:id="@+id/load_boards_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="load_boards"
+            app:layout_constraintBottom_toTopOf="@+id/title_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="load_boards" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -9,4 +9,7 @@ interface BoardRepository {
 
     fun getBoardById(boardId: Int): LiveData<Board>
 
+    fun insertBoards(vararg boards: Board)
+
+    fun insertOneBoard(board: Board)
 }

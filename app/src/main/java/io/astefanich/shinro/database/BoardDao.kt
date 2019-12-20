@@ -18,4 +18,7 @@ interface BoardDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertBoards(vararg boards: Board)
+
+    @Insert
+    fun insertOneBoard(board: Board)
 }

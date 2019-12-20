@@ -11,12 +11,22 @@ import androidx.navigation.fragment.findNavController
 import dagger.android.support.AndroidSupportInjection
 import io.astefanich.shinro.R
 import io.astefanich.shinro.databinding.TitleFragmentBinding
+import io.astefanich.shinro.domain.Board
+import io.astefanich.shinro.repository.BoardRepository
+import timber.log.Timber
+import javax.inject.Inject
 
 /**
  * A simple [Fragment] subclass.
  */
 class TitleFragment : Fragment() {
 
+
+    @Inject
+    lateinit var repository: BoardRepository
+
+    @Inject
+    lateinit var sampleData: Array<Board>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,6 +49,17 @@ class TitleFragment : Fragment() {
             findNavController().navigate(TitleFragmentDirections.actionTitleToAbout())
         }
 
+        binding.loadBoardsButton.setOnClickListener {
+//            Timber.i("fragment trying to get board")
+//            repository.getBoardById(1)
+//            Timber.i("fragement requesting to load boards")
+//            repository.insertBoards(*sampleData)
+
+            Timber.i("fragment inserting 1 board")
+//            repository.insertOneBoard(Board(5,"MEDIUM"))
+            Timber.i("fragment calling get all boards on repo")
+            repository.getAllBoards()
+        }
         return binding.root
     }
 

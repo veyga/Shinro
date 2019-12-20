@@ -10,9 +10,10 @@ data class Cell(var current: Char, val actual: Char)
 @Entity(tableName = "board_table")
 data class Board(
 
-    @PrimaryKey(autoGenerate = false)
+
+    @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "board_id")
-    val boardNum: Int,
+    val boardId: Int,
 
     val difficulty: String,
 
@@ -21,4 +22,6 @@ data class Board(
     @ColumnInfo(name = "marbles_placed")
     var marblesPlaced: Int = 0
 )
+
+
 

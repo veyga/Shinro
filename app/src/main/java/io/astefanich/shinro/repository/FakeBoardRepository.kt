@@ -3,11 +3,19 @@ package io.astefanich.shinro.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.astefanich.shinro.domain.Board
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class FakeBoardRepository @Inject constructor(val boards: Array<Board>) : BoardRepository {
+
+    override fun insertOneBoard(board: Board) {
+       Timber.i("fake repo loaded one board")
+    }
+    override fun insertBoards(vararg boards: Board) {
+        Timber.i("fake repo loaded boards")
+    }
 
     override fun getAllBoards(): LiveData<List<Board>> {
         val items = MutableLiveData<List<Board>>()

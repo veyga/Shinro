@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="@{@string/board_num_fmt(vm.board.boardNum)}"
+            android:text="@{@string/board_num_fmt(vm.board.boardId)}"
             android:textAlignment="center"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -110,7 +110,7 @@
             android:textSize="10sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="@string/marbles_remaining_fmt" />
+            tools:text="supp" />
 
         <androidx.gridlayout.widget.GridLayout
             android:layout_width="409dp"

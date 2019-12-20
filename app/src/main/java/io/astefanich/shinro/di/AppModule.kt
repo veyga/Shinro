@@ -13,6 +13,7 @@ import io.astefanich.shinro.repository.BoardRepository
 import io.astefanich.shinro.repository.BoardRepositoryImpl
 import io.astefanich.shinro.repository.FakeBoardRepository
 import timber.log.Timber
+import java.util.concurrent.Executors
 import javax.inject.Singleton
 
 @Module
@@ -42,7 +43,10 @@ class AppModule {
 
     @Singleton
     @Provides
-    internal fun providesInMemoryAppDatabase(application: Application, boards: Array<Board>): AppDatabase {
+    internal fun providesInMemoryAppDatabase(
+        application: Application,
+        boards: Array<Board>
+    ): AppDatabase {
 
         Timber.i("providing in memory db")
         lateinit var appDatabase: AppDatabase
@@ -55,18 +59,17 @@ class AppModule {
 
                 override fun onCreate(db: SupportSQLiteDatabase) {
                     super.onCreate(db)
-                    appDatabase.boardDao().insertBoards(*boards)
-                    Timber.i("ONCREATE") //not getting logged
-                }
-
-                override fun onOpen(db: SupportSQLiteDatabase) {
-                    super.onOpen(db)
-                    Timber.i("ONOPEN") //not getting logged
+                    Timber.i("ONCREATE in main thread") //not getting logged
+                    Executors.newSingleThreadScheduledExecutor().execute() {
+                        Timber.i("ONCREATE in executor") //not getting logged
+                        appDatabase.boardDao().insertBoards(*boards)
+                        Timber.i("database is open? ${appDatabase.isOpen}") //logging false
+                        Timber.i("loaded data?")
+                    }
                 }
             }
             )
             .build()
-        Timber.i("database is open? ${appDatabase.isOpen}") //logging false
         return appDatabase
     }
 
@@ -78,14 +81,14 @@ class AppModule {
     }
 
     @Singleton
-    @Provides
+//    @Provides
     internal fun providesFakeBoardRepository(boards: Array<Board>): BoardRepository {
         Timber.i("fake repo provided")
         return FakeBoardRepository(boards)
     }
 
     @Singleton
-//    @Provides
+    @Provides
     internal fun providesBoardRepositoryImpl(dao: BoardDao): BoardRepository {
         Timber.i("real repo provided")
         return BoardRepositoryImpl(dao)
