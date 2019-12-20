@@ -35,5 +35,11 @@ abstract class AppModule {
         internal fun providesBoardDao(database: AppDatabase): BoardDao {
             return database.boardDao
         }
+
+
+        @Provides
+        internal fun providesDifficulties(): Triple<String, String, String> {
+            return Triple("EASY", "MEDIUM", "HARD")
+        }
     }
 }

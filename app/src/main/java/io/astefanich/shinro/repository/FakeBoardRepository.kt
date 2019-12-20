@@ -2,18 +2,22 @@ package io.astefanich.shinro.repository
 
 import androidx.lifecycle.LiveData
 import io.astefanich.shinro.domain.Board
-import io.astefanich.shinro.domain.Difficulty
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class FakeBoardRepository @Inject constructor() : BoardRepository {
 
+
+    @Inject
+    lateinit var difficulties: Triple<String, String, String>
+
     override fun getBoardById(boardId: Int): LiveData<Board> {
+
         val boards = arrayOf(
-            Board(1, Difficulty.EASY),
-            Board(2, Difficulty.MEDIUM),
-            Board(3, Difficulty.HARD)
+            Board(1, difficulties.first),
+            Board(2, difficulties.second),
+            Board(3, difficulties.third)
         )
 
         //if boardId is 0, user is coming from title screen.
