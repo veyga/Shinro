@@ -1,4 +1,4 @@
-package io.astefanich.shinro.ui.game
+package io.astefanich.shinro.ui
 
 
 import android.os.Bundle
@@ -13,6 +13,8 @@ import androidx.navigation.ui.NavigationUI
 import dagger.android.support.AndroidSupportInjection
 import io.astefanich.shinro.R
 import io.astefanich.shinro.databinding.GameFragmentBinding
+import io.astefanich.shinro.viewmodels.GameViewModel
+import io.astefanich.shinro.viewmodels.GameViewModelFactory2
 import javax.inject.Inject
 
 /**
@@ -42,12 +44,21 @@ class GameFragment : Fragment() {
 
         binding.nextArrow.setOnClickListener { view ->
             view.findNavController()
-                .navigate(GameFragmentDirections.actionGameDestinationSelf(boardId + 1))
+                .navigate(
+                    GameFragmentDirections.actionGameDestinationSelf(
+                        boardId + 1
+                    )
+                )
         }
         binding.previousArrow.setOnClickListener { view ->
             view.findNavController()
-                .navigate(GameFragmentDirections.actionGameDestinationSelf(boardId - 1))
+                .navigate(
+                    GameFragmentDirections.actionGameDestinationSelf(
+                        boardId - 1
+                    )
+                )
         }
+
         binding.vm = viewModel
         binding.setLifecycleOwner(this)
         setHasOptionsMenu(true)

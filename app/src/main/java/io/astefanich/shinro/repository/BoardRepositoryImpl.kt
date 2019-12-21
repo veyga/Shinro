@@ -11,39 +11,35 @@ import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
+
+// Coroutines go here (not the VM?)
 @Singleton
 class BoardRepositoryImpl @Inject constructor(val boardDao: BoardDao) : BoardRepository {
 
-    val boards: LiveData<List<Board>> = boardDao.getAllBoards()
+    private val boards: LiveData<List<Board>>
+
 
     init {
-        Timber.i("real repo init" )
+        Timber.i("inserted test board")
+        boardDao.insertBoards(Board(-1, "TEST"))
+        boards = boardDao.getAllBoards()
     }
 
-    override fun insertBoards(vararg boards: Board) {
-        Timber.i("real board repo inserting boards")
-        Timber.i("${Arrays.toString(boards)}")
-        boardDao.insertBoards(*boards)
+    override fun updateBoard(board: Board) {
+        Timber.i("fake repo updating")
     }
 
     override fun getAllBoards(): LiveData<List<Board>> {
-        Timber.i("getting all boards from repo. repo boards are $1")
-        if (boards == null) {
-            Timber.i("repo boards was null. getting from dao")
-            boardDao.getAllBoards()
-        }
-
-
         return boards
     }
 
     override fun getBoardById(boardId: Int): LiveData<Board> {
         Timber.i("repo getting board by id")
-
+        //get it the board from the repos list
         return boardDao.getBoardById(boardId)
     }
 
-    override fun insertOneBoard(board: Board) {
-        boardDao.insertOneBoard(board)
+    override fun insertBoards(vararg boards: Board) {
+        boardDao.insertBoards(*boards)
     }
 }

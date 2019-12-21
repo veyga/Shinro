@@ -9,4 +9,5 @@ abstract class AppDatabase : RoomDatabase() {
 
 //    val DATABASE_NAME = "app_db"
     abstract fun boardDao(): BoardDao
+
 }

@@ -11,7 +11,7 @@ data class Cell(var current: Char, val actual: Char)
 data class Board(
 
 
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "board_id")
     val boardId: Int,
 
@@ -24,4 +24,9 @@ data class Board(
 )
 
 
+data class Instruction(
+    val stepNum: Int,
+    val image: String,
+    val text: String
+)
 

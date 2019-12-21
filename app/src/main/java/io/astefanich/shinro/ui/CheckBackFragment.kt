@@ -1,4 +1,4 @@
-package io.astefanich.shinro.ui.title
+package io.astefanich.shinro.ui
 
 
 import android.os.Bundle
@@ -12,14 +12,14 @@ import io.astefanich.shinro.R
 /**
  * A simple [Fragment] subclass.
  */
-class RulesFragment : Fragment() {
+class CheckBackFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.rules_fragment, container, false)
+        return inflater.inflate(R.layout.check_back_fragment, container, false)
     }
 
 

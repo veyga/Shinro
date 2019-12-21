@@ -1,4 +1,4 @@
-package io.astefanich.shinro.ui.game
+package io.astefanich.shinro.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -16,35 +16,20 @@ import javax.inject.Inject
 class GameViewModel @Inject constructor(@Provided val repository: BoardRepository, val boardId: Int) :
     ViewModel() {
 
-//    private var repoJob = Job()
-//    private val uiScope = CoroutineScope(Dispatchers.Main + repoJob)
-
     private val _board = MutableLiveData<Board>()
     val board: LiveData<Board>
         get() = _board
 
-//    private val boards = repository.getAllBoards()
-//    val board = MutableLiveData<Board>()
 
     init {
-//        initializeCurrentBoard()
-//        Timber.i("repo got all boards, size= ${boards.value}")
         Timber.i("viewmodel created")
         _board.value = repository.getBoardById(boardId).value
         Timber.i("gameviewmodel got this from the repositoy for id: $boardId \n ${_board.value}")
     }
 
-//    private fun initializeCurrentBoard() {
-//        uiScope.launch {
-//            board.value = getCurrentBoardFromDatabase()
-//        }
-//    }
-//
-//
-//    private suspend fun getCurrentBoardFromDatabase(): Board? {
-//        return withContext(Dispatchers.IO) {
-//            var board = repository.getBoardById(1)
-//            board.value
-//        }
-//    }
+    fun onMove() {
+//        _board.value!!.marblesPlaced = (_board.value!!.marblesPlaced) - 1
+        Timber.i("MOVE PRESSED. marbles placed is now ${_board.value?.marblesPlaced}")
+    }
+
 }

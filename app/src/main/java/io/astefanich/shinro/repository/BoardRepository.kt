@@ -11,5 +11,6 @@ interface BoardRepository {
 
     fun insertBoards(vararg boards: Board)
 
-    fun insertOneBoard(board: Board)
+    fun updateBoard(board: Board)
+
 }

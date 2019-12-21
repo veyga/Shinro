@@ -1,6 +1,7 @@
 package io.astefanich.shinro.di
 
 import android.app.Application
+import androidx.lifecycle.LiveData
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
@@ -9,6 +10,7 @@ import dagger.Provides
 import io.astefanich.shinro.database.AppDatabase
 import io.astefanich.shinro.database.BoardDao
 import io.astefanich.shinro.domain.Board
+import io.astefanich.shinro.domain.Instruction
 import io.astefanich.shinro.repository.BoardRepository
 import io.astefanich.shinro.repository.BoardRepositoryImpl
 import io.astefanich.shinro.repository.FakeBoardRepository
@@ -20,35 +22,11 @@ import javax.inject.Singleton
 class AppModule {
 
     @Singleton
-//    @Provides
-    internal fun providesAppDatabaseFromFile(application: Application): AppDatabase {
-        Timber.i("providing db from file")
-        return Room.databaseBuilder(application, AppDatabase::class.java, "ShinroDB")
-            .createFromAsset("shinro.db")
-            .addCallback(object : RoomDatabase.Callback() {
-
-                override fun onCreate(db: SupportSQLiteDatabase) {
-                    super.onCreate(db)
-                    Timber.i("ONCREATE") //not getting logged
-                }
-
-                override fun onOpen(db: SupportSQLiteDatabase) {
-                    super.onOpen(db)
-                    Timber.i("ONOPEN") //not getting logged
-                }
-            })
-            .build()
-
-    }
-
-    @Singleton
     @Provides
     internal fun providesInMemoryAppDatabase(
-        application: Application,
-        boards: Array<Board>
+        application: Application, boards: Array<Board>
     ): AppDatabase {
 
-        Timber.i("providing in memory db")
         lateinit var appDatabase: AppDatabase
         appDatabase = Room.inMemoryDatabaseBuilder(
             application, AppDatabase::class.java
@@ -56,15 +34,12 @@ class AppModule {
             .allowMainThreadQueries()
             .fallbackToDestructiveMigration()
             .addCallback(object : RoomDatabase.Callback() {
-
                 override fun onCreate(db: SupportSQLiteDatabase) {
                     super.onCreate(db)
-                    Timber.i("ONCREATE in main thread") //not getting logged
                     Executors.newSingleThreadScheduledExecutor().execute() {
-                        Timber.i("ONCREATE in executor") //not getting logged
+                        Timber.i("ONCREATE")
                         appDatabase.boardDao().insertBoards(*boards)
-                        Timber.i("database is open? ${appDatabase.isOpen}") //logging false
-                        Timber.i("loaded data?")
+                        Timber.i("BOARDS LOADED")
                     }
                 }
             }
@@ -72,6 +47,7 @@ class AppModule {
             .build()
         return appDatabase
     }
+
 
     @Singleton
     @Provides
@@ -96,11 +72,33 @@ class AppModule {
 
     @Singleton
     @Provides
-    internal fun providesSampleData(): Array<Board> {
+    internal fun providesSampleBoards(): Array<Board> {
         return arrayOf(
             Board(1, "easy"),
             Board(2, "medium"),
             Board(3, "hard")
+        )
+    }
+
+    @Singleton
+    @Provides
+    internal fun providesBoards(boardDao: BoardDao): LiveData<List<Board>> {
+        return boardDao.getAllBoards()
+    }
+
+    @Singleton
+    @Provides
+    internal fun providesInstructions(): List<Instruction> {
+        return arrayListOf(
+            Instruction(1, "IMG1", "step1"),
+            Instruction(2, "IMG2", "step2"),
+            Instruction(3, "IMG3", "step3"),
+            Instruction(4, "IMG4", "step4"),
+            Instruction(5, "IMG5", "step5"),
+            Instruction(6, "IMG6", "step6"),
+            Instruction(7, "IMG7", "step7"),
+            Instruction(8, "IMG8", "step8"),
+            Instruction(9, "IMG9", "step9")
         )
     }
 }

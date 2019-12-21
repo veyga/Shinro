@@ -2,13 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.game.GameFragment">
+    tools:context=".ui.GameFragment">
 
     <data>
 
         <variable
             name="vm"
-            type="io.astefanich.shinro.ui.game.GameViewModel" />
+            type="io.astefanich.shinro.viewmodels.GameViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -112,56 +112,70 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="supp" />
 
-        <androidx.gridlayout.widget.GridLayout
-            android:layout_width="409dp"
-            android:layout_height="505dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginBottom="32dp"
-            app:columnCount="2"
-            app:layout_constraintBottom_toBottomOf="parent"
+        <Button
+            android:id="@+id/move_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="340dp"
+            android:layout_marginEnd="176dp"
+            android:onClick="@{() -> vm.onMove()}"
+            android:text="MOVE"
+            android:textAlignment="center"
+            android:textSize="10sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/difficulty"
-            app:rowCount="2">
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="MOVE" />
+        />
+        <!--        <androidx.gridlayout.widget.GridLayout-->
+        <!--            android:layout_width="409dp"-->
+        <!--            android:layout_height="505dp"-->
+        <!--            android:layout_marginStart="24dp"-->
+        <!--            android:layout_marginTop="8dp"-->
+        <!--            android:layout_marginEnd="24dp"-->
+        <!--            android:layout_marginBottom="32dp"-->
+        <!--            app:columnCount="2"-->
+        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toBottomOf="@+id/difficulty"-->
+        <!--            app:rowCount="2">-->
 
-            <TextView
-                android:id="@+id/c0_0"
-                android:layout_width="wrap_content"
-                android:padding="8dp"
-                android:text="A"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                app:layout_column="0"
-                app:layout_row="0" />
+        <!--            <TextView-->
+        <!--                android:id="@+id/c0_0"-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:padding="8dp"-->
+        <!--                android:text="A"-->
+        <!--                android:textAppearance="?android:attr/textAppearanceLarge"-->
+        <!--                app:layout_column="0"-->
+        <!--                app:layout_row="0" />-->
 
-            <TextView
-                android:id="@+id/c0_1"
-                android:layout_width="wrap_content"
-                android:padding="8dp"
-                android:text="B"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                app:layout_column="1"
-                app:layout_row="0" />
+        <!--            <TextView-->
+        <!--                android:id="@+id/c0_1"-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:padding="8dp"-->
+        <!--                android:text="B"-->
+        <!--                android:textAppearance="?android:attr/textAppearanceLarge"-->
+        <!--                app:layout_column="1"-->
+        <!--                app:layout_row="0" />-->
 
-            <TextView
-                android:id="@+id/c1_0"
-                android:layout_width="wrap_content"
-                android:padding="8dp"
-                android:text="C"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                app:layout_column="0"
-                app:layout_row="1" />
+        <!--            <TextView-->
+        <!--                android:id="@+id/c1_0"-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:padding="8dp"-->
+        <!--                android:text="C"-->
+        <!--                android:textAppearance="?android:attr/textAppearanceLarge"-->
+        <!--                app:layout_column="0"-->
+        <!--                app:layout_row="1" />-->
 
-            <TextView
-                android:id="@+id/c1_1"
-                android:layout_width="wrap_content"
-                android:padding="8dp"
-                android:text="D"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                app:layout_column="1"
-                app:layout_row="1" />
-        </androidx.gridlayout.widget.GridLayout>
+        <!--            <TextView-->
+        <!--                android:id="@+id/c1_1"-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:padding="8dp"-->
+        <!--                android:text="D"-->
+        <!--                android:textAppearance="?android:attr/textAppearanceLarge"-->
+        <!--                app:layout_column="1"-->
+        <!--                app:layout_row="1" />-->
+        <!--        </androidx.gridlayout.widget.GridLayout>-->
 
         <!-- external file for board?? -->
         <!--        <include-->

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/title_destination"
-        android:name="io.astefanich.shinro.ui.title.TitleFragment"
+        android:name="io.astefanich.shinro.ui.TitleFragment"
         android:label="title_fragment"
         tools:layout="@layout/title_fragment" >
         <action
@@ -34,7 +34,7 @@
     </fragment>
     <fragment
         android:id="@+id/game_destination"
-        android:name="io.astefanich.shinro.ui.game.GameFragment"
+        android:name="io.astefanich.shinro.ui.GameFragment"
         android:label="game_fragment"
         tools:layout="@layout/game_fragment" >
         <argument
@@ -58,22 +58,22 @@
     </fragment>
     <fragment
         android:id="@+id/about_destination"
-        android:name="io.astefanich.shinro.ui.title.AboutFragment"
+        android:name="io.astefanich.shinro.ui.AboutFragment"
         android:label="about_fragment"
         tools:layout="@layout/about_fragment" />
     <fragment
         android:id="@+id/rules_destination"
-        android:name="io.astefanich.shinro.ui.title.RulesFragment"
+        android:name="io.astefanich.shinro.ui.InstructionsFragment"
         android:label="rules_fragment"
-        tools:layout="@layout/rules_fragment" />
+        tools:layout="@layout/instructions_fragment" />
     <fragment
         android:id="@+id/tips_destination"
-        android:name="io.astefanich.shinro.ui.title.TipsFragment"
+        android:name="io.astefanich.shinro.ui.TipsFragment"
         android:label="tips_fragment"
         tools:layout="@layout/tips_fragment" />
     <fragment
         android:id="@+id/check_back_destination"
-        android:name="io.astefanich.shinro.ui.title.CheckBackFragment"
+        android:name="io.astefanich.shinro.ui.CheckBackFragment"
         android:label="check_back_fragment"
         tools:layout="@layout/check_back_fragment" />
 </navigation>

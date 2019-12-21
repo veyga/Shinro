@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:columnCount="9"
     android:rowCount="9"
-    tools:context=".ui.game.GameFragment">
+    tools:context=".ui.GameFragment">
 
 <!--    <TextView-->
 <!--        android:id="@+id/c0-0"-->

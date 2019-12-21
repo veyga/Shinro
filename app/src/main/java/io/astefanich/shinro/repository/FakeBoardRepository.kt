@@ -10,11 +10,13 @@ import javax.inject.Singleton
 @Singleton
 class FakeBoardRepository @Inject constructor(val boards: Array<Board>) : BoardRepository {
 
-    override fun insertOneBoard(board: Board) {
-       Timber.i("fake repo loaded one board")
-    }
     override fun insertBoards(vararg boards: Board) {
-        Timber.i("fake repo loaded boards")
+        Timber.i("fake repo loaded one board")
+    }
+
+
+    override fun updateBoard(board: Board) {
+        Timber.i("fake repo updating")
     }
 
     override fun getAllBoards(): LiveData<List<Board>> {

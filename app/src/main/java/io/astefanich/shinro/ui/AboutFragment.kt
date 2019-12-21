@@ -1,7 +1,8 @@
-package io.astefanich.shinro.ui.title
+package io.astefanich.shinro.ui
 
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,14 +13,14 @@ import io.astefanich.shinro.R
 /**
  * A simple [Fragment] subclass.
  */
-class TipsFragment : Fragment() {
+class AboutFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.tips_fragment, container, false)
+        return inflater.inflate(R.layout.about_fragment, container, false)
     }
 
 
