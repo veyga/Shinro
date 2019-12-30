@@ -10,25 +10,25 @@ import javax.inject.Inject
 class GameViewModel @Inject constructor(val repository: BoardRepository) :
     ViewModel() {
 
-//    private val boardId = 1
+    var boardId: Int = 2
 
     //instance for game logic
-    private val _board: Board
+    private var _board: Board? = null
 
     //observable type for board
     val board = MutableLiveData<Board>()
 
 
-    init {
-        Timber.i("game viewmodel created")
-        Timber.i("game repo is null? ${repository == null}")
-        _board = repository.getBoardById(1)
+    //Used for passing boardId from safeargs to vm.
+    //dagger factory makes this difficult
+    fun load(){
+        Timber.i("viewmodel boardId is $boardId")
+        _board = repository.getBoardById(boardId)
         board.value = _board
     }
-
     fun onMove() {
         Timber.i("Moving. marbled placed increase by one")
-        _board.marblesPlaced += 1
+        _board!!.marblesPlaced += 1
         board.value = _board
     }
 
