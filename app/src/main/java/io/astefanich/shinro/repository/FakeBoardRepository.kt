@@ -1,7 +1,5 @@
 package io.astefanich.shinro.repository
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import io.astefanich.shinro.domain.Board
 import timber.log.Timber
 import javax.inject.Inject
@@ -19,24 +17,15 @@ class FakeBoardRepository @Inject constructor(val boards: Array<Board>) : BoardR
         Timber.i("fake repo updating")
     }
 
-    override fun getAllBoards(): LiveData<List<Board>> {
-        val items = MutableLiveData<List<Board>>()
-        items.value = boards.toList()
-        return items
-    }
 
 
-    override fun getBoardById(boardId: Int): LiveData<Board> {
-
+    override fun getBoardById(boardId: Int): Board {
 
         //if boardId is 0, user is coming from title screen.
         //return lowest incomplete board
-        val item = MutableLiveData<Board>()
-        if (boardId == 0)
-            item.value = boards[0]
+        return if(boardId == 0)
+            boards[0]
         else
-            item.value = boards[boardId - 1]
-
-        return item
+            boards[boardId -1]
     }
 }

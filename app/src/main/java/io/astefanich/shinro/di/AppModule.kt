@@ -80,11 +80,6 @@ class AppModule {
         )
     }
 
-    @Singleton
-    @Provides
-    internal fun providesBoards(boardDao: BoardDao): LiveData<List<Board>> {
-        return boardDao.getAllBoards()
-    }
 
     @Singleton
     @Provides
