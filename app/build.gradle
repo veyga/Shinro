@@ -4,10 +4,10 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: "androidx.navigation.safeargs.kotlin"
 
-//needed for viewmodelfactory library
-//kapt {
-//    correctErrorTypes = true
-//}
+//needed for dagger
+kapt {
+    generateStubs = true
+}
 
 android {
     compileSdkVersion 29
@@ -27,11 +27,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
-    kapt{
-        generateStubs = true
-    }
-
 
     dataBinding {
         enabled = true

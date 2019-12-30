@@ -9,6 +9,8 @@ class InstructionsViewModel @Inject constructor(val instructions: List<Instructi
 
     init{
         Timber.i("instructions viewmodel created")
+        val instruction = instructions[1]
         Timber.i("instructions is null? ${instructions == null}")
+        Timber.i("${instructions[1]}")
     }
 }
