@@ -23,12 +23,14 @@ class GameViewModel @Inject constructor(@Provided val repository: BoardRepositor
 
     init {
         _board = repository.getBoardById(boardId)
+//        board.observeForever()
         board.value = _board
     }
 
     fun onMove() {
-        Timber.i("Moving")
-        _board.marblesPlaced -= 1
+        Timber.i("Moving. marbled placed increase by one")
+        _board.marblesPlaced += 1
+        board.value = _board
     }
 
 }
