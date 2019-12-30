@@ -92,7 +92,7 @@ class AppModule {
 //        )
 
 //        return arrayOf(board1)
-        return arrayOf(Board(1,"easy"))
+        return arrayOf(Board(1,"easy"),Board(2,"medium"))
     }
 
 

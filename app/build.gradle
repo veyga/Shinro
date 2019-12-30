@@ -4,9 +4,10 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: "androidx.navigation.safeargs.kotlin"
 
-kapt {
-    correctErrorTypes = true
-}
+//needed for viewmodelfactory library
+//kapt {
+//    correctErrorTypes = true
+//}
 
 android {
     compileSdkVersion 29
@@ -26,6 +27,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    kapt{
+        generateStubs = true
+    }
+
 
     dataBinding {
         enabled = true
@@ -51,8 +57,8 @@ dependencies {
     implementation 'com.google.dagger:dagger-android-support:2.24'
     kapt 'com.google.dagger:dagger-compiler:2.24'
     kapt 'com.google.dagger:dagger-android-processor:2.24'
-    implementation 'com.radutopor.viewmodelfactory:annotations:1.0.0'
-    kapt 'com.radutopor.viewmodelfactory:processor:1.0.0'
+//    implementation 'com.radutopor.viewmodelfactory:annotations:1.0.0'
+//    kapt 'com.radutopor.viewmodelfactory:processor:1.0.0'
     implementation 'androidx.room:room-runtime:2.2.0'
     kapt 'androidx.room:room-compiler:2.2.0'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.0'

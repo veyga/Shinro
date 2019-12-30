@@ -14,7 +14,7 @@ import dagger.android.support.AndroidSupportInjection
 import io.astefanich.shinro.R
 import io.astefanich.shinro.databinding.GameFragmentBinding
 import io.astefanich.shinro.viewmodels.GameViewModel
-import io.astefanich.shinro.viewmodels.GameViewModelFactory2
+import io.astefanich.shinro.viewmodels.ViewModelFactory
 import javax.inject.Inject
 
 /**
@@ -24,7 +24,7 @@ class GameFragment : Fragment() {
 
 
     @Inject
-    lateinit var viewModelFactory: GameViewModelFactory2
+    lateinit var viewModelFactory: ViewModelFactory
     private lateinit var viewModel: GameViewModel
     private lateinit var binding: GameFragmentBinding
 
@@ -39,8 +39,7 @@ class GameFragment : Fragment() {
 
         val gameFragmentArgs by navArgs<GameFragmentArgs>()
         val boardId = gameFragmentArgs.boardId
-        viewModel = ViewModelProviders.of(this, viewModelFactory.create(boardId + 1))
-            .get(GameViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(GameViewModel::class.java)
 
         binding.nextArrow.setOnClickListener { view ->
             view.findNavController()

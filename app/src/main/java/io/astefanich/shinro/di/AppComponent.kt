@@ -13,7 +13,8 @@ import javax.inject.Singleton
     modules = [
         AndroidInjectionModule::class,
         ActivityInjectorsModule::class,
-        AppModule::class
+        AppModule::class,
+        ViewModelModule::class
     ]
 )
 interface AppComponent : AndroidInjector<ShinroApplication> {
