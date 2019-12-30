@@ -23,7 +23,6 @@ class GameViewModel @Inject constructor(@Provided val repository: BoardRepositor
 
     init {
         _board = repository.getBoardById(boardId)
-//        board.observeForever()
         board.value = _board
     }
 
