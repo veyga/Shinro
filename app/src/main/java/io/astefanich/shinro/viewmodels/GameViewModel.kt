@@ -10,7 +10,7 @@ import javax.inject.Inject
 class GameViewModel @Inject constructor(val repository: BoardRepository) :
     ViewModel() {
 
-    var boardId: Int = 2
+    var boardId: Int = 0
 
     //instance for game logic
     private var _board: Board? = null
