@@ -7,12 +7,15 @@ import androidx.lifecycle.ViewModel
 import io.astefanich.shinro.domain.Board
 import io.astefanich.shinro.domain.Move
 import io.astefanich.shinro.repository.BoardRepository
+import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 
-class GameViewModel @Inject constructor(val repository: BoardRepository, val context: Context) :
+class GameViewModel @Inject constructor(val repo: BoardRepository, val context: Context) :
     ViewModel() {
 
+
+    var boardId = 0
 
     lateinit var _board: Board
 
@@ -21,13 +24,15 @@ class GameViewModel @Inject constructor(val repository: BoardRepository, val con
     private var undoStack = Stack<Move>()
 
     val undoStackActive = MutableLiveData<Boolean>()
+
     val onBoardOne = MutableLiveData<Boolean>()
 
-    fun load(boardId: Int) {
-        _board = repository.getBoardById(boardId)
+    fun load() {
+        _board = if (boardId == 0) repo.getLowestIncompleteBoard() else repo.getBoardById(boardId)
+        boardId = _board.boardId
         board.value = _board
         undoStackActive.value = false
-        onBoardOne.value = boardId == 1
+        onBoardOne.value = _board.boardId == 1
     }
 
     fun onMove(row: Int, column: Int) {
@@ -124,7 +129,7 @@ class GameViewModel @Inject constructor(val repository: BoardRepository, val con
 
     //implement board.observerForever instead?
     private fun saveNow() {
-        repository.updateBoard(_board)
+        repo.updateBoard(_board)
         board.value = _board //setting board value notifies registered observers
     }
 

@@ -13,6 +13,8 @@ class FakeBoardRepository @Inject constructor(val boards: Array<Board>) : BoardR
     }
 
 
+    override fun getLowestIncompleteBoard(): Board = TODO()
+
     override fun updateBoard(board: Board) {
         Timber.i("fake repo updating")
     }

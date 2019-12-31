@@ -44,13 +44,14 @@ class GameFragment : Fragment() {
         val gameFragmentArgs by navArgs<GameFragmentArgs>()
         val boardId = gameFragmentArgs.boardId
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(GameViewModel::class.java)
-        viewModel.load(boardId + 1)
+        viewModel.boardId = boardId
+        viewModel.load()
 
         binding.nextArrow.setOnClickListener { view ->
             view.findNavController()
                 .navigate(
                     GameFragmentDirections.actionGameDestinationSelf(
-                        boardId + 1
+                        viewModel.boardId + 1
                     )
                 )
         }
@@ -58,7 +59,7 @@ class GameFragment : Fragment() {
             view.findNavController()
                 .navigate(
                     GameFragmentDirections.actionGameDestinationSelf(
-                        boardId - 1
+                        viewModel.boardId - 1
                     )
                 )
         }

@@ -12,6 +12,8 @@ interface BoardDao {
     @Query("SELECT * FROM board_table WHERE board_id = :boardId")
     fun getBoardById(boardId: Int): Board
 
+    @Query("SELECT * FROM board_table WHERE completed = 0 ORDER BY board_id ASC LIMIT 1")
+    fun getLowestIncompleteBoard(): Board
 
     @Insert
     fun insertBoards(vararg boards: Board)

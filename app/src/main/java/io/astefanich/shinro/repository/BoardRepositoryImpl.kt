@@ -16,8 +16,13 @@ class BoardRepositoryImpl @Inject constructor(val boardDao: BoardDao) : BoardRep
     init {
         Timber.i("inserted test board")
         //this action triggers the db creation
-        val testBoard = Board(-1, "EASY", Grid(arrayOf()))
+        val testBoard = Board(999, "EASY", Grid(arrayOf()))
         boardDao.insertBoards(testBoard)
+    }
+
+
+    override fun getLowestIncompleteBoard(): Board {
+        return boardDao.getLowestIncompleteBoard()
     }
 
     override fun updateBoard(board: Board) {
