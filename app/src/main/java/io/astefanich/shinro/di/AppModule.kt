@@ -74,14 +74,12 @@ class AppModule {
     @Singleton
     @Provides
     internal fun providesSampleBoards(): Array<Board> {
-        val board1 = Board(1, "EASY", gridFromString(grid1))
-
-        Timber.i("GRID CREATED:\n${board1}")
-        return arrayOf(board1)
-//        return arrayOf(Board(1,"easy"),Board(2,"medium"))
+        return arrayOf(boardFromString(board1))
     }
 
-    val grid1 = """
+    val board1 = """
+        1
+        EASY
         0 1 2 1 1 1 3 2 1
         2 M X C E E M X X
         0 X X X X B X X X
@@ -92,11 +90,13 @@ class AppModule {
         1 X M X F D X X X
         2 X X M X A M X A """.trimIndent()
 
-    fun gridFromString(str: String): Grid {
+    fun boardFromString(str: String): Board {
         val lines = str.lines()
+        val boardId = lines[0].toInt()
+        val difficulty = lines[1]
         val cells = Array(9) { Array(9) { Cell(" ") } }
         for (i in 0..8) {
-            val chars = lines[i].split(" ")
+            val chars = lines[i+2].split(" ")
             for (j in 0..8) {
                 val actual = chars[j]
                 if (actual == "M" || actual == "X")
@@ -105,7 +105,7 @@ class AppModule {
                     cells[i][j] = Cell(actual)
             }
         }
-        return Grid(cells)
+        return Board(boardId, difficulty, Grid(cells))
 
     }
 
