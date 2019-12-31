@@ -18,12 +18,15 @@ class GameViewModel @Inject constructor(val repository: BoardRepository, val con
 
     val board = MutableLiveData<Board>()
 
-    private val undoStack = Stack<Move>()
+    private var undoStack = Stack<Move>()
+
+    val undoStackActive = MutableLiveData<Boolean>()
 
 
     fun load(boardId: Int) {
         _board = repository.getBoardById(boardId)
         board.value = _board
+        undoStackActive.value = false
     }
 
     fun onMove(row: Int, column: Int) {
@@ -32,6 +35,8 @@ class GameViewModel @Inject constructor(val repository: BoardRepository, val con
         //do nothing if board is already complete or user clicks on arrow
         if (_board.completed || cell.actual in "A".."G")
             return
+
+        undoStackActive.value = true
 
         fun OClicked() {
             undoStack.push(Move(row, column, " ", "X"))
@@ -79,6 +84,7 @@ class GameViewModel @Inject constructor(val repository: BoardRepository, val con
         if (numIncorrect == 0) {
             toastIt("YOU WON!!!!")
             _board.completed = true
+            undoStackActive.value = false
         } else
             toastIt("$numIncorrect of your marbles are in the wrong spots.")
     }
@@ -94,21 +100,23 @@ class GameViewModel @Inject constructor(val repository: BoardRepository, val con
         }
         _board.completed = false
         _board.marblesPlaced = 0
+        undoStack = Stack<Move>()
+        undoStackActive.value = false
         toastIt("Cleared")
         saveNow()
     }
 
 
     fun onUndo() {
-        if (undoStack.isEmpty() || _board.completed)
-            return
-
         val move = undoStack.pop()
         _board.grid.cells[move.row][move.column].current = move.oldVal
         if (move.newVal == "M")
             _board.marblesPlaced -= 1
         else if (move.oldVal == "M")
             _board.marblesPlaced += 1
+
+        if (undoStack.isEmpty())
+            undoStackActive.value = false
 
         saveNow()
     }
