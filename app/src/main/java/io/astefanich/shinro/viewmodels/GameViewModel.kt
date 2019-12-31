@@ -1,5 +1,7 @@
 package io.astefanich.shinro.viewmodels
 
+import android.content.Context
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.astefanich.shinro.domain.Board
@@ -7,7 +9,8 @@ import io.astefanich.shinro.repository.BoardRepository
 import timber.log.Timber
 import javax.inject.Inject
 
-class GameViewModel @Inject constructor(val repository: BoardRepository) : ViewModel() {
+class GameViewModel @Inject constructor(val repository: BoardRepository, val context: Context) :
+    ViewModel() {
 
     var boardId: Int = 0
 
@@ -18,10 +21,8 @@ class GameViewModel @Inject constructor(val repository: BoardRepository) : ViewM
     val board = MutableLiveData<Board>()
 
 
-    //Used for passing boardId from safeargs to vm.
-    //dagger factory makes this difficult
+    //Used for passing boardId from safeargs to vm (dagger vmfactory makes this difficult)
     fun load() {
-        Timber.i("viewmodel boardId is $boardId")
         _board = repository.getBoardById(boardId)
         board.value = _board
     }
@@ -51,7 +52,7 @@ class GameViewModel @Inject constructor(val repository: BoardRepository) : ViewM
             if (mPlaced == 12)
                 checkWin()
             else if (mPlaced > 12)
-                Timber.i("You have placed ${mPlaced} marbles, which is too many")
+                toastIt("You have placed ${mPlaced} marbles, which is too many")
 
         }
 
@@ -75,10 +76,12 @@ class GameViewModel @Inject constructor(val repository: BoardRepository) : ViewM
             }
         }
         if (numIncorrect == 0) {
-            Timber.i("YOU WON!!!!")
+            toastIt("YOU WON!!!!")
             _board.completed = true
         } else
-            Timber.i("$numIncorrect of your marbles are in the wrong spots.")
+            toastIt("$numIncorrect of your marbles are in the wrong spots.")
     }
+
+    private fun toastIt(msg: String) = Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
 
 }

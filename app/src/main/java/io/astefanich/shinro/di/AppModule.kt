@@ -1,6 +1,7 @@
 package io.astefanich.shinro.di
 
 import android.app.Application
+import android.content.Context
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
@@ -21,6 +22,12 @@ import javax.inject.Singleton
 
 @Module
 class AppModule {
+
+    @Singleton
+    @Provides
+    internal fun providesContext(application: Application): Context {
+        return application.applicationContext
+    }
 
     @Singleton
     @Provides
@@ -96,7 +103,7 @@ class AppModule {
         val difficulty = lines[1]
         val cells = Array(9) { Array(9) { Cell(" ") } }
         for (i in 0..8) {
-            val chars = lines[i+2].split(" ")
+            val chars = lines[i + 2].split(" ")
             for (j in 0..8) {
                 val actual = chars[j]
                 if (actual == "M" || actual == "X")
