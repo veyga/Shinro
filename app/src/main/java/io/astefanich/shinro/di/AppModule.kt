@@ -81,10 +81,8 @@ class AppModule {
     @Singleton
     @Provides
     internal fun providesSampleBoards(): Array<Board> {
-        return arrayOf(boardFromString(board1))
-    }
-
-    val board1 = """
+        val board1 =
+            """
         1
         EASY
         0 1 2 1 1 1 3 2 1
@@ -95,25 +93,44 @@ class AppModule {
         0 X X X X X X X X
         3 C E X M A M M G
         1 X M X F D X X X
-        2 X X M X A M X A """.trimIndent()
+        2 X X M X A M X A 
+        """.trimIndent()
 
-    fun boardFromString(str: String): Board {
-        val lines = str.lines()
-        val boardId = lines[0].toInt()
-        val difficulty = lines[1]
-        val cells = Array(9) { Array(9) { Cell(" ") } }
-        for (i in 0..8) {
-            val chars = lines[i + 2].split(" ")
-            for (j in 0..8) {
-                val actual = chars[j]
-                if (actual == "M" || actual == "X")
-                    cells[i][j] = Cell(" ", actual)
-                else
-                    cells[i][j] = Cell(actual)
+        val board2 =
+            """
+        2
+        EASY
+        0 3 1 2 1 1 1 2 1
+        2 M X X M X X X X
+        2 M X B X X E M X
+        1 C X M X X X D X
+        1 X X X C X X X M
+        1 M X X X X G X X
+        2 C X M X X M X X
+        2 C M A X X F M X
+        1 X X X X M X A X
+        """.trimIndent()
+
+        fun boardFromString(str: String): Board {
+            val lines = str.lines()
+            val boardId = lines[0].toInt()
+            val difficulty = lines[1]
+            val cells = Array(9) { Array(9) { Cell(" ") } }
+            for (i in 0..8) {
+                val chars = lines[i + 2].split(" ")
+                for (j in 0..8) {
+                    val actual = chars[j]
+                    if (actual == "M" || actual == "X")
+                        cells[i][j] = Cell(" ", actual)
+                    else
+                        cells[i][j] = Cell(actual)
+                }
             }
-        }
-        return Board(boardId, difficulty, Grid(cells))
+            return Board(boardId, difficulty, Grid(cells))
 
+        }
+
+        return arrayOf(boardFromString(board1), boardFromString(board2))
     }
 
 
