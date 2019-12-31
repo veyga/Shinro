@@ -1,5 +1,6 @@
 package io.astefanich.shinro.viewmodels
 
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.astefanich.shinro.domain.Board
@@ -27,9 +28,25 @@ class GameViewModel @Inject constructor(val repository: BoardRepository) :
         board.value = _board
     }
 
-    fun onMove() {
+    fun onMove(row: Int, column: Int) {
         Timber.i("Moving. marbled placed increase by one")
-        _board.marblesPlaced += 1
+        val cell = _board.grid.cells[row][column]
+
+        //if user clicks on arrow do nothing
+        if (cell.actual in "A".."G") {
+            Timber.i("clicked on arrow. ignoring move")
+            return
+        }
+
+        if (cell.current == " ") {
+            cell.current = "X"
+        } else if (cell.current == "M") {
+            cell.current = " "
+            _board.marblesPlaced -= 1
+        } else {
+            cell.current = "M"
+            _board.marblesPlaced += 1
+        }
         board.value = _board
     }
 

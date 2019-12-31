@@ -98,8 +98,11 @@ class AppModule {
         for (i in 0..8) {
             val chars = lines[i].split(" ")
             for (j in 0..8) {
-                val current = chars[j]
-                cells[i][j] = Cell(current)
+                val actual = chars[j]
+                if (actual == "M" || actual == "X")
+                    cells[i][j] = Cell(" ", actual)
+                else
+                    cells[i][j] = Cell(actual)
             }
         }
         return Grid(cells)
