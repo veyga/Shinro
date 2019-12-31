@@ -13,7 +13,7 @@ class GameViewModel @Inject constructor(val repository: BoardRepository) :
     var boardId: Int = 0
 
     //instance for game logic
-    private var _board: Board? = null
+    lateinit var _board: Board
 
     //observable type for board
     val board = MutableLiveData<Board>()
@@ -21,15 +21,19 @@ class GameViewModel @Inject constructor(val repository: BoardRepository) :
 
     //Used for passing boardId from safeargs to vm.
     //dagger factory makes this difficult
-    fun load(){
+    fun load() {
         Timber.i("viewmodel boardId is $boardId")
         _board = repository.getBoardById(boardId)
         board.value = _board
     }
+
     fun onMove() {
         Timber.i("Moving. marbled placed increase by one")
-        _board!!.marblesPlaced += 1
+        _board.marblesPlaced += 1
         board.value = _board
     }
 
+    fun getCurrentCellValue(row: Int, column: Int): String {
+        return _board.grid.cells[row][column].current.toString()
+    }
 }

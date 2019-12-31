@@ -10,6 +10,7 @@ import io.astefanich.shinro.database.AppDatabase
 import io.astefanich.shinro.database.BoardDao
 import io.astefanich.shinro.domain.Board
 import io.astefanich.shinro.domain.Cell
+import io.astefanich.shinro.domain.Grid
 import io.astefanich.shinro.domain.Instruction
 import io.astefanich.shinro.repository.BoardRepository
 import io.astefanich.shinro.repository.BoardRepositoryImpl
@@ -73,26 +74,17 @@ class AppModule {
     @Singleton
     @Provides
     internal fun providesSampleBoards(): Array<Board> {
-//        val board1 = Board(
-//            1, "EASY",
-//            listOf(
-//                //row 0
-//                listOf(
-//                    Cell('0'),
-//                    Cell('1'),
-//                    Cell('2'),
-//                    Cell('1'),
-//                    Cell('1'),
-//                    Cell('1'),
-//                    Cell('3'),
-//                    Cell('2'),
-//                    Cell('1')
-//                )
-//            )
-//        )
+        val board1 = Board(
+            1, "EASY", Grid(
+                arrayOf(
+                    arrayOf(Cell('M'), Cell('F')),
+                    arrayOf(Cell('M'), Cell('F'))
+                )
+            )
+        )
 
-//        return arrayOf(board1)
-        return arrayOf(Board(1,"easy"),Board(2,"medium"))
+        return arrayOf(board1)
+//        return arrayOf(Board(1,"easy"),Board(2,"medium"))
     }
 
 

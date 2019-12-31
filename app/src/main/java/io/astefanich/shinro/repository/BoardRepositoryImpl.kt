@@ -2,6 +2,8 @@ package io.astefanich.shinro.repository
 
 import io.astefanich.shinro.database.BoardDao
 import io.astefanich.shinro.domain.Board
+import io.astefanich.shinro.domain.Cell
+import io.astefanich.shinro.domain.Grid
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -14,7 +16,15 @@ class BoardRepositoryImpl @Inject constructor(val boardDao: BoardDao) : BoardRep
 
     init {
         Timber.i("inserted test board")
-        boardDao.insertBoards(Board(-1, "TEST"))
+        val testBoard = Board(
+            -1, "EASY", Grid(
+                arrayOf(
+                    arrayOf(Cell('M'), Cell('F')),
+                    arrayOf(Cell('M'), Cell('F'))
+                )
+            )
+        )
+        boardDao.insertBoards(testBoard)
     }
 
     override fun updateBoard(board: Board) {
@@ -23,7 +33,7 @@ class BoardRepositoryImpl @Inject constructor(val boardDao: BoardDao) : BoardRep
 
 
     override fun getBoardById(boardId: Int): Board {
-        Timber.i("repo getting board by id")
+        Timber.i("repo getting board by id: $boardId")
         //get it the board from the repos list
         return boardDao.getBoardById(boardId)
     }
