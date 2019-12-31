@@ -27,6 +27,8 @@ data class Board(
 
 )
 
+data class Move(val row: Int, val column: Int, val oldVal: String, val newVal: String)
+
 
 data class Instruction(
     val stepNum: Int,

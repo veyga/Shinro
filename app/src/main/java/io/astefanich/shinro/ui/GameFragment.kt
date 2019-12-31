@@ -1,6 +1,9 @@
 package io.astefanich.shinro.ui
 
 
+import android.app.AlertDialog
+import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -15,6 +18,7 @@ import io.astefanich.shinro.R
 import io.astefanich.shinro.databinding.GameFragmentBinding
 import io.astefanich.shinro.viewmodels.GameViewModel
 import io.astefanich.shinro.viewmodels.ViewModelFactory
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -60,6 +64,22 @@ class GameFragment : Fragment() {
                 )
         }
 
+        binding.resetBoard.setOnClickListener {
+            val dialogBuilder = AlertDialog.Builder(activity)
+            dialogBuilder
+                .setTitle("Reset Board")
+                .setMessage("Are you sure?")
+                .setCancelable(false)
+                .setPositiveButton("YES", DialogInterface.OnClickListener { dialog, id ->
+                    viewModel.onReset()
+                })
+                .setNegativeButton("NO", DialogInterface.OnClickListener { dialog, id ->
+
+                })
+                .create()
+                .show()
+        }
+
         binding.vm = viewModel
         binding.setLifecycleOwner(this)
         setHasOptionsMenu(true)
@@ -82,4 +102,5 @@ class GameFragment : Fragment() {
         return NavigationUI.onNavDestinationSelected(item!!, view!!.findNavController())
                 || super.onOptionsItemSelected(item)
     }
+
 }

@@ -7,6 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import dagger.Module
 import dagger.Provides
+import io.astefanich.shinro.ShinroApplication
 import io.astefanich.shinro.database.AppDatabase
 import io.astefanich.shinro.database.BoardDao
 import io.astefanich.shinro.domain.Board

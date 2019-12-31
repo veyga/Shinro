@@ -60,9 +60,8 @@ class GameViewModel @Inject constructor(val repository: BoardRepository, val con
             "M" -> MClicked()
             "X" -> XClicked()
         }
-        board.value = _board
+        updateUI()
     }
-
 
     private fun checkWin() {
         var numIncorrect = 0
@@ -77,8 +76,29 @@ class GameViewModel @Inject constructor(val repository: BoardRepository, val con
         if (numIncorrect == 0) {
             toastIt("YOU WON!!!!")
             _board.completed = true
+            repository.updateBoard(_board)
         } else
             toastIt("$numIncorrect of your marbles are in the wrong spots.")
+    }
+
+    fun onReset() {
+        val cells = _board.grid.cells
+        for (i in 0..8) {
+            for (j in 0..8) {
+                val cell = cells[i][j]
+                if (cell.actual == "M" || cell.actual == "X")
+                    cell.current = " "
+            }
+        }
+        _board.completed = false
+        _board.marblesPlaced = 0
+        toastIt("Cleared")
+        updateUI()
+    }
+
+    //implement board.observerForever instead?
+    private fun updateUI() {
+        board.value = _board //setting board value notifies registered observers
     }
 
     private fun toastIt(msg: String) = Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
