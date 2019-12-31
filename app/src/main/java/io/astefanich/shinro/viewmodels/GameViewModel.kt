@@ -34,6 +34,6 @@ class GameViewModel @Inject constructor(val repository: BoardRepository) :
     }
 
     fun getCurrentCellValue(row: Int, column: Int): String {
-        return _board.grid.cells[row][column].current.toString()
+        return _board.grid.cells[row][column].current
     }
 }

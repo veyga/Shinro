@@ -16,19 +16,12 @@ class BoardRepositoryImpl @Inject constructor(val boardDao: BoardDao) : BoardRep
 
     init {
         Timber.i("inserted test board")
-        val testBoard = Board(
-            -1, "EASY", Grid(
-                arrayOf(
-                    arrayOf(Cell('M'), Cell('F')),
-                    arrayOf(Cell('M'), Cell('F'))
-                )
-            )
-        )
+        val testBoard = Board(-1, "EASY", Grid(arrayOf()))
         boardDao.insertBoards(testBoard)
     }
 
     override fun updateBoard(board: Board) {
-       boardDao.updateBoard(board)
+        boardDao.updateBoard(board)
     }
 
 

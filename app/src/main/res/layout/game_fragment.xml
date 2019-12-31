@@ -137,7 +137,7 @@
                 android:background="#FFFFFF"
                 android:gravity="center"
                 android:padding="8dp"
-                android:text="@{vm.getCurrentCellValue(0,0)}"
+                android:text="A"
                 app:layout_column="0"
                 app:layout_row="0"
                 tools:text="M"/>

@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-data class Cell(var current: Char, val actual: Char = current)
+data class Cell(var current: String, val actual: String = current)
 
 data class Grid(val cells: Array<Array<Cell>>)
 
