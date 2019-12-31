@@ -54,7 +54,7 @@ class GameFragment : Fragment() {
                     )
                 )
         }
-        binding.previousArrow.setOnClickListener { view ->
+        binding.backArrow.setOnClickListener { view ->
             view.findNavController()
                 .navigate(
                     GameFragmentDirections.actionGameDestinationSelf(

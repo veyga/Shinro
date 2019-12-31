@@ -30,12 +30,13 @@
             tools:text="@string/board_num_fmt" />
 
         <ImageView
-            android:id="@+id/previous_arrow"
+            android:id="@+id/back_arrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="80dp"
             android:layout_marginEnd="24dp"
             app:layout_constraintEnd_toStartOf="@+id/board_number"
+            app:hideIfFalse="@{!vm.onBoardOne}"
             app:layout_constraintHorizontal_bias="0.866"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -101,21 +102,9 @@
             android:text="@string/undo"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:undoStackActive="@{vm.undoStackActive}"
+            app:hideIfFalse="@{vm.undoStackActive}"
             tools:text="@string/undo" />
 
-        <TextView
-            android:id="@+id/marbles_placed"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:text="@{@string/marbles_placed_fmt(vm.board.marblesPlaced)}"
-            android:textAlignment="center"
-            android:textSize="10sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="supp" />
 
         <!--        THE BOARD-->
         <androidx.gridlayout.widget.GridLayout
@@ -142,9 +131,9 @@
                 android:background="#FFFFFF"
                 android:gravity="center"
                 android:padding="2dp"
-                app:srcCompat="@drawable/ic_blank_cell"
                 app:layout_column="0"
                 app:layout_row="0"
+                app:srcCompat="@drawable/ic_blank_cell"
                 tools:src="@drawable/ic_blank_cell" />
 
             <ImageView
@@ -848,7 +837,7 @@
                 app:gridSvg="@{vm.board.grid.cells[6][5].current}"
                 app:layout_column="5"
                 app:layout_row="6"
-                tools:src="@drawable/ic_blue_up_arrow"/>
+                tools:src="@drawable/ic_blue_up_arrow" />
 
             <ImageView
                 android:id="@+id/c6_6"

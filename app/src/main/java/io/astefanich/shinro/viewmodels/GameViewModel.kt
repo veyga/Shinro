@@ -21,12 +21,13 @@ class GameViewModel @Inject constructor(val repository: BoardRepository, val con
     private var undoStack = Stack<Move>()
 
     val undoStackActive = MutableLiveData<Boolean>()
-
+    val onBoardOne = MutableLiveData<Boolean>()
 
     fun load(boardId: Int) {
         _board = repository.getBoardById(boardId)
         board.value = _board
         undoStackActive.value = false
+        onBoardOne.value = boardId == 1
     }
 
     fun onMove(row: Int, column: Int) {
