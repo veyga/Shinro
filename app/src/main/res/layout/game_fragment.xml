@@ -973,7 +973,7 @@
                 android:layout_margin="2dp"
                 android:background="#FFFFFF"
                 android:gravity="center"
-                android:onClick="@{() -> vm.onMove(7,7)}"
+                android:onClick="@{() -> vm.onMove(7,8)}"
                 android:padding="8dp"
                 android:text="@{vm.board.grid.cells[7][8].current}"
                 app:layout_column="8"
