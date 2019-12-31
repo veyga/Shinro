@@ -5,23 +5,23 @@ import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.astefanich.shinro.domain.Board
+import io.astefanich.shinro.domain.Move
 import io.astefanich.shinro.repository.BoardRepository
+import java.util.*
 import javax.inject.Inject
 
 class GameViewModel @Inject constructor(val repository: BoardRepository, val context: Context) :
     ViewModel() {
 
-    var boardId: Int = 0
 
-    //instance for game logic
     lateinit var _board: Board
 
-    //observable type for board
     val board = MutableLiveData<Board>()
 
+    private val undoStack = Stack<Move>()
 
-    //Used for passing boardId from safeargs to vm (dagger vmfactory makes this difficult)
-    fun load() {
+
+    fun load(boardId: Int) {
         _board = repository.getBoardById(boardId)
         board.value = _board
     }
@@ -34,10 +34,12 @@ class GameViewModel @Inject constructor(val repository: BoardRepository, val con
             return
 
         fun OClicked() {
+            undoStack.push(Move(row, column, " ", "X"))
             cell.current = "X"
         }
 
         fun MClicked() {
+            undoStack.push(Move(row, column, "M", " "))
             cell.current = " "
             _board.marblesPlaced -= 1 //can win by placing marbles or taking them away
             if (_board.marblesPlaced == 12)
@@ -45,6 +47,7 @@ class GameViewModel @Inject constructor(val repository: BoardRepository, val con
         }
 
         fun XClicked() {
+            undoStack.push(Move(row, column, "X", "M"))
             cell.current = "M"
             _board.marblesPlaced += 1
             val mPlaced = _board.marblesPlaced
@@ -60,7 +63,7 @@ class GameViewModel @Inject constructor(val repository: BoardRepository, val con
             "M" -> MClicked()
             "X" -> XClicked()
         }
-        updateUI()
+        saveNow()
     }
 
     private fun checkWin() {
@@ -76,7 +79,6 @@ class GameViewModel @Inject constructor(val repository: BoardRepository, val con
         if (numIncorrect == 0) {
             toastIt("YOU WON!!!!")
             _board.completed = true
-            repository.updateBoard(_board)
         } else
             toastIt("$numIncorrect of your marbles are in the wrong spots.")
     }
@@ -93,11 +95,27 @@ class GameViewModel @Inject constructor(val repository: BoardRepository, val con
         _board.completed = false
         _board.marblesPlaced = 0
         toastIt("Cleared")
-        updateUI()
+        saveNow()
+    }
+
+
+    fun onUndo() {
+        if (undoStack.isEmpty() || _board.completed)
+            return
+
+        val move = undoStack.pop()
+        _board.grid.cells[move.row][move.column].current = move.oldVal
+        if (move.newVal == "M")
+            _board.marblesPlaced -= 1
+        else if (move.oldVal == "M")
+            _board.marblesPlaced += 1
+
+        saveNow()
     }
 
     //implement board.observerForever instead?
-    private fun updateUI() {
+    private fun saveNow() {
+        repository.updateBoard(_board)
         board.value = _board //setting board value notifies registered observers
     }
 

@@ -21,6 +21,7 @@ class BoardRepositoryImpl @Inject constructor(val boardDao: BoardDao) : BoardRep
     }
 
     override fun updateBoard(board: Board) {
+        Timber.i("REPO UPDATING BOARD")
         boardDao.updateBoard(board)
     }
 
