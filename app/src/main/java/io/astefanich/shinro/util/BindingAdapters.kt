@@ -9,12 +9,10 @@ fun TextView.setCompletionStatus(status: Boolean) {
     text = if (status) "COMPLETE" else "INCOMPLETE"
 }
 
-@BindingAdapter("undoStackStatus")
-fun bindUndoStackStatus(view: TextView, status: Boolean) {
-    if (status)
-        view.visibility = View.VISIBLE
-    else
-        view.visibility = View.GONE
+@BindingAdapter("undoStackActive")
+fun bindUndoStackStatus(view: TextView, isActive: Boolean) = when (isActive) {
+    true -> view.visibility = View.VISIBLE
+    else -> view.visibility = View.GONE
 }
 
 

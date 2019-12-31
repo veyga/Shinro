@@ -98,7 +98,7 @@
             android:text="@string/undo"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:undoStackStatus="@{vm.undoStackActive}"
+            app:undoStackActive="@{vm.undoStackActive}"
             tools:text="@string/undo" />
 
         <TextView
