@@ -1,6 +1,5 @@
 package io.astefanich.shinro.viewmodels
 
-import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.astefanich.shinro.domain.Board
@@ -8,8 +7,7 @@ import io.astefanich.shinro.repository.BoardRepository
 import timber.log.Timber
 import javax.inject.Inject
 
-class GameViewModel @Inject constructor(val repository: BoardRepository) :
-    ViewModel() {
+class GameViewModel @Inject constructor(val repository: BoardRepository) : ViewModel() {
 
     var boardId: Int = 0
 
@@ -29,50 +27,58 @@ class GameViewModel @Inject constructor(val repository: BoardRepository) :
     }
 
     fun onMove(row: Int, column: Int) {
-        Timber.i("Moving. marbled placed increase by one")
         val cell = _board.grid.cells[row][column]
 
-        //if user clicks on arrow do nothing
-        if (cell.actual in "A".."G") {
-            Timber.i("clicked on arrow. ignoring move")
+        //do nothing if board is already complete or user clicks on arrow
+        if (_board.completed || cell.actual in "A".."G")
             return
+
+        fun OClicked() {
+            cell.current = "X"
         }
 
-        if (cell.current == " ") {
-            cell.current = "X"
-        } else if (cell.current == "M") {
+        fun MClicked() {
             cell.current = " "
-            _board.marblesPlaced -= 1
-            if (gameWon()) //can win by placing marbles or taking them away
-                Timber.i("YOU WON!!!!!")
-        } else {
+            _board.marblesPlaced -= 1 //can win by placing marbles or taking them away
+            if (_board.marblesPlaced == 12)
+                checkWin()
+        }
+
+        fun XClicked() {
             cell.current = "M"
             _board.marblesPlaced += 1
-            if (_board.marblesPlaced > 12) {
-                Timber.i("Too Many Marbles Placed (12 required)")
-            } else if (gameWon()) {
-                Timber.i("YOU WON!!!!!")
-            }
+            val mPlaced = _board.marblesPlaced
+            if (mPlaced == 12)
+                checkWin()
+            else if (mPlaced > 12)
+                Timber.i("You have placed ${mPlaced} marbles, which is too many")
+
+        }
+
+        when (cell.current) {
+            " " -> OClicked()
+            "M" -> MClicked()
+            "X" -> XClicked()
         }
         board.value = _board
     }
 
-    fun gameWon(): Boolean {
-        if (_board.marblesPlaced != 12)
-            return false
 
+    private fun checkWin() {
+        var numIncorrect = 0
         val cells = _board.grid.cells
         for (i in 0..8) {
             for (j in 0..8) {
                 val cell = cells[i][j]
-                if (cell.actual == "M" && cell.current != "M")
-                    return false
+                if (cell.current == "M" && cell.actual != "M")
+                    numIncorrect += 1
             }
         }
-        return true
+        if (numIncorrect == 0) {
+            Timber.i("YOU WON!!!!")
+            _board.completed = true
+        } else
+            Timber.i("$numIncorrect of your marbles are in the wrong spots.")
     }
 
-//    fun getCurrentCellValue(row: Int, column: Int): String {
-//        return _board.grid.cells[row][column].current
-//    }
 }
