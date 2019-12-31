@@ -43,14 +43,36 @@ class GameViewModel @Inject constructor(val repository: BoardRepository) :
         } else if (cell.current == "M") {
             cell.current = " "
             _board.marblesPlaced -= 1
+            if (gameWon()) //can win by placing marbles or taking them away
+                Timber.i("YOU WON!!!!!")
         } else {
             cell.current = "M"
             _board.marblesPlaced += 1
+            if (_board.marblesPlaced > 12) {
+                Timber.i("Too Many Marbles Placed (12 required)")
+            } else if (gameWon()) {
+                Timber.i("YOU WON!!!!!")
+            }
         }
         board.value = _board
     }
 
-    fun getCurrentCellValue(row: Int, column: Int): String {
-        return _board.grid.cells[row][column].current
+    fun gameWon(): Boolean {
+        if (_board.marblesPlaced != 12)
+            return false
+
+        val cells = _board.grid.cells
+        for (i in 0..8) {
+            for (j in 0..8) {
+                val cell = cells[i][j]
+                if (cell.actual == "M" && cell.current != "M")
+                    return false
+            }
+        }
+        return true
     }
+
+//    fun getCurrentCellValue(row: Int, column: Int): String {
+//        return _board.grid.cells[row][column].current
+//    }
 }
