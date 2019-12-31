@@ -21,7 +21,7 @@ class FakeBoardRepository @Inject constructor(val boards: Array<Board>) : BoardR
 
 
 
-    override fun getBoardById(boardId: Int): Board {
+    override fun getBoardById(boardId: Int): Board? {
 
         //if boardId is 0, user is coming from title screen.
         //return lowest incomplete board

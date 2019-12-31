@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import io.astefanich.shinro.domain.Board
 import io.astefanich.shinro.domain.Move
 import io.astefanich.shinro.repository.BoardRepository
-import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 
@@ -16,24 +15,26 @@ class GameViewModel @Inject constructor(val repo: BoardRepository, val context: 
 
 
     var boardId = 0
-
-    lateinit var _board: Board
-
     val board = MutableLiveData<Board>()
-
+    val undoStackActive = MutableLiveData<Boolean>()
+    val onBoardOne = MutableLiveData<Boolean>()
+    val onLastBoard = MutableLiveData<Boolean>()
+    private lateinit var _board: Board
     private var undoStack = Stack<Move>()
 
-    val undoStackActive = MutableLiveData<Boolean>()
-
-    val onBoardOne = MutableLiveData<Boolean>()
-
     fun load() {
-        _board = if (boardId == 0) repo.getLowestIncompleteBoard() else repo.getBoardById(boardId)
+        var tmp: Board? = if (boardId == 0) repo.getLowestIncompleteBoard() else repo.getBoardById(boardId)
+        if (tmp == null) {
+            onLastBoard.value = true
+            tmp = repo.getBoardById(1)
+        }
+        _board = tmp as Board
         boardId = _board.boardId
         board.value = _board
         undoStackActive.value = false
         onBoardOne.value = _board.boardId == 1
     }
+
 
     fun onMove(row: Int, column: Int) {
         val cell = _board.grid.cells[row][column]

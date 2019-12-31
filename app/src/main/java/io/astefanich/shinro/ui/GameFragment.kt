@@ -9,8 +9,10 @@ import android.util.Log
 import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.NavigationUI
 import dagger.android.support.AndroidSupportInjection
@@ -80,6 +82,12 @@ class GameFragment : Fragment() {
                 .show()
         }
 
+
+        viewModel.onLastBoard.observe(this, Observer { onLastBoard ->
+            if (onLastBoard) {
+                findNavController().navigate(GameFragmentDirections.actionGameToCheckBack())
+            }
+        })
         binding.vm = viewModel
         binding.setLifecycleOwner(this)
         setHasOptionsMenu(true)

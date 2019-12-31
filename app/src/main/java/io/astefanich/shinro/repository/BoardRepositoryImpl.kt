@@ -31,7 +31,7 @@ class BoardRepositoryImpl @Inject constructor(val boardDao: BoardDao) : BoardRep
     }
 
 
-    override fun getBoardById(boardId: Int): Board {
+    override fun getBoardById(boardId: Int): Board? {
         Timber.i("repo getting board by id: $boardId")
         //get it the board from the repos list
         return boardDao.getBoardById(boardId)

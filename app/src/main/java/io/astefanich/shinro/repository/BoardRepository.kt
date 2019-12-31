@@ -5,7 +5,7 @@ import io.astefanich.shinro.domain.Board
 interface BoardRepository {
 
 
-    fun getBoardById(boardId: Int): Board
+    fun getBoardById(boardId: Int): Board?
 
     fun getLowestIncompleteBoard(): Board
 
