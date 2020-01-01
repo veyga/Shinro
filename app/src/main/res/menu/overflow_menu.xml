@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:id="@+id/rules_destination"
-        android:title="@string/how_to_play">
-    </item>
-    <item android:id="@+id/tips_destination"
-        android:title="@string/advanced_tips">
-    </item>
-    <item android:id="@+id/about_destination"
-        android:title="@string/about">
-    </item>
+    <item
+        android:id="@+id/rules_destination"
+        android:menuCategory="secondary"
+        android:title="@string/how_to_play"></item>
+    <item
+        android:id="@+id/tips_destination"
+        android:menuCategory="secondary"
+        android:title="@string/advanced_tips"></item>
+    <item
+        android:id="@+id/about_destination"
+        android:menuCategory="secondary"
+        android:title="@string/about"></item>
 </menu>

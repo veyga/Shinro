@@ -107,6 +107,7 @@ class GameFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         //TODO need to use transaction manager so options pop back to game
+        fragmentManager?.beginTransaction()?.addToBackStack("gameFragment")
         return NavigationUI.onNavDestinationSelected(item!!, view!!.findNavController())
                 || super.onOptionsItemSelected(item)
     }

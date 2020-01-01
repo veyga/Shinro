@@ -9,7 +9,7 @@
         android:id="@+id/title_destination"
         android:name="io.astefanich.shinro.ui.TitleFragment"
         android:label="title_fragment"
-        tools:layout="@layout/title_fragment" >
+        tools:layout="@layout/title_fragment">
         <action
             android:id="@+id/action_title_to_game"
             app:destination="@id/game_destination"
@@ -36,11 +36,11 @@
         android:id="@+id/game_destination"
         android:name="io.astefanich.shinro.ui.GameFragment"
         android:label="game_fragment"
-        tools:layout="@layout/game_fragment" >
+        tools:layout="@layout/game_fragment">
         <argument
             android:name="boardId"
-            app:argType="integer"
-            android:defaultValue="0" />
+            android:defaultValue="0"
+            app:argType="integer" />
         <action
             android:id="@+id/action_game_destination_self"
             app:destination="@id/game_destination"
