@@ -1,6 +1,7 @@
 package io.astefanich.shinro.util
 
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
@@ -15,6 +16,12 @@ fun TextView.setCompletionStatus(status: Boolean) {
 fun hideViewIfFalseCondition(view: View, isActive: Boolean) = when (isActive) {
     true -> view.visibility = View.VISIBLE
     else -> view.visibility = View.GONE
+}
+
+@BindingAdapter("videoPlaying")
+fun setVideoButtonText(button: Button, isPlaying: Boolean) = when (isPlaying) {
+    false -> button.setText(R.string.what_is_shinro)
+    true -> button.setText(R.string.pause_video)
 }
 
 @BindingAdapter("gridSvg")

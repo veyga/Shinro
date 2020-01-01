@@ -2,12 +2,13 @@ package io.astefanich.shinro.di
 
 import android.app.Application
 import android.content.Context
+import android.net.Uri
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import dagger.Module
 import dagger.Provides
-import io.astefanich.shinro.ShinroApplication
+import io.astefanich.shinro.R
 import io.astefanich.shinro.database.AppDatabase
 import io.astefanich.shinro.database.BoardDao
 import io.astefanich.shinro.domain.Board
@@ -149,6 +150,12 @@ class AppModule {
             Instruction(8, "IMG8", "step8"),
             Instruction(9, "IMG9", "step9")
         )
+    }
+
+    @Singleton
+    @Provides
+    internal fun providesVideoURI(): Uri {
+        return Uri.parse("android.resource://io.astefanich.shinro/" + R.raw.what_is_shinro)
     }
 }
 
