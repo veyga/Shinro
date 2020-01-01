@@ -38,23 +38,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="@string/how_to_play"
+            android:text="@string/how_to_play_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/play_button"
-            tools:text="@string/how_to_play" />
+            tools:text="@string/how_to_play_title" />
 
         <Button
             android:id="@+id/about_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:text="@string/about"
+            android:text="@string/about_title"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/how_to_play_button"
-            tools:text="@string/about" />
+            tools:text="@string/about_title" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

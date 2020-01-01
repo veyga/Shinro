@@ -4,13 +4,13 @@
     <item
         android:id="@+id/rules_destination"
         android:menuCategory="secondary"
-        android:title="@string/how_to_play"></item>
+        android:title="@string/how_to_play_title"></item>
     <item
         android:id="@+id/tips_destination"
         android:menuCategory="secondary"
-        android:title="@string/advanced_tips"></item>
+        android:title="@string/advanced_tips_title"></item>
     <item
         android:id="@+id/about_destination"
         android:menuCategory="secondary"
-        android:title="@string/about"></item>
+        android:title="@string/about_title"></item>
 </menu>

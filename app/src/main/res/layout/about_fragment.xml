@@ -9,15 +9,33 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/about_text"
+            android:id="@+id/about_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="abouuttttt"
-            android:textSize="36sp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/about_text"
+            android:textAlignment="center"
+            android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="abouuttttt" />
+            tools:text="@string/about_text" />
+
+        <TextView
+            android:id="@+id/thanks_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="48dp"
+            android:layout_marginEnd="48dp"
+            android:text="@string/thanks_text"
+            android:textAlignment="center"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/about_text_view"
+            tools:text="@string/thanks_text" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
