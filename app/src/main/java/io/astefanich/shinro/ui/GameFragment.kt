@@ -100,14 +100,8 @@ class GameFragment : Fragment() {
         inflater?.inflate(R.menu.overflow_menu, menu)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.i("GameFragment", "destroyed")
-    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        //TODO need to use transaction manager so options pop back to game
-        fragmentManager?.beginTransaction()?.addToBackStack("gameFragment")
         return NavigationUI.onNavDestinationSelected(item!!, view!!.findNavController())
                 || super.onOptionsItemSelected(item)
     }
