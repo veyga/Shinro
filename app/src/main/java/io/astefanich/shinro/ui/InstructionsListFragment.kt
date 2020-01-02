@@ -8,17 +8,17 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.android.support.AndroidSupportInjection
 import io.astefanich.shinro.R
 import io.astefanich.shinro.databinding.InstructionsListFragmentBinding
+import io.astefanich.shinro.domain.InstructionType
 
 /**
  * A simple [Fragment] subclass.
  */
 class InstructionsListFragment : Fragment() {
 
-    lateinit var instructionType: String
+    lateinit var instructionType: InstructionType
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,10 +34,9 @@ class InstructionsListFragment : Fragment() {
         val instructionsListArgs by navArgs<InstructionsListFragmentArgs>()
         instructionType = instructionsListArgs.instructionType
 
-        val recyclerAdapter = InstructionRecyclerAdapter(instructionsListArgs.instructionType)
+        val recyclerAdapter = InstructionRecyclerAdapter(instructionType)
         binding.instructionsRecyclerView.apply {
             adapter = recyclerAdapter
-            layoutManager = LinearLayoutManager(activity)
         }
         binding.fragment = this
         binding.lifecycleOwner = this

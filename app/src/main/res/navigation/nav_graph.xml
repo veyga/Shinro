@@ -66,17 +66,16 @@
         android:id="@+id/rules_destination"
         android:name="io.astefanich.shinro.ui.InstructionsListFragment"
         android:label="rules_fragment"
-        tools:layout="@layout/instructions_list_fragment" >
+        tools:layout="@layout/instructions_list_fragment">
         <argument
             android:name="instructionType"
-            app:argType="string"
-            android:defaultValue="general" />
+            app:argType="io.astefanich.shinro.domain.InstructionType" />
     </fragment>
     <fragment
         android:id="@+id/tips_destination"
         android:name="io.astefanich.shinro.ui.TipsFragment"
         android:label="tips_fragment"
-        tools:layout="@layout/tips_fragment" >
+        tools:layout="@layout/tips_fragment">
         <action
             android:id="@+id/action_tips_destination_to_rules_destination"
             app:destination="@id/rules_destination" />

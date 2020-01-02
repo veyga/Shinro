@@ -9,16 +9,17 @@ import io.astefanich.shinro.domain.Instruction
 import io.astefanich.shinro.domain.InstructionType
 import kotlinx.android.synthetic.main.instruction_list_item.view.*
 
-class InstructionRecyclerAdapter(type: String) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class InstructionRecyclerAdapter(type: InstructionType) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     //    @Inject
     lateinit var items: List<Instruction>
 
     init {
         items = when (type) {
-            "PATHFINDER" -> pathfinderInstructions()
-            "BLOCKER" -> blockerInstructions()
-            "PIGEONHOLE" -> pigeonholeInstructions()
+            InstructionType.PATHFINDER -> pathfinderInstructions()
+            InstructionType.BLOCKER -> blockerInstructions()
+            InstructionType.PIGEONHOLE -> pigeonholeInstructions()
             else -> generalInstructions()
         }
     }

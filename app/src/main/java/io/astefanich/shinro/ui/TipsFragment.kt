@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 
 import io.astefanich.shinro.R
 import io.astefanich.shinro.databinding.TipsFragmentBinding
+import io.astefanich.shinro.domain.InstructionType
 
 /**
  * A simple [Fragment] subclass.
@@ -25,20 +26,26 @@ class TipsFragment : Fragment() {
         val binding: TipsFragmentBinding =
             DataBindingUtil.inflate(inflater, R.layout.tips_fragment, container, false)
 
+        binding.generalRulesCard.setOnClickListener {
+            findNavController().navigate(
+                TipsFragmentDirections.actionTipsDestinationToRulesDestination(InstructionType.GENERAL)
+            )
+        }
+
         binding.pathfinderCard.setOnClickListener {
             findNavController().navigate(
-                TipsFragmentDirections.actionTipsDestinationToRulesDestination("PATHFINDER")
+                TipsFragmentDirections.actionTipsDestinationToRulesDestination(InstructionType.PATHFINDER)
             )
         }
 
         binding.blockerCard.setOnClickListener {
             findNavController().navigate(
-                TipsFragmentDirections.actionTipsDestinationToRulesDestination("BLOCKER")
+                TipsFragmentDirections.actionTipsDestinationToRulesDestination(InstructionType.BLOCKER)
             )
         }
         binding.pigeonholeCard.setOnClickListener {
             findNavController().navigate(
-                TipsFragmentDirections.actionTipsDestinationToRulesDestination("PIGEONHOLE")
+                TipsFragmentDirections.actionTipsDestinationToRulesDestination(InstructionType.PIGEONHOLE)
             )
         }
         return binding.root

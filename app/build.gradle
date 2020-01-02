@@ -31,6 +31,11 @@ android {
     dataBinding {
         enabled = true
     }
+
+    //needed for @Parcelize enum type
+    androidExtensions{
+        experimental = true
+    }
 }
 
 dependencies {

@@ -4,6 +4,7 @@ import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.android.parcel.Parcelize
 
 data class Cell(var current: String, val actual: String = current)
 
@@ -38,5 +39,6 @@ data class Instruction(
     val text: String
 )
 
-enum class InstructionType{ GENERAL, PATHFINDER, BLOCKER, PIGEONHOLE}
+@Parcelize
+enum class InstructionType : Parcelable { GENERAL, PATHFINDER, BLOCKER, PIGEONHOLE }
 
