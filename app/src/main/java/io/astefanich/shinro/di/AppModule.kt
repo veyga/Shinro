@@ -11,10 +11,7 @@ import dagger.Provides
 import io.astefanich.shinro.R
 import io.astefanich.shinro.database.AppDatabase
 import io.astefanich.shinro.database.BoardDao
-import io.astefanich.shinro.domain.Board
-import io.astefanich.shinro.domain.Cell
-import io.astefanich.shinro.domain.Grid
-import io.astefanich.shinro.domain.Instruction
+import io.astefanich.shinro.domain.*
 import io.astefanich.shinro.repository.BoardRepository
 import io.astefanich.shinro.repository.BoardRepositoryImpl
 import io.astefanich.shinro.repository.FakeBoardRepository
@@ -138,17 +135,31 @@ class AppModule {
 
     @Singleton
     @Provides
-    internal fun providesInstructions(): List<Instruction> {
+    internal fun providesGeneralInstructions(): List<Instruction> {
         return arrayListOf(
-            Instruction(1, "IMG1", "step1"),
-            Instruction(2, "IMG2", "step2"),
-            Instruction(3, "IMG3", "step3"),
-            Instruction(4, "IMG4", "step4"),
-            Instruction(5, "IMG5", "step5"),
-            Instruction(6, "IMG6", "step6"),
-            Instruction(7, "IMG7", "step7"),
-            Instruction(8, "IMG8", "step8"),
-            Instruction(9, "IMG9", "step9")
+            Instruction(InstructionType.GENERAL, R.drawable.ic_general_01, 1, "generalstep1"),
+            Instruction(InstructionType.GENERAL, R.drawable.ic_general_02, 2, "generalstep2"),
+            Instruction(InstructionType.GENERAL, R.drawable.ic_general_03, 3, "generalstep3"),
+            Instruction(InstructionType.GENERAL, R.drawable.ic_general_04, 4, "generalstep4"),
+            Instruction(InstructionType.GENERAL, R.drawable.ic_general_05, 5, "generalstep5"),
+            Instruction(InstructionType.GENERAL, R.drawable.ic_general_06, 6, "generalstep6"),
+            Instruction(InstructionType.GENERAL, R.drawable.ic_general_07, 7, "generalstep7")
+
+        )
+    }
+
+    @Singleton
+    @Provides
+    internal fun providesBlockerInstructions(): List<Instruction> {
+        return arrayListOf(
+            Instruction(InstructionType.BLOCKER, R.drawable.ic_general_01, 1, "blockerstep1"),
+            Instruction(InstructionType.BLOCKER, R.drawable.ic_general_02, 2, "blockerstep2"),
+            Instruction(InstructionType.BLOCKER, R.drawable.ic_general_03, 3, "blockerstep3"),
+            Instruction(InstructionType.BLOCKER, R.drawable.ic_general_04, 4, "blockerstep4"),
+            Instruction(InstructionType.BLOCKER, R.drawable.ic_general_05, 5, "blockerstep5"),
+            Instruction(InstructionType.BLOCKER, R.drawable.ic_general_06, 6, "blockerstep6"),
+            Instruction(InstructionType.BLOCKER, R.drawable.ic_general_07, 7, "blockerstep7")
+
         )
     }
 

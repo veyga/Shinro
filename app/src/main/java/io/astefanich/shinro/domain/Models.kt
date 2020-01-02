@@ -31,8 +31,11 @@ data class Move(val row: Int, val column: Int, val oldVal: String, val newVal: S
 
 
 data class Instruction(
+    val type: InstructionType,
+    val drawable: Int,
     val stepNum: Int,
-    val image: String,
     val text: String
 )
+
+enum class InstructionType { GENERAL, PATHFINDER, BLOCKER, PIGEONHOLE}
 

@@ -64,9 +64,14 @@
         tools:layout="@layout/about_fragment" />
     <fragment
         android:id="@+id/rules_destination"
-        android:name="io.astefanich.shinro.ui.InstructionsFragment"
+        android:name="io.astefanich.shinro.ui.InstructionsListFragment"
         android:label="rules_fragment"
-        tools:layout="@layout/instructions_fragment" />
+        tools:layout="@layout/instructions_list_fragment" >
+        <argument
+            android:name="instructionType"
+            app:argType="string"
+            android:defaultValue="general" />
+    </fragment>
     <fragment
         android:id="@+id/tips_destination"
         android:name="io.astefanich.shinro.ui.TipsFragment"

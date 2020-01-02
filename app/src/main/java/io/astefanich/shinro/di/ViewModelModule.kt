@@ -7,10 +7,8 @@ import dagger.MapKey
 import dagger.Module
 import dagger.multibindings.IntoMap
 import io.astefanich.shinro.viewmodels.GameViewModel
-import io.astefanich.shinro.viewmodels.InstructionsViewModel
 import io.astefanich.shinro.viewmodels.ViewModelFactory
 import java.lang.annotation.Documented
-import java.lang.annotation.ElementType
 import kotlin.reflect.KClass
 
 @Module
@@ -24,10 +22,6 @@ internal abstract class ViewModelModule {
     @ViewModelKey(GameViewModel::class)
     abstract fun bindGameViewModel(viewModel: GameViewModel): ViewModel
 
-    @Binds
-    @IntoMap
-    @ViewModelKey(InstructionsViewModel::class)
-    abstract fun bindInstructionViewModel(viewModel: InstructionsViewModel): ViewModel
 }
 
 
