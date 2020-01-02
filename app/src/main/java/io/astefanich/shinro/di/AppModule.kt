@@ -133,35 +133,36 @@ class AppModule {
     }
 
 
-    @Singleton
-    @Provides
-    internal fun providesGeneralInstructions(): List<Instruction> {
-        return arrayListOf(
-            Instruction(InstructionType.GENERAL, R.drawable.ic_general_01, 1, "generalstep1"),
-            Instruction(InstructionType.GENERAL, R.drawable.ic_general_02, 2, "generalstep2"),
-            Instruction(InstructionType.GENERAL, R.drawable.ic_general_03, 3, "generalstep3"),
-            Instruction(InstructionType.GENERAL, R.drawable.ic_general_04, 4, "generalstep4"),
-            Instruction(InstructionType.GENERAL, R.drawable.ic_general_05, 5, "generalstep5"),
-            Instruction(InstructionType.GENERAL, R.drawable.ic_general_06, 6, "generalstep6"),
-            Instruction(InstructionType.GENERAL, R.drawable.ic_general_07, 7, "generalstep7")
+//    @Singleton
+//    @Provides
+//    internal fun providesGeneralInstructions(): List<Instruction> {
+//        Timber.i("PROVIDING GENERAL INSTRUCTIONS")
+//        return arrayListOf(
+//            Instruction(InstructionType.GENERAL, R.drawable.ic_general_01, 1, "generalstep1"),
+//            Instruction(InstructionType.GENERAL, R.drawable.ic_general_02, 2, "generalstep2"),
+//            Instruction(InstructionType.GENERAL, R.drawable.ic_general_03, 3, "generalstep3"),
+//            Instruction(InstructionType.GENERAL, R.drawable.ic_general_04, 4, "generalstep4"),
+//            Instruction(InstructionType.GENERAL, R.drawable.ic_general_05, 5, "generalstep5"),
+//            Instruction(InstructionType.GENERAL, R.drawable.ic_general_06, 6, "generalstep6"),
+//            Instruction(InstructionType.GENERAL, R.drawable.ic_general_07, 7, "generalstep7")
+//
+//        )
+//    }
 
-        )
-    }
-
-    @Singleton
-    @Provides
-    internal fun providesBlockerInstructions(): List<Instruction> {
-        return arrayListOf(
-            Instruction(InstructionType.BLOCKER, R.drawable.ic_general_01, 1, "blockerstep1"),
-            Instruction(InstructionType.BLOCKER, R.drawable.ic_general_02, 2, "blockerstep2"),
-            Instruction(InstructionType.BLOCKER, R.drawable.ic_general_03, 3, "blockerstep3"),
-            Instruction(InstructionType.BLOCKER, R.drawable.ic_general_04, 4, "blockerstep4"),
-            Instruction(InstructionType.BLOCKER, R.drawable.ic_general_05, 5, "blockerstep5"),
-            Instruction(InstructionType.BLOCKER, R.drawable.ic_general_06, 6, "blockerstep6"),
-            Instruction(InstructionType.BLOCKER, R.drawable.ic_general_07, 7, "blockerstep7")
-
-        )
-    }
+//    @Singleton
+//    @Provides
+//    internal fun providesBlockerInstructions(): List<Instruction> {
+//        return arrayListOf(
+//            Instruction(InstructionType.BLOCKER, R.drawable.ic_general_01, 1, "blockerstep1"),
+//            Instruction(InstructionType.BLOCKER, R.drawable.ic_general_02, 2, "blockerstep2"),
+//            Instruction(InstructionType.BLOCKER, R.drawable.ic_general_03, 3, "blockerstep3"),
+//            Instruction(InstructionType.BLOCKER, R.drawable.ic_general_04, 4, "blockerstep4"),
+//            Instruction(InstructionType.BLOCKER, R.drawable.ic_general_05, 5, "blockerstep5"),
+//            Instruction(InstructionType.BLOCKER, R.drawable.ic_general_06, 6, "blockerstep6"),
+//            Instruction(InstructionType.BLOCKER, R.drawable.ic_general_07, 7, "blockerstep7")
+//
+//        )
+//    }
 
     @Singleton
     @Provides

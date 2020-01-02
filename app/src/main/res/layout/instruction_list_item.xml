@@ -3,19 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+
     <androidx.cardview.widget.CardView
+        android:id="@+id/instruction_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="4dp"
         app:cardElevation="25dp"
-        app:cardPreventCornerOverlap="false">
+        app:cardPreventCornerOverlap="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-<!--            app:instructionImage="@{instruction}"-->
 
             <ImageView
                 android:id="@+id/instruction_image"
@@ -31,7 +34,6 @@
                 android:maxHeight="150dp"
                 android:padding="16dp"
                 android:scaleType="fitEnd"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toLeftOf="@id/instruction_text"
                 app:layout_constraintTop_toTopOf="parent"
@@ -42,14 +44,14 @@
                 android:id="@+id/instruction_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="this is the instruction"
                 android:textColor="#000"
                 android:textSize="19sp"
-                android:text="this is the instruction"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toRightOf="@id/instruction_image"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="sup" />
+                tools:text="this is the instructiion" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

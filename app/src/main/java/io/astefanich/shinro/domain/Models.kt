@@ -1,5 +1,6 @@
 package io.astefanich.shinro.domain
 
+import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -37,5 +38,5 @@ data class Instruction(
     val text: String
 )
 
-enum class InstructionType { GENERAL, PATHFINDER, BLOCKER, PIGEONHOLE}
+enum class InstructionType{ GENERAL, PATHFINDER, BLOCKER, PIGEONHOLE}
 

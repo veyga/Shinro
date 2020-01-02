@@ -26,6 +26,14 @@ fun setVideoButtonText(button: Button, isPlaying: Boolean) = when (isPlaying) {
     true -> button.setText(R.string.pause_video)
 }
 
+@BindingAdapter("instructionText")
+fun setInstructionTest(view: TextView, str: String) = when (str) {
+    "PATHFINDER" -> view.setText(R.string.blocker_text)
+    "BLOCKER" -> view.setText(R.string.blocker_text)
+    "PIGEONHOLE" -> view.setText(R.string.pigeonhole_text)
+    else -> view.setText(R.string.how_to_play_title)
+}
+
 @BindingAdapter("gridSvg")
 fun bindGridSvg(view: ImageView, str: String) {
     val res = when (str) {
