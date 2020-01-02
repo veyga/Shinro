@@ -45,6 +45,7 @@ dependencies {
     implementation 'android.arch.navigation:navigation-ui-ktx:1.0.0-rc02'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
     implementation 'androidx.gridlayout:gridlayout:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'com.google.android.material:material:1.1.0-alpha04'
     implementation 'com.jakewharton.timber:timber:4.7.1'
     implementation 'com.google.code.gson:gson:2.8.5'
