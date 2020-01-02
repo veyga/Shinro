@@ -28,7 +28,7 @@ fun setVideoButtonText(button: Button, isPlaying: Boolean) = when (isPlaying) {
 
 @BindingAdapter("instructionText")
 fun setInstructionTest(view: TextView, str: String) = when (str) {
-    "PATHFINDER" -> view.setText(R.string.blocker_text)
+    "PATHFINDER" -> view.setText(R.string.pathfinder_text)
     "BLOCKER" -> view.setText(R.string.blocker_text)
     "PIGEONHOLE" -> view.setText(R.string.pigeonhole_text)
     else -> view.setText(R.string.how_to_play_title)

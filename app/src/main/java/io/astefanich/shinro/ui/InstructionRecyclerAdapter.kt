@@ -15,7 +15,12 @@ class InstructionRecyclerAdapter(type: String) : RecyclerView.Adapter<RecyclerVi
     lateinit var items: List<Instruction>
 
     init {
-        items = if (type == "general") generalInstructions() else blockerInstructions()
+        items = when (type) {
+            "PATHFINDER" -> pathfinderInstructions()
+            "BLOCKER" -> blockerInstructions()
+            "PIGEONHOLE" -> pigeonholeInstructions()
+            else -> generalInstructions()
+        }
     }
 
     fun generalInstructions(): List<Instruction> = arrayListOf(
@@ -29,6 +34,17 @@ class InstructionRecyclerAdapter(type: String) : RecyclerView.Adapter<RecyclerVi
 
     )
 
+    fun pathfinderInstructions(): List<Instruction> = arrayListOf(
+        Instruction(InstructionType.PATHFINDER, R.drawable.ic_general_01, 1, "pathfinderstep1"),
+        Instruction(InstructionType.PATHFINDER, R.drawable.ic_general_02, 2, "pathfinderstep2"),
+        Instruction(InstructionType.PATHFINDER, R.drawable.ic_general_03, 3, "pathfinderstep3"),
+        Instruction(InstructionType.PATHFINDER, R.drawable.ic_general_04, 4, "pathfinderstep4"),
+        Instruction(InstructionType.PATHFINDER, R.drawable.ic_general_05, 5, "pathfinderstep5"),
+        Instruction(InstructionType.PATHFINDER, R.drawable.ic_general_06, 6, "pathfinderstep6"),
+        Instruction(InstructionType.PATHFINDER, R.drawable.ic_general_07, 7, "pathfinderstep7")
+
+    )
+
     fun blockerInstructions(): List<Instruction> = arrayListOf(
         Instruction(InstructionType.BLOCKER, R.drawable.ic_general_01, 1, "blockerstep1"),
         Instruction(InstructionType.BLOCKER, R.drawable.ic_general_02, 2, "blockerstep2"),
@@ -37,6 +53,17 @@ class InstructionRecyclerAdapter(type: String) : RecyclerView.Adapter<RecyclerVi
         Instruction(InstructionType.BLOCKER, R.drawable.ic_general_05, 5, "blockerstep5"),
         Instruction(InstructionType.BLOCKER, R.drawable.ic_general_06, 6, "blockerstep6"),
         Instruction(InstructionType.BLOCKER, R.drawable.ic_general_07, 7, "blockerstep7")
+
+    )
+
+    fun pigeonholeInstructions(): List<Instruction> = arrayListOf(
+        Instruction(InstructionType.PIGEONHOLE, R.drawable.ic_general_01, 1, "pigeonholestep1"),
+        Instruction(InstructionType.PIGEONHOLE, R.drawable.ic_general_02, 2, "pigeonholestep2"),
+        Instruction(InstructionType.PIGEONHOLE, R.drawable.ic_general_03, 3, "piegonholestep3"),
+        Instruction(InstructionType.PIGEONHOLE, R.drawable.ic_general_04, 4, "pigeonholestep4"),
+        Instruction(InstructionType.PIGEONHOLE, R.drawable.ic_general_05, 5, "pigeonholestep5"),
+        Instruction(InstructionType.PIGEONHOLE, R.drawable.ic_general_06, 6, "pigeonholestep6"),
+        Instruction(InstructionType.PIGEONHOLE, R.drawable.ic_general_07, 7, "pigeonholestep7")
 
     )
 

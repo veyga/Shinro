@@ -4,20 +4,76 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.TipsFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <data>
+        <variable
+            name="fragment"
+            type="io.astefanich.shinro.ui.TipsFragment" />
+    </data>
 
-        <TextView
-            android:id="@+id/tips_text"
-            android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/pathfinder_card"
+            android:layout_width="409dp"
             android:layout_height="wrap_content"
-            android:text="tipppzzzzz"
-            android:textSize="36sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/pathfinder_card_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/pathfinder_text"
+                android:textAlignment="center"
+                android:textSize="36sp"
+                tools:text="The Pathfinder" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/blocker_card"
+            android:layout_width="409dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="tipppzzzzz" />
+            app:layout_constraintTop_toBottomOf="@id/pathfinder_card">
+
+            <TextView
+                android:id="@+id/blocker_card_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/blocker_text"
+                android:textAlignment="center"
+                android:textSize="36sp"
+                tools:text="The Blocker" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/pigeonhole_card"
+            android:layout_width="409dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/blocker_card">
+
+            <TextView
+                android:id="@+id/pigeonhole_card_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/pigeonhole_text"
+                android:textAlignment="center"
+                android:textSize="36sp"
+                tools:text="The Pigeonhole" />
+        </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
