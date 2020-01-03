@@ -6,16 +6,18 @@ import io.astefanich.shinro.domain.Grid
 
 object Converters {
 
+    private val gson = Gson()
+
     @TypeConverter
     @JvmStatic
     fun gridToJson(value: Grid): String {
-        return Gson().toJson(value)
+        return gson.toJson(value)
     }
 
     @TypeConverter
     @JvmStatic
     fun jsonToGrid(value: String): Grid {
-        return Gson().fromJson(value, Grid::class.java)
+        return gson.fromJson(value, Grid::class.java)
     }
 
 }
