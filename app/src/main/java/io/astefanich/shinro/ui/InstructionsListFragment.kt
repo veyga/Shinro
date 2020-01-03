@@ -16,9 +16,6 @@ import io.astefanich.shinro.domain.InstructionType
 import io.astefanich.shinro.util.InstructionRecyclerAdapter
 import javax.inject.Inject
 
-/**
- * A simple [Fragment] subclass.
- */
 class InstructionsListFragment : Fragment() {
 
     lateinit var instructionType: InstructionType

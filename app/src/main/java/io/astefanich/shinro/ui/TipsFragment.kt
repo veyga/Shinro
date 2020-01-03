@@ -13,9 +13,6 @@ import io.astefanich.shinro.R
 import io.astefanich.shinro.databinding.TipsFragmentBinding
 import io.astefanich.shinro.domain.InstructionType
 
-/**
- * A simple [Fragment] subclass.
- */
 class TipsFragment : Fragment() {
 
     override fun onCreateView(

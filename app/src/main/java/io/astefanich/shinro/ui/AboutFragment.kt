@@ -15,17 +15,11 @@ import io.astefanich.shinro.R
 import io.astefanich.shinro.databinding.AboutFragmentBinding
 import javax.inject.Inject
 
-/**
- * A simple [Fragment] subclass.
- */
 class AboutFragment : Fragment() {
-
 
     @Inject
     lateinit var videoUri: Uri
-
     private lateinit var videoView: VideoView
-
     var videoPlaying = MutableLiveData<Boolean>()
 
     override fun onCreateView(

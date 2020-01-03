@@ -14,4 +14,5 @@ class BoardRepository @Inject constructor(val boardDao: BoardDao) {
     fun insertBoards(vararg boards: Board) = boardDao.insertBoards(*boards)
 
     fun updateBoard(board: Board) = boardDao.updateBoard(board)
+
 }

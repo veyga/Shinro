@@ -20,9 +20,6 @@ import io.astefanich.shinro.viewmodels.GameViewModel
 import io.astefanich.shinro.viewmodels.ViewModelFactory
 import javax.inject.Inject
 
-/**
- * A simple [Fragment] subclass.
- */
 class GameFragment : Fragment() {
 
 

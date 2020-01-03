@@ -13,9 +13,6 @@ import io.astefanich.shinro.R
 import io.astefanich.shinro.databinding.TitleFragmentBinding
 import io.astefanich.shinro.domain.InstructionType
 
-/**
- * A simple [Fragment] subclass.
- */
 class TitleFragment : Fragment() {
 
 
