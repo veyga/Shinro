@@ -86,7 +86,7 @@ class GameFragment : Fragment() {
             }
         })
         binding.vm = viewModel
-        binding.setLifecycleOwner(this)
+        binding.lifecycleOwner = this
         setHasOptionsMenu(true)
         return binding.root
     }

@@ -6,9 +6,8 @@ import dagger.Component
 import dagger.android.AndroidInjectionModule
 import dagger.android.AndroidInjector
 import io.astefanich.shinro.ShinroApplication
-import javax.inject.Singleton
 
-@Singleton
+@AppScope
 @Component(
     modules = [
         AndroidInjectionModule::class,

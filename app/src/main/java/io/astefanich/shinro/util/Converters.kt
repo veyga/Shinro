@@ -6,7 +6,6 @@ import io.astefanich.shinro.domain.Grid
 
 object Converters {
 
-
     @TypeConverter
     @JvmStatic
     fun gridToJson(value: Grid): String {

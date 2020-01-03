@@ -13,4 +13,7 @@ interface DataComponent {
     fun provideInstructions(): List<Instruction>
 
     fun provideBoards(): List<Board>
+
+
+    //use builder and binds instance to bind instruction type to this component?
 }

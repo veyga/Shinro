@@ -37,3 +37,6 @@ data class Instruction(val drawable: Int, val text: String)
 @Parcelize
 enum class InstructionType : Parcelable { GENERAL, PATHFINDER, BLOCKER, PIGEONHOLE }
 
+
+data class DatabaseName(val name: String)
+

@@ -10,7 +10,6 @@ import io.astefanich.shinro.util.Converters
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
 
-    //    val DATABASE_NAME = "app_db"
     abstract fun boardDao(): BoardDao
 
 }

@@ -57,7 +57,6 @@ fun bindGridSvg(view: ImageView, str: String) {
         "H" -> R.drawable.ic_blue_left_up_arrow
         else -> R.drawable.ic_blank_cell
     }
-
     view.setImageResource(res)
 }
 

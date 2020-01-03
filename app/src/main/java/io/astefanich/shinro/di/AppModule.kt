@@ -13,25 +13,26 @@ import io.astefanich.shinro.database.AppDatabase
 import io.astefanich.shinro.database.BoardDao
 import io.astefanich.shinro.domain.Board
 import io.astefanich.shinro.domain.Cell
+import io.astefanich.shinro.domain.DatabaseName
 import io.astefanich.shinro.domain.Grid
-import io.astefanich.shinro.repository.BoardRepository
 import timber.log.Timber
 import java.util.concurrent.Executors
-import javax.inject.Singleton
 
 @Module
 class AppModule {
 
-    @Singleton
+    @AppScope
     @Provides
     internal fun providesContext(application: Application): Context {
         return application.applicationContext
     }
 
-    @Singleton
+    @AppScope
     @Provides
     internal fun providesInMemoryAppDatabase(
-        application: Application, boards: Array<Board>
+        application: Application,
+        databaseName: DatabaseName,
+        boards: Array<Board>
     ): AppDatabase {
 
         lateinit var appDatabase: AppDatabase
@@ -56,22 +57,25 @@ class AppModule {
     }
 
 
-    @Singleton
+    @AppScope
     @Provides
     internal fun providesBoardDao(database: AppDatabase): BoardDao = database.boardDao()
 
-
-//    @Singleton
-//    @Provides
-//    internal fun providesBoardRepositoryImpl(dao: BoardDao): BoardRepository =
-//        BoardRepositoryImpl(dao)
-
-
-    @Singleton
+    @AppScope
     @Provides
     internal fun providesDummyBoard(): Board = Board(999, "EASY", Grid(arrayOf()))
 
-    @Singleton
+    @AppScope
+    @Provides
+    internal fun providesVideoURI(): Uri {
+        return Uri.parse("android.resource://io.astefanich.shinro/" + R.raw.what_is_shinro)
+    }
+
+    @AppScope
+    @Provides
+    internal fun providesDatabaseName(): DatabaseName = DatabaseName("SHINRODB")
+
+    @AppScope
     @Provides
     internal fun providesSampleBoards(): Array<Board> {
         val board1 =
@@ -124,12 +128,6 @@ class AppModule {
         }
 
         return arrayOf(boardFromString(board1), boardFromString(board2))
-    }
-
-    @Singleton
-    @Provides
-    internal fun providesVideoURI(): Uri {
-        return Uri.parse("android.resource://io.astefanich.shinro/" + R.raw.what_is_shinro)
     }
 
 }
