@@ -14,7 +14,8 @@ import javax.inject.Singleton
         AndroidInjectionModule::class,
         ActivityInjectorsModule::class,
         AppModule::class,
-        ViewModelModule::class
+        ViewModelModule::class,
+        InstructionsModule::class
     ]
 )
 interface AppComponent : AndroidInjector<ShinroApplication> {

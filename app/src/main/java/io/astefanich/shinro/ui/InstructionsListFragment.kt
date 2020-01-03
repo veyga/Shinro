@@ -11,7 +11,10 @@ import androidx.navigation.fragment.navArgs
 import dagger.android.support.AndroidSupportInjection
 import io.astefanich.shinro.R
 import io.astefanich.shinro.databinding.InstructionsListFragmentBinding
+import io.astefanich.shinro.domain.Instruction
 import io.astefanich.shinro.domain.InstructionType
+import javax.inject.Inject
+import javax.inject.Named
 
 /**
  * A simple [Fragment] subclass.
@@ -20,6 +23,18 @@ class InstructionsListFragment : Fragment() {
 
     lateinit var instructionType: InstructionType
 
+    @Inject
+    lateinit var items: List<Instruction>
+
+
+    //    init {
+//        items = when (type) {
+//            InstructionType.PATHFINDER -> pathfinderInstructions()
+//            InstructionType.BLOCKER -> blockerInstructions()
+//            InstructionType.PIGEONHOLE -> pigeonholeInstructions()
+//            else -> generalInstructions()
+//        }
+//    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -33,8 +48,7 @@ class InstructionsListFragment : Fragment() {
 
         val instructionsListArgs by navArgs<InstructionsListFragmentArgs>()
         instructionType = instructionsListArgs.instructionType
-
-        val recyclerAdapter = InstructionRecyclerAdapter(instructionType)
+        val recyclerAdapter = InstructionRecyclerAdapter(items)
         binding.instructionsRecyclerView.apply {
             adapter = recyclerAdapter
         }
