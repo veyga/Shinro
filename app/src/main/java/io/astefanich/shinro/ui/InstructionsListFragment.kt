@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
-import dagger.android.support.AndroidSupportInjection
 import io.astefanich.shinro.R
 import io.astefanich.shinro.databinding.InstructionsListFragmentBinding
 import io.astefanich.shinro.di.instructions.DaggerInstructionsComponent
@@ -27,15 +26,6 @@ class InstructionsListFragment : Fragment() {
     @Inject
     lateinit var items: List<Instruction>
 
-
-    //    init {
-//        items = when (type) {
-//            InstructionType.PATHFINDER -> pathfinderInstructions()
-//            InstructionType.BLOCKER -> blockerInstructions()
-//            InstructionType.PIGEONHOLE -> pigeonholeInstructions()
-//            else -> generalInstructions()
-//        }
-//    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
