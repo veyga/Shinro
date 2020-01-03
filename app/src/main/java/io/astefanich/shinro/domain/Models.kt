@@ -32,12 +32,7 @@ data class Board(
 data class Move(val row: Int, val column: Int, val oldVal: String, val newVal: String)
 
 
-data class Instruction(
-    val type: InstructionType,
-    val drawable: Int,
-    val stepNum: Int,
-    val text: String
-)
+data class Instruction(val drawable: Int, val text: String)
 
 @Parcelize
 enum class InstructionType : Parcelable { GENERAL, PATHFINDER, BLOCKER, PIGEONHOLE }
