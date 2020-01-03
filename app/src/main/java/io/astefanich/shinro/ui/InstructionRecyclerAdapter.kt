@@ -123,7 +123,8 @@ class InstructionRecyclerAdapter(type: InstructionType) :
             empty squares to the
             arrow's right, because 
             then satisfying
-            the arrow becomes impossible.
+            the arrow becomes 
+            impossible.
         """.trimIndent()
         ),
         Instruction(
@@ -225,35 +226,204 @@ class InstructionRecyclerAdapter(type: InstructionType) :
     )
 
     fun pathfinderInstructions(): List<Instruction> = arrayListOf(
-        Instruction(R.drawable.ic_general_01, "pathfinderstep1"),
-        Instruction(R.drawable.ic_general_02, "pathfinderstep2"),
-        Instruction(R.drawable.ic_general_03, "pathfinderstep3"),
-        Instruction(R.drawable.ic_general_04, "pathfinderstep4"),
-        Instruction(R.drawable.ic_general_05, "pathfinderstep5"),
-        Instruction(R.drawable.ic_general_06, "pathfinderstep6"),
-        Instruction(R.drawable.ic_general_07, "pathfinderstep7")
-
+        Instruction(
+            R.drawable.ic_general_01, """
+            All of the simple moves
+            have already been taken in
+            this puzzle. Where can
+            we find another move?
+        """.trimIndent()
+        ),
+        Instruction(
+            R.drawable.ic_general_02, """
+            This arrow is satisfied
+            if there is at least one
+            marble along path [a].
+        """.trimIndent()
+        ),
+        Instruction(
+            R.drawable.ic_general_03, """
+            This arrow is satisfied 
+            if there is at least one
+            marble found along path
+            marked [b].
+            The [a] and [b] paths do
+            not overlap. Thus, we
+            know there must be
+            at least two marbles found
+            along these paths.
+        """.trimIndent()
+        ),
+        Instruction(
+            R.drawable.ic_general_04, """
+            These rows completely 
+            contain the two path. No 
+            squares in either path fall
+            outside of the area covered
+            by these rows.
+            There are two total hidden
+            marbles in these rows, based
+            on row counts. And we know,
+            our two paths contain two
+            marbles. Thus, the other empty
+            squares in these rows cannot 
+            possibly contain marbles, 
+            and can be eliminated.
+        """.trimIndent()
+        )
     )
 
     fun blockerInstructions(): List<Instruction> = arrayListOf(
-        Instruction(R.drawable.ic_general_01, "blockerstep1"),
-        Instruction(R.drawable.ic_general_02, "blockerstep2"),
-        Instruction(R.drawable.ic_general_03, "blockerstep3"),
-        Instruction(R.drawable.ic_general_04, "blockerstep4"),
-        Instruction(R.drawable.ic_general_05, "blockerstep5"),
-        Instruction(R.drawable.ic_general_06, "blockerstep6"),
-        Instruction(R.drawable.ic_general_07, "blockerstep7")
+        Instruction(
+            R.drawable.ic_general_01, """
+            Here is another puzzle with
+            all of the simple moves
+            already taken. Can you
+            find the next move?
+        """.trimIndent()
+        ),
+        Instruction(
+            R.drawable.ic_general_02, """
+            This arrow is satisfied 
+            by a marble in [a] or [b].
+            If we tried to place a 
+            marble at [c], then 
+            it would be impossible 
+            to satisfy the arrow.
+            
+            - We cannot put a marble at [b],
+            because then its row's marble
+            count would be violated.
+            - We cannot put a marble at [a],
+            because then its column's 
+            marble count could be violated.
+            
+            So, [c] is a blocker.
+        """.trimIndent()
+        ),
+        Instruction(
+            R.drawable.ic_general_03, """
+           Thus, we can eliminate [c]
+            as a possibility.
+        """.trimIndent()
+        ),
+        Instruction(
+            R.drawable.ic_general_04, """
+            Here's another example using
+            the same puzzle.
+            This arrow is satisfied by
+            a marble in [a] or [b].
+            If we place a marble at [c],
+            then we just made it 
+            impossible to satisfy 
+            the arrow.
+            
+            - We cannot put a marble 
+            at [b], because then its 
+            column's marble count 
+            would be violated.
+            - We cannot put a marble
+            at [a], because then its
+            column's marble count
+            would be violated.
+            
+            So, [c] is a blocker.
+        """.trimIndent()
+        ),
+        Instruction(
+            R.drawable.ic_general_05, """
+            Thus, we can eliminate [c]
+            as a possibility.
+        """.trimIndent()
+        )
 
     )
 
     fun pigeonholeInstructions(): List<Instruction> = arrayListOf(
-        Instruction(R.drawable.ic_general_01, "pigeonholestep1"),
-        Instruction(R.drawable.ic_general_02, "pigeonholestep2"),
-        Instruction(R.drawable.ic_general_03, "piegonholestep3"),
-        Instruction(R.drawable.ic_general_04, "pigeonholestep4"),
-        Instruction(R.drawable.ic_general_05, "pigeonholestep5"),
-        Instruction(R.drawable.ic_general_06, "pigeonholestep6"),
-        Instruction(R.drawable.ic_general_07, "pigeonholestep7")
+        Instruction(
+            R.drawable.ic_general_01, """
+            This is the most advanced
+            technique required by
+            some of the hardest puzzles.
+            Finding these moves can 
+            be very difficult.
+            
+            Here is a puzzle with no 
+            more obvious moves available.
+        """.trimIndent()
+        ),
+        Instruction(
+            R.drawable.ic_general_02, """
+            This arrow is satisfied by 
+            a marble in [a] or [b].
+            The row with squares [c],[d],[e],
+            and [f] has three hidden marbles
+            but four available squares to 
+            select from. If we put a marble
+            in [a], then its column is 
+            satisfied, [e] is eliminated,
+            and we then know there are 
+            marbles in [c],[d], and [f].
+            But if we put a marble in [b], 
+            then its column is satisfied,
+            [f] is eliminated, and then
+            we know there are marbles in
+            [c], [d], and [e].
+        """.trimIndent()
+        ),
+        Instruction(
+            R.drawable.ic_general_03, """
+            Therefore, there are only 
+            possibilities.
+            
+            - Marbles in [c],[d],[e]
+            - Marbles in [c],[d],[f]
+            
+            Both possibilities have
+            marbles in [c] and [d],
+            so we know these squares
+            must contain marbles.
+            We can now mark them
+            with certainty.
+        """.trimIndent()
+        ),
+        Instruction(
+            R.drawable.ic_general_04, """
+            Another example:
+            This arrow is satisfed by
+            a marble in [a] or [b]. The
+            column with squares [c], [d],
+            [e], and [f] has three hidden
+            marbles but four available
+            squares to select from. 
+            If we put a marble in [a],
+            then its row is satisfied,
+            [d] is eliminated, and then
+            we know there are marbles in 
+            [c], [e], and [f].
+            But if we put a marble in [b], 
+            then its row is satisfied,
+            [f] is eliminated and then we
+            know there are marbles in
+            [c], [d], and [e].
+        """.trimIndent()
+        ),
+        Instruction(
+            R.drawable.ic_general_05, """
+            Therefore, there are 
+            only two possibilities.
+            
+            - Marbles in [c], [e], [f]
+            - Marbles in [c], [d], [e]
+            
+            Both possibilities have marbles
+            in [c] and [e], so we know
+            that these squares must
+            contain marbles.
+            We can now mark them
+            with certainty.
+        """.trimIndent()
+        )
 
     )
 

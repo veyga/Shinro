@@ -37,7 +37,7 @@
             android:layout_marginLeft="24dp"
             android:layout_marginTop="16dp"
             android:text="this is the instruction"
-            android:textAlignment="textStart"
+            android:textAlignment="viewStart"
             android:textColor="#000"
             android:textSize="10sp"
             app:layout_constraintBottom_toBottomOf="parent"
