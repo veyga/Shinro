@@ -10,6 +10,9 @@ import io.astefanich.shinro.repository.BoardRepository
 import java.util.*
 import javax.inject.Inject
 
+/**
+ * Core game logic class
+ */
 class GameViewModel @Inject constructor(val repo: BoardRepository, val context: Context) :
     ViewModel() {
 

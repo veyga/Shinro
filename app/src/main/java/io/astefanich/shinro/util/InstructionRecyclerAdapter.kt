@@ -8,7 +8,7 @@ import io.astefanich.shinro.R
 import io.astefanich.shinro.domain.Instruction
 import kotlinx.android.synthetic.main.instruction_list_item.view.*
 
-class InstructionRecyclerAdapter(val items: List<Instruction>) :
+class InstructionRecyclerAdapter(private val items: List<Instruction>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -31,7 +31,7 @@ class InstructionRecyclerAdapter(val items: List<Instruction>) :
 
     override fun getItemCount(): Int = items.size
 
-    class InstructionViewHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    internal class InstructionViewHolder constructor(view: View) : RecyclerView.ViewHolder(view) {
 
         fun bind(instruction: Instruction) {
             itemView.apply {

@@ -15,8 +15,6 @@ import io.astefanich.shinro.domain.Board
 import io.astefanich.shinro.domain.Cell
 import io.astefanich.shinro.domain.Grid
 import io.astefanich.shinro.repository.BoardRepository
-import io.astefanich.shinro.repository.BoardRepositoryImpl
-import io.astefanich.shinro.repository.FakeBoardRepository
 import timber.log.Timber
 import java.util.concurrent.Executors
 import javax.inject.Singleton
@@ -62,15 +60,16 @@ class AppModule {
     @Provides
     internal fun providesBoardDao(database: AppDatabase): BoardDao = database.boardDao()
 
-    @Singleton
+
+//    @Singleton
 //    @Provides
-    internal fun providesFakeBoardRepository(boards: Array<Board>): BoardRepository =
-        FakeBoardRepository(boards)
+//    internal fun providesBoardRepositoryImpl(dao: BoardDao): BoardRepository =
+//        BoardRepositoryImpl(dao)
+
 
     @Singleton
     @Provides
-    internal fun providesBoardRepositoryImpl(dao: BoardDao): BoardRepository =
-        BoardRepositoryImpl(dao)
+    internal fun providesDummyBoard(): Board = Board(999, "EASY", Grid(arrayOf()))
 
     @Singleton
     @Provides

@@ -6,10 +6,6 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
 
-data class Cell(var current: String, val actual: String = current)
-
-data class Grid(val cells: Array<Array<Cell>>)
-
 @Entity(tableName = "board_table")
 data class Board(
 
@@ -28,6 +24,10 @@ data class Board(
     var marblesPlaced: Int = 0
 
 )
+
+data class Cell(var current: String, val actual: String = current)
+
+data class Grid(val cells: Array<Array<Cell>>)
 
 data class Move(val row: Int, val column: Int, val oldVal: String, val newVal: String)
 

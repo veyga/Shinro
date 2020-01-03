@@ -1,16 +1,23 @@
 package io.astefanich.shinro.repository
 
+import io.astefanich.shinro.database.BoardDao
 import io.astefanich.shinro.domain.Board
+import javax.inject.Inject
+import javax.inject.Singleton
 
-interface BoardRepository {
 
+@Singleton
+class BoardRepository @Inject constructor(val boardDao: BoardDao, dummyBoard: Board) {
 
-    fun getBoardById(boardId: Int): Board?
+    init {
+        boardDao.insertBoards(dummyBoard) //this action triggers the db creation
+    }
 
-    fun getLowestIncompleteBoard(): Board
+    fun getBoardById(boardId: Int): Board? = boardDao.getBoardById(boardId)
 
-    fun insertBoards(vararg boards: Board)
+    fun getLowestIncompleteBoard(): Board = boardDao.getLowestIncompleteBoard()
 
-    fun updateBoard(board: Board)
+    fun insertBoards(vararg boards: Board) = boardDao.insertBoards(*boards)
 
+    fun updateBoard(board: Board) = boardDao.updateBoard(board)
 }
