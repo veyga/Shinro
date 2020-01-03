@@ -13,8 +13,7 @@ import io.astefanich.shinro.ShinroApplication
         AndroidInjectionModule::class,
         ActivityInjectorsModule::class,
         AppModule::class,
-        ViewModelModule::class,
-        InstructionsModule::class
+        ViewModelModule::class
     ]
 )
 interface AppComponent : AndroidInjector<ShinroApplication> {

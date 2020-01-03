@@ -1,21 +1,32 @@
-package io.astefanich.shinro.di
+package io.astefanich.shinro.di.instructions
 
 import dagger.Module
 import dagger.Provides
 import io.astefanich.shinro.R
+import io.astefanich.shinro.di.InstructionsFragmentScope
 import io.astefanich.shinro.domain.Instruction
-import javax.inject.Named
+import io.astefanich.shinro.domain.InstructionType
 
 /*
 * Hard coding instructions since they won't change.
  */
 @Module
-class InstructionsModule {
+class InstructionsModule(private val instructionType: InstructionType) {
 
-
-//    @Named("GENERAL") //this doesn't work?
+    @InstructionsFragmentScope
     @Provides
-    fun providesGeneralInstructions(): List<Instruction> = arrayListOf(
+    fun provideInstructionType() = instructionType
+
+    @InstructionsFragmentScope
+    @Provides
+    fun provideInstructions(type: InstructionType): List<Instruction> = when (type) {
+        InstructionType.PATHFINDER -> pathfinderInstructions()
+        InstructionType.BLOCKER -> blockerInstructions()
+        InstructionType.PIGEONHOLE -> pigeonholeInstructions()
+        else -> generalInstructions()
+    }
+
+    fun generalInstructions(): List<Instruction> = arrayListOf(
         Instruction(
             R.drawable.ic_general_01, """
            A Shinro puzzle is an 8x8 grid. 
@@ -186,8 +197,6 @@ class InstructionsModule {
 
     )
 
-    @Named("PATHFINDER")
-    @Provides
     fun pathfinderInstructions(): List<Instruction> = arrayListOf(
         Instruction(
             R.drawable.ic_general_01, """
@@ -236,9 +245,7 @@ class InstructionsModule {
         )
     )
 
-    @Named("BLOCKER")
-    @Provides
-    fun providesBlockerInstructions(): List<Instruction> = arrayListOf(
+    fun blockerInstructions(): List<Instruction> = arrayListOf(
         Instruction(
             R.drawable.ic_general_01, """
             Here is another puzzle with
@@ -304,9 +311,7 @@ class InstructionsModule {
 
     )
 
-    @Named("PIGEONHOLE")
-    @Provides
-    fun providesPigeonholeInstructions(): List<Instruction> = arrayListOf(
+    fun pigeonholeInstructions(): List<Instruction> = arrayListOf(
         Instruction(
             R.drawable.ic_general_01, """
             This is the most advanced
