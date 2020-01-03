@@ -67,9 +67,8 @@ class AppModule {
 
     @AppScope
     @Provides
-    internal fun providesVideoURI(): Uri {
-        return Uri.parse("android.resource://io.astefanich.shinro/" + R.raw.what_is_shinro)
-    }
+    internal fun providesVideoURI(): Uri =
+        Uri.parse("android.resource://io.astefanich.shinro/" + R.raw.what_is_shinro)
 
     @AppScope
     @Provides
