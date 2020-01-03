@@ -25,24 +25,24 @@ class TipsFragment : Fragment() {
 
         binding.generalRulesCard.setOnClickListener {
             findNavController().navigate(
-                TipsFragmentDirections.actionTipsDestinationToRulesDestination(InstructionType.GENERAL)
+                TipsFragmentDirections.actionTipsDestinationToInstructionsDestination(InstructionType.GENERAL)
             )
         }
 
         binding.pathfinderCard.setOnClickListener {
             findNavController().navigate(
-                TipsFragmentDirections.actionTipsDestinationToRulesDestination(InstructionType.PATHFINDER)
+                TipsFragmentDirections.actionTipsDestinationToInstructionsDestination(InstructionType.PATHFINDER)
             )
         }
 
         binding.blockerCard.setOnClickListener {
             findNavController().navigate(
-                TipsFragmentDirections.actionTipsDestinationToRulesDestination(InstructionType.BLOCKER)
+                TipsFragmentDirections.actionTipsDestinationToInstructionsDestination(InstructionType.BLOCKER)
             )
         }
         binding.pigeonholeCard.setOnClickListener {
             findNavController().navigate(
-                TipsFragmentDirections.actionTipsDestinationToRulesDestination(InstructionType.PIGEONHOLE)
+                TipsFragmentDirections.actionTipsDestinationToInstructionsDestination(InstructionType.PIGEONHOLE)
             )
         }
         return binding.root

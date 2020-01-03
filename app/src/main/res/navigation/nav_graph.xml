@@ -18,8 +18,8 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
         <action
-            android:id="@+id/action_title_to_rules"
-            app:destination="@id/rules_destination"
+            android:id="@+id/action_title_to_instructions"
+            app:destination="@id/instructions_destination"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_right"
@@ -63,9 +63,9 @@
         android:label="about_fragment"
         tools:layout="@layout/about_fragment" />
     <fragment
-        android:id="@+id/rules_destination"
+        android:id="@+id/instructions_destination"
         android:name="io.astefanich.shinro.ui.InstructionsListFragment"
-        android:label="rules_fragment"
+        android:label="instructions_fragment"
         tools:layout="@layout/instructions_list_fragment">
         <argument
             android:name="instructionType"
@@ -77,8 +77,8 @@
         android:label="tips_fragment"
         tools:layout="@layout/tips_fragment">
         <action
-            android:id="@+id/action_tips_destination_to_rules_destination"
-            app:destination="@id/rules_destination" />
+            android:id="@+id/action_tips_destination_to_instructions_destination"
+            app:destination="@id/instructions_destination" />
     </fragment>
     <fragment
         android:id="@+id/check_back_destination"

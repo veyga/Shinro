@@ -35,7 +35,7 @@ class TitleFragment : Fragment() {
             )
         }
         binding.howToPlayButton.setOnClickListener {
-            findNavController().navigate(TitleFragmentDirections.actionTitleToRules(InstructionType.GENERAL))
+            findNavController().navigate(TitleFragmentDirections.actionTitleToInstructions(InstructionType.GENERAL))
         }
         binding.aboutButton.setOnClickListener {
             findNavController().navigate(TitleFragmentDirections.actionTitleToAbout())
