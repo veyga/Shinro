@@ -13,8 +13,8 @@ import io.astefanich.shinro.R
 import io.astefanich.shinro.databinding.InstructionsListFragmentBinding
 import io.astefanich.shinro.domain.Instruction
 import io.astefanich.shinro.domain.InstructionType
+import io.astefanich.shinro.util.InstructionRecyclerAdapter
 import javax.inject.Inject
-import javax.inject.Named
 
 /**
  * A simple [Fragment] subclass.
@@ -48,7 +48,8 @@ class InstructionsListFragment : Fragment() {
 
         val instructionsListArgs by navArgs<InstructionsListFragmentArgs>()
         instructionType = instructionsListArgs.instructionType
-        val recyclerAdapter = InstructionRecyclerAdapter(items)
+        val recyclerAdapter =
+            InstructionRecyclerAdapter(items)
         binding.instructionsRecyclerView.apply {
             adapter = recyclerAdapter
         }

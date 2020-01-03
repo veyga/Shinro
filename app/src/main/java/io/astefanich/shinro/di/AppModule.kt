@@ -60,24 +60,17 @@ class AppModule {
 
     @Singleton
     @Provides
-    internal fun providesBoardDao(database: AppDatabase): BoardDao {
-        Timber.i("providing boardDao")
-        return database.boardDao()
-    }
+    internal fun providesBoardDao(database: AppDatabase): BoardDao = database.boardDao()
 
     @Singleton
 //    @Provides
-    internal fun providesFakeBoardRepository(boards: Array<Board>): BoardRepository {
-        Timber.i("fake repo provided")
-        return FakeBoardRepository(boards)
-    }
+    internal fun providesFakeBoardRepository(boards: Array<Board>): BoardRepository =
+        FakeBoardRepository(boards)
 
     @Singleton
     @Provides
-    internal fun providesBoardRepositoryImpl(dao: BoardDao): BoardRepository {
-        Timber.i("real repo provided")
-        return BoardRepositoryImpl(dao)
-    }
+    internal fun providesBoardRepositoryImpl(dao: BoardDao): BoardRepository =
+        BoardRepositoryImpl(dao)
 
     @Singleton
     @Provides

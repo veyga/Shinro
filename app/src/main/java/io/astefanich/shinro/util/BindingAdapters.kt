@@ -6,7 +6,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import io.astefanich.shinro.R
-import io.astefanich.shinro.domain.Instruction
 import io.astefanich.shinro.domain.InstructionType
 
 @BindingAdapter("completionStatus")
@@ -62,39 +61,5 @@ fun bindGridSvg(view: ImageView, str: String) {
     view.setImageResource(res)
 }
 
-
-//@BindingAdapter("instructionImage")
-//fun bindInstructionImage(view: ImageView, instruction: Instruction) {
-//
-//
-//    fun bindGeneral(step: Int): Int = when (step) {
-//        1 -> R.drawable.ic_general_01
-//        else -> R.drawable.ic_general_02
-//    }
-//
-//    fun bindBlocker(step: Int): Int = when (step) {
-//        1 -> R.drawable.ic_general_01
-//        else -> R.drawable.ic_general_02
-//    }
-//
-//    fun bindPigeonhole(step: Int): Int = when (step) {
-//        1 -> R.drawable.ic_general_01
-//        else -> R.drawable.ic_general_02
-//    }
-//
-//    fun bindPathfinder(step: Int): Int = when (step) {
-//        1 -> R.drawable.ic_general_01
-//        else -> R.drawable.ic_general_02
-//    }
-//
-//    val resource = when (instruction.type) {
-//        InstructionType.PIGEONHOLE -> bindPigeonhole(instruction.stepNum)
-//        InstructionType.PATHFINDER -> bindPathfinder(instruction.stepNum)
-//        InstructionType.BLOCKER -> bindBlocker(instruction.stepNum)
-//        else -> bindGeneral(instruction.stepNum)
-//    }
-//
-//    view.setImageResource(resource)
-//}
 
 

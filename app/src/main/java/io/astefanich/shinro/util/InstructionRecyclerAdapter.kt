@@ -1,4 +1,4 @@
-package io.astefanich.shinro.ui
+package io.astefanich.shinro.util
 
 import android.view.LayoutInflater
 import android.view.View
