@@ -56,5 +56,6 @@
             app:layout_constraintTop_toBottomOf="@+id/how_to_play_button"
             tools:text="@string/about_title" />
 
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

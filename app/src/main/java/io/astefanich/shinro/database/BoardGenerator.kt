@@ -138,6 +138,266 @@ object BoardGenerator {
             0 X X X X X X H X
             0 X X F X X X X X
             2 X M X X C M X X
+        """.trimIndent(),
+        """
+            11
+            EASY
+            0 1 3 1 2 0 0 3 2
+            3 M X M M X D G X
+            0 X E D E X F X X
+            3 C M X X X X M M
+            1 X X X X X X M X
+            0 X A X F X X X X
+            2 X M X X X H M X
+            1 X M B X G X X X
+            2 B X C M X X H M
+        """.trimIndent(),
+        """
+            12
+            EASY
+            0 3 2 1 2 2 1 0 1
+            2 M M X X F F X X
+            1 X X X X X M X X
+            3 C M X M M X H X
+            1 D X X X X X X M
+            1 M X X A X X X X
+            1 X D X X M X X X
+            2 X X M M B A X X
+            1 M X B A A X X X
+        """.trimIndent(),
+        """
+            13
+            EASY
+            0 0 3 1 1 2 1 1 3
+            1 D X X X X X X M
+            1 X X X E X X X M
+            2 X M X G M X X X
+            3 X M M X M F X G
+            3 X M B X C M M G
+            1 X X X M X X H X
+            0 X X X X X X X H
+            1 X X C X X X X M
+        """.trimIndent(),
+        """
+            14
+            EASY
+            0 1 0 4 1 2 2 1 1
+            2 X C M F X M X G
+            1 C X M H F X X X
+            3 M X G M M A X X
+            1 X X X X X M X X
+            1 X X M X X F X X
+            3 A B E X M C M M
+            0 A X X X X X X X
+            1 C X M A X X X X
+        """.trimIndent(),
+        """
+            15
+            EASY
+            0 1 1 1 1 5 1 0 2
+            1 E X E D M X X X
+            0 E X X B X X X X
+            2 X M X M D X F G
+            3 X X X X M M X M
+            3 X X M C M F X M
+            1 C B X X M X H X
+            1 M X X B X H X X
+            1 X H X X M X X X
+        """.trimIndent(),
+        """
+            16
+            EASY
+            0 3 1 1 1 4 1 1 0
+            0 D X D X X X X F
+            1 X X E X M X X F
+            2 M M X X A F X X
+            1 E X D M X X X X
+            2 X X E H M X M X
+            4 M X M A M M G X
+            1 M X X B X X X X
+            1 B X X X M X X X
+        """.trimIndent(),
+        """
+            17
+            EASY
+            0 2 1 3 1 1 1 0 3
+            2 M X D X X X X M
+            1 D M X X X X X X
+            2 B C M M F X G X
+            1 X X E X X M X E
+            2 X X M X X H G M
+            1 A C X B M X G X
+            0 X X X X X X X X
+            3 M X M X X X X M
+        """.trimIndent(),
+        """
+           18
+           EASY
+           0 1 2 1 2 0 2 1 3
+           0 X E X X X X X X
+           2 X M D M X X G X
+           1 C C H E X X X M
+           3 M B X M X M X X
+           3 C M B X F B M M
+           0 X X X X X X X X
+           2 C A M C X X X M
+           1 X X X X X M X X
+        """.trimIndent(),
+        """
+            19
+            EASY
+            0 3 0 1 2 1 2 0 3
+            1 X C X E X X X M
+            2 X X D M C M X X 
+            2 M D X M X X X X
+            0 X X X X B X F X
+            0 X B X X D X H X
+            1 X X X X M X X X
+            4 M X M G C M X M
+            2 M X X X X X H M
+        """.trimIndent(),
+        """
+            20
+            EASY
+            0 1 2 0 1 2 0 2 4
+            2 X M G E E D M X
+            1 M X X D X X X X
+            1 X X X H X X X M
+            0 X X H D X X X X
+            2 C X B M M X X G
+            2 X E X X M X E M
+            1 X X X B X X X M
+            3 A M X A X X M M
+        """.trimIndent(),
+        """
+            21
+            EASY
+            0 0 3 1 2 2 1 0 3
+            2 X M X G X X F M
+            0 X X D X E X X X
+            2 X C M M X B X F
+            3 X M B M M X X G
+            3 X X X X M M X M
+            1 C E X X X X H M
+            0 X X B A X X X X
+            1 X M X X A X X X
+        """.trimIndent(),
+        """
+            22
+            EASY
+            0 2 1 3 0 1 1 1 3
+            1 D E X X X F X M
+            2 X M X G X M X X
+            0 E X X X X X X X
+            1 X X M B X X X X
+            2 M X X X X X M X
+            1 X H X X H B X M
+            2 X X M X X X X M
+            3 M G M X M X X G
+        """.trimIndent(),
+        """
+            23
+            EASY
+            0 0 1 1 3 4 1 1 1
+            1 X X X X M E D X
+            1 X X X X D X X M
+            2 X X D X M M X X
+            1 X B D X M X X X
+            4 X M M M M H X X
+            1 X X X M X X X H
+            1 X X X M X D X X
+            1 C X X X X X M X
+        """.trimIndent(),
+        """
+            24
+            EASY
+            0 1 1 1 3 1 1 4 0
+            1 X X X M X X X X
+            4 M X X M X M M X
+            0 X X X X X X X X
+            1 B X H E X X M X
+            1 D X F X E X M F
+            1 X M X X X X X X
+            3 X X M M X A M X
+            1 X X B X M G X X
+        """.trimIndent(),
+        """
+            25
+            EASY
+            0 3 0 1 2 2 0 1 3
+            3 M X G M X X M F
+            2 X C M X X X X M
+            0 X D X H X X F X
+            0 E X X X X X X X
+            2 X X X C M X X M
+            1 X B X X M X X G
+            3 M X X M X X X M
+            1 M X X A X X X X
+        """.trimIndent(),
+        """
+            26
+            EASY
+            0 0 3 2 1 0 2 2 2
+            1 X X M X X E X X
+            2 C C M X F M X X
+            2 X D A M X D F M
+            2 X M X X X G M X
+            2 X M X X X G M X
+            1 X B H X X B H M
+            1 X X X B H M X X
+            1 X M X X X X X X
+        """.trimIndent(),
+        """
+            27
+            EASY
+            0 3 2 1 2 2 0 1 1
+            0 E X F X X X X X
+            2 X X M G M X X X
+            2 M B X E X X X M
+            1 E M X X X X H X
+            3 M D X X M X M X
+            3 M M X M G X X X
+            1 X X X M B X X X
+            0 X X X X X H X H
+        """.trimIndent(),
+        """
+            28
+            EASY
+            0 0 1 1 3 2 0 2 3
+            1 D X F M F X G X
+            2 C M X E M X X X
+            2 X X M D X X M E
+            1 X X X X X X X M
+            2 X B X M X X X M
+            2 X X X B X B M M
+            2 X X X M M X X A
+            0 X X B X X X X X
+        """.trimIndent(),
+        """
+            29
+            EASY
+            0 1 1 1 3 1 4 1 0
+            3 X M D X X M M X
+            1 B X X M X X X X
+            3 M X B M X M X X
+            2 D X M X X M G X
+            0 X X X X X A X X 
+            1 X B X M G X X X
+            0 X X X X X H X X 
+            2 X X A X M M X X 
+        """.trimIndent(),
+        """
+            30
+            EASY
+            0 1 1 2 2 2 2 1 1
+            1 E C X X X M X X
+            1 X X X M X A X X
+            1 D C F X M X X X
+            1 X X E B D X X M
+            2 M X X D X M X X
+            4 X M M M M X X X
+            0 X X X X X D X X
+            2 X X M B X C M X
         """.trimIndent()
 
     )
@@ -163,9 +423,10 @@ object BoardGenerator {
 
 
     fun getBoards(): Array<Board?> {
-        val boards = arrayOfNulls<Board>(10)
+        val length = 30
+        val boards = arrayOfNulls<Board>(length)
 
-        for (i in stringz.indices)
+        for (i in 0 until length)
             boards[i] = boardFromString(stringz[i])
 
         return boards

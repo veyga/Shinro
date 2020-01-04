@@ -41,6 +41,7 @@ class TitleFragment : Fragment() {
             findNavController().navigate(TitleFragmentDirections.actionTitleToAbout())
         }
 
+
         return binding.root
     }
 
