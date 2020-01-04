@@ -593,6 +593,71 @@ object BoardGenerator {
                     1 X B X X M X X X
                     1 A X X X X H X M
                     2 X X X X M M X G
+            """.trimIndent(),
+        """
+                    46
+                    HARD
+                    0 1 1 1 4 2 0 2 1
+                    3 D D M M E X M G
+                    0 X D D X D D F X
+                    2 X X X M G X M X
+                    2 X M X E M X X X
+                    4 M X H M M X X M
+                    0 X X X H X X X X
+                    0 X B X X X X H X
+                    1 X X X M X X H X
+            """.trimIndent(),
+        """
+                    47
+                    HARD
+                    0 2 2 1 0 1 1 1 4
+                    3 M E X F M G X M
+                    0 X X X X X X X X
+                    1 E M D X F F X X
+                    1 X B X X X M X E
+                    1 C X X X D X X M
+                    2 X X M B H X X M
+                    1 M X X X X X X X
+                    3 B M X X G B M M
+            """.trimIndent(),
+        """
+                    48
+                    HARD
+                    0 1 1 3 3 0 2 1 1
+                    0 E X D X D X X F
+                    1 X X X X F M X X
+                    2 X M X X X G C M
+                    2 X D M X X M G X
+                    1 X A X M X X X X
+                    3 M X C M X X M X
+                    2 X X M M G X X X
+                    1 X X M X X X X A
+            """.trimIndent(),
+        """
+                    49
+                    HARD
+                    0 4 2 3 1 1 0 1 0
+                    1 X X M X X X E X
+                    3 M C M G F X M X
+                    2 M M X X X G F X
+                    1 X X X M X X X X
+                    1 X M X X X H H X
+                    2 M B H X M X H X
+                    1 C X M B X X H X
+                    1 M A X X X X A X
+            """.trimIndent(),
+        """
+                    50
+                    HARD
+                    0 3 2 1 1 0 2 1 2
+                    1 X X M X X X G E
+                    2 E M X X X X X M
+                    2 X X X X X M B M
+                    1 M X X X X H X X
+                    1 X X X X H M X X
+                    0 X X X X X X X X
+                    3 M M X X X A M A
+                    2 M C X M H B X A 
             """.trimIndent()
 
     )
@@ -618,7 +683,7 @@ object BoardGenerator {
 
 
     fun getBoards(): Array<Board?> {
-        val length = 45
+        val length = 50
         val boards = arrayOfNulls<Board>(length)
 
         for (i in 0 until length)
