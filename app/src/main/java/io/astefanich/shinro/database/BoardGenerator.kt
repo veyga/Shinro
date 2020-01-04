@@ -398,7 +398,137 @@ object BoardGenerator {
             4 X M M M M X X X
             0 X X X X X D X X
             2 X X M B X C M X
-        """.trimIndent()
+        """.trimIndent(),
+        """
+            31
+            MEDIUM
+            0 1 3 2 2 1 0 3 0
+            1 X X X M D X X X
+            1 X X F C X X M F
+            3 X M M X X X M X
+            2 M D M A X X X X
+            0 X X X F X X X H
+            1 X M B X X X X X
+            3 X M X X M X M X
+            1 X B H M A B X G
+        """.trimIndent(),
+        """
+            32
+            MEDIUM
+            0 3 0 4 1 0 1 1 2
+            2 M X M X X X X F
+            1 M X X X X X X X
+            1 C H X X H X X M
+            2 X X F M D X X M
+            1 X X M X X B X X 
+            3 M X M D X X M G
+            1 X X M X X X X X
+            1 B C X X X M X H
+        """.trimIndent(),
+        """
+            33
+            MEDIUM
+            0 3 2 3 0 0 3 0 1
+            2 M M F X X X F X
+            1 A X E X X X X M
+            2 M C X G X M X X
+            1 X A M X X X X X
+            0 X X F X X X X X
+            3 X M M X X M X X
+            1 M X B X X H X X
+            2 A X M G X M X X
+        """.trimIndent(),
+        """
+            34
+            MEDIUM
+            0 1 0 1 3 2 2 0 3
+            1 X X X X M X F X
+            0 X X X X X X X X
+            1 X X X X F X X M
+            4 M X M M G X X M
+            3 X X C X M M F M
+            1 X X X M X E X X
+            1 X X X H H M X H
+            1 X B X M X X H X
+        """.trimIndent(),
+        """
+            35
+            MEDIUM
+            0 1 1 0 3 5 1 0 1
+            1 X D X X M X X X
+            1 X X X X M X X G
+            1 X X B D M H X F
+            1 X D X M X X X X
+            2 X B X E M M X X
+            1 X X D M X H X X
+            1 X X X X X C X M
+            4 M M X M M X X X
+        """.trimIndent(),
+        """
+            36
+            MEDIUM
+            0 2 1 1 2 3 0 2 1
+            0 X X X X X X X F
+            1 X X X X X X M X
+            1 X X M X F D X X
+            0 X B D H X F A X
+            3 M X X G M X X M
+            2 X M X B M X X X
+            2 X X X M M X X X
+            3 M B X M C X M X
+        """.trimIndent(),
+        """
+            37
+            MEDIUM
+            0 2 2 1 0 2 3 0 2
+            1 D X X X X M X X
+            1 X M X D X X X X
+            2 M A X B X X X M
+            1 E X X X M X X E
+            0 A X X B E X X A
+            3 M C X D F M G M
+            1 X M X X X X X X
+            3 X C M G M M X X
+        """.trimIndent(),
+        """
+            38
+            MEDIUM
+            0 2 2 1 0 0 2 3 2
+            0 X X F X X X X X
+            3 M M C X X C X M
+            1 X A X X X M X X
+            1 D X X X X B M X
+            2 C M X X X D M X
+            2 C X M X X M E X
+            2 M X G X X X X M
+            1 X X X B X X M X
+        """.trimIndent(),
+            """
+                39
+                MEDIUM
+                0 2 2 2 1 2 2 0 1
+                1 X X X C X M X X
+                2 X M M E X X X X
+                1 X X X X M A X X
+                2 M X B X M X X X
+                0 X X X X X X X X
+                2 B M A M X E G H
+                1 X B X X X M H X
+                3 M X M X X H X M
+            """.trimIndent(),
+            """
+                    40
+                    MEDIUM
+                    0 1 0 6 1 0 2 1 1
+                    2 X D X X X M M X
+                    2 M X D M F X H X
+                    1 X X M X X G X F
+                    1 D B M X D X X X
+                    3 D X M X X M H M
+                    1 B X M X X X X G
+                    1 X D M X X H X X
+                    1 X X M X X X X X
+            """.trimIndent()
 
     )
 
@@ -423,7 +553,7 @@ object BoardGenerator {
 
 
     fun getBoards(): Array<Board?> {
-        val length = 30
+        val length = 40
         val boards = arrayOfNulls<Board>(length)
 
         for (i in 0 until length)
