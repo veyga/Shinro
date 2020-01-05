@@ -49,7 +49,6 @@ class GameFragment : Fragment() {
             .getGameComponentBuilder()
             .gameModule(GameModule(boardId))
             .build()
-
         gameComponent.inject(this)
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(GameViewModel::class.java)

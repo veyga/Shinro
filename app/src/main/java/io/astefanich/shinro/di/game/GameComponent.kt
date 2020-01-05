@@ -1,11 +1,8 @@
 package io.astefanich.shinro.di.game
 
-import dagger.BindsInstance
-import dagger.Component
 import dagger.Subcomponent
 import dagger.android.AndroidInjector
 import io.astefanich.shinro.di.GameFragmentScope
-import io.astefanich.shinro.di.ViewModelModule
 import io.astefanich.shinro.ui.GameFragment
 
 /*
@@ -24,11 +21,4 @@ interface GameComponent : AndroidInjector<GameFragment> {
 
         fun build(): GameComponent
     }
-
-//    @Subcomponent.Factory
-//    interface Factory {
-//        fun create(@BindsInstance boardId: Int): GameComponent
-//    }
-//
-//    fun inject(fragment: GameFragment)
 }

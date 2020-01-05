@@ -19,7 +19,7 @@ import io.astefanich.shinro.di.game.GameComponent
 )
 interface AppComponent : AndroidInjector<ShinroApplication> {
 
-//    fun getGameComponent(gameModule: GameModule): GameComponent
+    fun getGameComponentBuilder(): GameComponent.Builder
 
     @Component.Builder
     interface Builder {
@@ -29,10 +29,5 @@ interface AppComponent : AndroidInjector<ShinroApplication> {
 
         fun build(): AppComponent
     }
-
-
-    fun getGameComponentBuilder(): GameComponent.Builder
-
-
 }
 

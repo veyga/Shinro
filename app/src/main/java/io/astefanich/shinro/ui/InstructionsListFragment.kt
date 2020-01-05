@@ -42,7 +42,6 @@ class InstructionsListFragment : Fragment() {
             .builder()
             .instructionsModule(InstructionsModule(instructionType))
             .build()
-
         component.inject(this)
 
         val recyclerAdapter = InstructionRecyclerAdapter(items)
