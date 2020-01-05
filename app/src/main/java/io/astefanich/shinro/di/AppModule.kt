@@ -9,18 +9,14 @@ import dagger.Provides
 import io.astefanich.shinro.R
 import io.astefanich.shinro.database.AppDatabase
 import io.astefanich.shinro.database.BoardDao
-import io.astefanich.shinro.di.game.GameComponent
-import io.astefanich.shinro.di.game.GameModule
 import io.astefanich.shinro.domain.DatabaseName
 
-@Module //(subcomponents = [GameModule::class])
+@Module
 class AppModule {
 
     @AppScope
     @Provides
-    internal fun providesContext(application: Application): Context {
-        return application.applicationContext
-    }
+    internal fun providesContext(application: Application): Context = application.applicationContext
 
     @AppScope
     @Provides
