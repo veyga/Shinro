@@ -28,7 +28,6 @@ data class Cell(var current: String, val actual: String = current)
 
 data class Grid(val cells: Array<Array<Cell>>)
 
-data class Move(val row: Int, val column: Int, val oldVal: String, val newVal: String)
 
 data class Instruction(val drawable: Int, val text: String)
 
