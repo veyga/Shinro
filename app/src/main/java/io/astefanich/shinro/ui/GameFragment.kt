@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.NavigationUI
 import dagger.android.support.AndroidSupportInjection
+import dagger.android.support.DaggerApplication
 import io.astefanich.shinro.R
 import io.astefanich.shinro.databinding.GameFragmentBinding
 import io.astefanich.shinro.di.DaggerAppComponent
@@ -34,8 +35,6 @@ class GameFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val component =
-        AndroidSupportInjection.inject(this)
 
         binding = DataBindingUtil.inflate(inflater, R.layout.game_fragment, container, false)
 

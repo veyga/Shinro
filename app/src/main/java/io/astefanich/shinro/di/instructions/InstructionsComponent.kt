@@ -7,7 +7,7 @@ import io.astefanich.shinro.ui.InstructionsListFragment
 
 @InstructionsFragmentScope
 @Component(modules = [InstructionsModule::class])
-interface InstructionsComponent {
+interface InstructionsComponent {  //:AndroidInjector<InstructionsListFragment>
 
     fun getInstructions(): List<Instruction>
 

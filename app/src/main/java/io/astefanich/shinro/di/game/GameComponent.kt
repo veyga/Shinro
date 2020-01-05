@@ -6,6 +6,9 @@ import io.astefanich.shinro.di.GameFragmentScope
 import io.astefanich.shinro.di.ViewModelModule
 import io.astefanich.shinro.ui.GameFragment
 
+/*
+ * Subcomponent of AppComponent so it can access the repository and the ViewModelModule
+ */
 @GameFragmentScope
 @Subcomponent(modules=[GameModule::class])
 interface GameComponent {
