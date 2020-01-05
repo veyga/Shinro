@@ -28,7 +28,7 @@ class AppModule {
     }
 
     @AppScope
-//    @Provides
+    @Provides
     internal fun providesDatabaseFromFile(
         application: Application,
         databaseName: DatabaseName
@@ -52,7 +52,7 @@ class AppModule {
     }
 
     @AppScope
-    @Provides
+//    @Provides
     internal fun providesAppDatabase(
         application: Application,
         databaseName: DatabaseName,
