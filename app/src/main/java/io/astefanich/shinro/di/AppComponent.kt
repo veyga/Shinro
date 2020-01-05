@@ -6,6 +6,8 @@ import dagger.Component
 import dagger.android.AndroidInjectionModule
 import dagger.android.AndroidInjector
 import io.astefanich.shinro.ShinroApplication
+import io.astefanich.shinro.di.game.GameComponent
+import io.astefanich.shinro.di.game.GameModule
 
 @AppScope
 @Component(
@@ -17,6 +19,8 @@ import io.astefanich.shinro.ShinroApplication
     ]
 )
 interface AppComponent : AndroidInjector<ShinroApplication> {
+
+    fun getGameComponent(gameModule: GameModule): GameComponent
 
     @Component.Builder
     interface Builder {
