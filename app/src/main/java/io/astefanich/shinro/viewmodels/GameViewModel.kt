@@ -13,11 +13,9 @@ import javax.inject.Inject
 /**
  * Core game logic class
  */
-class GameViewModel @Inject constructor() :
+class GameViewModel @Inject constructor(val repo: BoardRepository, val context: Context) :
     ViewModel() {
 
-    lateinit var repo: BoardRepository
-    lateinit var context: Context
 
     var boardId = 0
     val board = MutableLiveData<Board>()
