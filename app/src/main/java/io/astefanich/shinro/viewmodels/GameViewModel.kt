@@ -13,7 +13,9 @@ import javax.inject.Inject
 /**
  * Core game logic class
  */
-class GameViewModel @Inject constructor(val repo: BoardRepository, val context: Context) :
+class GameViewModel @Inject constructor(val repo: BoardRepository,
+                                        val boardNum: Int,
+                                        val context: Context) :
     ViewModel() {
 
 

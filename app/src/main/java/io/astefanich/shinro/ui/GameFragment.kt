@@ -16,6 +16,7 @@ import androidx.navigation.ui.NavigationUI
 import dagger.android.support.AndroidSupportInjection
 import io.astefanich.shinro.R
 import io.astefanich.shinro.databinding.GameFragmentBinding
+import io.astefanich.shinro.di.DaggerAppComponent
 import io.astefanich.shinro.viewmodels.GameViewModel
 import io.astefanich.shinro.viewmodels.ViewModelFactory
 import javax.inject.Inject
@@ -33,6 +34,7 @@ class GameFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
+        val component =
         AndroidSupportInjection.inject(this)
 
         binding = DataBindingUtil.inflate(inflater, R.layout.game_fragment, container, false)

@@ -5,7 +5,7 @@ import dagger.Provides
 import io.astefanich.shinro.di.GameFragmentScope
 
 @Module
-class GameModule (private val boardId: Int){
+class GameModule(private val boardId: Int) {
 
     @GameFragmentScope
     @Provides

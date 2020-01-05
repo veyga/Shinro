@@ -12,8 +12,8 @@ abstract class FragmentInjectorsModule {
     @ContributesAndroidInjector
     abstract fun providesTitleFragment(): TitleFragment
 
-    @ContributesAndroidInjector
-    abstract fun providesGameFragment(): GameFragment
+//    @ContributesAndroidInjector
+//    abstract fun providesGameFragment(): GameFragment
 
     @ContributesAndroidInjector
     abstract fun providesAboutFragment(): AboutFragment
