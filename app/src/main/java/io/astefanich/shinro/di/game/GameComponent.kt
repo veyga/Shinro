@@ -1,5 +1,6 @@
 package io.astefanich.shinro.di.game
 
+import dagger.BindsInstance
 import dagger.Component
 import dagger.Subcomponent
 import io.astefanich.shinro.di.GameFragmentScope
@@ -16,4 +17,19 @@ interface GameComponent {
     fun getBoardId(): Int
 
     fun inject(gameFragment: GameFragment)
+
+    @Subcomponent.Builder
+    interface Builder {
+
+        fun gameModule(module: GameModule): Builder
+
+        fun build(): GameComponent
+    }
+
+//    @Subcomponent.Factory
+//    interface Factory {
+//        fun create(@BindsInstance boardId: Int): GameComponent
+//    }
+//
+//    fun inject(fragment: GameFragment)
 }

@@ -9,9 +9,11 @@ import dagger.Provides
 import io.astefanich.shinro.R
 import io.astefanich.shinro.database.AppDatabase
 import io.astefanich.shinro.database.BoardDao
+import io.astefanich.shinro.di.game.GameComponent
+import io.astefanich.shinro.di.game.GameModule
 import io.astefanich.shinro.domain.DatabaseName
 
-@Module
+@Module //(subcomponents = [GameModule::class])
 class AppModule {
 
     @AppScope

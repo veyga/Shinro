@@ -16,9 +16,11 @@ import androidx.navigation.ui.NavigationUI
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.DaggerApplication
 import io.astefanich.shinro.R
+import io.astefanich.shinro.ShinroApplication
 import io.astefanich.shinro.databinding.GameFragmentBinding
 import io.astefanich.shinro.di.DaggerAppComponent
 import io.astefanich.shinro.di.game.GameComponent
+import io.astefanich.shinro.di.game.GameModule
 import io.astefanich.shinro.viewmodels.GameViewModel
 import io.astefanich.shinro.viewmodels.ViewModelFactory
 import javax.inject.Inject
@@ -31,7 +33,7 @@ class GameFragment : Fragment() {
     private lateinit var viewModel: GameViewModel
     private lateinit var binding: GameFragmentBinding
 
-    private lateinit var component: GameComponent
+    private lateinit var gameComponent: GameComponent
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,9 +42,14 @@ class GameFragment : Fragment() {
 
 
         binding = DataBindingUtil.inflate(inflater, R.layout.game_fragment, container, false)
-
         val gameFragmentArgs by navArgs<GameFragmentArgs>()
         val boardId = gameFragmentArgs.boardId
+
+        gameComponent = DaggerAppComponent.builder().build().getGameComponentBuilder()
+            .gameModule(GameModule(boardId)).build()
+
+        gameComponent.inject(this)
+
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(GameViewModel::class.java)
         viewModel.boardId = boardId
         viewModel.load()
