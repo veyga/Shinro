@@ -31,6 +31,7 @@ interface AppComponent : AndroidInjector<ShinroApplication> {
         fun build(): AppComponent
     }
 
+
     fun getGameComponentBuilder(): GameComponent.Builder
 
 

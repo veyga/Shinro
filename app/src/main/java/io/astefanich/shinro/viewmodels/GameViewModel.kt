@@ -7,37 +7,32 @@ import androidx.lifecycle.ViewModel
 import io.astefanich.shinro.domain.Board
 import io.astefanich.shinro.domain.Move
 import io.astefanich.shinro.repository.BoardRepository
+import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 
 /**
  * Core game logic class
  */
-class GameViewModel @Inject constructor(val repo: BoardRepository,
-                                        val boardNum: Int,
-                                        val context: Context) :
-    ViewModel() {
+class GameViewModel @Inject constructor(
+    val repo: BoardRepository,
+    var boardId: Int,
+    val context: Context
+) : ViewModel() {
 
 
-    var boardId = 0
     val board = MutableLiveData<Board>()
     val undoStackActive = MutableLiveData<Boolean>()
-    val onBoardOne = MutableLiveData<Boolean>()
-    val onLastBoard = MutableLiveData<Boolean>()
-    private lateinit var _board: Board
+    private val _board: Board
     private var undoStack = Stack<Move>()
 
-    fun load() {
-        var tmp: Board? = if (boardId == 0) repo.getLowestIncompleteBoard() else repo.getBoardById(boardId)
-        if (tmp == null) {
-            onLastBoard.value = true
-            tmp = repo.getBoardById(1)
-        }
-        _board = tmp as Board
+    init {
+        Timber.i("view model created with boardId $boardId")
+        //boardId == 0 -> user is coming from title fragment
+        _board = if (boardId == 0) repo.getLowestIncompleteBoard() else repo.getBoardById(boardId)
         boardId = _board.boardId
         board.value = _board
         undoStackActive.value = false
-        onBoardOne.value = _board.boardId == 1
     }
 
 

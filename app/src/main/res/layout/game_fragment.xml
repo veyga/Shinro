@@ -29,6 +29,7 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="@string/board_num_fmt" />
 
+<!--        app:hideIfFalse="@{!vm.onBoardOne}"-->
         <ImageView
             android:id="@+id/back_arrow"
             android:layout_width="wrap_content"
@@ -36,7 +37,6 @@
             android:layout_marginTop="80dp"
             android:layout_marginEnd="24dp"
             app:layout_constraintEnd_toStartOf="@+id/board_number"
-            app:hideIfFalse="@{!vm.onBoardOne}"
             app:layout_constraintHorizontal_bias="0.866"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

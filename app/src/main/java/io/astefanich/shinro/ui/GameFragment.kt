@@ -7,16 +7,12 @@ import android.os.Bundle
 import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.NavigationUI
-import dagger.android.support.AndroidSupportInjection
-import dagger.android.support.DaggerApplication
 import io.astefanich.shinro.R
-import io.astefanich.shinro.ShinroApplication
 import io.astefanich.shinro.databinding.GameFragmentBinding
 import io.astefanich.shinro.di.DaggerAppComponent
 import io.astefanich.shinro.di.game.GameComponent
@@ -32,7 +28,6 @@ class GameFragment : Fragment() {
     lateinit var viewModelFactory: ViewModelFactory
     private lateinit var viewModel: GameViewModel
     private lateinit var binding: GameFragmentBinding
-
     private lateinit var gameComponent: GameComponent
 
     override fun onCreateView(
@@ -40,19 +35,24 @@ class GameFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-
         binding = DataBindingUtil.inflate(inflater, R.layout.game_fragment, container, false)
         val gameFragmentArgs by navArgs<GameFragmentArgs>()
-        val boardId = gameFragmentArgs.boardId
+        var boardId = gameFragmentArgs.boardId
 
-        gameComponent = DaggerAppComponent.builder().build().getGameComponentBuilder()
-            .gameModule(GameModule(boardId)).build()
+        if (boardId > 5)
+            findNavController().navigate(GameFragmentDirections.actionGameToCheckBack())
+
+        gameComponent = DaggerAppComponent
+            .builder()
+            .application(activity!!.application)
+            .build()
+            .getGameComponentBuilder()
+            .gameModule(GameModule(boardId))
+            .build()
 
         gameComponent.inject(this)
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(GameViewModel::class.java)
-        viewModel.boardId = boardId
-        viewModel.load()
 
         binding.nextArrow.setOnClickListener { view ->
             view.findNavController()
@@ -87,12 +87,9 @@ class GameFragment : Fragment() {
                 .show()
         }
 
+        if (viewModel.boardId == 1)
+            binding.backArrow.visibility = View.GONE
 
-        viewModel.onLastBoard.observe(this, Observer { onLastBoard ->
-            if (onLastBoard) {
-                findNavController().navigate(GameFragmentDirections.actionGameToCheckBack())
-            }
-        })
         binding.vm = viewModel
         binding.lifecycleOwner = this
         setHasOptionsMenu(true)

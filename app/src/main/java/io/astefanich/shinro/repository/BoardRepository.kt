@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class BoardRepository @Inject constructor(val boardDao: BoardDao) {
 
-    fun getBoardById(boardId: Int): Board? = boardDao.getBoardById(boardId)
+    fun getBoardById(boardId: Int): Board = boardDao.getBoardById(boardId)
 
     fun getLowestIncompleteBoard(): Board = boardDao.getLowestIncompleteBoard()
 
