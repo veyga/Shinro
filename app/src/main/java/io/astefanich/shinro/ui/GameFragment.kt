@@ -23,7 +23,6 @@ import javax.inject.Inject
 
 class GameFragment : Fragment() {
 
-
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
     private lateinit var viewModel: GameViewModel
@@ -39,7 +38,7 @@ class GameFragment : Fragment() {
         val gameFragmentArgs by navArgs<GameFragmentArgs>()
         var boardId = gameFragmentArgs.boardId
 
-        if (boardId > 5)
+        if (boardId > 50) //JFHCI (just effing hard code it)
             findNavController().navigate(GameFragmentDirections.actionGameToCheckBack())
 
         gameComponent = DaggerAppComponent
