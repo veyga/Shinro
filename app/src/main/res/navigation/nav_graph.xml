@@ -48,14 +48,6 @@
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out" />
-        <action
-            android:id="@+id/action_game_to_check_back"
-            app:destination="@id/check_back_destination"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:popUpTo="@+id/title_destination" />
     </fragment>
     <fragment
         android:id="@+id/about_destination"
@@ -80,9 +72,4 @@
             android:id="@+id/action_tips_destination_to_instructions_destination"
             app:destination="@id/instructions_destination" />
     </fragment>
-    <fragment
-        android:id="@+id/check_back_destination"
-        android:name="io.astefanich.shinro.ui.CheckBackFragment"
-        android:label="check_back_fragment"
-        tools:layout="@layout/check_back_fragment" />
 </navigation>

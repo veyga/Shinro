@@ -19,6 +19,7 @@ import io.astefanich.shinro.di.game.GameComponent
 import io.astefanich.shinro.di.game.GameModule
 import io.astefanich.shinro.viewmodels.GameViewModel
 import io.astefanich.shinro.viewmodels.ViewModelFactory
+import timber.log.Timber
 import javax.inject.Inject
 
 class GameFragment : Fragment() {
@@ -38,9 +39,6 @@ class GameFragment : Fragment() {
         val gameFragmentArgs by navArgs<GameFragmentArgs>()
         var boardId = gameFragmentArgs.boardId
 
-        if (boardId > 50) //JFHCI (just effing hard code it)
-            findNavController().navigate(GameFragmentDirections.actionGameToCheckBack())
-
         gameComponent = DaggerAppComponent
             .builder()
             .application(activity!!.application)
@@ -51,6 +49,9 @@ class GameFragment : Fragment() {
         gameComponent.inject(this)
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(GameViewModel::class.java)
+
+        if (viewModel.boardId == 50)
+            binding.nextArrow.visibility = View.GONE
 
         binding.nextArrow.setOnClickListener { view ->
             view.findNavController()

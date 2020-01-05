@@ -10,18 +10,35 @@
         android:layout_height="match_parent">
 
 
-        <TextView
-            android:id="@+id/title_text"
+        <ImageView
+            android:id="@+id/title_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/chango"
-            android:text="@string/app_name"
-            android:textSize="36sp"
+            android:layout_marginBottom="256dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="@string/app_name" />
+            app:srcCompat="@drawable/ic_launcher_shinro_background"
+            tools:srcCompat="@drawable/ic_launcher_shinro_background" />
+
+        <TextView
+            android:id="@+id/title_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="0dp"
+            android:layout_marginTop="24dp"
+            android:adjustViewBounds="true"
+            android:fontFamily="@font/chango"
+            android:padding="8dp"
+            android:scaleType="centerInside"
+            android:text="@string/app_name"
+            android:textAlignment="center"
+            android:textSize="36sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title_image"
+            tools:srcCompat="SHINRO" />
 
         <Button
             android:id="@+id/play_button"
