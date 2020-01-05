@@ -9,7 +9,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.NavigationUI
 import io.astefanich.shinro.R
@@ -19,7 +18,6 @@ import io.astefanich.shinro.di.game.GameComponent
 import io.astefanich.shinro.di.game.GameModule
 import io.astefanich.shinro.viewmodels.GameViewModel
 import io.astefanich.shinro.viewmodels.ViewModelFactory
-import timber.log.Timber
 import javax.inject.Inject
 
 class GameFragment : Fragment() {
