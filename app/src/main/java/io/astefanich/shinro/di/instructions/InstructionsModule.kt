@@ -26,7 +26,7 @@ class InstructionsModule(private val instructionType: InstructionType) {
         else -> generalInstructions()
     }
 
-    fun generalInstructions(): List<Instruction> = arrayListOf(
+    private fun generalInstructions(): List<Instruction> = arrayListOf(
         Instruction(
             R.drawable.ic_general_01, """
            A Shinro puzzle is an 8x8 grid. 
@@ -197,7 +197,7 @@ class InstructionsModule(private val instructionType: InstructionType) {
 
     )
 
-    fun pathfinderInstructions(): List<Instruction> = arrayListOf(
+    private fun pathfinderInstructions(): List<Instruction> = arrayListOf(
         Instruction(
             R.drawable.ic_general_01, """
             All of the simple moves
@@ -245,7 +245,7 @@ class InstructionsModule(private val instructionType: InstructionType) {
         )
     )
 
-    fun blockerInstructions(): List<Instruction> = arrayListOf(
+    private fun blockerInstructions(): List<Instruction> = arrayListOf(
         Instruction(
             R.drawable.ic_general_01, """
             Here is another puzzle with
@@ -311,7 +311,7 @@ class InstructionsModule(private val instructionType: InstructionType) {
 
     )
 
-    fun pigeonholeInstructions(): List<Instruction> = arrayListOf(
+    private fun pigeonholeInstructions(): List<Instruction> = arrayListOf(
         Instruction(
             R.drawable.ic_general_01, """
             This is the most advanced
