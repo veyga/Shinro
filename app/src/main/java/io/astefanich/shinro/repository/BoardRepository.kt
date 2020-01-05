@@ -8,10 +8,6 @@ import javax.inject.Inject
 
 class BoardRepository @Inject constructor(val boardDao: BoardDao, dummyBoard: Board) {
 
-//    init {
-//        Timber.i("repo inserting dummy board")
-//        boardDao.insertBoards(dummyBoard)
-//    }
 
     fun getBoardById(boardId: Int): Board? {
         Timber.i("repo getting boardId: $boardId")

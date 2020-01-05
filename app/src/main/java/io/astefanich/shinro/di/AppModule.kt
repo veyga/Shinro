@@ -52,7 +52,7 @@ class AppModule {
     }
 
     @AppScope
-//    @Provides
+    @Provides
     internal fun providesAppDatabase(
         application: Application,
         databaseName: DatabaseName,
@@ -82,7 +82,7 @@ class AppModule {
     }
 
     @AppScope
-    @Provides
+//    @Provides
     internal fun providesInMemoryAppDatabase(
         application: Application,
         boards: Array<Board>
