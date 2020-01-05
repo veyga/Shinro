@@ -28,7 +28,6 @@ class GameViewModel @Inject constructor(
     private var undoStack = Stack<Move>()
 
     init {
-        Timber.i("view model created with boardId $boardId")
         //boardId == 0 -> user is coming from title fragment
         _board = if (boardId == 0) repo.getLowestIncompleteBoard() else repo.getBoardById(boardId)
         boardId = _board.boardId

@@ -13,23 +13,23 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#FFFFFF">
+        android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/board_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="16dp"
             android:text="@{@string/board_num_fmt(vm.board.boardId)}"
             android:textAlignment="center"
             android:textSize="18sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="@string/board_num_fmt" />
 
-<!--        app:hideIfFalse="@{!vm.onBoardOne}"-->
+        <!--        app:hideIfFalse="@{!vm.onBoardOne}"-->
         <ImageView
             android:id="@+id/back_arrow"
             android:layout_width="wrap_content"
@@ -100,9 +100,9 @@
             android:drawableTop="@drawable/undo"
             android:onClick="@{() -> vm.onUndo()}"
             android:text="@string/undo"
+            app:hideIfFalse="@{vm.undoStackActive}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:hideIfFalse="@{vm.undoStackActive}"
             tools:text="@string/undo" />
 
 
