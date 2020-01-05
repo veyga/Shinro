@@ -18,6 +18,7 @@ import dagger.android.support.DaggerApplication
 import io.astefanich.shinro.R
 import io.astefanich.shinro.databinding.GameFragmentBinding
 import io.astefanich.shinro.di.DaggerAppComponent
+import io.astefanich.shinro.di.game.GameComponent
 import io.astefanich.shinro.viewmodels.GameViewModel
 import io.astefanich.shinro.viewmodels.ViewModelFactory
 import javax.inject.Inject
@@ -29,6 +30,8 @@ class GameFragment : Fragment() {
     lateinit var viewModelFactory: ViewModelFactory
     private lateinit var viewModel: GameViewModel
     private lateinit var binding: GameFragmentBinding
+
+    private lateinit var component: GameComponent
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
