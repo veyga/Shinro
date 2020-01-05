@@ -8,4 +8,8 @@ annotation class AppScope
 
 @Scope
 @Retention(AnnotationRetention.RUNTIME)
+annotation class GameFragmentScope
+
+@Scope
+@Retention(AnnotationRetention.RUNTIME)
 annotation class InstructionsFragmentScope
