@@ -13,3 +13,19 @@ Much of this app's content (puzzles, instructions) were ported from [PlayShinro]
 <i>Title Screen</i></br>
 ![Title Screen](.img/screenshots/title_fragment.jpg)
 </br>
+
+<i>How To Play</i></br>
+![How To Play](.img/screenshots/how_to_play.jpg)
+</br>
+
+<i>Incomplete Puzzle</i></br>
+![Incomplete Puzzle](.img/screenshots/puzzle_1_incomplete.jpg)
+</br>
+
+<i>Completed Puzzle</i></br>
+![Completed Puzzle](.img/screenshots/puzzle_1_complete.jpg)
+</br>
+
+<i>Advanced Tips</i></br>
+![Advanced Tips](.img/screenshots/advanced_tips.jpg)
+</br>
