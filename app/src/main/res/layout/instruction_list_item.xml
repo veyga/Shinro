@@ -37,7 +37,6 @@
             android:layout_marginTop="16dp"
             android:textAlignment="viewStart"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textColor="#000"
             android:textSize="10sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/instruction_image"
