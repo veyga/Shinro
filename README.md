@@ -8,3 +8,8 @@ A Shinro puzzle is an 8x8 grid. The goal is to locate 12 hidden marbles, based o
 This app currently contains 50 puzzles (30 easy, 15 medium, 5 hard). There are instructions on how to play (including a video), as well as advanced tips for some of the harder puzzles.
 
 Much of this app's content (puzzles, instructions) were ported from [PlayShinro](http://playshinro.com). Many thanks to David Oranchak for providing this content.
+
+## SCREENSHOTS
+<i>Main Screen</i></br>
+![main_screen][.img/screenshots/title_fragment.jpg]
+</br>
