@@ -10,6 +10,6 @@ This app currently contains 50 puzzles (30 easy, 15 medium, 5 hard). There are i
 Much of this app's content (puzzles, instructions) were ported from [PlayShinro](http://playshinro.com). Many thanks to David Oranchak for providing this content.
 
 ## SCREENSHOTS
-<i>Main Screen</i></br>
-![Title Screen](.img/screenshots/title_fragment.jpg)
+<i>Title Screen</i></br>
+![Title Screen](.img/screenshots/title_fragment.jpg?raw=true "Title Screen")
 </br>
