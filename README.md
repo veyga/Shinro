@@ -11,5 +11,5 @@ Much of this app's content (puzzles, instructions) were ported from [PlayShinro]
 
 ## SCREENSHOTS
 <i>Main Screen</i></br>
-![Title Screen][img/screenshots/title_fragment.jpg]
+![Title Screen](.img/screenshots/title_fragment.jpg)
 </br>
