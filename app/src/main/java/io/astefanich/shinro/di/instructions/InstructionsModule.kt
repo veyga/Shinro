@@ -199,7 +199,7 @@ class InstructionsModule(private val instructionType: InstructionType) {
 
     private fun pathfinderInstructions(): List<Instruction> = arrayListOf(
         Instruction(
-            R.drawable.ic_general_01, """
+            R.drawable.ic_pathfinder_1, """
             All of the simple moves
             have already been taken in
             this puzzle. Where can
@@ -207,14 +207,14 @@ class InstructionsModule(private val instructionType: InstructionType) {
         """.trimIndent()
         ),
         Instruction(
-            R.drawable.ic_general_02, """
+            R.drawable.ic_pathfinder_2, """
             This arrow is satisfied
             if there is at least one
             marble along path [a].
         """.trimIndent()
         ),
         Instruction(
-            R.drawable.ic_general_03, """
+            R.drawable.ic_pathfinder_3, """
             This arrow is satisfied
             if there is at least one
             marble found along path
@@ -227,7 +227,7 @@ class InstructionsModule(private val instructionType: InstructionType) {
         """.trimIndent()
         ),
         Instruction(
-            R.drawable.ic_general_04, """
+            R.drawable.ic_pathfinder_4, """
             These rows completely
             contain the two path. No
             squares in either path fall
@@ -247,7 +247,7 @@ class InstructionsModule(private val instructionType: InstructionType) {
 
     private fun blockerInstructions(): List<Instruction> = arrayListOf(
         Instruction(
-            R.drawable.ic_general_01, """
+            R.drawable.ic_blocker_1, """
             Here is another puzzle with
             all of the simple moves
             already taken. Can you
@@ -255,7 +255,7 @@ class InstructionsModule(private val instructionType: InstructionType) {
         """.trimIndent()
         ),
         Instruction(
-            R.drawable.ic_general_02, """
+            R.drawable.ic_blocker_2, """
             This arrow is satisfied
             by a marble in [a] or [b].
             If we tried to place a
@@ -274,13 +274,13 @@ class InstructionsModule(private val instructionType: InstructionType) {
         """.trimIndent()
         ),
         Instruction(
-            R.drawable.ic_general_03, """
+            R.drawable.ic_blocker_3, """
            Thus, we can eliminate [c]
             as a possibility.
         """.trimIndent()
         ),
         Instruction(
-            R.drawable.ic_general_04, """
+            R.drawable.ic_blocker_4, """
             Here's another example using
             the same puzzle.
             This arrow is satisfied by
@@ -303,7 +303,7 @@ class InstructionsModule(private val instructionType: InstructionType) {
         """.trimIndent()
         ),
         Instruction(
-            R.drawable.ic_general_05, """
+            R.drawable.ic_blocker_5, """
             Thus, we can eliminate [c]
             as a possibility.
         """.trimIndent()
@@ -313,7 +313,7 @@ class InstructionsModule(private val instructionType: InstructionType) {
 
     private fun pigeonholeInstructions(): List<Instruction> = arrayListOf(
         Instruction(
-            R.drawable.ic_general_01, """
+            R.drawable.ic_pigeonhole_1, """
             This is the most advanced
             technique required by
             some of the hardest puzzles.
@@ -325,7 +325,7 @@ class InstructionsModule(private val instructionType: InstructionType) {
         """.trimIndent()
         ),
         Instruction(
-            R.drawable.ic_general_02, """
+            R.drawable.ic_pigeonhole_2, """
             This arrow is satisfied by
             a marble in [a] or [b].
             The row with squares [c],[d],[e],
@@ -344,7 +344,7 @@ class InstructionsModule(private val instructionType: InstructionType) {
         """.trimIndent()
         ),
         Instruction(
-            R.drawable.ic_general_03, """
+            R.drawable.ic_pigeonhole_3, """
             Therefore, there are only
             possibilities.
 
@@ -360,7 +360,7 @@ class InstructionsModule(private val instructionType: InstructionType) {
         """.trimIndent()
         ),
         Instruction(
-            R.drawable.ic_general_04, """
+            R.drawable.ic_pigeonhole_4, """
             Another example:
             This arrow is satisfed by
             a marble in [a] or [b]. The
@@ -381,7 +381,7 @@ class InstructionsModule(private val instructionType: InstructionType) {
         """.trimIndent()
         ),
         Instruction(
-            R.drawable.ic_general_05, """
+            R.drawable.ic_pigeonhole_5, """
             Therefore, there are
             only two possibilities.
 
