@@ -12,7 +12,6 @@ Much of this app's content (puzzles, instructions) were ported from [PlayShinro]
 ## SCREENSHOTS
 <i>Title Screen</i></br>
 ![Title Screen](.img/screenshots/title_fragment_sm.jpg)
-</br>
 
 <i>Incomplete Puzzle</i></br>
 ![Incomplete Puzzle](.img/screenshots/puzzle_1_incomplete_sm.jpg)
@@ -20,7 +19,6 @@ Much of this app's content (puzzles, instructions) were ported from [PlayShinro]
 
 <i>Completed Puzzle</i></br>
 ![Completed Puzzle](.img/screenshots/puzzle_1_complete_sm.jpg)
-</br>
 
 <i>Advanced Tips</i></br>
 ![Advanced Tips](.img/screenshots/advanced_tips_sm.jpg)
