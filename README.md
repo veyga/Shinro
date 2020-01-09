@@ -14,10 +14,6 @@ Much of this app's content (puzzles, instructions) were ported from [PlayShinro]
 ![Title Screen](.img/screenshots/title_fragment_sm.jpg)
 </br>
 
-<i>How To Play</i></br>
-![How To Play](.img/screenshots/how_to_play_sm.jpg)
-</br>
-
 <i>Incomplete Puzzle</i></br>
 ![Incomplete Puzzle](.img/screenshots/puzzle_1_incomplete_sm.jpg)
 </br>
@@ -28,4 +24,8 @@ Much of this app's content (puzzles, instructions) were ported from [PlayShinro]
 
 <i>Advanced Tips</i></br>
 ![Advanced Tips](.img/screenshots/advanced_tips_sm.jpg)
+</br>
+
+<i>How To Play</i></br>
+![How To Play](.img/screenshots/how_to_play_sm.jpg)
 </br>
