@@ -28,7 +28,7 @@ class InstructionsModule(private val instructionType: InstructionType) {
 
     private fun generalInstructions(): List<Instruction> = arrayListOf(
         Instruction(
-            R.drawable.ic_general_01, """
+            R.mipmap.ic_general_01_foreground, """
            A Shinro puzzle is an 8x8 grid. 
            Your job is to locate twelve 
            hidden marbles, based on clues 
@@ -43,7 +43,7 @@ class InstructionsModule(private val instructionType: InstructionType) {
         """.trimIndent()
         ),
         Instruction(
-            R.drawable.ic_general_02, """
+            R.mipmap.ic_general_02_foreground, """
             Every puzzle can be solved 
             entirely with logic and 
             reason. 
@@ -55,14 +55,14 @@ class InstructionsModule(private val instructionType: InstructionType) {
         """.trimIndent()
         ),
         Instruction(
-            R.drawable.ic_general_03, """
+            R.mipmap.ic_general_03_foreground, """
             This column has zero marbles, 
             so we can mark off each 
             of its empty squares.
         """.trimIndent()
         ),
         Instruction(
-            R.drawable.ic_general_04, """
+            R.mipmap.ic_general_04_foreground, """
             Similarly, these rows 
             and column also have 
             zero marbles, so we 
@@ -71,7 +71,7 @@ class InstructionsModule(private val instructionType: InstructionType) {
         """.trimIndent()
         ),
         Instruction(
-            R.drawable.ic_general_05, """
+            R.mipmap.ic_general_05_foreground, """
             Each of these arrows point to
             a single empty square. 
             Therefore, that square 
@@ -79,14 +79,14 @@ class InstructionsModule(private val instructionType: InstructionType) {
         """.trimIndent()
         ),
         Instruction(
-            R.drawable.ic_general_06, """
+            R.mipmap.ic_general_06_foreground, """
             This column is now satisfied, 
             so we can eliminate 
             the remaining empty squares.
         """.trimIndent()
         ),
         Instruction(
-            R.drawable.ic_general_07, """
+            R.mipmap.ic_general_07_foreground, """
             The arrow here is pointing 
             to the left. 
             There is only one marble 
@@ -100,7 +100,7 @@ class InstructionsModule(private val instructionType: InstructionType) {
         """.trimIndent()
         ),
         Instruction(
-            R.drawable.ic_general_08, """
+            R.mipmap.ic_general_08_foreground, """
             This arrow points to a 
             single empty square. 
             Therefore, it must
@@ -108,12 +108,12 @@ class InstructionsModule(private val instructionType: InstructionType) {
         """.trimIndent()
         ),
         Instruction(
-            R.drawable.ic_general_09, """
+            R.mipmap.ic_general_09_foreground, """
             This row is now satisfied.
         """.trimIndent()
         ),
         Instruction(
-            R.drawable.ic_general_10, """
+            R.mipmap.ic_general_10_foreground, """
             This arrow points to a 
             single empty square. 
             Thus, the empty
@@ -122,7 +122,7 @@ class InstructionsModule(private val instructionType: InstructionType) {
         """.trimIndent()
         ),
         Instruction(
-            R.drawable.ic_general_11, """
+            R.mipmap.ic_general_11_foreground, """
             The eliminated square here 
             cannot contain a marble. 
             Otherwise, 
@@ -131,7 +131,7 @@ class InstructionsModule(private val instructionType: InstructionType) {
         """.trimIndent()
         ),
         Instruction(
-            R.drawable.ic_general_12, """
+            R.mipmap.ic_general_12_foreground, """
             This column has three marbles,
             and three empty squares. 
             Therefore, the empty squares 
@@ -139,12 +139,12 @@ class InstructionsModule(private val instructionType: InstructionType) {
         """.trimIndent()
         ),
         Instruction(
-            R.drawable.ic_general_13, """
+            R.mipmap.ic_general_13_foreground, """
             This row is now satisfied.
         """.trimIndent()
         ),
         Instruction(
-            R.drawable.ic_general_14, """
+            R.mipmap.ic_general_14_foreground, """
             There are two marbles in 
             this column, so its last 
             remaining empty square 
@@ -152,7 +152,7 @@ class InstructionsModule(private val instructionType: InstructionType) {
         """.trimIndent()
         ),
         Instruction(
-            R.drawable.ic_general_15, """
+            R.mipmap.ic_general_15_foreground, """
             The arrow here points 
             diagonally to only one 
             empty square. 
@@ -162,7 +162,7 @@ class InstructionsModule(private val instructionType: InstructionType) {
         """.trimIndent()
         ),
         Instruction(
-            R.drawable.ic_general_16, """
+            R.mipmap.ic_general_16_foreground, """
             This row and column are now
             satisfied, so we can 
             eliminate all of 
@@ -171,7 +171,7 @@ class InstructionsModule(private val instructionType: InstructionType) {
         """.trimIndent()
         ),
         Instruction(
-            R.drawable.ic_general_17, """
+            R.mipmap.ic_general_17_foreground, """
             We found two of the three
             marbles in this row, 
             and there is only empty 
@@ -181,12 +181,12 @@ class InstructionsModule(private val instructionType: InstructionType) {
         """.trimIndent()
         ),
         Instruction(
-            R.drawable.ic_general_18, """
+            R.mipmap.ic_general_18_foreground, """
             This column is now satisfied.
         """.trimIndent()
         ),
         Instruction(
-            R.drawable.ic_general_19, """
+            R.mipmap.ic_general_19_foreground, """
             This column has two marbles, 
             and only two empty squares. 
             Therefore, the empty squares 
@@ -199,7 +199,7 @@ class InstructionsModule(private val instructionType: InstructionType) {
 
     private fun pathfinderInstructions(): List<Instruction> = arrayListOf(
         Instruction(
-            R.drawable.ic_pathfinder_1, """
+            R.mipmap.ic_pathfinder_01_foreground, """
             All of the simple moves
             have already been taken in
             this puzzle. Where can
@@ -207,19 +207,19 @@ class InstructionsModule(private val instructionType: InstructionType) {
         """.trimIndent()
         ),
         Instruction(
-            R.drawable.ic_pathfinder_2, """
+            R.mipmap.ic_pathfinder_02_foreground, """
             This arrow is satisfied
             if there is at least one
-            marble along path [a].
+            marble along path [A].
         """.trimIndent()
         ),
         Instruction(
-            R.drawable.ic_pathfinder_3, """
+            R.mipmap.ic_pathfinder_03_foreground, """
             This arrow is satisfied
             if there is at least one
             marble found along path
-            marked [b].
-            The [a] and [b] paths do
+            marked [B].
+            The [A] and [B] paths do
             not overlap. Thus, we
             know there must be
             at least two marbles found
@@ -227,7 +227,7 @@ class InstructionsModule(private val instructionType: InstructionType) {
         """.trimIndent()
         ),
         Instruction(
-            R.drawable.ic_pathfinder_4, """
+            R.mipmap.ic_pathfinder_04_foreground, """
             These rows completely
             contain the two path. No
             squares in either path fall

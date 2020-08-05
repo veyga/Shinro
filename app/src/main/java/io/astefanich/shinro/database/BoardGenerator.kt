@@ -34,6 +34,32 @@ object BoardGenerator {
         2 C X M X X M X X
         2 C M A X X F M X
         1 X X X X M X A X
+        """.trimIndent(),
+        """
+        3
+        EASY
+        0 2 1 0 2 3 2 0 2
+        3 E M D X M M X X
+        3 M X G M X C X M
+        1 X X X X X M X X
+        0 X D X X B X X X
+        0 X X X X X X X A
+        2 X X C M M A X X
+        2 M X G X X C X M
+        1 X B X A M X H X
+        """.trimIndent(),
+        """
+        4
+        EASY
+        0 1 1 0 3 5 1 0 1
+        1 X D X X X X X X
+        1 X X X X X X X G
+        1 X X B D X H X F
+        1 X D X X X X X X
+        2 X B X E X X X X
+        1 X X D X X H X X
+        1 X X X X X C X M
+        4 X X X X M X X X
         """.trimIndent()
     )
 //        """
@@ -684,7 +710,7 @@ object BoardGenerator {
 
 
     fun getBoards(): Array<Board?> {
-        val length = 2
+        val length = 4
         val boards = arrayOfNulls<Board>(length)
 
         for (i in 0 until length)

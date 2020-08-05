@@ -12,32 +12,39 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/black_layer">
 
 
+        <!--        android:maxWidth="415dp"-->
+        <!--        android:maxHeight="415dp"-->
         <ImageView
             android:id="@+id/instruction_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="0dp"
+            android:layout_margin="10dp"
             android:adjustViewBounds="true"
-            android:maxWidth="200dp"
-            android:maxHeight="200dp"
             android:padding="8dp"
+            android:background="@color/black_layer"
             android:scaleType="centerInside"
+            android:scaleX="1.3"
+            android:scaleY="1.3"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@drawable/ic_general_01" />
+            tools:srcCompat="@mipmap/ic_general_01_foreground" />
+        <!--            tools:srcCompat="@drawable/ic_general_01" />-->
 
 
         <TextView
             android:id="@+id/instruction_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
             android:textAlignment="viewStart"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textSize="10sp"
+            android:background="@color/black_layer"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/instruction_image"
             app:layout_constraintRight_toRightOf="parent"

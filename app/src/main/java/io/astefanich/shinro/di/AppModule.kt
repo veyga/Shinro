@@ -38,7 +38,7 @@ class AppModule {
     internal fun providesDatabaseName(): DatabaseName = DatabaseName("shinro50.db")
 
     @AppScope
-    @Provides
+//    @Provides
     internal fun providesDatabaseFromFile(
         application: Application,
         databaseName: DatabaseName
@@ -54,7 +54,7 @@ class AppModule {
     internal fun providesBoards(): Array<Board?> = BoardGenerator.getBoards()
 
     @AppScope
-//    @Provides
+    @Provides
     internal fun providesInMemoryAppDatabase(
         application: Application,
         boards: Array<Board>
