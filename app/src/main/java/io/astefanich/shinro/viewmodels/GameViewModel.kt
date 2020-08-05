@@ -23,12 +23,17 @@ class GameViewModel @Inject constructor(
 
     val board = MutableLiveData<Board>()
     val undoStackActive = MutableLiveData<Boolean>()
-    private val _board: Board
+    private var _board: Board
     private var undoStack = Stack<Move>()
 
     init {
         //boardId == 0 -> user is coming from title fragment
-        _board = if (boardId == 0) repo.getLowestIncompleteBoard() else repo.getBoardById(boardId)
+        var tempboard = if (boardId == 0) repo.getLowestIncompleteBoard() else repo.getBoardById(boardId)
+        if (tempboard == null) {
+            //user has completed all boards! go to last
+            tempboard = repo.getBoardById(50)
+        }
+        _board = tempboard!!
         boardId = _board.boardId
         board.value = _board
         undoStackActive.value = false
