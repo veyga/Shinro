@@ -25,13 +25,18 @@ fun setVideoButtonText(button: Button, isPlaying: Boolean) = when (isPlaying) {
     true -> button.setText(R.string.pause_video)
 }
 
+//The view doesn't align correctly (vertically) across the different types/screen resolutions..
 @BindingAdapter("instructionText")
-fun setInstructionText(view: TextView, type: InstructionType) = when (type) {
-    InstructionType.PATHFINDER -> view.setText(R.string.pathfinder_text)
-    InstructionType.BLOCKER -> view.setText(R.string.blocker_text)
-    InstructionType.PIGEONHOLE -> view.setText(R.string.pigeonhole_text)
-    else -> view.setText(R.string.how_to_play_title)
+fun setInstructionText(view: TextView, type: InstructionType) {
+    view.setText("")
 }
+//@BindingAdapter("instructionText")
+//fun setInstructionText(view: TextView, type: InstructionType) = when (type) {
+//    InstructionType.PATHFINDER -> view.setText(R.string.pathfinder_text)
+//    InstructionType.BLOCKER -> view.setText(R.string.blocker_text)
+//    InstructionType.PIGEONHOLE -> view.setText(R.string.pigeonhole_text)
+//    else -> view.setText(R.string.how_to_play_title)
+//}
 
 @BindingAdapter("gridSvg")
 fun bindGridSvg(view: ImageView, str: String) {
