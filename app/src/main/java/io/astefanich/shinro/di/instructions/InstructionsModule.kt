@@ -229,7 +229,7 @@ class InstructionsModule(private val instructionType: InstructionType) {
         Instruction(
             R.mipmap.ic_pathfinder_04_foreground, """
             These rows completely
-            contain the two path. No
+            contain the two paths. No
             squares in either path fall
             outside of the area covered
             by these rows.
@@ -247,7 +247,7 @@ class InstructionsModule(private val instructionType: InstructionType) {
 
     private fun blockerInstructions(): List<Instruction> = arrayListOf(
         Instruction(
-            R.drawable.ic_blocker_1, """
+            R.mipmap.ic_blocker_01_foreground, """
             Here is another puzzle with
             all of the simple moves
             already taken. Can you
@@ -255,56 +255,56 @@ class InstructionsModule(private val instructionType: InstructionType) {
         """.trimIndent()
         ),
         Instruction(
-            R.drawable.ic_blocker_2, """
+            R.mipmap.ic_blocker_02_foreground, """
             This arrow is satisfied
-            by a marble in [a] or [b].
+            by a marble in [A] or [B].
             If we tried to place a
-            marble at [c], then
+            marble at [C], then
             it would be impossible
             to satisfy the arrow.
 
-            - We cannot put a marble at [b],
+            - We cannot put a marble at [B],
             because then its row's marble
             count would be violated.
-            - We cannot put a marble at [a],
+            - We cannot put a marble at [A],
             because then its column's
             marble count could be violated.
 
-            So, [c] is a blocker.
+            So, [C] is a blocker.
         """.trimIndent()
         ),
         Instruction(
-            R.drawable.ic_blocker_3, """
-           Thus, we can eliminate [c]
+            R.mipmap.ic_blocker_03_foreground, """
+           Thus, we can eliminate [C]
             as a possibility.
         """.trimIndent()
         ),
         Instruction(
-            R.drawable.ic_blocker_4, """
+            R.mipmap.ic_blocker_04_foreground, """
             Here's another example using
             the same puzzle.
             This arrow is satisfied by
-            a marble in [a] or [b].
-            If we place a marble at [c],
+            a marble in [A] or [B].
+            If we place a marble at [C],
             then we just made it
             impossible to satisfy
             the arrow.
 
             - We cannot put a marble
-            at [b], because then its
+            at [B], because then its
             column's marble count
             would be violated.
             - We cannot put a marble
-            at [a], because then its
+            at [A], because then its
             column's marble count
             would be violated.
 
-            So, [c] is a blocker.
+            So, [C] is a blocker.
         """.trimIndent()
         ),
         Instruction(
-            R.drawable.ic_blocker_5, """
-            Thus, we can eliminate [c]
+            R.mipmap.ic_blocker_05_foreground, """
+            Thus, we can eliminate [C]
             as a possibility.
         """.trimIndent()
         )

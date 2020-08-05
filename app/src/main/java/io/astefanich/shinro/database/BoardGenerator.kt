@@ -51,15 +51,15 @@ object BoardGenerator {
         """
         4
         EASY
-        0 1 1 0 3 5 1 0 1
-        1 X D X X X X X X
-        1 X X X X X X X G
-        1 X X B D X H X F
-        1 X D X X X X X X
-        2 X B X E X X X X
-        1 X X D X X H X X
-        1 X X X X X C X M
-        4 X X X X M X X X
+        0 1 3 2 2 1 0 3 0
+        1 X X X X D X X X
+        1 X X F C X X X F
+        3 X X X X X X M X
+        2 X D X A X X X X
+        0 X X X F X X X H
+        1 X X B X X X X X
+        3 X X X X X X M X
+        1 X B H X A B X G
         """.trimIndent()
     )
 //        """
