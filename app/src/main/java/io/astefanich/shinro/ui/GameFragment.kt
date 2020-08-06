@@ -2,9 +2,12 @@ package io.astefanich.shinro.ui
 
 
 import android.app.AlertDialog
+import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
@@ -19,16 +22,17 @@ import io.astefanich.shinro.di.game.GameModule
 import io.astefanich.shinro.domain.BoardCount
 import io.astefanich.shinro.viewmodels.GameViewModel
 import io.astefanich.shinro.viewmodels.ViewModelFactory
+import timber.log.Timber
 import javax.inject.Inject
 
 class GameFragment : Fragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
-
     @Inject
-    lateinit var lastBoardNum: BoardCount
-
+    lateinit var boardCount: BoardCount
+    @Inject
+    lateinit var mContext: Context
     private lateinit var viewModel: GameViewModel
     private lateinit var binding: GameFragmentBinding
     private lateinit var gameComponent: GameComponent
@@ -56,7 +60,7 @@ class GameFragment : Fragment() {
         if (viewModel.boardId == 1)
             binding.backArrow.visibility = View.GONE
 
-        if (viewModel.boardId == lastBoardNum.value)
+        if (viewModel.boardId == boardCount.value)
             binding.nextArrow.visibility = View.GONE
 
         binding.nextArrow.setOnClickListener { view ->
@@ -95,6 +99,22 @@ class GameFragment : Fragment() {
         binding.vm = viewModel
         binding.lifecycleOwner = this
         setHasOptionsMenu(true)
+
+
+        val adapter = ArrayAdapter(mContext, android.R.layout.simple_spinner_item, listOf("Hey","Yo"))
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.boardSpinner.adapter = adapter
+        binding.boardSpinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                Timber.i("you didn't pick anything")
+            }
+
+            override fun onItemSelected( parent: AdapterView<*>?, view: View?, position: Int, id: Long ) {
+                val item = adapter.getItem(position)
+                Timber.i("the item you selected is $item")
+            }
+
+        }
         return binding.root
     }
 

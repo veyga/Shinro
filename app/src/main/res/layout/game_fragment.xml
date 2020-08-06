@@ -31,6 +31,7 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Puzzle" />
 
+
         <TextView
             android:id="@+id/board_number"
             android:layout_width="wrap_content"
@@ -45,7 +46,16 @@
             app:layout_constraintTop_toBottomOf="@+id/puzzle"
             tools:text="@string/board_num_fmt" />
 
-        <!--        app:hideIfFalse="@{!vm.onBoardOne}"-->
+        <Spinner
+            android:id="@+id/board_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginRight="4dp"
+            app:layout_constraintRight_toLeftOf="@+id/board_number"
+            app:layout_constraintTop_toTopOf="@+id/board_number" />
+
+
         <ImageView
             android:id="@+id/back_arrow"
             android:layout_width="wrap_content"
