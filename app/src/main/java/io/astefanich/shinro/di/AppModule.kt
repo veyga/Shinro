@@ -14,6 +14,7 @@ import io.astefanich.shinro.database.BoardDao
 import io.astefanich.shinro.database.BoardGenerator
 import io.astefanich.shinro.domain.Board
 import io.astefanich.shinro.domain.DatabaseName
+import io.astefanich.shinro.domain.ProgressItem
 import timber.log.Timber
 import java.util.concurrent.Executors
 
@@ -26,12 +27,17 @@ class AppModule {
 
     @AppScope
     @Provides
-    internal fun providesBoardDao(database: AppDatabase): BoardDao = database.boardDao()
+    internal fun providesVideoURI(): Uri =
+        Uri.parse("android.resource://io.astefanich.shinro/" + R.raw.what_is_shinro)
 
     @AppScope
     @Provides
-    internal fun providesVideoURI(): Uri =
-        Uri.parse("android.resource://io.astefanich.shinro/" + R.raw.what_is_shinro)
+    internal fun providesProgress(dao: BoardDao): List<ProgressItem> = dao.getProgress()
+
+    @AppScope
+    @Provides
+    internal fun providesBoardDao(database: AppDatabase): BoardDao = database.boardDao()
+
 
     @AppScope
     @Provides

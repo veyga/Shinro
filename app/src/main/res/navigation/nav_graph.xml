@@ -50,6 +50,11 @@
             app:popExitAnim="@anim/fade_out" />
     </fragment>
     <fragment
+        android:id="@+id/progress_destination"
+        android:name="io.astefanich.shinro.ui.ProgressFragment"
+        android:label="progress_fragment"
+        tools:layout="@layout/progress_fragment" />
+    <fragment
         android:id="@+id/about_destination"
         android:name="io.astefanich.shinro.ui.AboutFragment"
         android:label="about_fragment"

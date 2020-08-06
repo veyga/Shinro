@@ -3,6 +3,7 @@ package io.astefanich.shinro.util
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import io.astefanich.shinro.domain.Grid
+import io.astefanich.shinro.domain.ProgressItem
 
 object Converters {
 
