@@ -8,6 +8,7 @@
     <string name="advanced_tips_title">Rules/Advanced Tips</string>
     <string name="about_title">About</string>
     <string name="what_is_shinro">What Is Shinro?</string>
+    <string name="resume_video">Resume</string>
     <string name="pause_video">Pause</string>
     <string name="about_text">Shinro (Android)\n2020\nDeveloper: Andrew Stefanich\ngithub.com/veyga/Shinro</string>
     <string name="thanks_text">Very special thanks to David Oranchak (PlayShinro.com)\n for providing much of this app\'s content</string>

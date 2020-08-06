@@ -22,10 +22,17 @@ fun hideViewIfFalseCondition(view: View, isActive: Boolean) = when (isActive) {
     else -> view.visibility = View.GONE
 }
 
-@BindingAdapter("videoPlaying")
-fun setVideoButtonText(button: Button, isPlaying: Boolean) = when (isPlaying) {
-    false -> button.setText(R.string.what_is_shinro)
-    true -> button.setText(R.string.pause_video)
+@BindingAdapter("videoPlaying", "videoStarted")
+fun setVideoButtonText(button: Button, isPlaying: Boolean, isStarted: Boolean) {
+    if (!isStarted) {
+        button.setText(R.string.what_is_shinro)
+    } else {
+        if (isPlaying) {
+            button.setText(R.string.pause_video)
+        } else {
+            button.setText(R.string.resume_video)
+        }
+    }
 }
 
 //The view doesn't align correctly (vertically) across the different types/screen resolutions..

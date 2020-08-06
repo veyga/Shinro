@@ -1,7 +1,9 @@
 package io.astefanich.shinro.ui
 
 
+import android.media.AudioManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -19,8 +21,11 @@ class AboutFragment : Fragment() {
 
     @Inject
     lateinit var videoUri: Uri
-    private lateinit var videoView: VideoView
+
     var videoPlaying = MutableLiveData<Boolean>()
+    var videoStarted = MutableLiveData<Boolean>()
+    private lateinit var videoView: VideoView
+    private var videoPosition = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,12 +40,24 @@ class AboutFragment : Fragment() {
 
         videoView = binding.instructionsVideo
         videoView.setVideoURI(videoUri)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            videoView.setAudioFocusRequest(AudioManager.AUDIOFOCUS_NONE)
+        }
+
+        videoView.setOnCompletionListener {
+            videoStarted.value = false
+            videoPlaying.value = false
+            videoPosition = 0
+        }
+
         binding.fragment = this
         binding.lifecycleOwner = this
         return binding.root
     }
 
     fun onVideoButtonPress() {
+        videoStarted.value = true
         videoView.let {
             if (it.isPlaying) {
                 it.pause()
@@ -52,4 +69,15 @@ class AboutFragment : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        videoView.seekTo(videoPosition)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        videoView.pause()
+        videoPosition = videoView.currentPosition
+        videoPlaying.value = false
+    }
 }

@@ -21,11 +21,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="@{() -> fragment.onVideoButtonPress()}"
+            android:text="@string/what_is_shinro"
             app:layout_constraintBottom_toTopOf="@id/instructions_video"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:videoPlaying="@{fragment.videoPlaying}" />
+            app:videoPlaying="@{fragment.videoPlaying}"
+            app:videoStarted="@{fragment.videoStarted}" />
 
         <VideoView
             android:id="@+id/instructions_video"
