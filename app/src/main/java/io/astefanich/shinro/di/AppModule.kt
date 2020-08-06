@@ -13,6 +13,7 @@ import io.astefanich.shinro.database.AppDatabase
 import io.astefanich.shinro.database.BoardDao
 import io.astefanich.shinro.database.BoardGenerator
 import io.astefanich.shinro.domain.Board
+import io.astefanich.shinro.domain.BoardCount
 import io.astefanich.shinro.domain.DatabaseName
 import timber.log.Timber
 import java.util.concurrent.Executors
@@ -51,7 +52,15 @@ class AppModule {
 
     @AppScope
     @Provides
-    internal fun providesBoards(): Array<Board?> = BoardGenerator.getBoards()
+    internal fun providesBoardCount(): BoardCount = BoardCount(2)
+
+    @AppScope
+    @Provides
+    internal fun providesBoardGenerator(boardCount: BoardCount): BoardGenerator = BoardGenerator(boardCount)
+
+    @AppScope
+    @Provides
+    internal fun providesBoards(generator: BoardGenerator): Array<Board?> = generator.genBoards()
 
     @AppScope
     @Provides

@@ -36,3 +36,4 @@ enum class InstructionType : Parcelable { GENERAL, PATHFINDER, BLOCKER, PIGEONHO
 
 data class DatabaseName(val name: String)
 
+data class BoardCount(val value: Int)

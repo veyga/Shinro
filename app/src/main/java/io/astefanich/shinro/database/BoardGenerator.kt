@@ -1,15 +1,46 @@
 package io.astefanich.shinro.database
 
-import dagger.Provides
-import io.astefanich.shinro.di.AppScope
 import io.astefanich.shinro.domain.Board
+import io.astefanich.shinro.domain.BoardCount
 import io.astefanich.shinro.domain.Cell
 import io.astefanich.shinro.domain.Grid
+import javax.inject.Inject
 
-object BoardGenerator {
+class BoardGenerator(private val boardCount: BoardCount) {
 
-    val stringz = arrayOf(
-        """
+    private fun boardFromString(str: String): Board {
+        val lines = str.lines()
+        val boardId = lines[0].toInt()
+        val difficulty = lines[1]
+        val cells = Array(9) { Array(9) { Cell(" ") } }
+        for (i in 0..8) {
+            val chars = lines[i + 2].split(" ")
+            for (j in 0..8) {
+                val actual = chars[j]
+                if (actual == "M" || actual == "X")
+                    cells[i][j] = Cell(" ", actual)
+                else
+                    cells[i][j] = Cell(actual)
+            }
+        }
+        return Board(boardId, difficulty, Grid(cells))
+
+    }
+
+    fun genBoards(): Array<Board?> {
+        val length = boardCount.value
+        val boards = arrayOfNulls<Board>(length)
+
+        for (i in 0 until length)
+            boards[i] = boardFromString(stringz[i])
+
+        return boards
+    }
+
+
+    val stringz: Array<String> by lazy {
+        arrayOf(
+            """
         1
         EASY
         0 1 2 1 1 1 3 2 1
@@ -22,7 +53,7 @@ object BoardGenerator {
         1 X M X F D X X X
         2 X X M X A M X A 
         """.trimIndent(),
-        """
+            """
         2
         EASY
         0 3 1 2 1 1 1 2 1
@@ -35,7 +66,7 @@ object BoardGenerator {
         2 C M A X X F M X
         1 X X X X M X A X
         """.trimIndent(),
-        """
+            """
         3
         EASY
         0 2 1 0 2 3 2 0 2
@@ -48,7 +79,7 @@ object BoardGenerator {
         2 M X G X X C X M
         1 X B X A M X H X
         """.trimIndent(),
-        """
+            """
         4
         EASY
         0 1 1 3 3 0 2 1 1
@@ -62,7 +93,7 @@ object BoardGenerator {
         1 X X X X X X X A
         
         """.trimIndent()
-    )
+        )
 //        """
 //        3
 //        EASY
@@ -689,34 +720,6 @@ object BoardGenerator {
 //            """.trimIndent()
 //
 //    )
-
-    private fun boardFromString(str: String): Board {
-        val lines = str.lines()
-        val boardId = lines[0].toInt()
-        val difficulty = lines[1]
-        val cells = Array(9) { Array(9) { Cell(" ") } }
-        for (i in 0..8) {
-            val chars = lines[i + 2].split(" ")
-            for (j in 0..8) {
-                val actual = chars[j]
-                if (actual == "M" || actual == "X")
-                    cells[i][j] = Cell(" ", actual)
-                else
-                    cells[i][j] = Cell(actual)
-            }
-        }
-        return Board(boardId, difficulty, Grid(cells))
-
     }
 
-
-    fun getBoards(): Array<Board?> {
-        val length = 4
-        val boards = arrayOfNulls<Board>(length)
-
-        for (i in 0 until length)
-            boards[i] = boardFromString(stringz[i])
-
-        return boards
-    }
 }
