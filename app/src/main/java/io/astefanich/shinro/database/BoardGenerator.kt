@@ -65,35 +65,36 @@ class BoardGenerator(private val boardCount: BoardCount) {
         2 C X M X X M X X
         2 C M A X X F M X
         1 X X X X M X A X
-        """.trimIndent(),
-            """
-        3
-        EASY
-        0 2 1 0 2 3 2 0 2
-        3 E M D X M M X X
-        3 M X G M X C X M
-        1 X X X X X M X X
-        0 X D X X B X X X
-        0 X X X X X X X A
-        2 X X C M M A X X
-        2 M X G X X C X M
-        1 X B X A M X H X
-        """.trimIndent(),
-            """
-        4
-        EASY
-        0 1 1 3 3 0 2 1 1
-        0 E X D X D X X F
-        1 X X X X F M X X
-        2 X M X X X G C M
-        2 X D X X X X G X
-        1 X A X X X X X X
-        3 M X C M X X X X
-        2 X X X X G X X X
-        1 X X X X X X X A
-        
         """.trimIndent()
-        )
+)
+//        """
+//        3
+//        EASY
+//        0 2 1 0 2 3 2 0 2
+//        3 E M D X M M X X
+//        3 M X G M X C X M
+//        1 X X X X X M X X
+//        0 X D X X B X X X
+//        0 X X X X X X X A
+//        2 X X C M M A X X
+//        2 M X G X X C X M
+//        1 X B X A M X H X
+//        """.trimIndent(),
+//            """
+//        4
+//        EASY
+//        0 1 1 3 3 0 2 1 1
+//        0 E X D X D X X F
+//        1 X X X X F M X X
+//        2 X M X X X G C M
+//        2 X D X X X X G X
+//        1 X A X X X X X X
+//        3 M X C M X X X X
+//        2 X X X X G X X X
+//        1 X X X X X X X A
+//
+//        """.trimIndent()
+//        )
 //        """
 //        3
 //        EASY

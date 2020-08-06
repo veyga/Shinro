@@ -25,11 +25,11 @@ class GameFragment : Fragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
-    private lateinit var viewModel: GameViewModel
 
     @Inject
     lateinit var lastBoardNum: BoardCount
 
+    private lateinit var viewModel: GameViewModel
     private lateinit var binding: GameFragmentBinding
     private lateinit var gameComponent: GameComponent
 

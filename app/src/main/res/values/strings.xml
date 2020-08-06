@@ -12,7 +12,7 @@
     <string name="pause_video">Pause</string>
     <string name="about_text">Shinro (Android)\n2020\nDeveloper: Andrew Stefanich\ngithub.com/veyga/Shinro</string>
     <string name="thanks_text">Very special thanks to David Oranchak (PlayShinro.com)\n for providing much of this app\'s content</string>
-    <string name="board_num_fmt">Puzzle\n  %d / 50</string>
+    <string name="board_num_fmt">Puzzle\n  %d / %d</string>
     <string name="completed_fmt">%s</string>
     <string name="pathfinder_text">The Pathfinder</string>
     <string name="blocker_text">The Blocker</string>

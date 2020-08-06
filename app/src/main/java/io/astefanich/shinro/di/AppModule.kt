@@ -36,10 +36,10 @@ class AppModule {
 
     @AppScope
     @Provides
-    internal fun providesDatabaseName(): DatabaseName = DatabaseName("shinro50.db")
+    internal fun providesDatabaseName(ct: BoardCount): DatabaseName = DatabaseName("shinro${ct.value}.db")
 
     @AppScope
-//    @Provides
+    @Provides
     internal fun providesDatabaseFromFile(
         application: Application,
         databaseName: DatabaseName
@@ -58,15 +58,15 @@ class AppModule {
     //The below are for testing, board creation.
     // Releases should output to DB file, and app should load from file
     @AppScope
-    @Provides
+//    @Provides
     internal fun providesBoardGenerator(boardCount: BoardCount): BoardGenerator = BoardGenerator(boardCount)
 
     @AppScope
-    @Provides
+//    @Provides
     internal fun providesBoards(generator: BoardGenerator): Array<Board?> = generator.genBoards()
 
     @AppScope
-    @Provides
+//    @Provides
     internal fun providesInMemoryAppDatabase(
         application: Application,
         boards: Array<Board>

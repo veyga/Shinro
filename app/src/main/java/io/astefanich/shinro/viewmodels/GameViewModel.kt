@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.astefanich.shinro.domain.Board
+import io.astefanich.shinro.domain.BoardCount
 import io.astefanich.shinro.repository.BoardRepository
 import java.util.*
 import javax.inject.Inject
@@ -17,6 +18,7 @@ private class Move(val row: Int, val column: Int, val oldVal: String, val newVal
 class GameViewModel @Inject constructor(
     val repo: BoardRepository,
     var boardId: Int,
+    val boardCount: BoardCount,
     val context: Context
 ) : ViewModel() {
 
@@ -31,7 +33,7 @@ class GameViewModel @Inject constructor(
         var tempboard = if (boardId == 0) repo.getLowestIncompleteBoard() else repo.getBoardById(boardId)
         if (tempboard == null) {
             //user has completed all boards! go to last
-            tempboard = repo.getBoardById(50)
+            tempboard = repo.getBoardById(boardCount.value)
         }
         _board = tempboard!!
         boardId = _board.boardId
