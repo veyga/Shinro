@@ -16,6 +16,7 @@ import io.astefanich.shinro.databinding.GameFragmentBinding
 import io.astefanich.shinro.di.DaggerAppComponent
 import io.astefanich.shinro.di.game.GameComponent
 import io.astefanich.shinro.di.game.GameModule
+import io.astefanich.shinro.domain.BoardCount
 import io.astefanich.shinro.viewmodels.GameViewModel
 import io.astefanich.shinro.viewmodels.ViewModelFactory
 import javax.inject.Inject
@@ -25,6 +26,10 @@ class GameFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
     private lateinit var viewModel: GameViewModel
+
+    @Inject
+    lateinit var lastBoardNum: BoardCount
+
     private lateinit var binding: GameFragmentBinding
     private lateinit var gameComponent: GameComponent
 
@@ -48,7 +53,10 @@ class GameFragment : Fragment() {
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(GameViewModel::class.java)
 
-        if (viewModel.boardId == 50)
+        if (viewModel.boardId == 1)
+            binding.backArrow.visibility = View.GONE
+
+        if (viewModel.boardId == lastBoardNum.value)
             binding.nextArrow.visibility = View.GONE
 
         binding.nextArrow.setOnClickListener { view ->
@@ -83,9 +91,6 @@ class GameFragment : Fragment() {
                 .create()
                 .show()
         }
-
-        if (viewModel.boardId == 1)
-            binding.backArrow.visibility = View.GONE
 
         binding.vm = viewModel
         binding.lifecycleOwner = this

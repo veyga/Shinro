@@ -21,18 +21,16 @@ data class Board(
 
     @ColumnInfo(name = "marbles_placed")
     var marblesPlaced: Int = 0
-
 )
+
+@Parcelize
+enum class InstructionType : Parcelable { GENERAL, PATHFINDER, BLOCKER, PIGEONHOLE }
 
 data class Cell(var current: String, val actual: String = current)
 
 data class Grid(val cells: Array<Array<Cell>>)
 
-
 data class Instruction(val drawable: Int, val text: String)
-
-@Parcelize
-enum class InstructionType : Parcelable { GENERAL, PATHFINDER, BLOCKER, PIGEONHOLE }
 
 data class DatabaseName(val name: String)
 

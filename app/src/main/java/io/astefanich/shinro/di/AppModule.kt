@@ -54,6 +54,9 @@ class AppModule {
     @Provides
     internal fun providesBoardCount(): BoardCount = BoardCount(2)
 
+
+    //The below are for testing, board creation.
+    // Releases should output to DB file, and app should load from file
     @AppScope
     @Provides
     internal fun providesBoardGenerator(boardCount: BoardCount): BoardGenerator = BoardGenerator(boardCount)
