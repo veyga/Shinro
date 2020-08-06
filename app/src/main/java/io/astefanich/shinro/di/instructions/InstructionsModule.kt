@@ -313,7 +313,7 @@ class InstructionsModule(private val instructionType: InstructionType) {
 
     private fun pigeonholeInstructions(): List<Instruction> = arrayListOf(
         Instruction(
-            R.drawable.ic_pigeonhole_1, """
+            R.mipmap.ic_pigeonhole_01_foreground, """
             This is the most advanced
             technique required by
             some of the hardest puzzles.
@@ -325,34 +325,34 @@ class InstructionsModule(private val instructionType: InstructionType) {
         """.trimIndent()
         ),
         Instruction(
-            R.drawable.ic_pigeonhole_2, """
+            R.mipmap.ic_pigeonhole_02_foreground, """
             This arrow is satisfied by
-            a marble in [a] or [b].
-            The row with squares [c],[d],[e],
-            and [f] has three hidden marbles
+            a marble in [A] or [B].
+            The row with squares [C],[D],[E],
+            and [F] has three hidden marbles
             but four available squares to
             select from. If we put a marble
-            in [a], then its column is
-            satisfied, [e] is eliminated,
+            in [A], then its column is
+            satisfied, [E] is eliminated,
             and we then know there are
-            marbles in [c],[d], and [f].
-            But if we put a marble in [b],
+            marbles in [C],[D], and [F].
+            But if we put a marble in [B],
             then its column is satisfied,
-            [f] is eliminated, and then
+            [F] is eliminated, and then
             we know there are marbles in
-            [c], [d], and [e].
+            [C], [D], and [E].
         """.trimIndent()
         ),
         Instruction(
-            R.drawable.ic_pigeonhole_3, """
+            R.mipmap.ic_pigeonhole_03_foreground, """
             Therefore, there are only
             possibilities.
 
-            - Marbles in [c],[d],[e]
-            - Marbles in [c],[d],[f]
+            - Marbles in [C],[D],[E]
+            - Marbles in [C],[D],[F]
 
             Both possibilities have
-            marbles in [c] and [d],
+            marbles in [C] and [D],
             so we know these squares
             must contain marbles.
             We can now mark them
@@ -360,36 +360,36 @@ class InstructionsModule(private val instructionType: InstructionType) {
         """.trimIndent()
         ),
         Instruction(
-            R.drawable.ic_pigeonhole_4, """
+            R.mipmap.ic_pigeonhole_04_foreground, """
             Another example:
-            This arrow is satisfed by
-            a marble in [a] or [b]. The
-            column with squares [c], [d],
-            [e], and [f] has three hidden
+            This arrow is satisfied by
+            a marble in [A] or [B]. The
+            column with squares [C], [D],
+            [E], and [F] has three hidden
             marbles but four available
             squares to select from.
-            If we put a marble in [a],
+            If we put a marble in [A],
             then its row is satisfied,
-            [d] is eliminated, and then
+            [D] is eliminated, and then
             we know there are marbles in
-            [c], [e], and [f].
-            But if we put a marble in [b],
+            [C], [E], and [F].
+            But if we put a marble in [B],
             then its row is satisfied,
-            [f] is eliminated and then we
+            [F] is eliminated and then we
             know there are marbles in
-            [c], [d], and [e].
+            [C], [D], and [E].
         """.trimIndent()
         ),
         Instruction(
-            R.drawable.ic_pigeonhole_5, """
+            R.mipmap.ic_pigeonhole_05_foreground, """
             Therefore, there are
             only two possibilities.
 
-            - Marbles in [c], [e], [f]
-            - Marbles in [c], [d], [e]
+            - Marbles in [C], [E], [F]
+            - Marbles in [C], [D], [E]
 
             Both possibilities have marbles
-            in [c] and [e], so we know
+            in [C] and [E], so we know
             that these squares must
             contain marbles.
             We can now mark them
