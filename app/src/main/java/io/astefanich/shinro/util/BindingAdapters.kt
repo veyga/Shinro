@@ -1,5 +1,6 @@
 package io.astefanich.shinro.util
 
+import android.graphics.Color
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
@@ -10,7 +11,9 @@ import io.astefanich.shinro.domain.InstructionType
 
 @BindingAdapter("completionStatus")
 fun TextView.setCompletionStatus(status: Boolean) {
-    text = if (status) "COMPLETE" else "INCOMPLETE"
+    val (txt, color) = if (status) Pair("COMPLETE", "#00FF00") else Pair("INCOMPLETE", "#FF0000")
+    text = txt
+    setTextColor(Color.parseColor(color))
 }
 
 @BindingAdapter("hideIfFalse")
