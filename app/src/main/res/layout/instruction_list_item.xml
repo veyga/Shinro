@@ -13,7 +13,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/black_layer">
+        android:background="@color/colorBlack">
 
 
         <!--        android:maxWidth="415dp"-->
@@ -25,7 +25,7 @@
             android:layout_margin="10dp"
             android:adjustViewBounds="true"
             android:padding="8dp"
-            android:background="@color/black_layer"
+            android:background="@color/colorBlack"
             android:scaleType="centerInside"
             android:scaleX="1.3"
             android:scaleY="1.3"
@@ -44,7 +44,7 @@
             android:textAlignment="viewStart"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textSize="10sp"
-            android:background="@color/black_layer"
+            android:background="@color/colorBlack"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/instruction_image"
             app:layout_constraintRight_toRightOf="parent"
