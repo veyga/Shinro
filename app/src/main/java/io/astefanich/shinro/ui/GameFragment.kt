@@ -18,6 +18,7 @@ import io.astefanich.shinro.di.game.GameComponent
 import io.astefanich.shinro.di.game.GameModule
 import io.astefanich.shinro.viewmodels.GameViewModel
 import io.astefanich.shinro.viewmodels.ViewModelFactory
+import timber.log.Timber
 import javax.inject.Inject
 
 class GameFragment : Fragment() {
@@ -84,6 +85,7 @@ class GameFragment : Fragment() {
                 .show()
         }
 
+
         if (viewModel.boardId == 1)
             binding.backArrow.visibility = View.INVISIBLE
 
@@ -101,6 +103,13 @@ class GameFragment : Fragment() {
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val grid = binding.grid
+        Timber.i("grid width: ${grid.width}  grid height: ${grid.height}")
+        var celll = binding.cell00
+        Timber.i("cell width: ${celll.width}  cell height: ${celll.height}")
+        celll = binding.cell01
+        Timber.i("cell width: ${celll.width}  cell height: ${celll.height}")
+
         return NavigationUI.onNavDestinationSelected(item!!, view!!.findNavController())
                 || super.onOptionsItemSelected(item)
     }

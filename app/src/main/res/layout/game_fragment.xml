@@ -24,13 +24,14 @@
             android:layout_margin="16dp"
             android:gravity="center"
             android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/puzzle_title"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_weight=".25"
+                android:layout_weight="1"
                 android:text="@string/puzzle_title"
                 android:textStyle="bold"
                 tools:text="Puzzle" />
@@ -39,7 +40,7 @@
                 android:id="@+id/board_number"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_weight=".25"
+                android:layout_weight="1"
                 android:text="@{@string/board_num_fmt(vm.board.boardId)}"
                 android:textStyle="bold"
                 tools:text="4 / 50" />
@@ -47,7 +48,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight=".25"
+                android:layout_weight="1"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -79,7 +80,7 @@
                 android:id="@+id/solved_status"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_weight=".25"
+                android:layout_weight="1"
                 app:completionStatus="@{vm.board.completed}"
                 tools:text="INCOMPLETE" />
         </LinearLayout>
@@ -88,23 +89,27 @@
             android:id="@+id/grid"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_margin="4dp"
+            android:layout_margin="16dp"
             android:background="@color/colorGray"
-            android:gravity="fill"
+            android:gravity="center"
             android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@+id/game_header"
-            app:layout_constraintBottom_toTopOf="@+id/reset_board">
+            app:layout_constraintBottom_toTopOf="@+id/reset_board"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintTop_toBottomOf="@+id/game_header">
 
             <!-- Row 0 -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_margin="0dp"
                 android:layout_weight="1"
                 android:orientation="horizontal">
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
+                    android:id="@+id/cell_0_0"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -112,9 +117,11 @@
                     app:srcCompat="@drawable/ic_blank_cell"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
+                    android:id="@+id/cell_0_1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -122,9 +129,10 @@
                     app:gridSvg="@{vm.board.grid.cells[0][1].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -132,9 +140,10 @@
                     app:gridSvg="@{vm.board.grid.cells[0][2].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -142,9 +151,10 @@
                     app:gridSvg="@{vm.board.grid.cells[0][3].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -152,9 +162,10 @@
                     app:gridSvg="@{vm.board.grid.cells[0][4].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -162,9 +173,10 @@
                     app:gridSvg="@{vm.board.grid.cells[0][5].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -172,9 +184,10 @@
                     app:gridSvg="@{vm.board.grid.cells[0][6].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -182,9 +195,10 @@
                     app:gridSvg="@{vm.board.grid.cells[0][7].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -197,12 +211,15 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_margin="0dp"
                 android:layout_weight="1"
                 android:orientation="horizontal">
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -210,9 +227,10 @@
                     app:gridSvg="@{vm.board.grid.cells[1][0].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -221,9 +239,10 @@
                     app:gridSvg="@{vm.board.grid.cells[1][1].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -232,9 +251,10 @@
                     app:gridSvg="@{vm.board.grid.cells[1][2].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -243,9 +263,10 @@
                     app:gridSvg="@{vm.board.grid.cells[1][3].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -254,9 +275,10 @@
                     app:gridSvg="@{vm.board.grid.cells[1][4].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -265,9 +287,10 @@
                     app:gridSvg="@{vm.board.grid.cells[1][5].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -276,9 +299,10 @@
                     app:gridSvg="@{vm.board.grid.cells[1][6].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -287,9 +311,10 @@
                     app:gridSvg="@{vm.board.grid.cells[1][7].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -305,9 +330,10 @@
                 android:layout_weight="1"
                 android:orientation="horizontal">
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -315,9 +341,10 @@
                     app:gridSvg="@{vm.board.grid.cells[2][0].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -326,9 +353,10 @@
                     app:gridSvg="@{vm.board.grid.cells[2][1].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -337,9 +365,10 @@
                     app:gridSvg="@{vm.board.grid.cells[2][2].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -348,9 +377,10 @@
                     app:gridSvg="@{vm.board.grid.cells[2][3].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -359,9 +389,10 @@
                     app:gridSvg="@{vm.board.grid.cells[2][4].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -370,9 +401,10 @@
                     app:gridSvg="@{vm.board.grid.cells[2][5].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -381,9 +413,10 @@
                     app:gridSvg="@{vm.board.grid.cells[2][6].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -392,9 +425,10 @@
                     app:gridSvg="@{vm.board.grid.cells[2][7].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -410,9 +444,10 @@
                 android:layout_weight="1"
                 android:orientation="horizontal">
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -420,9 +455,10 @@
                     app:gridSvg="@{vm.board.grid.cells[3][0].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -431,9 +467,10 @@
                     app:gridSvg="@{vm.board.grid.cells[3][1].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -442,9 +479,10 @@
                     app:gridSvg="@{vm.board.grid.cells[3][2].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -453,9 +491,10 @@
                     app:gridSvg="@{vm.board.grid.cells[3][3].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -464,9 +503,10 @@
                     app:gridSvg="@{vm.board.grid.cells[3][4].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -475,9 +515,10 @@
                     app:gridSvg="@{vm.board.grid.cells[3][5].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -486,9 +527,10 @@
                     app:gridSvg="@{vm.board.grid.cells[3][6].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -497,9 +539,10 @@
                     app:gridSvg="@{vm.board.grid.cells[3][7].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -515,9 +558,10 @@
                 android:layout_weight="1"
                 android:orientation="horizontal">
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -525,9 +569,10 @@
                     app:gridSvg="@{vm.board.grid.cells[4][0].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -536,9 +581,10 @@
                     app:gridSvg="@{vm.board.grid.cells[4][1].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -547,9 +593,10 @@
                     app:gridSvg="@{vm.board.grid.cells[4][2].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -558,9 +605,10 @@
                     app:gridSvg="@{vm.board.grid.cells[4][3].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -569,9 +617,10 @@
                     app:gridSvg="@{vm.board.grid.cells[4][4].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -580,9 +629,10 @@
                     app:gridSvg="@{vm.board.grid.cells[4][5].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -591,9 +641,10 @@
                     app:gridSvg="@{vm.board.grid.cells[4][6].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -602,9 +653,10 @@
                     app:gridSvg="@{vm.board.grid.cells[4][7].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -618,12 +670,14 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_gravity="center"
                 android:layout_weight="1"
                 android:orientation="horizontal">
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -631,9 +685,10 @@
                     app:gridSvg="@{vm.board.grid.cells[5][0].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -642,9 +697,10 @@
                     app:gridSvg="@{vm.board.grid.cells[5][1].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -653,9 +709,10 @@
                     app:gridSvg="@{vm.board.grid.cells[5][2].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -664,9 +721,10 @@
                     app:gridSvg="@{vm.board.grid.cells[5][3].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -675,9 +733,10 @@
                     app:gridSvg="@{vm.board.grid.cells[5][4].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -686,9 +745,10 @@
                     app:gridSvg="@{vm.board.grid.cells[5][5].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -697,9 +757,10 @@
                     app:gridSvg="@{vm.board.grid.cells[5][6].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -708,9 +769,10 @@
                     app:gridSvg="@{vm.board.grid.cells[5][7].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -727,9 +789,10 @@
                 android:layout_weight="1"
                 android:orientation="horizontal">
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -737,9 +800,10 @@
                     app:gridSvg="@{vm.board.grid.cells[6][0].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -748,9 +812,10 @@
                     app:gridSvg="@{vm.board.grid.cells[6][1].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -759,9 +824,10 @@
                     app:gridSvg="@{vm.board.grid.cells[6][2].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -770,9 +836,10 @@
                     app:gridSvg="@{vm.board.grid.cells[6][3].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -781,9 +848,10 @@
                     app:gridSvg="@{vm.board.grid.cells[6][4].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -792,9 +860,10 @@
                     app:gridSvg="@{vm.board.grid.cells[6][5].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -803,9 +872,10 @@
                     app:gridSvg="@{vm.board.grid.cells[6][6].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -814,9 +884,10 @@
                     app:gridSvg="@{vm.board.grid.cells[6][7].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -833,9 +904,10 @@
                 android:layout_weight="1"
                 android:orientation="horizontal">
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -843,9 +915,10 @@
                     app:gridSvg="@{vm.board.grid.cells[7][0].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -854,9 +927,10 @@
                     app:gridSvg="@{vm.board.grid.cells[7][1].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -865,9 +939,10 @@
                     app:gridSvg="@{vm.board.grid.cells[7][2].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -876,9 +951,10 @@
                     app:gridSvg="@{vm.board.grid.cells[7][3].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -887,9 +963,10 @@
                     app:gridSvg="@{vm.board.grid.cells[7][4].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -898,9 +975,10 @@
                     app:gridSvg="@{vm.board.grid.cells[7][5].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -909,9 +987,10 @@
                     app:gridSvg="@{vm.board.grid.cells[7][6].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -920,9 +999,10 @@
                     app:gridSvg="@{vm.board.grid.cells[7][7].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -939,9 +1019,10 @@
                 android:layout_weight="1"
                 android:orientation="horizontal">
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
@@ -949,90 +1030,98 @@
                     app:gridSvg="@{vm.board.grid.cells[8][0].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
-                    android:onClick="@{() -> vm.onMove(6,1)}"
+                    android:onClick="@{() -> vm.onMove(8,1)}"
                     android:padding="2dp"
                     app:gridSvg="@{vm.board.grid.cells[8][1].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
-                    android:onClick="@{() -> vm.onMove(6,2)}"
+                    android:onClick="@{() -> vm.onMove(8,2)}"
                     android:padding="2dp"
                     app:gridSvg="@{vm.board.grid.cells[8][2].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
-                    android:onClick="@{() -> vm.onMove(6,3)}"
+                    android:onClick="@{() -> vm.onMove(8,3)}"
                     android:padding="2dp"
                     app:gridSvg="@{vm.board.grid.cells[8][3].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
-                    android:onClick="@{() -> vm.onMove(6,4)}"
+                    android:onClick="@{() -> vm.onMove(8,4)}"
                     android:padding="2dp"
                     app:gridSvg="@{vm.board.grid.cells[8][4].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
-                    android:onClick="@{() -> vm.onMove(6,5)}"
+                    android:onClick="@{() -> vm.onMove(8,5)}"
                     android:padding="2dp"
                     app:gridSvg="@{vm.board.grid.cells[8][5].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
-                    android:onClick="@{() -> vm.onMove(6,6)}"
+                    android:onClick="@{() -> vm.onMove(8,6)}"
                     android:padding="2dp"
                     app:gridSvg="@{vm.board.grid.cells[8][6].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
-                    android:onClick="@{() -> vm.onMove(6,7)}"
+                    android:onClick="@{() -> vm.onMove(8,7)}"
                     android:padding="2dp"
                     app:gridSvg="@{vm.board.grid.cells[8][7].current}"
                     tools:src="@drawable/ic_n1" />
 
-                <ImageView
+                <io.astefanich.shinro.ui.SquareImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_margin="1dp"
                     android:layout_weight="1"
                     android:background="@color/colorBlack"
-                    android:onClick="@{() -> vm.onMove(6,8)}"
+                    android:onClick="@{() -> vm.onMove(8,8)}"
                     android:padding="2dp"
                     app:gridSvg="@{vm.board.grid.cells[8][8].current}"
                     tools:src="@drawable/ic_n1" />
