@@ -49,6 +49,14 @@
                 android:layout_weight="1"
                 android:orientation="horizontal">
 
+                <ImageView
+                    android:id="@+id/back_arrow"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:layout_constraintTop_toTopOf="@id/difficulty"
+                    app:srcCompat="@drawable/ic_back_arrow" />
+
                 <TextView
                     android:id="@+id/difficulty"
                     android:layout_width="0dp"
@@ -56,6 +64,13 @@
                     android:layout_weight="1"
                     android:text="@{@string/difficulty_fmt(vm.board.difficulty)}"
                     tools:text="DIFFICULTY: EASY" />
+
+                <ImageView
+                    android:id="@+id/next_arrow"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/ic_next_arrow" />
             </LinearLayout>
 
 

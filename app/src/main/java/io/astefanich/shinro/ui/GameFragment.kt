@@ -85,7 +85,7 @@ class GameFragment : Fragment() {
         }
 
         if (viewModel.boardId == 1)
-            binding.backArrow.visibility = View.GONE
+            binding.backArrow.visibility = View.INVISIBLE
 
         binding.vm = viewModel
         binding.lifecycleOwner = this
