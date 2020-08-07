@@ -7,8 +7,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/title_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/trueBlack">
+        android:layout_height="match_parent">
 
 
         <ImageView
@@ -20,8 +19,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_launcher_shinro_background"
-            tools:srcCompat="@drawable/ic_launcher_shinro_background" />
+            app:srcCompat="@drawable/launcher_shinro_background"
+            tools:srcCompat="@drawable/launcher_shinro_background" />
 
         <TextView
             android:id="@+id/title_text"
