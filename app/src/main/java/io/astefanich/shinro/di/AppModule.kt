@@ -42,7 +42,8 @@ class AppModule {
 
     @AppScope
     @Provides
-    internal fun providesDatabaseName(ct: BoardCount): DatabaseName = DatabaseName("shinro${ct.value}.db")
+    internal fun providesDatabaseName(ct: BoardCount): DatabaseName =
+        DatabaseName("shinro${ct.value}.db")
 
     @AppScope
     @Provides
@@ -61,11 +62,14 @@ class AppModule {
     internal fun providesBoardCount(): BoardCount = BoardCount(2)
 
 
-    //The below are for testing, board creation.
-    // Releases should output to DB file, and app should load from file
+    /*
+        The below are for testing/board creation.
+        Releases should output to DB file, and app should load from file
+     */
     @AppScope
 //    @Provides
-    internal fun providesBoardGenerator(boardCount: BoardCount): BoardGenerator = BoardGenerator(boardCount)
+    internal fun providesBoardGenerator(boardCount: BoardCount): BoardGenerator =
+        BoardGenerator(boardCount)
 
     @AppScope
 //    @Provides
@@ -83,10 +87,10 @@ class AppModule {
         )
             .allowMainThreadQueries()
             .fallbackToDestructiveMigration()
-            .addCallback(object: RoomDatabase.Callback(){
-                override fun onCreate(db: SupportSQLiteDatabase){
+            .addCallback(object : RoomDatabase.Callback() {
+                override fun onCreate(db: SupportSQLiteDatabase) {
                     super.onCreate(db)
-                    Executors.newSingleThreadScheduledExecutor().execute(){
+                    Executors.newSingleThreadScheduledExecutor().execute() {
                         Timber.i("ONCREATE INMEMORY")
                         appDatabase.boardDao().insertBoards(*boards)
                         Timber.i("BOARDS LOADED INMEMORY")

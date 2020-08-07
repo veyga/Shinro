@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import io.astefanich.shinro.domain.Board
 import io.astefanich.shinro.domain.BoardCount
 import io.astefanich.shinro.repository.BoardRepository
+import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 
@@ -22,26 +23,25 @@ class GameViewModel @Inject constructor(
     val context: Context
 ) : ViewModel() {
 
-
     val board = MutableLiveData<Board>()
     val undoStackActive = MutableLiveData<Boolean>()
     private var _board: Board
     private var undoStack = Stack<Move>()
 
     init {
-        //boardId == 0 -> user is coming from title fragment
-        var tempboard = if (boardId == 0) repo.getLowestIncompleteBoard() else repo.getBoardById(boardId)
-        if (tempboard == null) {
-            //user has completed all boards! go to last
-            tempboard = repo.getBoardById(boardCount.value)
+        //boardId == 0 --> user is coming from title fragment
+        if (boardId == 0) {
+            boardId = repo.getLastViewedBoardId()
         }
-        _board = tempboard!!
-        boardId = _board.boardId
+        _board = repo.getBoardById(boardId)
         board.value = _board
         undoStackActive.value = false
     }
 
 
+    /**
+     * Record a move in this VM
+     */
     fun onMove(row: Int, column: Int) {
         val cell = _board.grid.cells[row][column]
 
@@ -102,6 +102,9 @@ class GameViewModel @Inject constructor(
             toastIt("$numIncorrect of your marbles are in the wrong spots.")
     }
 
+    /**
+     * Resets board via dialog box
+     */
     fun onReset() {
         val cells = _board.grid.cells
         for (i in 0..8) {
@@ -120,6 +123,9 @@ class GameViewModel @Inject constructor(
     }
 
 
+    /**
+     * Undoes most recent move
+     */
     fun onUndo() {
         val move = undoStack.pop()
         _board.grid.cells[move.row][move.column].current = move.oldVal
@@ -134,12 +140,20 @@ class GameViewModel @Inject constructor(
         saveNow()
     }
 
-    //implement board.observerForever instead?
     private fun saveNow() {
         repo.updateBoard(_board)
         board.value = _board //setting board value notifies registered observers
     }
 
     private fun toastIt(msg: String) = Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
+
+
+    /**
+     * Save user's last visited puzzle according to this VM's board ID
+     */
+    fun saveLastVisited() {
+        repo.updateLastViewedBoardId(boardId)
+    }
+
 
 }

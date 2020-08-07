@@ -6,8 +6,6 @@ import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.*
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
@@ -22,15 +20,16 @@ import io.astefanich.shinro.di.game.GameModule
 import io.astefanich.shinro.domain.BoardCount
 import io.astefanich.shinro.viewmodels.GameViewModel
 import io.astefanich.shinro.viewmodels.ViewModelFactory
-import timber.log.Timber
 import javax.inject.Inject
 
 class GameFragment : Fragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
+
     @Inject
     lateinit var boardCount: BoardCount
+
     @Inject
     lateinit var mContext: Context
     private lateinit var viewModel: GameViewModel
@@ -90,7 +89,6 @@ class GameFragment : Fragment() {
                     viewModel.onReset()
                 })
                 .setNegativeButton("NO", DialogInterface.OnClickListener { dialog, id ->
-
                 })
                 .create()
                 .show()
@@ -112,5 +110,12 @@ class GameFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return NavigationUI.onNavDestinationSelected(item!!, view!!.findNavController())
                 || super.onOptionsItemSelected(item)
+    }
+
+
+    //onDestroy isn't reliably called. This call reliably saves progress
+    override fun onStop() {
+        super.onStop()
+        viewModel.saveLastVisited()
     }
 }
