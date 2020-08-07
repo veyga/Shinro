@@ -6,7 +6,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import io.astefanich.shinro.R
-import io.astefanich.shinro.domain.InstructionType
+import io.astefanich.shinro.domain.TipChoice
 
 @BindingAdapter("completionStatus")
 fun TextView.setCompletionStatus(status: Boolean) {
@@ -65,15 +65,16 @@ fun bindGridSvg(view: ImageView, str: String) {
 
 
 //The view doesn't align correctly (vertically) across the different types/screen resolutions..
-@BindingAdapter("instructionText")
-fun setInstructionText(view: TextView, type: InstructionType) {
+@BindingAdapter("tipText")
+fun setTipText(view: TextView, type: TipChoice) {
     view.setText("")
 }
-//@BindingAdapter("instructionText")
-//fun setInstructionText(view: TextView, type: InstructionType) = when (type) {
-//    InstructionType.PATHFINDER -> view.setText(R.string.pathfinder_text)
-//    InstructionType.BLOCKER -> view.setText(R.string.blocker_text)
-//    InstructionType.PIGEONHOLE -> view.setText(R.string.pigeonhole_text)
+
+//@BindingAdapter("tipText")
+//fun setTipText(view: TextView, type: TipChoice) = when (type) {
+//    TipChoice.PATHFINDER -> view.setText(R.string.pathfinder)
+//    TipChoice.BLOCKER -> view.setText(R.string.blocker)
+//    TipChoice.PIGEONHOLE -> view.setText(R.string.pigeonhole)
 //    else -> view.setText(R.string.how_to_play_title)
 //}
 

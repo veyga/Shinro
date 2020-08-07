@@ -6,7 +6,7 @@
         android:menuCategory="secondary"
         android:title="@string/progress_title"></item>
     <item
-        android:id="@+id/tips_destination"
+        android:id="@+id/tips_choice_destination"
         android:menuCategory="secondary"
         android:title="@string/advanced_tips_title"></item>
     <item

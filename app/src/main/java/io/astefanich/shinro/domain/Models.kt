@@ -24,20 +24,20 @@ data class Board(
 )
 
 data class ProgressItem(
-    @ColumnInfo(name="board_id")
+    @ColumnInfo(name = "board_id")
     val boardId: Int,
     val difficulty: String,
     val completed: Boolean
 )
 
 @Parcelize
-enum class InstructionType : Parcelable { GENERAL, PATHFINDER, BLOCKER, PIGEONHOLE }
+enum class TipChoice : Parcelable { GENERAL, PATHFINDER, BLOCKER, PIGEONHOLE }
+
+data class Tip(val drawable: Int, val text: String)
 
 data class Cell(var current: String, val actual: String = current)
 
 data class Grid(val cells: Array<Array<Cell>>)
-
-data class Instruction(val drawable: Int, val text: String)
 
 data class DatabaseName(val name: String)
 

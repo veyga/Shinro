@@ -16,9 +16,9 @@
     <string name="puzzle">Puzzle</string>
     <string name="board_num_fmt">%d / %d</string>
     <string name="completed_fmt">%s</string>
-    <string name="pathfinder_title">The Pathfinder</string>
-    <string name="blocker_title">The Blocker</string>
-    <string name="pigeonhole_title">The Pigeonhole</string>
+    <string name="pathfinder">The Pathfinder</string>
+    <string name="blocker">The Blocker</string>
+    <string name="pigeonhole">The Pigeonhole</string>
     <string name="difficulty_fmt">Difficulty: %s</string>
     <string name="marbles_placed_fmt">Placed:\n%d</string>
 </resources>

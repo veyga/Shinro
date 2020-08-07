@@ -2,7 +2,7 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/instruction_card"
+    android:id="@+id/tip_card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardCornerRadius="2dp"
@@ -19,7 +19,7 @@
         <!--        android:maxWidth="415dp"-->
         <!--        android:maxHeight="415dp"-->
         <ImageView
-            android:id="@+id/instruction_image"
+            android:id="@+id/tip_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -35,7 +35,7 @@
 
 
         <TextView
-            android:id="@+id/instruction_text"
+            android:id="@+id/tip_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
@@ -44,10 +44,10 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textSize="10sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/instruction_image"
+            app:layout_constraintLeft_toRightOf="@id/tip_image"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="this is the instruction" />
+            tools:text="this is the tip" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

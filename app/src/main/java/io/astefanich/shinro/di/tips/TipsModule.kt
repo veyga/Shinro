@@ -1,33 +1,33 @@
-package io.astefanich.shinro.di.instructions
+package io.astefanich.shinro.di.tips
 
 import dagger.Module
 import dagger.Provides
 import io.astefanich.shinro.R
 import io.astefanich.shinro.di.InstructionsFragmentScope
-import io.astefanich.shinro.domain.Instruction
-import io.astefanich.shinro.domain.InstructionType
+import io.astefanich.shinro.domain.Tip
+import io.astefanich.shinro.domain.TipChoice
 
 /*
-* Hard coding instructions since they won't change.
+* Hard coding tips since they won't change.
  */
 @Module
-class InstructionsModule(private val instructionType: InstructionType) {
+class TipsModule(private val tipChoice: TipChoice) {
 
     @InstructionsFragmentScope
     @Provides
-    fun provideInstructionType() = instructionType
+    fun provideInstructionType() = tipChoice
 
     @InstructionsFragmentScope
     @Provides
-    fun provideInstructions(type: InstructionType): List<Instruction> = when (type) {
-        InstructionType.PATHFINDER -> pathfinderInstructions()
-        InstructionType.BLOCKER -> blockerInstructions()
-        InstructionType.PIGEONHOLE -> pigeonholeInstructions()
-        else -> generalInstructions()
+    fun provideTips(type: TipChoice): List<Tip> = when (type) {
+        TipChoice.PATHFINDER -> pathfinderTips()
+        TipChoice.BLOCKER -> blockerTips()
+        TipChoice.PIGEONHOLE -> pigeonholeTips()
+        else -> generalTips()
     }
 
-    private fun generalInstructions(): List<Instruction> = arrayListOf(
-        Instruction(
+    private fun generalTips(): List<Tip> = arrayListOf(
+        Tip(
             R.mipmap.ic_general_01_foreground, """
            A Shinro puzzle is an 8x8 grid. 
            Your job is to locate twelve 
@@ -42,7 +42,7 @@ class InstructionsModule(private val instructionType: InstructionType) {
            has an arrow pointing to it.
         """.trimIndent()
         ),
-        Instruction(
+        Tip(
             R.mipmap.ic_general_02_foreground, """
             Every puzzle can be solved 
             entirely with logic and 
@@ -54,14 +54,14 @@ class InstructionsModule(private val instructionType: InstructionType) {
             advanced tips.
         """.trimIndent()
         ),
-        Instruction(
+        Tip(
             R.mipmap.ic_general_03_foreground, """
             This column has zero marbles, 
             so we can mark off each 
             of its empty squares.
         """.trimIndent()
         ),
-        Instruction(
+        Tip(
             R.mipmap.ic_general_04_foreground, """
             Similarly, these rows 
             and column also have 
@@ -70,7 +70,7 @@ class InstructionsModule(private val instructionType: InstructionType) {
             empty squares.
         """.trimIndent()
         ),
-        Instruction(
+        Tip(
             R.mipmap.ic_general_05_foreground, """
             Each of these arrows point to
             a single empty square. 
@@ -78,14 +78,14 @@ class InstructionsModule(private val instructionType: InstructionType) {
             must contain a marble.
         """.trimIndent()
         ),
-        Instruction(
+        Tip(
             R.mipmap.ic_general_06_foreground, """
             This column is now satisfied, 
             so we can eliminate 
             the remaining empty squares.
         """.trimIndent()
         ),
-        Instruction(
+        Tip(
             R.mipmap.ic_general_07_foreground, """
             The arrow here is pointing 
             to the left. 
@@ -99,7 +99,7 @@ class InstructionsModule(private val instructionType: InstructionType) {
             impossible.
         """.trimIndent()
         ),
-        Instruction(
+        Tip(
             R.mipmap.ic_general_08_foreground, """
             This arrow points to a 
             single empty square. 
@@ -107,12 +107,12 @@ class InstructionsModule(private val instructionType: InstructionType) {
             contain a marble.
         """.trimIndent()
         ),
-        Instruction(
+        Tip(
             R.mipmap.ic_general_09_foreground, """
             This row is now satisfied.
         """.trimIndent()
         ),
-        Instruction(
+        Tip(
             R.mipmap.ic_general_10_foreground, """
             This arrow points to a 
             single empty square. 
@@ -121,7 +121,7 @@ class InstructionsModule(private val instructionType: InstructionType) {
             a marble.
         """.trimIndent()
         ),
-        Instruction(
+        Tip(
             R.mipmap.ic_general_11_foreground, """
             The eliminated square here 
             cannot contain a marble. 
@@ -130,7 +130,7 @@ class InstructionsModule(private val instructionType: InstructionType) {
             cannot be satisfied.
         """.trimIndent()
         ),
-        Instruction(
+        Tip(
             R.mipmap.ic_general_12_foreground, """
             This column has three marbles,
             and three empty squares. 
@@ -138,12 +138,12 @@ class InstructionsModule(private val instructionType: InstructionType) {
             must contain marbles.
         """.trimIndent()
         ),
-        Instruction(
+        Tip(
             R.mipmap.ic_general_13_foreground, """
             This row is now satisfied.
         """.trimIndent()
         ),
-        Instruction(
+        Tip(
             R.mipmap.ic_general_14_foreground, """
             There are two marbles in 
             this column, so its last 
@@ -151,7 +151,7 @@ class InstructionsModule(private val instructionType: InstructionType) {
             must contain a marble.
         """.trimIndent()
         ),
-        Instruction(
+        Tip(
             R.mipmap.ic_general_15_foreground, """
             The arrow here points 
             diagonally to only one 
@@ -161,7 +161,7 @@ class InstructionsModule(private val instructionType: InstructionType) {
             a marble.
         """.trimIndent()
         ),
-        Instruction(
+        Tip(
             R.mipmap.ic_general_16_foreground, """
             This row and column are now
             satisfied, so we can 
@@ -170,7 +170,7 @@ class InstructionsModule(private val instructionType: InstructionType) {
             squares.
         """.trimIndent()
         ),
-        Instruction(
+        Tip(
             R.mipmap.ic_general_17_foreground, """
             We found two of the three
             marbles in this row, 
@@ -180,12 +180,12 @@ class InstructionsModule(private val instructionType: InstructionType) {
             contain the third marble.
         """.trimIndent()
         ),
-        Instruction(
+        Tip(
             R.mipmap.ic_general_18_foreground, """
             This column is now satisfied.
         """.trimIndent()
         ),
-        Instruction(
+        Tip(
             R.mipmap.ic_general_19_foreground, """
             This column has two marbles, 
             and only two empty squares. 
@@ -197,8 +197,8 @@ class InstructionsModule(private val instructionType: InstructionType) {
 
     )
 
-    private fun pathfinderInstructions(): List<Instruction> = arrayListOf(
-        Instruction(
+    private fun pathfinderTips(): List<Tip> = arrayListOf(
+        Tip(
             R.mipmap.ic_pathfinder_01_foreground, """
             All of the simple moves
             have already been taken in
@@ -206,14 +206,14 @@ class InstructionsModule(private val instructionType: InstructionType) {
             we find another move?
         """.trimIndent()
         ),
-        Instruction(
+        Tip(
             R.mipmap.ic_pathfinder_02_foreground, """
             This arrow is satisfied
             if there is at least one
             marble along path [A].
         """.trimIndent()
         ),
-        Instruction(
+        Tip(
             R.mipmap.ic_pathfinder_03_foreground, """
             This arrow is satisfied
             if there is at least one
@@ -226,7 +226,7 @@ class InstructionsModule(private val instructionType: InstructionType) {
             along these paths.
         """.trimIndent()
         ),
-        Instruction(
+        Tip(
             R.mipmap.ic_pathfinder_04_foreground, """
             These rows completely
             contain the two paths. No
@@ -245,8 +245,8 @@ class InstructionsModule(private val instructionType: InstructionType) {
         )
     )
 
-    private fun blockerInstructions(): List<Instruction> = arrayListOf(
-        Instruction(
+    private fun blockerTips(): List<Tip> = arrayListOf(
+        Tip(
             R.mipmap.ic_blocker_01_foreground, """
             Here is another puzzle with
             all of the simple moves
@@ -254,7 +254,7 @@ class InstructionsModule(private val instructionType: InstructionType) {
             find the next move?
         """.trimIndent()
         ),
-        Instruction(
+        Tip(
             R.mipmap.ic_blocker_02_foreground, """
             This arrow is satisfied
             by a marble in [A] or [B].
@@ -273,13 +273,13 @@ class InstructionsModule(private val instructionType: InstructionType) {
             So, [C] is a blocker.
         """.trimIndent()
         ),
-        Instruction(
+        Tip(
             R.mipmap.ic_blocker_03_foreground, """
            Thus, we can eliminate [C]
             as a possibility.
         """.trimIndent()
         ),
-        Instruction(
+        Tip(
             R.mipmap.ic_blocker_04_foreground, """
             Here's another example using
             the same puzzle.
@@ -302,7 +302,7 @@ class InstructionsModule(private val instructionType: InstructionType) {
             So, [C] is a blocker.
         """.trimIndent()
         ),
-        Instruction(
+        Tip(
             R.mipmap.ic_blocker_05_foreground, """
             Thus, we can eliminate [C]
             as a possibility.
@@ -311,8 +311,8 @@ class InstructionsModule(private val instructionType: InstructionType) {
 
     )
 
-    private fun pigeonholeInstructions(): List<Instruction> = arrayListOf(
-        Instruction(
+    private fun pigeonholeTips(): List<Tip> = arrayListOf(
+        Tip(
             R.mipmap.ic_pigeonhole_01_foreground, """
             This is the most advanced
             technique required by
@@ -324,7 +324,7 @@ class InstructionsModule(private val instructionType: InstructionType) {
             more obvious moves available.
         """.trimIndent()
         ),
-        Instruction(
+        Tip(
             R.mipmap.ic_pigeonhole_02_foreground, """
             This arrow is satisfied by
             a marble in [A] or [B].
@@ -343,7 +343,7 @@ class InstructionsModule(private val instructionType: InstructionType) {
             [C], [D], and [E].
         """.trimIndent()
         ),
-        Instruction(
+        Tip(
             R.mipmap.ic_pigeonhole_03_foreground, """
             Therefore, there are only
             possibilities.
@@ -359,7 +359,7 @@ class InstructionsModule(private val instructionType: InstructionType) {
             with certainty.
         """.trimIndent()
         ),
-        Instruction(
+        Tip(
             R.mipmap.ic_pigeonhole_04_foreground, """
             Another example:
             This arrow is satisfied by
@@ -380,7 +380,7 @@ class InstructionsModule(private val instructionType: InstructionType) {
             [C], [D], and [E].
         """.trimIndent()
         ),
-        Instruction(
+        Tip(
             R.mipmap.ic_pigeonhole_05_foreground, """
             Therefore, there are
             only two possibilities.

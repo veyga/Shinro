@@ -18,8 +18,8 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
         <action
-            android:id="@+id/action_title_to_instructions"
-            app:destination="@id/instructions_destination"
+            android:id="@+id/action_title_to_tip_choice"
+            app:destination="@id/tips_destination"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_right"
@@ -67,21 +67,25 @@
         android:label="about_fragment"
         tools:layout="@layout/about_fragment" />
     <fragment
-        android:id="@+id/instructions_destination"
-        android:name="io.astefanich.shinro.ui.InstructionsListFragment"
-        android:label="instructions_fragment"
-        tools:layout="@layout/instructions_list_fragment">
-        <argument
-            android:name="instructionType"
-            app:argType="io.astefanich.shinro.domain.InstructionType" />
-    </fragment>
-    <fragment
         android:id="@+id/tips_destination"
         android:name="io.astefanich.shinro.ui.TipsFragment"
         android:label="tips_fragment"
         tools:layout="@layout/tips_fragment">
+        <argument
+            android:name="tipChoice"
+            app:argType="io.astefanich.shinro.domain.TipChoice" />
+    </fragment>
+    <fragment
+        android:id="@+id/tips_choice_destination"
+        android:name="io.astefanich.shinro.ui.TipsChoiceFragment"
+        android:label="tips_choice_fragment"
+        tools:layout="@layout/tips_choice_fragment">
         <action
-            android:id="@+id/action_tips_destination_to_instructions_destination"
-            app:destination="@id/instructions_destination" />
+            android:id="@+id/action_tips_choice_to_tips"
+            app:destination="@id/tips_destination"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
     </fragment>
 </navigation>

@@ -5,16 +5,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import io.astefanich.shinro.R
-import io.astefanich.shinro.domain.Instruction
-import kotlinx.android.synthetic.main.instruction_list_item.view.*
+import io.astefanich.shinro.domain.Tip
+import kotlinx.android.synthetic.main.tip_item.view.*
 
-class InstructionRecyclerAdapter(private val items: List<Instruction>) :
+class TipsRecyclerAdapter(private val items: List<Tip>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return InstructionViewHolder(
             LayoutInflater.from(parent.context).inflate(
-                R.layout.instruction_list_item,
+                R.layout.tip_item,
                 parent,
                 false
             )
@@ -33,10 +33,10 @@ class InstructionRecyclerAdapter(private val items: List<Instruction>) :
 
     internal class InstructionViewHolder constructor(view: View) : RecyclerView.ViewHolder(view) {
 
-        fun bind(instruction: Instruction) {
+        fun bind(tip: Tip) {
             itemView.apply {
-                instruction_image.setImageResource(instruction.drawable)
-                instruction_text.setText(instruction.text)
+                tip_image.setImageResource(tip.drawable)
+                tip_text.setText(tip.text)
             }
         }
     }

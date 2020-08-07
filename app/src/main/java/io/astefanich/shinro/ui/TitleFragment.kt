@@ -11,7 +11,7 @@ import androidx.navigation.fragment.findNavController
 import dagger.android.support.AndroidSupportInjection
 import io.astefanich.shinro.R
 import io.astefanich.shinro.databinding.TitleFragmentBinding
-import io.astefanich.shinro.domain.InstructionType
+import io.astefanich.shinro.domain.TipChoice
 
 class TitleFragment : Fragment() {
 
@@ -36,7 +36,7 @@ class TitleFragment : Fragment() {
         }
 
         binding.howToPlayButton.setOnClickListener {
-            findNavController().navigate(TitleFragmentDirections.actionTitleToInstructions(InstructionType.GENERAL))
+            findNavController().navigate(TitleFragmentDirections.actionTitleToTipChoice(TipChoice.GENERAL))
         }
 
         binding.yourProgressButton.setOnClickListener {
