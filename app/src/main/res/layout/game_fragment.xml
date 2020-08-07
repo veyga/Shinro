@@ -21,9 +21,11 @@
             android:id="@+id/game_header"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_margin="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="0dp"
             android:gravity="center"
             android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@id/grid"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -32,7 +34,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:gravity="center"
                 android:text="@string/puzzle_title"
+                android:textSize="24sp"
                 android:textStyle="bold"
                 tools:text="Puzzle" />
 
@@ -41,7 +45,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:gravity="center"
                 android:text="@{@string/board_num_fmt(vm.board.boardId)}"
+                android:textSize="24sp"
                 android:textStyle="bold"
                 tools:text="4 / 50" />
 
@@ -49,6 +55,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:gravity="center"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -63,9 +70,10 @@
                     android:id="@+id/difficulty"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
+                    android:gravity="center"
                     android:text="@{@string/difficulty_fmt(vm.board.difficulty)}"
-                    tools:text="DIFFICULTY: EASY" />
+                    tools:text="DIFFICULTY: MEDIUM" />
 
                 <ImageView
                     android:id="@+id/next_arrow"
@@ -81,6 +89,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:gravity="center"
                 app:completionStatus="@{vm.board.completed}"
                 tools:text="INCOMPLETE" />
         </LinearLayout>
@@ -89,7 +98,8 @@
             android:id="@+id/grid"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_margin="16dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginVertical="48dp"
             android:background="@color/colorGray"
             android:gravity="center"
             android:orientation="vertical"

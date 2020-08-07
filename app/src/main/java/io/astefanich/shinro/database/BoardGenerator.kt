@@ -50,7 +50,7 @@ object BoardGenerator {
         """.trimIndent(),
         """
         4
-        EASY
+        MEDIUM
         0 1 1 3 3 0 2 1 1
         0 E X D X D X X F
         1 X X X X F M X X
