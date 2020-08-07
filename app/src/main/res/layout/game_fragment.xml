@@ -35,7 +35,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/puzzle_title"
+                android:text="@string/puzzle"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 tools:text="Puzzle" />

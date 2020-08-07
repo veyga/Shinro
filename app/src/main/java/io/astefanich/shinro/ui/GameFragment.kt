@@ -2,9 +2,12 @@ package io.astefanich.shinro.ui
 
 
 import android.app.AlertDialog
+import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
@@ -16,6 +19,7 @@ import io.astefanich.shinro.databinding.GameFragmentBinding
 import io.astefanich.shinro.di.DaggerAppComponent
 import io.astefanich.shinro.di.game.GameComponent
 import io.astefanich.shinro.di.game.GameModule
+import io.astefanich.shinro.domain.BoardCount
 import io.astefanich.shinro.viewmodels.GameViewModel
 import io.astefanich.shinro.viewmodels.ViewModelFactory
 import timber.log.Timber
@@ -25,6 +29,10 @@ class GameFragment : Fragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
+    @Inject
+    lateinit var boardCount: BoardCount
+    @Inject
+    lateinit var mContext: Context
     private lateinit var viewModel: GameViewModel
     private lateinit var binding: GameFragmentBinding
     private lateinit var gameComponent: GameComponent
@@ -49,8 +57,11 @@ class GameFragment : Fragment() {
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(GameViewModel::class.java)
 
-        if (viewModel.boardId == 50)
-            binding.nextArrow.visibility = View.INVISIBLE
+        if (viewModel.boardId == 1)
+            binding.backArrow.visibility = View.GONE
+
+        if (viewModel.boardId == boardCount.value)
+            binding.nextArrow.visibility = View.GONE
 
         binding.nextArrow.setOnClickListener { view ->
             view.findNavController()
@@ -85,10 +96,6 @@ class GameFragment : Fragment() {
                 .show()
         }
 
-
-        if (viewModel.boardId == 1)
-            binding.backArrow.visibility = View.INVISIBLE
-
         binding.vm = viewModel
         binding.lifecycleOwner = this
         setHasOptionsMenu(true)
@@ -103,13 +110,6 @@ class GameFragment : Fragment() {
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val grid = binding.grid
-        Timber.i("grid width: ${grid.width}  grid height: ${grid.height}")
-        var celll = binding.cell00
-        Timber.i("cell width: ${celll.width}  cell height: ${celll.height}")
-        celll = binding.cell01
-        Timber.i("cell width: ${celll.width}  cell height: ${celll.height}")
-
         return NavigationUI.onNavDestinationSelected(item!!, view!!.findNavController())
                 || super.onOptionsItemSelected(item)
     }

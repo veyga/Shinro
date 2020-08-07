@@ -21,7 +21,6 @@ data class Board(
 
     @ColumnInfo(name = "marbles_placed")
     var marblesPlaced: Int = 0
-
 )
 
 data class ProgressItem(
@@ -42,3 +41,4 @@ data class Instruction(val drawable: Int, val text: String)
 
 data class DatabaseName(val name: String)
 
+data class BoardCount(val value: Int)

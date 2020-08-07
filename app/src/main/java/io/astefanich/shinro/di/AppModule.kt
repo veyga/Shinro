@@ -13,6 +13,7 @@ import io.astefanich.shinro.database.AppDatabase
 import io.astefanich.shinro.database.BoardDao
 import io.astefanich.shinro.database.BoardGenerator
 import io.astefanich.shinro.domain.Board
+import io.astefanich.shinro.domain.BoardCount
 import io.astefanich.shinro.domain.DatabaseName
 import io.astefanich.shinro.domain.ProgressItem
 import timber.log.Timber
@@ -41,10 +42,10 @@ class AppModule {
 
     @AppScope
     @Provides
-    internal fun providesDatabaseName(): DatabaseName = DatabaseName("shinro50.db")
+    internal fun providesDatabaseName(ct: BoardCount): DatabaseName = DatabaseName("shinro${ct.value}.db")
 
     @AppScope
-//    @Provides
+    @Provides
     internal fun providesDatabaseFromFile(
         application: Application,
         databaseName: DatabaseName
@@ -57,10 +58,21 @@ class AppModule {
 
     @AppScope
     @Provides
-    internal fun providesBoards(): Array<Board?> = BoardGenerator.getBoards()
+    internal fun providesBoardCount(): BoardCount = BoardCount(2)
+
+
+    //The below are for testing, board creation.
+    // Releases should output to DB file, and app should load from file
+    @AppScope
+//    @Provides
+    internal fun providesBoardGenerator(boardCount: BoardCount): BoardGenerator = BoardGenerator(boardCount)
 
     @AppScope
-    @Provides
+//    @Provides
+    internal fun providesBoards(generator: BoardGenerator): Array<Board?> = generator.genBoards()
+
+    @AppScope
+//    @Provides
     internal fun providesInMemoryAppDatabase(
         application: Application,
         boards: Array<Board>
