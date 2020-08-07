@@ -23,24 +23,24 @@ class TipsFragment : Fragment() {
         val binding: TipsFragmentBinding =
             DataBindingUtil.inflate(inflater, R.layout.tips_fragment, container, false)
 
-        binding.generalRulesCard.setOnClickListener {
+        binding.howToPlayChip.setOnClickListener {
             findNavController().navigate(
                 TipsFragmentDirections.actionTipsDestinationToInstructionsDestination(InstructionType.GENERAL)
             )
         }
 
-        binding.pathfinderCard.setOnClickListener {
+        binding.pathfinderChip.setOnClickListener {
             findNavController().navigate(
                 TipsFragmentDirections.actionTipsDestinationToInstructionsDestination(InstructionType.PATHFINDER)
             )
         }
 
-        binding.blockerCard.setOnClickListener {
+        binding.blockerChip.setOnClickListener {
             findNavController().navigate(
                 TipsFragmentDirections.actionTipsDestinationToInstructionsDestination(InstructionType.BLOCKER)
             )
         }
-        binding.pigeonholeCard.setOnClickListener {
+        binding.pigeonholeChip.setOnClickListener {
             findNavController().navigate(
                 TipsFragmentDirections.actionTipsDestinationToInstructionsDestination(InstructionType.PIGEONHOLE)
             )

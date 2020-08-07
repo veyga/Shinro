@@ -15,9 +15,9 @@
     <string name="thanks_text">Very special thanks to David Oranchak (PlayShinro.com)\n for providing much of this app\'s content</string>
     <string name="board_num_fmt">Puzzle\n  %d / 50</string>
     <string name="completed_fmt">%s</string>
-    <string name="pathfinder_text">The Pathfinder</string>
-    <string name="blocker_text">The Blocker</string>
-    <string name="pigeonhole_text">The Pigeonhole</string>
+    <string name="pathfinder_title">The Pathfinder</string>
+    <string name="blocker_title">The Blocker</string>
+    <string name="pigeonhole_title">The Pigeonhole</string>
     <string name="difficulty_fmt">Difficulty: %s</string>
     <string name="marbles_placed_fmt">Placed:\n%d</string>
 </resources>

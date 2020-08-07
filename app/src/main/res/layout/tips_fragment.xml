@@ -11,89 +11,48 @@
             type="io.astefanich.shinro.ui.TipsFragment" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         android:background="@color/colorBlack">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/general_rules_card"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:textAlignment="center"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+        <com.google.android.material.chip.ChipGroup
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="48sp">
 
-            <TextView
-                android:id="@+id/general_rules_card_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <com.google.android.material.chip.Chip
+                android:id="@+id/how_to_play_chip"
                 android:text="@string/how_to_play_title"
                 android:textAlignment="center"
-                android:textSize="36sp"
-                tools:text="General Rules" />
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/pathfinder_card"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:textAlignment="center"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/general_rules_card">
-
-            <TextView
-                android:id="@+id/pathfinder_card_text"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/pathfinder_text"
+                tools:text="How to Play"/>
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/pathfinder_chip"
+                android:text="@string/pathfinder_title"
                 android:textAlignment="center"
-                android:textSize="36sp"
-                tools:text="The Pathfinder" />
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/blocker_card"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:textAlignment="center"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/pathfinder_card">
-
-            <TextView
-                android:id="@+id/blocker_card_text"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/blocker_text"
+                tools:text="Pathfinder"/>
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/blocker_chip"
+                android:text="@string/blocker_title"
                 android:textAlignment="center"
-                android:textSize="36sp"
-                tools:text="The Blocker" />
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/pigeonhole_card"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:textAlignment="center"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/blocker_card">
-
-            <TextView
-                android:id="@+id/pigeonhole_card_text"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/pigeonhole_text"
+                tools:text="Blocker"/>
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/pigeonhole_chip"
+                android:text="@string/pigeonhole_title"
                 android:textAlignment="center"
-                android:textSize="36sp"
-                tools:text="The Pigeonhole" />
-        </androidx.cardview.widget.CardView>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="Pigeonhole"/>
+        </com.google.android.material.chip.ChipGroup>
+    </LinearLayout>
 </layout>
