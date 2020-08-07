@@ -34,13 +34,18 @@ class TitleFragment : Fragment() {
                 )
             )
         }
+
         binding.howToPlayButton.setOnClickListener {
             findNavController().navigate(TitleFragmentDirections.actionTitleToInstructions(InstructionType.GENERAL))
         }
+
+        binding.yourProgressButton.setOnClickListener {
+            findNavController().navigate(TitleFragmentDirections.actionTitleToProgress())
+        }
+
         binding.aboutButton.setOnClickListener {
             findNavController().navigate(TitleFragmentDirections.actionTitleToAbout())
         }
-
 
         return binding.root
     }

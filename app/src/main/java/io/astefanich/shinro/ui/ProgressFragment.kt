@@ -30,37 +30,5 @@ class ProgressFragment : Fragment() {
         Timber.i("progress fragment created\n$items")
         return inflater.inflate(R.layout.progress_fragment, container, false)
     }
-
-//    lateinit var instructionType: InstructionType
-//    lateinit var component: InstructionsComponent
-//
-//    @Inject
-//    lateinit var items: List<Instruction>
-//
-//    override fun onCreateView(
-//        inflater: LayoutInflater, container: ViewGroup?,
-//        savedInstanceState: Bundle?
-//    ): View? {
-//
-//        val binding: InstructionsListFragmentBinding = DataBindingUtil.inflate(
-//            inflater, R.layout.instructions_list_fragment, container, false
-//        )
-//
-//        val instructionsListArgs by navArgs<InstructionsListFragmentArgs>()
-//        instructionType = instructionsListArgs.instructionType
-//
-//        component = DaggerInstructionsComponent
-//            .builder()
-//            .instructionsModule(InstructionsModule(instructionType))
-//            .build()
-//        component.inject(this)
-//
-//        val recyclerAdapter = InstructionRecyclerAdapter(items)
-//        binding.instructionsRecyclerView.apply {
-//            adapter = recyclerAdapter
-//        }
-//        binding.fragment = this
-//        binding.lifecycleOwner = this
-//        return binding.root
-//    }
 }
+

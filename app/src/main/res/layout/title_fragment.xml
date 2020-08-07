@@ -64,6 +64,17 @@
             tools:text="@string/how_to_play_title" />
 
         <Button
+            android:id="@+id/your_progress_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/progress_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/how_to_play_button"
+            tools:text="@string/progress_title" />
+
+        <Button
             android:id="@+id/about_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -71,7 +82,7 @@
             android:text="@string/about_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/how_to_play_button"
+            app:layout_constraintTop_toBottomOf="@+id/your_progress_button"
             tools:text="@string/about_title" />
 
 
