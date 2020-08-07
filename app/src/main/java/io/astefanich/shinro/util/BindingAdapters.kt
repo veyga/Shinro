@@ -1,6 +1,5 @@
 package io.astefanich.shinro.util
 
-import android.graphics.Color
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
@@ -11,9 +10,11 @@ import io.astefanich.shinro.domain.InstructionType
 
 @BindingAdapter("completionStatus")
 fun TextView.setCompletionStatus(status: Boolean) {
-    val (txt, color) = if (status) Pair("COMPLETE", "#00FF00") else Pair("INCOMPLETE", "#FF0000")
+    val (txt, color) = if (status)
+        Pair("COMPLETE", resources.getColor(R.color.green))
+    else Pair("INCOMPLETE", resources.getColor(R.color.red))
     text = txt
-    setTextColor(Color.parseColor(color))
+    setTextColor(color)
 }
 
 @BindingAdapter("hideIfFalse")
@@ -34,19 +35,6 @@ fun setVideoButtonText(button: Button, isPlaying: Boolean, isStarted: Boolean) {
         }
     }
 }
-
-//The view doesn't align correctly (vertically) across the different types/screen resolutions..
-@BindingAdapter("instructionText")
-fun setInstructionText(view: TextView, type: InstructionType) {
-    view.setText("")
-}
-//@BindingAdapter("instructionText")
-//fun setInstructionText(view: TextView, type: InstructionType) = when (type) {
-//    InstructionType.PATHFINDER -> view.setText(R.string.pathfinder_text)
-//    InstructionType.BLOCKER -> view.setText(R.string.blocker_text)
-//    InstructionType.PIGEONHOLE -> view.setText(R.string.pigeonhole_text)
-//    else -> view.setText(R.string.how_to_play_title)
-//}
 
 @BindingAdapter("gridSvg")
 fun bindGridSvg(view: ImageView, str: String) {
@@ -74,6 +62,20 @@ fun bindGridSvg(view: ImageView, str: String) {
     }
     view.setImageResource(res)
 }
+
+
+//The view doesn't align correctly (vertically) across the different types/screen resolutions..
+@BindingAdapter("instructionText")
+fun setInstructionText(view: TextView, type: InstructionType) {
+    view.setText("")
+}
+//@BindingAdapter("instructionText")
+//fun setInstructionText(view: TextView, type: InstructionType) = when (type) {
+//    InstructionType.PATHFINDER -> view.setText(R.string.pathfinder_text)
+//    InstructionType.BLOCKER -> view.setText(R.string.blocker_text)
+//    InstructionType.PIGEONHOLE -> view.setText(R.string.pigeonhole_text)
+//    else -> view.setText(R.string.how_to_play_title)
+//}
 
 
 
