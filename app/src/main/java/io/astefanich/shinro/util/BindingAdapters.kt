@@ -19,7 +19,7 @@ fun TextView.setCompletionStatus(status: Boolean) {
 @BindingAdapter("hideIfFalse")
 fun hideViewIfFalseCondition(view: View, isActive: Boolean) = when (isActive) {
     true -> view.visibility = View.VISIBLE
-    else -> view.visibility = View.GONE
+    else -> view.visibility = View.INVISIBLE
 }
 
 @BindingAdapter("videoPlaying", "videoStarted")
