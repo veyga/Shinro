@@ -46,7 +46,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@{@string/board_num_fmt(vm.board.boardId)}"
+                android:text="@{@string/board_num_fmt(vm.board.boardId, vm.boardCount.value)}"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 tools:text="4 / 50" />

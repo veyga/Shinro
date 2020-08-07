@@ -58,10 +58,10 @@ class GameFragment : Fragment() {
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(GameViewModel::class.java)
 
         if (viewModel.boardId == 1)
-            binding.backArrow.visibility = View.GONE
+            binding.backArrow.visibility = View.INVISIBLE
 
         if (viewModel.boardId == boardCount.value)
-            binding.nextArrow.visibility = View.GONE
+            binding.nextArrow.visibility = View.INVISIBLE
 
         binding.nextArrow.setOnClickListener { view ->
             view.findNavController()
