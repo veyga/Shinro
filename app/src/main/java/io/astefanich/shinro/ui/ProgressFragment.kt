@@ -66,11 +66,17 @@ class ProgressFragment : Fragment() {
 //        return inflater.inflate(R.layout.progress_fragment, container, false)
     }
 
-    //the spinners don't disappear at same time as fragment (bleed into next fragment transition)
+//    the spinners don't disappear at same time as fragment (bleed into next fragment transition)
     override fun onStop() {
         super.onStop()
         binding.completionFilterSpinner.visibility = View.INVISIBLE
         binding.difficultiesFilterSpinner.visibility = View.INVISIBLE
+    }
+
+    override fun onStart() {
+        super.onStart()
+        binding.completionFilterSpinner.visibility = View.VISIBLE
+        binding.difficultiesFilterSpinner.visibility = View.VISIBLE
     }
 
     //TODO implement this after implementing LiveData

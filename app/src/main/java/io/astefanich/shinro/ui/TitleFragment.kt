@@ -1,6 +1,7 @@
 package io.astefanich.shinro.ui
 
 
+import android.graphics.Typeface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -27,7 +28,8 @@ class TitleFragment : Fragment() {
             DataBindingUtil.inflate(inflater, R.layout.title_fragment, container, false)
 
 
-        binding.playButton.setOnClickListener {
+        binding.playChip.setTypeface(Typeface.DEFAULT_BOLD)
+        binding.playChip.setOnClickListener {
             findNavController().navigate(
                 TitleFragmentDirections.actionTitleToGame(
                     0
@@ -35,15 +37,18 @@ class TitleFragment : Fragment() {
             )
         }
 
-        binding.howToPlayButton.setOnClickListener {
+        binding.howToPlayChip.setTypeface(Typeface.DEFAULT_BOLD)
+        binding.howToPlayChip.setOnClickListener {
             findNavController().navigate(TitleFragmentDirections.actionTitleToTipChoice(TipChoice.GENERAL))
         }
 
-        binding.yourProgressButton.setOnClickListener {
+        binding.yourProgressChip.setTypeface(Typeface.DEFAULT_BOLD)
+        binding.yourProgressChip.setOnClickListener {
             findNavController().navigate(TitleFragmentDirections.actionTitleToProgress())
         }
 
-        binding.aboutButton.setOnClickListener {
+        binding.aboutChip.setTypeface(Typeface.DEFAULT_BOLD)
+        binding.aboutChip.setOnClickListener {
             findNavController().navigate(TitleFragmentDirections.actionTitleToAbout())
         }
 

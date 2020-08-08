@@ -35,53 +35,106 @@
             android:text="@string/app_name"
             android:textAlignment="center"
             android:textSize="48sp"
+            android:textStyle="bold"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/title_image"
             tools:srcCompat="SHINRO" />
 
+        <!--        android:layout_margin="24dp"-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_margin="32dp"
-            android:gravity="center"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/title_text">
 
-            <Button
-                android:id="@+id/play_button"
-                android:layout_width="wrap_content"
+            <com.google.android.material.chip.ChipGroup
+                android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_margin="48sp"
                 android:layout_weight="1"
-                android:text="@string/play"
-                tools:text="@string/play" />
+                android:gravity="center">
 
-            <Button
-                android:id="@+id/how_to_play_button"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text="@string/how_to_play_title"
-                tools:text="@string/how_to_play_title" />
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/play_chip"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/play"
+                    android:textAlignment="center"
+                    app:chipBackgroundColor="@color/lightBlue"
+                    tools:text="Play!" />
 
-            <Button
-                android:id="@+id/your_progress_button"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text="@string/progress_title"
-                tools:text="@string/progress_title" />
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/how_to_play_chip"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/how_to_play_title"
+                    android:textAlignment="center"
+                    app:chipBackgroundColor="@color/lightBlue"
+                    tools:text="How to Play" />
 
-            <Button
-                android:id="@+id/about_button"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text="@string/about_title"
-                tools:text="@string/about_title" />
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/your_progress_chip"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/your_progress"
+                    android:textAlignment="center"
+                    app:chipBackgroundColor="@color/lightBlue"
+                    tools:text="Your Progress" />
 
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/about_chip"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/about_title"
+                    android:textAlignment="center"
+                    app:chipBackgroundColor="@color/lightBlue"
+                    tools:text="About" />
+            </com.google.android.material.chip.ChipGroup>
         </LinearLayout>
+        <!--        <LinearLayout-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="0dp"-->
+        <!--            android:layout_margin="32dp"-->
+        <!--            android:gravity="center"-->
+        <!--            android:orientation="vertical"-->
+        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--            app:layout_constraintTop_toBottomOf="@+id/title_text">-->
+
+        <!--            <Button-->
+        <!--                android:id="@+id/play_button"-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="0dp"-->
+        <!--                android:layout_weight="1"-->
+        <!--                android:text="@string/play"-->
+        <!--                tools:text="@string/play" />-->
+
+        <!--            <Button-->
+        <!--                android:id="@+id/how_to_play_button"-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="0dp"-->
+        <!--                android:layout_weight="1"-->
+        <!--                android:text="@string/how_to_play_title"-->
+        <!--                tools:text="@string/how_to_play_title" />-->
+
+        <!--            <Button-->
+        <!--                android:id="@+id/your_progress_button"-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="0dp"-->
+        <!--                android:layout_weight="1"-->
+        <!--                android:text="@string/progress_title"-->
+        <!--                tools:text="@string/progress_title" />-->
+
+        <!--            <Button-->
+        <!--                android:id="@+id/about_button"-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="0dp"-->
+        <!--                android:layout_weight="1"-->
+        <!--                android:text="@string/about_title"-->
+        <!--                tools:text="@string/about_title" />-->
+
+        <!--        </LinearLayout>-->
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

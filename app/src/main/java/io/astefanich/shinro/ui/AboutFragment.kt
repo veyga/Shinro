@@ -1,6 +1,7 @@
 package io.astefanich.shinro.ui
 
 
+import android.graphics.Typeface
 import android.media.AudioManager
 import android.net.Uri
 import android.os.Build
@@ -38,6 +39,7 @@ class AboutFragment : Fragment() {
             inflater, R.layout.about_fragment, container, false
         )
 
+        binding.playVideoButton.setTypeface(Typeface.DEFAULT_BOLD)
         videoView = binding.instructionsVideo
         videoView.setVideoURI(videoUri)
 

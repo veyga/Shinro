@@ -1,6 +1,7 @@
 package io.astefanich.shinro.ui
 
 
+import android.graphics.Typeface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -22,6 +23,7 @@ class TipsChoiceFragment : Fragment() {
         val binding: TipsChoiceFragmentBinding =
             DataBindingUtil.inflate(inflater, R.layout.tips_choice_fragment, container, false)
 
+        binding.howToPlayChip.setTypeface(Typeface.DEFAULT_BOLD)
         binding.howToPlayChip.setOnClickListener {
             findNavController().navigate(
                 TipsChoiceFragmentDirections.actionTipsChoiceToTips(
@@ -30,6 +32,7 @@ class TipsChoiceFragment : Fragment() {
             )
         }
 
+        binding.pathfinderChip.setTypeface(Typeface.DEFAULT_BOLD)
         binding.pathfinderChip.setOnClickListener {
             findNavController().navigate(
                 TipsChoiceFragmentDirections.actionTipsChoiceToTips(
@@ -38,6 +41,7 @@ class TipsChoiceFragment : Fragment() {
             )
         }
 
+        binding.blockerChip.setTypeface(Typeface.DEFAULT_BOLD)
         binding.blockerChip.setOnClickListener {
             findNavController().navigate(
                 TipsChoiceFragmentDirections.actionTipsChoiceToTips(
@@ -45,6 +49,8 @@ class TipsChoiceFragment : Fragment() {
                 )
             )
         }
+
+        binding.pigeonholeChip.setTypeface(Typeface.DEFAULT_BOLD)
         binding.pigeonholeChip.setOnClickListener {
             findNavController().navigate(
                 TipsChoiceFragmentDirections.actionTipsChoiceToTips(

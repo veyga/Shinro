@@ -1,10 +1,12 @@
 package io.astefanich.shinro.util
 
+import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.resources.TextAppearance
 import io.astefanich.shinro.R
 import io.astefanich.shinro.domain.ProgressItem
 import io.astefanich.shinro.ui.ProgressFragmentDirections
@@ -38,6 +40,7 @@ class ProgressRecyclerAdapter(private val items: List<ProgressItem>) :
         fun bind(progressItem: ProgressItem) {
             itemView.apply {
                 progress_item_chip.setText("Puzzle ${progressItem.boardId}\t(${progressItem.difficulty})      ")
+                progress_item_chip.setTypeface(Typeface.DEFAULT_BOLD)
                 val icon = if (progressItem.completed) R.drawable.checkmark else R.drawable.delete
                 progress_item_chip.setChipIconResource(icon)
                 progress_item_chip.setOnClickListener {

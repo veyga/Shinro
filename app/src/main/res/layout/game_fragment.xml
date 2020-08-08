@@ -16,7 +16,7 @@
         android:layout_height="match_parent"
         tools:background="@color/white">
 
-    <LinearLayout
+        <LinearLayout
             android:id="@+id/game_header"
             android:layout_width="match_parent"
             android:layout_height="0dp"

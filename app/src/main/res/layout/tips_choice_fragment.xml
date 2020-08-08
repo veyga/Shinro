@@ -23,35 +23,39 @@
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/how_to_play_chip"
-                android:text="@string/how_to_play_title"
-                android:textAlignment="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:text="How to Play"/>
+                android:text="@string/how_to_play_title"
+                android:textAlignment="center"
+                app:chipBackgroundColor="@color/lightBlue"
+                tools:text="How to Play" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/pathfinder_chip"
-                android:text="@string/pathfinder"
-                android:textAlignment="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:text="Pathfinder"/>
+                android:text="@string/pathfinder"
+                android:textAlignment="center"
+                app:chipBackgroundColor="@color/lightBlue"
+                tools:text="Pathfinder" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/blocker_chip"
-                android:text="@string/blocker"
-                android:textAlignment="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:text="Blocker"/>
+                android:text="@string/blocker"
+                android:textAlignment="center"
+                app:chipBackgroundColor="@color/lightBlue"
+                tools:text="Blocker" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/pigeonhole_chip"
-                android:text="@string/pigeonhole"
-                android:textAlignment="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:text="Pigeonhole"/>
+                android:text="@string/pigeonhole"
+                android:textAlignment="center"
+                app:chipBackgroundColor="@color/lightBlue"
+                tools:text="Pigeonhole" />
         </com.google.android.material.chip.ChipGroup>
     </LinearLayout>
 </layout>
