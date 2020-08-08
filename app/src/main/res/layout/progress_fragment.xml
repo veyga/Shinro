@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.TipsFragment">
+    tools:context=".ui.ProgressFragment">
 
     <data>
 
@@ -15,10 +15,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="this is your progress.." />
+<!--        <TextView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:text="this is your progress.." />-->
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/progress_recycler_view"

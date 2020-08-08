@@ -31,7 +31,6 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:srcCompat="@mipmap/ic_general_01_foreground" />
-        <!--            tools:srcCompat="@drawable/ic_general_01" />-->
 
 
         <TextView

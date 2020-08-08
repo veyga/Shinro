@@ -59,7 +59,7 @@ class AppModule {
 
     @AppScope
     @Provides
-    internal fun providesBoardCount(): BoardCount = BoardCount(2)
+    internal fun providesBoardCount(): BoardCount = BoardCount(50)
 
 
     /*

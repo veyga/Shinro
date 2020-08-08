@@ -8,8 +8,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import dagger.android.support.AndroidSupportInjection
 import io.astefanich.shinro.R
+import io.astefanich.shinro.databinding.ProgressFragmentBinding
 import io.astefanich.shinro.domain.ProgressItem
-import timber.log.Timber
+import io.astefanich.shinro.util.ProgressRecyclerAdapter
 import javax.inject.Inject
 
 class ProgressFragment : Fragment() {
@@ -21,14 +22,18 @@ class ProgressFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-//        val binding: ProgressFragmentBinding = DataBindingUtil.inflate(
-//            inflater, R.layout.progress_fragment, container, false
-//        )
-
         AndroidSupportInjection.inject(this)
-        Timber.i("progress fragment created\n$items")
-        return inflater.inflate(R.layout.progress_fragment, container, false)
+        val binding: ProgressFragmentBinding = DataBindingUtil.inflate(
+            inflater, R.layout.progress_fragment, container, false
+        )
+        val recyclerAdapter = ProgressRecyclerAdapter(items)
+        binding.progressRecyclerView.apply {
+            adapter = recyclerAdapter
+        }
+        binding.fragment = this
+        binding.lifecycleOwner = this
+        return binding.root
+//        return inflater.inflate(R.layout.progress_fragment, container, false)
     }
 }
 
