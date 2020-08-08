@@ -15,6 +15,7 @@
   -->
 
 <set xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- longer animation allows for smoother visual transitions to/from board/progress? -->
     <alpha
         android:duration="@android:integer/config_mediumAnimTime"
         android:fromAlpha="1.0"

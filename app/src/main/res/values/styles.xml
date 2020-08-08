@@ -4,6 +4,7 @@
         <item name="colorPrimaryDark">@color/darkBlue</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorSurface">@color/materialBlack</item>
+        <item name="android:popupBackground">@color/materialBlack</item>
         <item name="android:colorBackground">@color/trueBlack</item>
         <item name="android:fontFamily">@font/convergence</item>
         <item name="fontFamily">@font/convergence</item>
