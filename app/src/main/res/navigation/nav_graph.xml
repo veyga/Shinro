@@ -60,7 +60,15 @@
         android:id="@+id/progress_destination"
         android:name="io.astefanich.shinro.ui.ProgressFragment"
         android:label="progress_fragment"
-        tools:layout="@layout/progress_fragment" />
+        tools:layout="@layout/progress_fragment">
+        <action
+            android:id="@+id/action_progress_to_game"
+            app:destination="@id/game_destination"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
+    </fragment>
     <fragment
         android:id="@+id/about_destination"
         android:name="io.astefanich.shinro.ui.AboutFragment"
