@@ -71,7 +71,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="2"
                     android:gravity="center"
-                    android:text="@{@string/difficulty_fmt(vm.board.difficulty)}"
+                    android:text="@{@string/difficulty_fmt(vm.board.difficulty.toUpperCase())}"
                     tools:text="DIFFICULTY: MEDIUM" />
 
                 <ImageView

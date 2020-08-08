@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8" ?>
 <resources>
     <string name="app_name">Shinro</string>
     <string name="reset">Reset</string>
@@ -21,4 +22,7 @@
     <string name="pigeonhole">The Pigeonhole</string>
     <string name="difficulty_fmt">Difficulty: %s</string>
     <string name="marbles_placed_fmt">Placed:\n%d</string>
+    <string name="complete">Complete</string>
+    <string name="incomplete">Incomplete</string>
 </resources>
+

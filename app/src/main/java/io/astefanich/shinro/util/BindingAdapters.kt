@@ -7,13 +7,14 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import io.astefanich.shinro.R
 import io.astefanich.shinro.domain.TipChoice
+import timber.log.Timber
 
 @BindingAdapter("completionStatus")
 fun TextView.setCompletionStatus(status: Boolean) {
     val (txt, color) = if (status)
-        Pair("COMPLETE", resources.getColor(R.color.green))
-    else Pair("INCOMPLETE", resources.getColor(R.color.red))
-    text = txt
+        Pair(resources.getString(R.string.complete), resources.getColor(R.color.green))
+    else Pair(resources.getString(R.string.incomplete), resources.getColor(R.color.red))
+    text = txt.toUpperCase()
     setTextColor(color)
 }
 
