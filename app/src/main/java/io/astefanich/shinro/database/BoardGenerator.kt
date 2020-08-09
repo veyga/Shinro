@@ -4,8 +4,13 @@ import io.astefanich.shinro.domain.Board
 import io.astefanich.shinro.domain.BoardCount
 import io.astefanich.shinro.domain.Cell
 import io.astefanich.shinro.domain.Grid
+import timber.log.Timber
 
 class BoardGenerator(private val boardCount: BoardCount) {
+
+    init {
+        Timber.i("BOARD GENERATOR CREATED")
+    }
 
     private fun boardFromString(str: String): Board {
         val lines = str.lines()

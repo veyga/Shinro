@@ -7,7 +7,6 @@ import android.widget.Toast
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import io.astefanich.shinro.R
@@ -26,66 +25,67 @@ import javax.inject.Named
 @Module
 class AppModule {
 
-    @AppScope
+    @PerApplication
     @Provides
     internal fun providesProgress(dao: BoardDao): List<Progress> = dao.getProgress()
 
-    @AppScope
+    @PerApplication
     @Provides
     internal fun providesContext(application: Application): Context = application.applicationContext
 
-    @AppScope
+
+    @PerApplication
     @Provides
     internal fun providesVideoURI(): Uri =
         Uri.parse("android.resource://io.astefanich.shinro/" + R.raw.what_is_shinro)
 
-
-    @AppScope
+    @PerApplication
     @Provides
-    fun providesLogger(ctx: Context): (String) -> Unit {
+    fun providesToaster(ctx: Context): (String) -> Unit {
         return { msg: String -> Toast.makeText(ctx, msg, Toast.LENGTH_SHORT).show() }
 //        return { msg: String -> Timber.i("Your message is... $msg") }
     }
 
-    @AppScope
-    @Provides
-    @Named("winBuzz")
-    fun providesWinBuzzPattern(): LongArray = longArrayOf(0, 500)
+//    @AppScope
+//    @Provides
+//    @Named("winBuzz")
+//    fun providesWinBuzzPattern(): LongArray = longArrayOf(0, 500)
+//
+//    @AppScope
+//    @Provides
+//    @Named("resetBuzz")
+//    fun providesResetBuzzPattern(): LongArray = longArrayOf(0, 50)
 
-    @AppScope
-    @Provides
-    @Named("resetBuzz")
-    fun providesResetBuzzPattern(): LongArray = longArrayOf(0, 50)
-
-    @AppScope
+    @PerApplication
     @Provides
     @Named("lastVisitedFile")
     fun providesLastVisitedFileName(): String = "last_visited.txt"
 
 
-    @AppScope
+    @PerApplication
     @Provides
     internal fun providesBoardDao(database: AppDatabase): BoardDao = database.boardDao()
 
 
-    @AppScope
+    @PerApplication
     @Provides
     internal fun providesDatabaseName(ct: BoardCount): DatabaseName =
         DatabaseName("shinro${ct.value}.db")
 
-    @AppScope
+    @PerApplication
     @Provides
     internal fun providesDatabaseFromFile(
         application: Application,
         databaseName: DatabaseName
     ): AppDatabase {
+        Timber.i("creating db")
         return Room.databaseBuilder(application, AppDatabase::class.java, databaseName.name)
             .allowMainThreadQueries()
             .createFromAsset(databaseName.name)
             .build()
     }
 
-    @AppScope
+    @PerApplication
     @Provides
     internal fun providesBoardCount(): BoardCount = BoardCount(50)
 
@@ -94,16 +94,16 @@ class AppModule {
         The below are for testing/board creation.
         Releases should output to DB file, and app should load from file
      */
-    @AppScope
+    @PerApplication
 //    @Provides
     internal fun providesBoardGenerator(boardCount: BoardCount): BoardGenerator =
         BoardGenerator(boardCount)
 
-    @AppScope
+    @PerApplication
 //    @Provides
     internal fun providesBoards(generator: BoardGenerator): Array<Board?> = generator.genBoards()
 
-    @AppScope
+    @PerApplication
 //    @Provides
     internal fun providesInMemoryAppDatabase(
         application: Application,

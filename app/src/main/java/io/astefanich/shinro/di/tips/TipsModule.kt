@@ -3,23 +3,22 @@ package io.astefanich.shinro.di.tips
 import dagger.Module
 import dagger.Provides
 import io.astefanich.shinro.R
-import io.astefanich.shinro.di.InstructionsFragmentScope
+import io.astefanich.shinro.di.PerInstructionsFragment
 import io.astefanich.shinro.domain.Tip
 import io.astefanich.shinro.domain.TipChoice
 
+
 /*
-* Hard coding tips since they won't change.
+ * Hard coding tips since they won't change.
+ * They are allocated/freed with the lifecycle of the tips fragment
  */
 @Module
-class TipsModule(private val tipChoice: TipChoice) {
+object TipsModule {
 
-    @InstructionsFragmentScope
+    @PerInstructionsFragment
     @Provides
-    fun provideInstructionType() = tipChoice
-
-    @InstructionsFragmentScope
-    @Provides
-    fun provideTips(type: TipChoice): List<Tip> = when (type) {
+    @JvmStatic
+    fun provideTips(tipChoice: TipChoice): List<Tip> = when (tipChoice) {
         TipChoice.PATHFINDER -> pathfinderTips()
         TipChoice.BLOCKER -> blockerTips()
         TipChoice.PIGEONHOLE -> pigeonholeTips()

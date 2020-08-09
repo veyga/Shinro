@@ -14,6 +14,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import dagger.android.support.AndroidSupportInjection
+import dagger.android.support.DaggerFragment
 import io.astefanich.shinro.R
 import io.astefanich.shinro.databinding.FragmentAboutBinding
 import javax.inject.Inject
@@ -34,6 +35,7 @@ class AboutFragment : Fragment() {
     ): View? {
 
         AndroidSupportInjection.inject(this)
+
 
         val binding: FragmentAboutBinding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_about, container, false

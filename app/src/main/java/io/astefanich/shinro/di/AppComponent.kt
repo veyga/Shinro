@@ -7,8 +7,9 @@ import dagger.android.AndroidInjectionModule
 import dagger.android.AndroidInjector
 import io.astefanich.shinro.ShinroApplication
 import io.astefanich.shinro.di.game.GameComponent
+import io.astefanich.shinro.ui.AboutFragment
 
-@AppScope
+@PerApplication
 @Component(
     modules = [
         AndroidInjectionModule::class,

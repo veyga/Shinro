@@ -4,12 +4,12 @@ import javax.inject.Scope
 
 @Scope
 @Retention(AnnotationRetention.RUNTIME)
-annotation class AppScope
+annotation class PerApplication
 
 @Scope
 @Retention(AnnotationRetention.RUNTIME)
-annotation class GameFragmentScope
+annotation class PerFragment
 
 @Scope
 @Retention(AnnotationRetention.RUNTIME)
-annotation class InstructionsFragmentScope
+annotation class PerInstructionsFragment

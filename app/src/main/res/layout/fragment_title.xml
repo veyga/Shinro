@@ -61,6 +61,7 @@
                     android:id="@+id/play_chip"
                     style="@style/ChipStyle"
                     android:text="@string/play"
+                    android:textStyle="bold"
                     tools:text="Play!" />
 
                 <com.google.android.material.chip.Chip

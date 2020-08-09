@@ -37,12 +37,15 @@ class GameFragment : Fragment() {
     lateinit var boardCount: BoardCount
 
     @Inject
-    @field:Named("winBuzz")
     lateinit var winBuzzPattern: LongArray
 
-    @Inject
-    @field:Named("resetBuzz")
-    lateinit var resetBuzzPattern: LongArray
+//    @Inject
+//    @field:Named("winBuzz")
+//    lateinit var winBuzzPattern: LongArray
+//
+//    @Inject
+//    @field:Named("resetBuzz")
+//    lateinit var resetBuzzPattern: LongArray
 
 
 
@@ -108,7 +111,7 @@ class GameFragment : Fragment() {
                 .setMessage("Are you sure?")
                 .setCancelable(false)
                 .setPositiveButton("YES", DialogInterface.OnClickListener { dialog, id ->
-                    buzz(resetBuzzPattern)
+                    buzz(winBuzzPattern) //TODO resetBuzzPattern
                     viewModel.onReset()
                 })
                 .setNegativeButton("NO", DialogInterface.OnClickListener { dialog, id ->
@@ -149,7 +152,7 @@ class GameFragment : Fragment() {
                 buzzer.vibrate(VibrationEffect.createWaveform(pattern, -1))
             } else {
                 //deprecated in API 26
-                buzzer.vibrate(resetBuzzPattern, -1)
+                buzzer.vibrate(pattern, -1)
             }
         }
     }

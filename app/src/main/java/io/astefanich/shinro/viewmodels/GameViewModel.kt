@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModel
 import io.astefanich.shinro.domain.Board
 import io.astefanich.shinro.domain.BoardCount
 import io.astefanich.shinro.repository.BoardRepository
-import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 
