@@ -1,18 +1,17 @@
-package io.astefanich.shinro.di
+package io.astefanich.shinro.di.app
 
 import android.app.Application
 import android.content.Context
-import android.net.Uri
 import android.widget.Toast
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import dagger.Module
 import dagger.Provides
-import io.astefanich.shinro.R
 import io.astefanich.shinro.database.AppDatabase
 import io.astefanich.shinro.database.BoardDao
 import io.astefanich.shinro.database.BoardGenerator
+import io.astefanich.shinro.di.PerApplication
 import io.astefanich.shinro.domain.Board
 import io.astefanich.shinro.domain.BoardCount
 import io.astefanich.shinro.domain.DatabaseName
@@ -24,17 +23,9 @@ import javax.inject.Named
 @Module
 class AppModule {
 
-
     @PerApplication
     @Provides
     internal fun providesContext(application: Application): Context = application.applicationContext
-
-
-    @PerApplication
-    @Provides
-    internal fun providesVideoURI(): Uri =
-        Uri.parse("android.resource://io.astefanich.shinro/" + R.raw.what_is_shinro)
-
 
     @PerApplication
     @Provides

@@ -1,4 +1,4 @@
-package io.astefanich.shinro.di
+package io.astefanich.shinro.di.app
 
 import android.app.Application
 import dagger.BindsInstance
@@ -6,6 +6,9 @@ import dagger.Component
 import dagger.android.AndroidInjectionModule
 import dagger.android.AndroidInjector
 import io.astefanich.shinro.ShinroApplication
+import io.astefanich.shinro.di.ActivityInjectorsModule
+import io.astefanich.shinro.di.PerApplication
+import io.astefanich.shinro.di.ViewModelModule
 import io.astefanich.shinro.di.game.GameComponent
 
 @PerApplication
