@@ -2,21 +2,29 @@ package io.astefanich.shinro.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import dagger.Binds
-import dagger.MapKey
-import dagger.Module
-import dagger.Reusable
+import dagger.*
 import dagger.multibindings.IntoMap
 import io.astefanich.shinro.viewmodels.GameViewModel
 import io.astefanich.shinro.viewmodels.ProgressViewModel
 import io.astefanich.shinro.viewmodels.ViewModelFactory
 import java.lang.annotation.Documented
+import javax.inject.Provider
 import kotlin.reflect.KClass
 
-@Module
-internal abstract class ViewModelModule {
+//@Target(
+//    AnnotationTarget.FUNCTION,
+//    AnnotationTarget.PROPERTY_GETTER,
+//    AnnotationTarget.PROPERTY_SETTER
+//)
+@Documented
+@Retention(AnnotationRetention.RUNTIME)
+@MapKey
+annotation class ViewModelKey(val value: KClass<out ViewModel>)
 
-//    @PerApplication
+@Module
+abstract class ViewModelModule {
+
+    //    @PerApplication
 //    @Reusable
     @Binds
     abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
@@ -24,22 +32,25 @@ internal abstract class ViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(GameViewModel::class)
-    abstract fun bindGameViewModel(viewModel: GameViewModel): ViewModel
+    abstract fun bindGameViewModel(gameViewModel: GameViewModel): ViewModel
 
-    @Binds
-    @IntoMap
-    @ViewModelKey(ProgressViewModel::class)
-    abstract fun bindProgressViewModel(viewModel: ProgressViewModel): ViewModel
+//    @Binds
+//    @IntoMap
+//    @ViewModelKey(ProgressViewModel::class)
+//    abstract fun bindProgressViewModel(progresViewModel: ProgressViewModel): ViewModel
 
 }
 
+//@Module
+//class ViewModelFactoryModule {
+//
+//    @PerApplication
+//    @Provides
+//    fun providesViewModelFactory(
+//        providerMap: Map<Class<out ViewModel>, Provider<ViewModel>>
+//    ): ViewModelProvider.Factory {
+//        return ViewModelFactory(providerMap)
+//    }
+//}
+//
 
-@Documented
-@Target(
-    AnnotationTarget.FUNCTION,
-    AnnotationTarget.PROPERTY_GETTER,
-    AnnotationTarget.PROPERTY_SETTER
-)
-@Retention(AnnotationRetention.RUNTIME)
-@MapKey
-internal annotation class ViewModelKey(val value: KClass<out ViewModel>)

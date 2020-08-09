@@ -54,8 +54,7 @@
                 android:layout_height="0dp"
                 android:layout_margin="48sp"
                 android:layout_weight="1"
-                android:gravity="center"
-                app:chipBackgroundColor="@color/lightBlue">
+                android:gravity="center">
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/play_chip"

@@ -5,22 +5,22 @@ import dagger.Provides
 import io.astefanich.shinro.di.PerFragment
 import javax.inject.Named
 
-//@Module
-//class GameModule(val boardId: Int) {
+//@module
+//class gamemodule(val boardid: int) {
 //
-//    @PerFragment
-//    @Provides
-//    fun providesBoardId(): Int = boardId
+//    @perfragment
+//    @provides
+//    fun providesboardid(): int = boardid
 //
-//    @PerFragment
-//    @Provides
-//    @Named("winBuzz")
-//    fun providesWinBuzzPattern(): LongArray = longArrayOf(0, 500)
+//    @perfragment
+//    @provides
+//    @named("winbuzz")
+//    fun provideswinbuzzpattern(): longarray = longarrayof(0, 500)
 //
-//    @PerFragment
-//    @Provides
-//    @Named("resetBuzz")
-//    fun providesResetBuzzPattern(): LongArray = longArrayOf(0, 50)
+//    @perfragment
+//    @provides
+//    @named("resetbuzz")
+//    fun providesresetbuzzpattern(): longarray = longarrayof(0, 50)
 //
 //}
 @Module

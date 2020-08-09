@@ -3,6 +3,7 @@ package io.astefanich.shinro.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import io.astefanich.shinro.di.PerApplication
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -27,8 +28,10 @@ class ViewModelFactory @Inject constructor(private val creators: Map<Class<out V
         try {
             return creator.get() as T
         } catch (e: Exception) {
+            Timber.i("GOT HERE")
             throw RuntimeException(e)
         }
     }
 }
+
 
