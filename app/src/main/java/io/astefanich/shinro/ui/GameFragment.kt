@@ -61,8 +61,6 @@ class GameFragment : Fragment() {
 
         gameComponent.inject(this)
 
-//        AndroidSupportInjection.inject(this)
-
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(GameViewModel::class.java)
 
         if (viewModel.boardId == 1)

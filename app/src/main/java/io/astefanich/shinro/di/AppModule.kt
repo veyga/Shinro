@@ -47,6 +47,10 @@ class AppModule {
     @Named("lastVisitedFile")
     fun providesLastVisitedFileName(): String = "last_visited.txt"
 
+    @PerApplication
+    @Provides
+    internal fun providesBoardCount(): BoardCount = BoardCount(50)
+
 
     @PerApplication
     @Provides
@@ -71,10 +75,6 @@ class AppModule {
             .createFromAsset(databaseName.name)
             .build()
     }
-
-    @PerApplication
-    @Provides
-    internal fun providesBoardCount(): BoardCount = BoardCount(2)
 
 
     /*
