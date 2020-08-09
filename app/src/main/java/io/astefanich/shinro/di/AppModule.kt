@@ -16,7 +16,6 @@ import io.astefanich.shinro.database.BoardGenerator
 import io.astefanich.shinro.domain.Board
 import io.astefanich.shinro.domain.BoardCount
 import io.astefanich.shinro.domain.DatabaseName
-import io.astefanich.shinro.domain.Progress
 import timber.log.Timber
 import java.util.concurrent.Executors
 import javax.inject.Named
@@ -25,9 +24,6 @@ import javax.inject.Named
 @Module
 class AppModule {
 
-//    @PerApplication
-//    @Provides
-//    internal fun providesProgress(dao: BoardDao): List<Progress> = dao.getProgress()
 
     @PerApplication
     @Provides
@@ -62,9 +58,6 @@ class AppModule {
     internal fun providesDatabaseName(ct: BoardCount): DatabaseName =
         DatabaseName("shinro${ct.value}.db")
 
-//    @PerApplication
-//    @Provides
-//    internal fun providesId(): Int = 2
 
     @PerApplication
     @Provides

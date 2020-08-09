@@ -4,7 +4,6 @@ package io.astefanich.shinro.ui
 import android.graphics.Typeface
 import android.media.AudioManager
 import android.net.Uri
-import android.opengl.Visibility
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,7 +14,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import dagger.android.support.AndroidSupportInjection
-import dagger.android.support.DaggerFragment
 import io.astefanich.shinro.R
 import io.astefanich.shinro.databinding.FragmentAboutBinding
 import javax.inject.Inject

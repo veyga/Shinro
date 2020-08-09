@@ -12,16 +12,13 @@ import androidx.core.content.getSystemService
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.NavigationUI
-import dagger.android.support.AndroidSupportInjection
 import io.astefanich.shinro.R
 import io.astefanich.shinro.ShinroApplication
 import io.astefanich.shinro.databinding.FragmentGameBinding
-import io.astefanich.shinro.di.game.GameModule
 import io.astefanich.shinro.domain.BoardCount
 import io.astefanich.shinro.viewmodels.GameViewModel
 import io.astefanich.shinro.viewmodels.ViewModelFactory
@@ -32,8 +29,6 @@ class GameFragment : Fragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
-//    @Inject
-//    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     @Inject
     lateinit var boardCount: BoardCount
@@ -46,12 +41,8 @@ class GameFragment : Fragment() {
     @field:Named("resetBuzz")
     lateinit var resetBuzzPattern: LongArray
 
-//    var winBuzzPattern: LongArray = longArrayOf(0, 1000)
-//    var resetBuzzPattern: LongArray = longArrayOf(0, 50)
-
     private lateinit var viewModel: GameViewModel
     private lateinit var binding: FragmentGameBinding
-//    private lateinit var gameComponent: GameComponent
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -62,11 +53,6 @@ class GameFragment : Fragment() {
         val gameFragmentArgs by navArgs<GameFragmentArgs>()
         var boardId = gameFragmentArgs.boardId
 
-//        val gameComponent = (activity!!.application as ShinroApplication)
-//            .appComponent
-//            .getGameComponentBuilder()
-//            .gameModule(GameModule(boardId))
-//            .build()
         val gameComponent = (activity!!.application as ShinroApplication)
             .appComponent
             .getGameComponentBuilder()

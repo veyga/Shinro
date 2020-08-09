@@ -2,12 +2,11 @@ package io.astefanich.shinro.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import io.astefanich.shinro.di.PerApplication
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Provider
 
-//@PerApplication
+//@PerApplication can't utilize since GameViewModel is defined in a different scope
 class ViewModelFactory @Inject constructor(private val creators: Map<Class<out ViewModel>, @JvmSuppressWildcards Provider<ViewModel>>) :
     ViewModelProvider.Factory {
 

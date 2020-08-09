@@ -3,24 +3,19 @@ package io.astefanich.shinro.di.game
 import dagger.BindsInstance
 import dagger.Subcomponent
 import dagger.android.AndroidInjector
-import io.astefanich.shinro.di.PerApplication
 import io.astefanich.shinro.di.PerFragment
 import io.astefanich.shinro.ui.GameFragment
-import javax.inject.Named
 
 /*
- * Subcomponent of AppComponent so it can access the repository and the ViewModelModule
+ * Sub-component of AppComponent so it can access the repository and the ViewModelModule
  */
 @PerFragment
-@Subcomponent(modules = [GameModule::class])
+@Subcomponent(modules = [GameModule::class, GameViewModelModule::class])
 interface GameComponent : AndroidInjector<GameFragment> {
-
-//    fun getBoardId(): Int
 
     @Subcomponent.Builder
     interface Builder {
 
-//        fun gameModule(module: GameModule): Builder
         @BindsInstance
         fun boardId(id: Int): Builder
 
