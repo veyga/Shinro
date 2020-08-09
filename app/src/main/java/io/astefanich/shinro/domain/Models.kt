@@ -5,7 +5,6 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
-import javax.inject.Named
 
 @Entity(tableName = "board_table")
 data class Board(
@@ -24,14 +23,9 @@ data class Board(
     var marblesPlaced: Int = 0
 )
 
-//data class Progress(
-////    @ColumnInfo(name = "board_id")
-////    val boardId: Int,
-//    val difficulty: String,
-//    val completed: Boolean
-//)
-
 data class Progress(
+    @ColumnInfo(name = "board_id")
+    val boardNum: Int,
     val difficulty: String,
     val completed: Boolean
 )

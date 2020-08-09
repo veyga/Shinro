@@ -7,12 +7,17 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import dagger.android.support.DaggerFragment
 import io.astefanich.shinro.R
 import io.astefanich.shinro.databinding.FragmentProgressListBinding
+import io.astefanich.shinro.domain.Progress
 import io.astefanich.shinro.util.ProgressAdapter
+import io.astefanich.shinro.util.ProgressClickListener
 import io.astefanich.shinro.viewmodels.ProgressViewModel
 import io.astefanich.shinro.viewmodels.ViewModelFactory
+import timber.log.Timber
 import javax.inject.Inject
 
 class ProgressListFragment : DaggerFragment() {
@@ -30,14 +35,27 @@ class ProgressListFragment : DaggerFragment() {
         binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_progress_list, container, false
         )
-        val viewModel = ViewModelProviders.of(this, viewModelFactory).get(ProgressViewModel::class.java)
+        val viewModel =
+            ViewModelProviders.of(this, viewModelFactory).get(ProgressViewModel::class.java)
+
         binding.vm = viewModel
         binding.lifecycleOwner = this
-        val adapter = ProgressAdapter()
+
+        val adapter = ProgressAdapter(ProgressClickListener { boardNum: Int ->
+            view?.let {
+                findNavController().navigate(
+                    ProgressListFragmentDirections.actionProgressToGame(
+                        boardNum
+                    )
+                )
+            }
+        })
+
         binding.progressRecyclerView.adapter = adapter
-        viewModel.progress.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                adapter.submitList(it)
+
+        viewModel.progress.observe(viewLifecycleOwner, Observer<List<Progress>> { xs ->
+            xs?.let {
+                adapter.submitList(xs)
             }
         })
 

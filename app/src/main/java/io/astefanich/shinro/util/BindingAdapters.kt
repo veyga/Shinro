@@ -1,13 +1,15 @@
 package io.astefanich.shinro.util
 
+import android.graphics.Typeface
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import com.google.android.material.chip.Chip
 import io.astefanich.shinro.R
+import io.astefanich.shinro.domain.Progress
 import io.astefanich.shinro.domain.TipChoice
-import timber.log.Timber
 
 @BindingAdapter("completionStatus")
 fun TextView.setCompletionStatus(status: Boolean) {
@@ -34,6 +36,19 @@ fun setVideoButtonText(button: Button, isPlaying: Boolean, isStarted: Boolean) {
         } else {
             button.setText(R.string.resume_video)
         }
+    }
+}
+
+@BindingAdapter("progressFormatted")
+fun Chip.setProgressChip(item: Progress) {
+    item?.let {
+        text = String.format(
+            resources.getString(R.string.progress_fmt),
+            item.boardNum,
+            item.difficulty
+        )
+        typeface = Typeface.DEFAULT_BOLD
+        setChipIconResource(if (item.completed) R.drawable.checkmark else R.drawable.delete)
     }
 }
 

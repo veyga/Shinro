@@ -22,7 +22,6 @@ class GameViewModel @Inject constructor(
 
 ) : ViewModel() {
 
-//    var boardId: Int = 1
     val board = MutableLiveData<Board>()
     private var _board: Board
 
