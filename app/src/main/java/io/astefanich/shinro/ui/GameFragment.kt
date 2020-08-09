@@ -18,13 +18,11 @@ import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.NavigationUI
 import dagger.android.support.AndroidSupportInjection
 import io.astefanich.shinro.R
-import io.astefanich.shinro.ShinroApplication
 import io.astefanich.shinro.databinding.FragmentGameBinding
 import io.astefanich.shinro.domain.BoardCount
 import io.astefanich.shinro.viewmodels.GameViewModel
 import io.astefanich.shinro.viewmodels.ViewModelFactory
 import javax.inject.Inject
-import javax.inject.Named
 
 class GameFragment : Fragment() {
 
@@ -42,8 +40,8 @@ class GameFragment : Fragment() {
 //    @field:Named("resetBuzz")
 //    lateinit var resetBuzzPattern: LongArray
 
-    var winBuzzPattern: LongArray = longArrayOf(0,1000)
-    var resetBuzzPattern: LongArray = longArrayOf(0,50)
+    var winBuzzPattern: LongArray = longArrayOf(0, 1000)
+    var resetBuzzPattern: LongArray = longArrayOf(0, 50)
 
     private lateinit var viewModel: GameViewModel
     private lateinit var binding: FragmentGameBinding
@@ -76,11 +74,12 @@ class GameFragment : Fragment() {
         if (viewModel.boardId == boardCount.value)
             binding.nextArrow.visibility = View.INVISIBLE
 
-        viewModel.gameWon.observe(this, Observer { isWon ->
+        viewModel.gameWonBuzz.observe(this, Observer { isWon ->
             if (isWon) {
                 buzz(winBuzzPattern)
             }
         })
+
 
         binding.nextArrow.setOnClickListener { view ->
             view.findNavController()

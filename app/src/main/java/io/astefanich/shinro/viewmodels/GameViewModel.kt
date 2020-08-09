@@ -28,9 +28,9 @@ class GameViewModel @Inject constructor(
     val undoStackActive = MutableLiveData<Boolean>()
     private var undoStack = Stack<Move>()
 
-    private val _winBuzz = MutableLiveData<Boolean>()
-    val gameWon: LiveData<Boolean>
-        get() = _winBuzz
+    private val _gameWonBuzz = MutableLiveData<Boolean>()
+    val gameWonBuzz: LiveData<Boolean>
+        get() = _gameWonBuzz
 
 
     init {
@@ -100,12 +100,8 @@ class GameViewModel @Inject constructor(
         }
         if (numIncorrect == 0) {
             toaster("YOU WON!!!!")
-            //dont buzz if you're navigating back to a completed board
-            undoStackActive.value?.let { status ->
-                if (!status) {
-                    _winBuzz.value = true
-                }
-            }
+            _gameWonBuzz.value = true //notify fragment to buzz
+            _gameWonBuzz.value = false //reset it so navigating back doesn't re-trigger the buzz
             _board.completed = true
             undoStackActive.value = false
         } else
