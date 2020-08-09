@@ -3,21 +3,21 @@ package io.astefanich.shinro.di.game
 import dagger.Module
 import dagger.Provides
 import io.astefanich.shinro.di.PerFragment
+import javax.inject.Named
 
 @Module
-class GameModule(private val boardId: Int) {
+object GameModule {
 
     @PerFragment
     @Provides
-    fun providesBoardId(): Int = boardId
-
-    @PerFragment
-    @Provides
+    @Named("winBuzz")
+    @JvmStatic
     fun providesWinBuzzPattern(): LongArray = longArrayOf(0, 500)
-//    @Named("winBuzz")
 
-//    @GameFragmentScope
-//    @Provides
-//    @Named("resetBuzz")
-//    fun providesResetBuzzPattern(): LongArray = longArrayOf(0, 50)
+    @PerFragment
+    @Provides
+    @Named("resetBuzz")
+    @JvmStatic
+    fun providesResetBuzzPattern(): LongArray = longArrayOf(0, 50)
+
 }

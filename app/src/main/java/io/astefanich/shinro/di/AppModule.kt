@@ -39,22 +39,12 @@ class AppModule {
     internal fun providesVideoURI(): Uri =
         Uri.parse("android.resource://io.astefanich.shinro/" + R.raw.what_is_shinro)
 
+
     @PerApplication
     @Provides
     fun providesToaster(ctx: Context): (String) -> Unit {
         return { msg: String -> Toast.makeText(ctx, msg, Toast.LENGTH_SHORT).show() }
-//        return { msg: String -> Timber.i("Your message is... $msg") }
     }
-
-//    @AppScope
-//    @Provides
-//    @Named("winBuzz")
-//    fun providesWinBuzzPattern(): LongArray = longArrayOf(0, 500)
-//
-//    @AppScope
-//    @Provides
-//    @Named("resetBuzz")
-//    fun providesResetBuzzPattern(): LongArray = longArrayOf(0, 50)
 
     @PerApplication
     @Provides

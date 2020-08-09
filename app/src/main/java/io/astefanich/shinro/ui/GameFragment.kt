@@ -17,14 +17,12 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.NavigationUI
 import io.astefanich.shinro.R
+import io.astefanich.shinro.ShinroApplication
 import io.astefanich.shinro.databinding.FragmentGameBinding
-import io.astefanich.shinro.di.DaggerAppComponent
 import io.astefanich.shinro.di.game.GameComponent
-import io.astefanich.shinro.di.game.GameModule
 import io.astefanich.shinro.domain.BoardCount
 import io.astefanich.shinro.viewmodels.GameViewModel
 import io.astefanich.shinro.viewmodels.ViewModelFactory
-import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -37,16 +35,12 @@ class GameFragment : Fragment() {
     lateinit var boardCount: BoardCount
 
     @Inject
+    @field:Named("winBuzz")
     lateinit var winBuzzPattern: LongArray
 
-//    @Inject
-//    @field:Named("winBuzz")
-//    lateinit var winBuzzPattern: LongArray
-//
-//    @Inject
-//    @field:Named("resetBuzz")
-//    lateinit var resetBuzzPattern: LongArray
-
+    @Inject
+    @field:Named("resetBuzz")
+    lateinit var resetBuzzPattern: LongArray
 
 
     private lateinit var viewModel: GameViewModel
@@ -62,15 +56,12 @@ class GameFragment : Fragment() {
         val gameFragmentArgs by navArgs<GameFragmentArgs>()
         var boardId = gameFragmentArgs.boardId
 
-
-
-        gameComponent = DaggerAppComponent
-            .builder()
-            .application(activity!!.application)
-            .build()
+        gameComponent = (activity!!.application as ShinroApplication)
+            .appComponent
             .getGameComponentBuilder()
-            .gameModule(GameModule(boardId))
+            .boardId(boardId)
             .build()
+
         gameComponent.inject(this)
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(GameViewModel::class.java)
@@ -111,7 +102,7 @@ class GameFragment : Fragment() {
                 .setMessage("Are you sure?")
                 .setCancelable(false)
                 .setPositiveButton("YES", DialogInterface.OnClickListener { dialog, id ->
-                    buzz(winBuzzPattern) //TODO resetBuzzPattern
+                    buzz(resetBuzzPattern)
                     viewModel.onReset()
                 })
                 .setNegativeButton("NO", DialogInterface.OnClickListener { dialog, id ->
@@ -151,8 +142,7 @@ class GameFragment : Fragment() {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 buzzer.vibrate(VibrationEffect.createWaveform(pattern, -1))
             } else {
-                //deprecated in API 26
-                buzzer.vibrate(pattern, -1)
+                buzzer.vibrate(pattern, -1) //deprecated in API 26
             }
         }
     }

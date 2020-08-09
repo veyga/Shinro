@@ -9,7 +9,3 @@ annotation class PerApplication
 @Scope
 @Retention(AnnotationRetention.RUNTIME)
 annotation class PerFragment
-
-@Scope
-@Retention(AnnotationRetention.RUNTIME)
-annotation class PerInstructionsFragment

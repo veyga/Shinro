@@ -7,7 +7,7 @@ import timber.log.Timber
 
 class ShinroApplication : DaggerApplication() {
 
-    private val appComponent =
+    val appComponent =
         DaggerAppComponent
             .builder()
             .application(this)

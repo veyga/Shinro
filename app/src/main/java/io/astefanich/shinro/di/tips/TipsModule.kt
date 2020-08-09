@@ -3,7 +3,7 @@ package io.astefanich.shinro.di.tips
 import dagger.Module
 import dagger.Provides
 import io.astefanich.shinro.R
-import io.astefanich.shinro.di.PerInstructionsFragment
+import io.astefanich.shinro.di.PerFragment
 import io.astefanich.shinro.domain.Tip
 import io.astefanich.shinro.domain.TipChoice
 
@@ -15,7 +15,7 @@ import io.astefanich.shinro.domain.TipChoice
 @Module
 object TipsModule {
 
-    @PerInstructionsFragment
+    @PerFragment
     @Provides
     @JvmStatic
     fun provideTips(tipChoice: TipChoice): List<Tip> = when (tipChoice) {

@@ -1,7 +1,5 @@
 package io.astefanich.shinro.viewmodels
 
-import android.content.Context
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -17,10 +15,9 @@ private class Move(val row: Int, val column: Int, val oldVal: String, val newVal
  * Core game logic class
  */
 class GameViewModel @Inject constructor(
-    val repo: BoardRepository,
     var boardId: Int,
-    val boardCount: BoardCount,
-    val ctx: Context,
+    val repo: BoardRepository,
+    val boardCount: BoardCount, //needed for databinding
     val toaster: @JvmSuppressWildcards(true) (String) -> Unit  //only way this will work :(
 
 ) : ViewModel() {
@@ -81,8 +78,6 @@ class GameViewModel @Inject constructor(
                 checkWin()
             else if (mPlaced > 12)
                 toaster("You have placed ${mPlaced} marbles, which is too many")
-//                toaster("You have placed ${mPlaced} marbles, which is too many")
-
         }
 
         when (cell.current) {
@@ -105,13 +100,11 @@ class GameViewModel @Inject constructor(
         }
         if (numIncorrect == 0) {
             toaster("YOU WON!!!!")
-//            toaster("YOU WON!!!!")
             _gameWon.value = true
             _board.completed = true
             undoStackActive.value = false
         } else
-        toaster("$numIncorrect of your marbles are in the wrong spots.")
-//        toaster("$numIncorrect of your marbles are in the wrong spots.")
+            toaster("$numIncorrect of your marbles are in the wrong spots.")
     }
 
     /**
@@ -131,7 +124,6 @@ class GameViewModel @Inject constructor(
         undoStack = Stack<Move>()
         undoStackActive.value = false
         toaster("Cleared")
-//        toastIt("Cleared")
         saveNow()
     }
 
@@ -164,9 +156,5 @@ class GameViewModel @Inject constructor(
      */
     fun saveLastVisited() {
         repo.updateLastViewedBoardId(boardId)
-    }
-
-    private fun toastIt(msg: String) {
-        Toast.makeText(ctx, msg, Toast.LENGTH_SHORT).show()
     }
 }
