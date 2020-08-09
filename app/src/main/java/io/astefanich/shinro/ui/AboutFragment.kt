@@ -4,6 +4,7 @@ package io.astefanich.shinro.ui
 import android.graphics.Typeface
 import android.media.AudioManager
 import android.net.Uri
+import android.opengl.Visibility
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -26,6 +27,7 @@ class AboutFragment : Fragment() {
 
     var videoPlaying = MutableLiveData<Boolean>()
     var videoStarted = MutableLiveData<Boolean>()
+    private lateinit var binding: FragmentAboutBinding
     private lateinit var videoView: VideoView
     private var videoPosition = 0
 
@@ -37,11 +39,9 @@ class AboutFragment : Fragment() {
         AndroidSupportInjection.inject(this)
 
 
-        val binding: FragmentAboutBinding = DataBindingUtil.inflate(
-            inflater, R.layout.fragment_about, container, false
-        )
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_about, container, false)
 
-        binding.playVideoButton.setTypeface(Typeface.DEFAULT_BOLD)
+        binding.videoPlaybackButton.setTypeface(Typeface.DEFAULT_BOLD)
         videoView = binding.instructionsVideo
         videoView.setVideoURI(videoUri)
 
@@ -50,6 +50,8 @@ class AboutFragment : Fragment() {
         }
 
         videoView.setOnCompletionListener {
+            binding.instructionsVideo.visibility = View.GONE
+            binding.videoImgPlaceholder.visibility = View.VISIBLE
             videoStarted.value = false
             videoPlaying.value = false
             videoPosition = 0
@@ -67,6 +69,8 @@ class AboutFragment : Fragment() {
                 it.pause()
                 videoPlaying.value = false
             } else {
+                binding.videoImgPlaceholder.visibility = View.GONE
+                binding.instructionsVideo.visibility = View.VISIBLE
                 it.start()
                 videoPlaying.value = true
             }
