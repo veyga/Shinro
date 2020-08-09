@@ -15,7 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import dagger.android.support.AndroidSupportInjection
 import io.astefanich.shinro.R
-import io.astefanich.shinro.databinding.AboutFragmentBinding
+import io.astefanich.shinro.databinding.FragmentAboutBinding
 import javax.inject.Inject
 
 class AboutFragment : Fragment() {
@@ -35,8 +35,8 @@ class AboutFragment : Fragment() {
 
         AndroidSupportInjection.inject(this)
 
-        val binding: AboutFragmentBinding = DataBindingUtil.inflate(
-            inflater, R.layout.about_fragment, container, false
+        val binding: FragmentAboutBinding = DataBindingUtil.inflate(
+            inflater, R.layout.fragment_about, container, false
         )
 
         binding.playVideoButton.setTypeface(Typeface.DEFAULT_BOLD)

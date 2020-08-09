@@ -2,26 +2,31 @@ package io.astefanich.shinro.ui
 
 
 import android.app.AlertDialog
-import android.content.Context
 import android.content.DialogInterface
+import android.os.Build
 import android.os.Bundle
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.view.*
+import androidx.core.content.getSystemService
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.NavigationUI
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import io.astefanich.shinro.R
-import io.astefanich.shinro.databinding.GameFragmentBinding
+import io.astefanich.shinro.databinding.FragmentGameBinding
 import io.astefanich.shinro.di.DaggerAppComponent
 import io.astefanich.shinro.di.game.GameComponent
 import io.astefanich.shinro.di.game.GameModule
 import io.astefanich.shinro.domain.BoardCount
 import io.astefanich.shinro.viewmodels.GameViewModel
 import io.astefanich.shinro.viewmodels.ViewModelFactory
+import timber.log.Timber
 import javax.inject.Inject
+import javax.inject.Named
 
 class GameFragment : Fragment() {
 
@@ -32,9 +37,17 @@ class GameFragment : Fragment() {
     lateinit var boardCount: BoardCount
 
     @Inject
-    lateinit var mContext: Context
+    @field:Named("winBuzz")
+    lateinit var winBuzzPattern: LongArray
+
+    @Inject
+    @field:Named("resetBuzz")
+    lateinit var resetBuzzPattern: LongArray
+
+
+
     private lateinit var viewModel: GameViewModel
-    private lateinit var binding: GameFragmentBinding
+    private lateinit var binding: FragmentGameBinding
     private lateinit var gameComponent: GameComponent
 
     override fun onCreateView(
@@ -42,9 +55,11 @@ class GameFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        binding = DataBindingUtil.inflate(inflater, R.layout.game_fragment, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_game, container, false)
         val gameFragmentArgs by navArgs<GameFragmentArgs>()
         var boardId = gameFragmentArgs.boardId
+
+
 
         gameComponent = DaggerAppComponent
             .builder()
@@ -62,6 +77,12 @@ class GameFragment : Fragment() {
 
         if (viewModel.boardId == boardCount.value)
             binding.nextArrow.visibility = View.INVISIBLE
+
+        viewModel.gameWon.observe(this, Observer { isWon ->
+            if (isWon) {
+                buzz(winBuzzPattern)
+            }
+        })
 
         binding.nextArrow.setOnClickListener { view ->
             view.findNavController()
@@ -87,6 +108,7 @@ class GameFragment : Fragment() {
                 .setMessage("Are you sure?")
                 .setCancelable(false)
                 .setPositiveButton("YES", DialogInterface.OnClickListener { dialog, id ->
+                    buzz(resetBuzzPattern)
                     viewModel.onReset()
                 })
                 .setNegativeButton("NO", DialogInterface.OnClickListener { dialog, id ->
@@ -114,9 +136,21 @@ class GameFragment : Fragment() {
     }
 
 
-    //onDestroy isn't reliably called. This call reliably saves progress
+    //onDestroy isn't reliably called. This call reliably saves last visited board
     override fun onStop() {
         super.onStop()
         viewModel.saveLastVisited()
+    }
+
+    private fun buzz(pattern: LongArray) {
+        val buzzer = activity?.getSystemService<Vibrator>()
+        buzzer?.let {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                buzzer.vibrate(VibrationEffect.createWaveform(pattern, -1))
+            } else {
+                //deprecated in API 26
+                buzzer.vibrate(resetBuzzPattern, -1)
+            }
+        }
     }
 }

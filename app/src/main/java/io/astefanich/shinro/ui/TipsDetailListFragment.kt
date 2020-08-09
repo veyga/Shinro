@@ -9,7 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import io.astefanich.shinro.R
-import io.astefanich.shinro.databinding.TipsFragmentBinding
+import io.astefanich.shinro.databinding.FragmentTipsDetailListBinding
 import io.astefanich.shinro.di.tips.DaggerTipsComponent
 import io.astefanich.shinro.di.tips.TipsComponent
 import io.astefanich.shinro.di.tips.TipsModule
@@ -18,10 +18,10 @@ import io.astefanich.shinro.domain.TipChoice
 import io.astefanich.shinro.util.TipsRecyclerAdapter
 import javax.inject.Inject
 
-class TipsFragment : Fragment() {
+class TipsDetailListFragment : Fragment() {
 
     lateinit var tipChoice: TipChoice
-    lateinit var component: TipsComponent
+    private lateinit var component: TipsComponent
 
     @Inject
     lateinit var items: List<Tip>
@@ -31,11 +31,11 @@ class TipsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val binding: TipsFragmentBinding = DataBindingUtil.inflate(
-            inflater, R.layout.tips_fragment, container, false
+        val binding: FragmentTipsDetailListBinding = DataBindingUtil.inflate(
+            inflater, R.layout.fragment_tips_detail_list, container, false
         )
 
-        val tipChoiceArg by navArgs<TipsFragmentArgs>()
+        val tipChoiceArg by navArgs<TipsDetailListFragmentArgs>()
         tipChoice = tipChoiceArg.tipChoice
 
         component = DaggerTipsComponent

@@ -17,11 +17,10 @@
 
         <com.google.android.material.chip.Chip
             android:id="@+id/play_video_button"
+            style="@style/ChipStyle"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:onClick="@{() -> fragment.onVideoButtonPress()}"
             android:text="@string/what_is_shinro"
-            app:chipBackgroundColor="@color/lightBlue"
             app:layout_constraintBottom_toTopOf="@id/instructions_video"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -23,7 +23,7 @@ data class Board(
     var marblesPlaced: Int = 0
 )
 
-data class ProgressItem(
+data class Progress(
     @ColumnInfo(name = "board_id")
     val boardId: Int,
     val difficulty: String,

@@ -9,7 +9,7 @@
         android:id="@+id/title_destination"
         android:name="io.astefanich.shinro.ui.TitleFragment"
         android:label="title_fragment"
-        tools:layout="@layout/title_fragment">
+        tools:layout="@layout/fragment_title">
         <action
             android:id="@+id/action_title_to_game"
             app:destination="@id/game_destination"
@@ -19,7 +19,7 @@
             app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_title_to_tip_choice"
-            app:destination="@id/tips_destination"
+            app:destination="@id/tips_list_detail_destination"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_right"
@@ -33,7 +33,7 @@
             app:popExitAnim="@anim/slide_out_left" />
         <action
             android:id="@+id/action_title_to_progress"
-            app:destination="@id/progress_destination"
+            app:destination="@id/progress_list_destination"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_right"
@@ -42,8 +42,8 @@
     <fragment
         android:id="@+id/game_destination"
         android:name="io.astefanich.shinro.ui.GameFragment"
-        android:label="game_fragment"
-        tools:layout="@layout/game_fragment">
+        android:label="fragment_game"
+        tools:layout="@layout/fragment_game">
         <argument
             android:name="boardId"
             android:defaultValue="0"
@@ -57,10 +57,10 @@
             app:popExitAnim="@anim/fade_out" />
     </fragment>
     <fragment
-        android:id="@+id/progress_destination"
-        android:name="io.astefanich.shinro.ui.ProgressFragment"
-        android:label="progress_fragment"
-        tools:layout="@layout/progress_fragment">
+        android:id="@+id/progress_list_destination"
+        android:name="io.astefanich.shinro.ui.ProgressListFragment"
+        android:label="fragment_progress_list"
+        tools:layout="@layout/fragment_progress_list">
         <action
             android:id="@+id/action_progress_to_game"
             app:destination="@id/game_destination"
@@ -72,13 +72,13 @@
     <fragment
         android:id="@+id/about_destination"
         android:name="io.astefanich.shinro.ui.AboutFragment"
-        android:label="about_fragment"
-        tools:layout="@layout/about_fragment" />
+        android:label="fragment_about"
+        tools:layout="@layout/fragment_about" />
     <fragment
-        android:id="@+id/tips_destination"
-        android:name="io.astefanich.shinro.ui.TipsFragment"
-        android:label="tips_fragment"
-        tools:layout="@layout/tips_fragment">
+        android:id="@+id/tips_list_detail_destination"
+        android:name="io.astefanich.shinro.ui.TipsDetailListFragment"
+        android:label="fragment_tips_detail_list"
+        tools:layout="@layout/fragment_tips_detail_list">
         <argument
             android:name="tipChoice"
             app:argType="io.astefanich.shinro.domain.TipChoice" />
@@ -86,11 +86,11 @@
     <fragment
         android:id="@+id/tips_choice_destination"
         android:name="io.astefanich.shinro.ui.TipsChoiceFragment"
-        android:label="tips_choice_fragment"
-        tools:layout="@layout/tips_choice_fragment">
+        android:label="fragment_tips_choice"
+        tools:layout="@layout/fragment_tips_choice">
         <action
-            android:id="@+id/action_tips_choice_to_tips"
-            app:destination="@id/tips_destination"
+            android:id="@+id/action_tips_choice_to_tips_list"
+            app:destination="@id/tips_list_detail_destination"
             app:enterAnim="@anim/fade_in"
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"

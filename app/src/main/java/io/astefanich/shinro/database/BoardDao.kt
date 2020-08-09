@@ -5,7 +5,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 import io.astefanich.shinro.domain.Board
-import io.astefanich.shinro.domain.ProgressItem
+import io.astefanich.shinro.domain.Progress
 
 @Dao
 interface BoardDao {
@@ -14,7 +14,7 @@ interface BoardDao {
     fun getBoardById(boardId: Int): Board
 
     @Query("SELECT board_id, difficulty, completed FROM board_table")
-    fun getProgress(): List<ProgressItem>
+    fun getProgress(): List<Progress>
 
     @Insert
     fun insertBoards(vararg boards: Board)

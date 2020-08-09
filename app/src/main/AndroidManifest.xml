@@ -3,6 +3,7 @@
     package="io.astefanich.shinro">
 
 
+    <uses-permission android:name="android.permission.VIBRATE" />
     <application
         android:name="io.astefanich.shinro.ShinroApplication"
         android:allowBackup="true"

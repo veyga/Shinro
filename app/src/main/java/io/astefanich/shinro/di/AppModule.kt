@@ -3,9 +3,11 @@ package io.astefanich.shinro.di
 import android.app.Application
 import android.content.Context
 import android.net.Uri
+import android.widget.Toast
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import io.astefanich.shinro.R
@@ -15,12 +17,18 @@ import io.astefanich.shinro.database.BoardGenerator
 import io.astefanich.shinro.domain.Board
 import io.astefanich.shinro.domain.BoardCount
 import io.astefanich.shinro.domain.DatabaseName
-import io.astefanich.shinro.domain.ProgressItem
+import io.astefanich.shinro.domain.Progress
 import timber.log.Timber
 import java.util.concurrent.Executors
+import javax.inject.Named
+
 
 @Module
 class AppModule {
+
+    @AppScope
+    @Provides
+    internal fun providesProgress(dao: BoardDao): List<Progress> = dao.getProgress()
 
     @AppScope
     @Provides
@@ -31,9 +39,29 @@ class AppModule {
     internal fun providesVideoURI(): Uri =
         Uri.parse("android.resource://io.astefanich.shinro/" + R.raw.what_is_shinro)
 
+
     @AppScope
     @Provides
-    internal fun providesProgress(dao: BoardDao): List<ProgressItem> = dao.getProgress()
+    fun providesLogger(ctx: Context): (String) -> Unit {
+        return { msg: String -> Toast.makeText(ctx, msg, Toast.LENGTH_SHORT).show() }
+//        return { msg: String -> Timber.i("Your message is... $msg") }
+    }
+
+    @AppScope
+    @Provides
+    @Named("winBuzz")
+    fun providesWinBuzzPattern(): LongArray = longArrayOf(0, 500)
+
+    @AppScope
+    @Provides
+    @Named("resetBuzz")
+    fun providesResetBuzzPattern(): LongArray = longArrayOf(0, 50)
+
+    @AppScope
+    @Provides
+    @Named("lastVisitedFile")
+    fun providesLastVisitedFileName(): String = "last_visited.txt"
+
 
     @AppScope
     @Provides

@@ -2,11 +2,13 @@ package io.astefanich.shinro.viewmodels
 
 import android.content.Context
 import android.widget.Toast
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.astefanich.shinro.domain.Board
 import io.astefanich.shinro.domain.BoardCount
 import io.astefanich.shinro.repository.BoardRepository
+import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 
@@ -19,13 +21,21 @@ class GameViewModel @Inject constructor(
     val repo: BoardRepository,
     var boardId: Int,
     val boardCount: BoardCount,
-    val context: Context
+    val ctx: Context,
+    val toaster: @JvmSuppressWildcards(true) (String) -> Unit  //only way this will work :(
+
 ) : ViewModel() {
 
     val board = MutableLiveData<Board>()
-    val undoStackActive = MutableLiveData<Boolean>()
     private var _board: Board
+
+    val undoStackActive = MutableLiveData<Boolean>()
     private var undoStack = Stack<Move>()
+
+    private val _gameWon = MutableLiveData<Boolean>()
+    val gameWon: LiveData<Boolean>
+        get() = _gameWon
+
 
     init {
         //boardId == 0 --> user is coming from title fragment
@@ -71,7 +81,8 @@ class GameViewModel @Inject constructor(
             if (mPlaced == 12)
                 checkWin()
             else if (mPlaced > 12)
-                toastIt("You have placed ${mPlaced} marbles, which is too many")
+                toaster("You have placed ${mPlaced} marbles, which is too many")
+//                toaster("You have placed ${mPlaced} marbles, which is too many")
 
         }
 
@@ -94,11 +105,14 @@ class GameViewModel @Inject constructor(
             }
         }
         if (numIncorrect == 0) {
-            toastIt("YOU WON!!!!")
+            toaster("YOU WON!!!!")
+//            toaster("YOU WON!!!!")
+            _gameWon.value = true
             _board.completed = true
             undoStackActive.value = false
         } else
-            toastIt("$numIncorrect of your marbles are in the wrong spots.")
+        toaster("$numIncorrect of your marbles are in the wrong spots.")
+//        toaster("$numIncorrect of your marbles are in the wrong spots.")
     }
 
     /**
@@ -117,7 +131,8 @@ class GameViewModel @Inject constructor(
         _board.marblesPlaced = 0
         undoStack = Stack<Move>()
         undoStackActive.value = false
-        toastIt("Cleared")
+        toaster("Cleared")
+//        toastIt("Cleared")
         saveNow()
     }
 
@@ -144,8 +159,6 @@ class GameViewModel @Inject constructor(
         board.value = _board //setting board value notifies registered observers
     }
 
-    private fun toastIt(msg: String) = Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
-
 
     /**
      * Save user's last visited puzzle according to this VM's board ID
@@ -154,5 +167,7 @@ class GameViewModel @Inject constructor(
         repo.updateLastViewedBoardId(boardId)
     }
 
-
+    private fun toastIt(msg: String) {
+        Toast.makeText(ctx, msg, Toast.LENGTH_SHORT).show()
+    }
 }

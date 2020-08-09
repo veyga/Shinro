@@ -6,19 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.resources.TextAppearance
 import io.astefanich.shinro.R
-import io.astefanich.shinro.domain.ProgressItem
-import io.astefanich.shinro.ui.ProgressFragmentDirections
-import kotlinx.android.synthetic.main.progess_item.view.*
+import io.astefanich.shinro.domain.Progress
+import io.astefanich.shinro.ui.ProgressListFragmentDirections
+import kotlinx.android.synthetic.main.list_item_progress.view.*
 
-class ProgressRecyclerAdapter(private val items: List<ProgressItem>) :
+class ProgressRecyclerAdapter(private val items: List<Progress>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return ProgressItemViewHolder(
             LayoutInflater.from(parent.context).inflate(
-                R.layout.progess_item,
+                R.layout.list_item_progress,
                 parent,
                 false
             )
@@ -37,15 +36,15 @@ class ProgressRecyclerAdapter(private val items: List<ProgressItem>) :
 
     internal class ProgressItemViewHolder constructor(view: View) : RecyclerView.ViewHolder(view) {
 
-        fun bind(progressItem: ProgressItem) {
+        fun bind(progressItem: Progress) {
             itemView.apply {
-                progress_item_chip.setText("Puzzle ${progressItem.boardId}\t(${progressItem.difficulty})      ")
-                progress_item_chip.setTypeface(Typeface.DEFAULT_BOLD)
+                progress_item_chip.text = "Puzzle ${progressItem.boardId}\t(${progressItem.difficulty})      "
+                progress_item_chip.typeface = Typeface.DEFAULT_BOLD
                 val icon = if (progressItem.completed) R.drawable.checkmark else R.drawable.delete
                 progress_item_chip.setChipIconResource(icon)
                 progress_item_chip.setOnClickListener {
                     findNavController().navigate(
-                        ProgressFragmentDirections.actionProgressToGame(progressItem.boardId)
+                        ProgressListFragmentDirections.actionProgressToGame(progressItem.boardId)
                     )
                 }
             }

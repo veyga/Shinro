@@ -4,11 +4,11 @@ import dagger.Component
 import dagger.android.AndroidInjector
 import io.astefanich.shinro.di.InstructionsFragmentScope
 import io.astefanich.shinro.domain.Tip
-import io.astefanich.shinro.ui.TipsFragment
+import io.astefanich.shinro.ui.TipsDetailListFragment
 
 @InstructionsFragmentScope
 @Component(modules = [TipsModule::class])
-interface TipsComponent : AndroidInjector<TipsFragment> {
+interface TipsComponent : AndroidInjector<TipsDetailListFragment> {
 
     fun getInstructions(): List<Tip>
 

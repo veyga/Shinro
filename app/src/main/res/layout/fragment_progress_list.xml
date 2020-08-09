@@ -2,13 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.ProgressFragment">
+    tools:context=".ui.ProgressListFragment">
 
     <data>
 
         <variable
             name="fragment"
-            type="io.astefanich.shinro.ui.ProgressFragment" />
+            type="io.astefanich.shinro.ui.ProgressListFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

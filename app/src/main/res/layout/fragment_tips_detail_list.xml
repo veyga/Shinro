@@ -2,13 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.TipsFragment">
+    tools:context=".ui.TipsDetailListFragment">
 
     <data>
 
         <variable
             name="fragment"
-            type="io.astefanich.shinro.ui.TipsFragment" />
+            type="io.astefanich.shinro.ui.TipsDetailListFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import io.astefanich.shinro.R
 import io.astefanich.shinro.domain.Tip
-import kotlinx.android.synthetic.main.tip_item.view.*
+import kotlinx.android.synthetic.main.list_item_tip.view.*
 
 class TipsRecyclerAdapter(private val items: List<Tip>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -14,7 +14,7 @@ class TipsRecyclerAdapter(private val items: List<Tip>) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return InstructionViewHolder(
             LayoutInflater.from(parent.context).inflate(
-                R.layout.tip_item,
+                R.layout.list_item_tip,
                 parent,
                 false
             )
@@ -31,7 +31,7 @@ class TipsRecyclerAdapter(private val items: List<Tip>) :
 
     override fun getItemCount(): Int = items.size
 
-    internal class InstructionViewHolder constructor(view: View) : RecyclerView.ViewHolder(view) {
+    internal class InstructionViewHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(tip: Tip) {
             itemView.apply {

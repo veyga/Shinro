@@ -10,7 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import io.astefanich.shinro.R
-import io.astefanich.shinro.databinding.TipsChoiceFragmentBinding
+import io.astefanich.shinro.databinding.FragmentTipsChoiceBinding
 import io.astefanich.shinro.domain.TipChoice
 
 class TipsChoiceFragment : Fragment() {
@@ -20,40 +20,41 @@ class TipsChoiceFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val binding: TipsChoiceFragmentBinding =
-            DataBindingUtil.inflate(inflater, R.layout.tips_choice_fragment, container, false)
+        val binding: FragmentTipsChoiceBinding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_tips_choice, container, false)
 
-        binding.howToPlayChip.setTypeface(Typeface.DEFAULT_BOLD)
+        // neither chip style nor raw xml bolds text deterministically....
+        binding.howToPlayChip.typeface = Typeface.DEFAULT_BOLD
         binding.howToPlayChip.setOnClickListener {
             findNavController().navigate(
-                TipsChoiceFragmentDirections.actionTipsChoiceToTips(
+                TipsChoiceFragmentDirections.actionTipsChoiceToTipsList(
                     TipChoice.GENERAL
                 )
             )
         }
 
-        binding.pathfinderChip.setTypeface(Typeface.DEFAULT_BOLD)
+        binding.pathfinderChip.typeface = Typeface.DEFAULT_BOLD
         binding.pathfinderChip.setOnClickListener {
             findNavController().navigate(
-                TipsChoiceFragmentDirections.actionTipsChoiceToTips(
+                TipsChoiceFragmentDirections.actionTipsChoiceToTipsList(
                     TipChoice.PATHFINDER
                 )
             )
         }
 
-        binding.blockerChip.setTypeface(Typeface.DEFAULT_BOLD)
+        binding.blockerChip.typeface = Typeface.DEFAULT_BOLD
         binding.blockerChip.setOnClickListener {
             findNavController().navigate(
-                TipsChoiceFragmentDirections.actionTipsChoiceToTips(
+                TipsChoiceFragmentDirections.actionTipsChoiceToTipsList(
                     TipChoice.BLOCKER
                 )
             )
         }
 
-        binding.pigeonholeChip.setTypeface(Typeface.DEFAULT_BOLD)
+        binding.pigeonholeChip.typeface = Typeface.DEFAULT_BOLD
         binding.pigeonholeChip.setOnClickListener {
             findNavController().navigate(
-                TipsChoiceFragmentDirections.actionTipsChoiceToTips(
+                TipsChoiceFragmentDirections.actionTipsChoiceToTipsList(
                     TipChoice.PIGEONHOLE
                 )
             )
