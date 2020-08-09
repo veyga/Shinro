@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import dagger.Binds
 import dagger.MapKey
 import dagger.Module
+import dagger.Reusable
 import dagger.multibindings.IntoMap
 import io.astefanich.shinro.viewmodels.GameViewModel
 import io.astefanich.shinro.viewmodels.ProgressViewModel
@@ -15,6 +16,8 @@ import kotlin.reflect.KClass
 @Module
 internal abstract class ViewModelModule {
 
+//    @PerApplication
+//    @Reusable
     @Binds
     abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
 

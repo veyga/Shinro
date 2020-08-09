@@ -2,9 +2,11 @@ package io.astefanich.shinro.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import io.astefanich.shinro.di.PerApplication
 import javax.inject.Inject
 import javax.inject.Provider
 
+//@PerApplication
 class ViewModelFactory @Inject constructor(private val creators: Map<Class<out ViewModel>, @JvmSuppressWildcards Provider<ViewModel>>) :
     ViewModelProvider.Factory {
 

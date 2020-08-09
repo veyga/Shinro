@@ -11,16 +11,19 @@ import javax.inject.Named
 /*
  * Subcomponent of AppComponent so it can access the repository and the ViewModelModule
  */
-//@PerFragment
-//@Subcomponent(modules = [GameModule::class])
-//interface GameComponent : AndroidInjector<GameFragment> {
-//
-//    @Subcomponent.Builder
-//    interface Builder {
-//
-//        @BindsInstance
-//        fun boardId(id: Int): Builder
-//
-//        fun build(): GameComponent
-//    }
-//}
+@PerFragment
+@Subcomponent(modules = [GameModule::class])
+interface GameComponent : AndroidInjector<GameFragment> {
+
+//    fun getBoardId(): Int
+
+    @Subcomponent.Builder
+    interface Builder {
+
+//        fun gameModule(module: GameModule): Builder
+        @BindsInstance
+        fun boardId(id: Int): Builder
+
+        fun build(): GameComponent
+    }
+}

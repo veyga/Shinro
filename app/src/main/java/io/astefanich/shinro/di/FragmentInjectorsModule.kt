@@ -19,6 +19,6 @@ abstract class FragmentInjectorsModule {
     @ContributesAndroidInjector
     abstract fun providesProgressFragment(): ProgressListFragment
 
-    @ContributesAndroidInjector
-    abstract fun providesGameFragment(): GameFragment
+//    @ContributesAndroidInjector
+//    abstract fun providesGameFragment(): GameFragment
 }

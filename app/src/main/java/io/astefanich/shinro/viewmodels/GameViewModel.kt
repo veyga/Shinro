@@ -15,13 +15,14 @@ private class Move(val row: Int, val column: Int, val oldVal: String, val newVal
  * Core game logic class
  */
 class GameViewModel @Inject constructor(
+    var boardId: Int,
     val repo: BoardRepository,
     val boardCount: BoardCount, //needed for databinding
     val toaster: @JvmSuppressWildcards(true) (String) -> Unit  //only way this will work :(
 
 ) : ViewModel() {
 
-    var boardId: Int = 1
+//    var boardId: Int = 1
     val board = MutableLiveData<Board>()
     private var _board: Board
 

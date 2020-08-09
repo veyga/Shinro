@@ -18,11 +18,14 @@ import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.NavigationUI
 import dagger.android.support.AndroidSupportInjection
 import io.astefanich.shinro.R
+import io.astefanich.shinro.ShinroApplication
 import io.astefanich.shinro.databinding.FragmentGameBinding
+import io.astefanich.shinro.di.game.GameModule
 import io.astefanich.shinro.domain.BoardCount
 import io.astefanich.shinro.viewmodels.GameViewModel
 import io.astefanich.shinro.viewmodels.ViewModelFactory
 import javax.inject.Inject
+import javax.inject.Named
 
 class GameFragment : Fragment() {
 
@@ -32,16 +35,16 @@ class GameFragment : Fragment() {
     @Inject
     lateinit var boardCount: BoardCount
 
-//    @Inject
-//    @field:Named("winBuzz")
-//    lateinit var winBuzzPattern: LongArray
-//
-//    @Inject
-//    @field:Named("resetBuzz")
-//    lateinit var resetBuzzPattern: LongArray
+    @Inject
+    @field:Named("winBuzz")
+    lateinit var winBuzzPattern: LongArray
 
-    var winBuzzPattern: LongArray = longArrayOf(0, 1000)
-    var resetBuzzPattern: LongArray = longArrayOf(0, 50)
+    @Inject
+    @field:Named("resetBuzz")
+    lateinit var resetBuzzPattern: LongArray
+
+//    var winBuzzPattern: LongArray = longArrayOf(0, 1000)
+//    var resetBuzzPattern: LongArray = longArrayOf(0, 50)
 
     private lateinit var viewModel: GameViewModel
     private lateinit var binding: FragmentGameBinding
@@ -59,12 +62,17 @@ class GameFragment : Fragment() {
 //        val gameComponent = (activity!!.application as ShinroApplication)
 //            .appComponent
 //            .getGameComponentBuilder()
-//            .boardId(boardId)
+//            .gameModule(GameModule(boardId))
 //            .build()
-//
-//        gameComponent.inject(this)
+        val gameComponent = (activity!!.application as ShinroApplication)
+            .appComponent
+            .getGameComponentBuilder()
+            .boardId(boardId)
+            .build()
 
-        AndroidSupportInjection.inject(this)
+        gameComponent.inject(this)
+
+//        AndroidSupportInjection.inject(this)
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(GameViewModel::class.java)
 

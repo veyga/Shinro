@@ -18,8 +18,7 @@ import javax.inject.Inject
 
 class ProgressListFragment : Fragment() {
 
-
-    @Inject
+//    @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
     private lateinit var binding: FragmentProgressListBinding

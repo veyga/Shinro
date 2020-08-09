@@ -62,6 +62,10 @@ class AppModule {
     internal fun providesDatabaseName(ct: BoardCount): DatabaseName =
         DatabaseName("shinro${ct.value}.db")
 
+//    @PerApplication
+//    @Provides
+//    internal fun providesId(): Int = 2
+
     @PerApplication
     @Provides
     internal fun providesDatabaseFromFile(
