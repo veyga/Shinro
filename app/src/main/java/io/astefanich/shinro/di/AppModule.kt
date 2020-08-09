@@ -25,9 +25,9 @@ import javax.inject.Named
 @Module
 class AppModule {
 
-    @PerApplication
-    @Provides
-    internal fun providesProgress(dao: BoardDao): List<Progress> = dao.getProgress()
+//    @PerApplication
+//    @Provides
+//    internal fun providesProgress(dao: BoardDao): List<Progress> = dao.getProgress()
 
     @PerApplication
     @Provides
@@ -77,7 +77,7 @@ class AppModule {
 
     @PerApplication
     @Provides
-    internal fun providesBoardCount(): BoardCount = BoardCount(50)
+    internal fun providesBoardCount(): BoardCount = BoardCount(2)
 
 
     /*

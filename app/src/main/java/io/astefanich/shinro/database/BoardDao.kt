@@ -1,5 +1,6 @@
 package io.astefanich.shinro.database
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
@@ -14,7 +15,7 @@ interface BoardDao {
     fun getBoardById(boardId: Int): Board
 
     @Query("SELECT board_id, difficulty, completed FROM board_table")
-    fun getProgress(): List<Progress>
+    fun getProgress(): LiveData<List<Progress>>
 
     @Insert
     fun insertBoards(vararg boards: Board)

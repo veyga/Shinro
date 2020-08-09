@@ -7,8 +7,8 @@
     <data>
 
         <variable
-            name="fragment"
-            type="io.astefanich.shinro.ui.ProgressListFragment" />
+            name="vm"
+            type="io.astefanich.shinro.viewmodels.ProgressViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
