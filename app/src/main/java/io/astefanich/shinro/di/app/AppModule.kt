@@ -40,7 +40,7 @@ class AppModule {
 
     @PerApplication
     @Provides
-    internal fun providesBoardCount(): BoardCount = BoardCount(50)
+    internal fun providesBoardCount(): BoardCount = BoardCount(135)
 
 
     @PerApplication
@@ -49,13 +49,13 @@ class AppModule {
 
 
     @PerApplication
-    @Provides
+//    @Provides
     internal fun providesDatabaseName(ct: BoardCount): DatabaseName =
         DatabaseName("shinro${ct.value}.db")
 
 
     @PerApplication
-    @Provides
+//    @Provides
     internal fun providesDatabaseFromFile(
         application: Application,
         databaseName: DatabaseName
@@ -63,6 +63,7 @@ class AppModule {
         Timber.i("creating db")
         return Room.databaseBuilder(application, AppDatabase::class.java, databaseName.name)
             .allowMainThreadQueries()
+            .fallbackToDestructiveMigration()
             .createFromAsset(databaseName.name)
             .build()
     }
@@ -73,16 +74,16 @@ class AppModule {
         Releases should output to DB file, and app should load from file
      */
     @PerApplication
-//    @Provides
+    @Provides
     internal fun providesBoardGenerator(boardCount: BoardCount): BoardGenerator =
         BoardGenerator(boardCount)
 
     @PerApplication
-//    @Provides
+    @Provides
     internal fun providesBoards(generator: BoardGenerator): Array<Board?> = generator.genBoards()
 
     @PerApplication
-//    @Provides
+    @Provides
     internal fun providesInMemoryAppDatabase(
         application: Application,
         boards: Array<Board>
