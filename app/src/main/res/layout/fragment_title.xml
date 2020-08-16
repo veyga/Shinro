@@ -4,77 +4,76 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.TitleFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:id="@+id/title_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
+        android:layout_height="match_parent"
+        android:layout_margin="48dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/title_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="256dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             app:srcCompat="@drawable/launcher_shinro_background"
             tools:srcCompat="@drawable/launcher_shinro_background" />
 
         <TextView
             android:id="@+id/title_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="0dp"
-            android:layout_marginTop="24dp"
-            android:adjustViewBounds="true"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:fontFamily="@font/chango"
-            android:padding="8dp"
-            android:scaleType="centerInside"
+            android:gravity="center"
             android:text="@string/app_name"
             android:textAlignment="center"
             android:textSize="48sp"
             android:textStyle="bold"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/title_image"
             tools:srcCompat="SHINRO" />
 
         <!--        android:layout_margin="24dp"-->
-        <LinearLayout
+
+        <com.google.android.material.chip.ChipGroup
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/title_text">
+            android:layout_weight="2"
+            android:gravity="center">
 
-            <com.google.android.material.chip.ChipGroup
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_margin="48sp"
-                android:layout_weight="1"
-                android:gravity="center">
+            <com.google.android.material.chip.Chip
+                android:id="@+id/play_resume_chip"
+                style="@style/ChipStyle"
+                android:text="@string/play_resume"
+                android:textStyle="bold"
+                tools:text="Play/Resume" />
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/play_chip"
-                    style="@style/ChipStyle"
-                    android:text="@string/play"
-                    android:textStyle="bold"
-                    tools:text="Play!" />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/how_to_play_tips_chip"
+                style="@style/ChipStyle"
+                android:text="@string/how_to_play_tips"
+                tools:text="How to Play/Tips" />
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/how_to_play_chip"
-                    style="@style/ChipStyle"
-                    android:text="@string/how_to_play_title"
-                    tools:text="How to Play" />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/statistics_chip"
+                style="@style/ChipStyle"
+                android:text="@string/statistics"
+                tools:text="Statistics" />
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/about_chip"
-                    style="@style/ChipStyle"
-                    android:text="@string/about_title"
-                    tools:text="About" />
-            </com.google.android.material.chip.ChipGroup>
-        </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <com.google.android.material.chip.Chip
+                android:id="@+id/leaderboard_chip"
+                style="@style/ChipStyle"
+                android:text="@string/leaderboard"
+                tools:text="Leaderboard" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/about_chip"
+                style="@style/ChipStyle"
+                android:text="@string/about"
+                tools:text="About" />
+        </com.google.android.material.chip.ChipGroup>
+    </LinearLayout>
 </layout>
