@@ -18,15 +18,15 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
         <action
-            android:id="@+id/action_title_to_tip_choice"
-            app:destination="@id/tips_list_detail_destination"
+            android:id="@+id/action_title_to_about"
+            app:destination="@id/about_destination"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_left" />
         <action
-            android:id="@+id/action_title_to_about"
-            app:destination="@id/about_destination"
+            android:id="@+id/action_title_to_tips_choice"
+            app:destination="@id/tips_choice_destination"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_right"
@@ -50,10 +50,18 @@
             app:popExitAnim="@anim/fade_out" />
     </fragment>
     <fragment
-        android:id="@+id/about_destination"
-        android:name="io.astefanich.shinro.ui.AboutFragment"
-        android:label="fragment_about"
-        tools:layout="@layout/fragment_about" />
+        android:id="@+id/tips_choice_destination"
+        android:name="io.astefanich.shinro.ui.TipsChoiceFragment"
+        android:label="fragment_tips_choice"
+        tools:layout="@layout/fragment_tips_choice">
+        <action
+            android:id="@+id/action_tips_choice_to_tips_list"
+            app:destination="@id/tips_list_detail_destination"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
+    </fragment>
     <fragment
         android:id="@+id/tips_list_detail_destination"
         android:name="io.astefanich.shinro.ui.TipsDetailListFragment"
@@ -64,16 +72,8 @@
             app:argType="io.astefanich.shinro.domain.TipChoice" />
     </fragment>
     <fragment
-        android:id="@+id/tips_choice_destination"
-        android:name="io.astefanich.shinro.ui.TipsChoiceFragment"
-        android:label="fragment_tips_choice"
-        tools:layout="@layout/fragment_tips_choice">
-        <action
-            android:id="@+id/action_tips_choice_to_tips_list"
-            app:destination="@id/tips_list_detail_destination"
-            app:enterAnim="@anim/fade_in"
-            app:exitAnim="@anim/fade_out"
-            app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/fade_out" />
-    </fragment>
+        android:id="@+id/about_destination"
+        android:name="io.astefanich.shinro.ui.AboutFragment"
+        android:label="fragment_about"
+        tools:layout="@layout/fragment_about" />
 </navigation>

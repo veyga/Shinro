@@ -16,6 +16,7 @@
     <string name="puzzle">Puzzle</string>
     <string name="board_num_fmt">%d / %d</string>
     <string name="completed_fmt">%s</string>
+    <string name="how_to_play">How To Play</string>
     <string name="pathfinder">The Pathfinder</string>
     <string name="blocker">The Blocker</string>
     <string name="pigeonhole">The Pigeonhole</string>

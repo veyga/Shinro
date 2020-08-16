@@ -23,7 +23,7 @@
             <com.google.android.material.chip.Chip
                 android:id="@+id/how_to_play_chip"
                 style="@style/ChipStyle"
-                android:text="@string/how_to_play_tips"
+                android:text="@string/how_to_play"
                 tools:text="How to Play" />
 
             <!-- chip style doesn't bold text deterministically -->

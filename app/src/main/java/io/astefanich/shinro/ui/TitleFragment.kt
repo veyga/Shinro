@@ -22,6 +22,18 @@ class TitleFragment  : Fragment() {
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_title, container, false)
 
+        binding.playResumeChip.setOnClickListener {
+            findNavController().navigate(
+                TitleFragmentDirections.actionTitleToGame(0)
+            )
+        }
+
+        binding.howToPlayTipsChip.setOnClickListener{
+            findNavController().navigate(
+                TitleFragmentDirections.actionTitleToTipsChoice()
+            )
+        }
+
         binding.aboutChip.setOnClickListener {
             findNavController().navigate(TitleFragmentDirections.actionTitleToAbout())
         }
