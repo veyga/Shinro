@@ -14,9 +14,6 @@ interface BoardDao {
     @Query("SELECT * FROM board_table WHERE board_id = :boardId")
     fun getBoardById(boardId: Int): Board
 
-    @Query("SELECT board_id, difficulty, completed FROM board_table")
-    fun getProgress(): LiveData<List<Progress>>
-
     @Insert
     fun insertBoards(vararg boards: Board)
 

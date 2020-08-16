@@ -31,13 +31,6 @@
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_left" />
-        <action
-            android:id="@+id/action_title_to_progress"
-            app:destination="@id/progress_list_destination"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_right"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_left" />
     </fragment>
     <fragment
         android:id="@+id/game_destination"
@@ -50,19 +43,6 @@
             app:argType="integer" />
         <action
             android:id="@+id/action_game_destination_self"
-            app:destination="@id/game_destination"
-            app:enterAnim="@anim/fade_in"
-            app:exitAnim="@anim/fade_out"
-            app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/fade_out" />
-    </fragment>
-    <fragment
-        android:id="@+id/progress_list_destination"
-        android:name="io.astefanich.shinro.ui.ProgressListFragment"
-        android:label="fragment_progress_list"
-        tools:layout="@layout/fragment_progress_list">
-        <action
-            android:id="@+id/action_progress_to_game"
             app:destination="@id/game_destination"
             app:enterAnim="@anim/fade_in"
             app:exitAnim="@anim/fade_out"

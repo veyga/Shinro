@@ -6,7 +6,6 @@ import dagger.Binds
 import dagger.MapKey
 import dagger.Module
 import dagger.multibindings.IntoMap
-import io.astefanich.shinro.viewmodels.ProgressViewModel
 import io.astefanich.shinro.viewmodels.ViewModelFactory
 import java.lang.annotation.Documented
 import kotlin.reflect.KClass
@@ -26,10 +25,5 @@ abstract class ViewModelModule {
 
     @Binds
     abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(ProgressViewModel::class)
-    abstract fun bindProgressViewModel(progresViewModel: ProgressViewModel): ViewModel
 
 }

@@ -39,18 +39,18 @@ fun setVideoButtonText(button: Button, isPlaying: Boolean, isStarted: Boolean) {
     }
 }
 
-@BindingAdapter("progressFormatted")
-fun Chip.setProgressChip(item: Progress) {
-    item?.let {
-        text = String.format(
-            resources.getString(R.string.progress_fmt),
-            item.boardNum,
-            item.difficulty
-        )
-        typeface = Typeface.DEFAULT_BOLD
-        setChipIconResource(if (item.completed) R.drawable.checkmark else R.drawable.delete)
-    }
-}
+//@BindingAdapter("progressFormatted")
+//fun Chip.setProgressChip(item: Progress) {
+//    item?.let {
+//        text = String.format(
+//            resources.getString(R.string.progress_fmt),
+//            item.boardNum,
+//            item.difficulty
+//        )
+//        typeface = Typeface.DEFAULT_BOLD
+//        setChipIconResource(if (item.completed) R.drawable.checkmark else R.drawable.delete)
+//    }
+//}
 
 @BindingAdapter("gridSvg")
 fun bindGridSvg(view: ImageView, str: String) {

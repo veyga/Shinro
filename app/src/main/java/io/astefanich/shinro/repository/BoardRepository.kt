@@ -22,8 +22,6 @@ class BoardRepository @Inject constructor(
 
     fun updateBoard(board: Board) = boardDao.updateBoard(board)
 
-    fun getProgress(): LiveData<List<Progress>> = boardDao.getProgress()
-
     fun updateLastViewedBoardId(id: Int) {
         val fileOut = ctx.openFileOutput(lastVisitedFileName, Context.MODE_PRIVATE)
         val writer = fileOut.writer(Charsets.UTF_8)

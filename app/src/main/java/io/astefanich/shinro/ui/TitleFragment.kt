@@ -37,10 +37,6 @@ class TitleFragment : Fragment() {
             findNavController().navigate(TitleFragmentDirections.actionTitleToTipChoice(TipChoice.GENERAL))
         }
 
-        binding.yourProgressChip.setOnClickListener {
-            findNavController().navigate(TitleFragmentDirections.actionTitleToProgress())
-        }
-
         binding.aboutChip.setOnClickListener {
             findNavController().navigate(TitleFragmentDirections.actionTitleToAbout())
         }
@@ -55,7 +51,6 @@ class TitleFragment : Fragment() {
         if (this::binding.isInitialized) {
             binding.playChip.typeface = Typeface.DEFAULT_BOLD
             binding.howToPlayChip.typeface = Typeface.DEFAULT_BOLD
-            binding.yourProgressChip.typeface = Typeface.DEFAULT_BOLD
             binding.aboutChip.typeface = Typeface.DEFAULT_BOLD
         }
     }

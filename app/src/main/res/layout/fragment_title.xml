@@ -70,12 +70,6 @@
                     tools:text="How to Play" />
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/your_progress_chip"
-                    style="@style/ChipStyle"
-                    android:text="@string/your_progress"
-                    tools:text="Your Progress" />
-
-                <com.google.android.material.chip.Chip
                     android:id="@+id/about_chip"
                     style="@style/ChipStyle"
                     android:text="@string/about_title"
