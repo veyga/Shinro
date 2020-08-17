@@ -91,6 +91,7 @@ class AppModule {
                     super.onCreate(db)
                     Executors.newSingleThreadScheduledExecutor().execute() {
                         Timber.i("ONCREATE INMEMORY")
+//                        Thread.sleep(3000)
                         appDatabase.boardDao().insertBoards(*boards)
                         appDatabase.gameDao().insertGame(initalGame)
                         Timber.i("BOARDS LOADED INMEMORY")
