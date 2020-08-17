@@ -4,6 +4,7 @@ import android.content.Context
 import io.astefanich.shinro.database.BoardDao
 import io.astefanich.shinro.domain.Board
 import io.astefanich.shinro.domain.Difficulty
+import timber.log.Timber
 import java.io.InputStreamReader
 import javax.inject.Inject
 import javax.inject.Named
@@ -18,7 +19,9 @@ constructor(
 
     fun getRandomBoardByDifficulty(difficulty: Difficulty): Board {
         //TODO select random number, assert not in blacklist
-        return boardDao.getBoardByNumAndDifficulty(1, Difficulty.EASY)
+        val newBoard = boardDao.getBoardByNumAndDifficulty(1, Difficulty.EASY)
+        Timber.i("board repo serving up board#: ${newBoard.boardNum} diff: ${newBoard.difficulty}")
+        return newBoard
     }
 //    fun getBoardById(boardId: Int): Board = boardDao.getBoardById(boardId)
 //

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.astefanich.shinro.domain.*
 import io.astefanich.shinro.repository.GameRepository
+import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 
@@ -32,8 +33,13 @@ constructor(
     val gameWon: LiveData<Boolean>
         get() = _gameWon
 
+    private val _gameWonBuzz = MutableLiveData<Boolean>()
+    val gameWonBuzz: LiveData<Boolean>
+        get() = _gameWonBuzz
+
 
     init {
+        Timber.i("game vm created")
         _game = when (playRequest) {
             is PlayRequest.Resume -> repo.getActiveGame()
             is PlayRequest.NewGame -> repo.getNewGameByDifficulty(playRequest.difficulty)
@@ -84,7 +90,7 @@ constructor(
             "M" -> MClicked()
             "X" -> XClicked()
         }
-        saveNow()
+        updateUI()
     }
 
     private fun checkWin() {
@@ -99,9 +105,11 @@ constructor(
         }
         if (numIncorrect == 0) {
             toaster("YOU WON!!!!")
-            _gameWon.value = true //notify fragment to buzz
-//            _gameWon.value = false //reset it so navigating back doesn't re-trigger the buzz
+            _gameWon.value = true
+            _gameWonBuzz.value = true //notify fragment to buzz
+            _gameWonBuzz.value = false //reset it so navigating back doesn't re-trigger the buzz
             undoStackActive.value = false
+            saveGame()
         } else
             toaster("$numIncorrect of your marbles are in the wrong spots.")
     }
@@ -122,7 +130,7 @@ constructor(
         undoStack = Stack<Move>()
         undoStackActive.value = false
         toaster("Cleared")
-        saveNow()
+        updateUI()
     }
 
 
@@ -140,27 +148,20 @@ constructor(
         if (undoStack.isEmpty())
             undoStackActive.value = false
 
-        saveNow()
+        updateUI()
     }
 
-    private fun saveNow() {
+    fun saveGame() {
+        Timber.i("repo saving game")
         repo.saveGame(_game)
+        updateUI()
+    }
+
+    private fun updateUI() {
         game.value = _game //setting board value notifies registered observers
     }
 
 
     fun getSummary(): GameSummary =
         GameSummary(_game.difficulty, _gameWon.value ?: true, _game.timeElapsed)
-//    fun getResults(): GameResult {
-//        val difficulty = _game.difficulty
-//        val gameWon = _gameWon.value ?: true
-//        val timeTaken = _game.timeElapsed
-//        return GameResult(
-//            difficulty = difficulty,
-//            win = gameWon,
-//            time = timeTaken,
-//            points = pointsCalculator(difficulty, gameWon, timeTaken)
-//
-//        )
-//    }
 }

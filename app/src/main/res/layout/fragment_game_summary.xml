@@ -4,8 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.GameSummaryFragment">
 
+    <data>
+
+        <variable
+            name="vm"
+            type="io.astefanich.shinro.viewmodels.GameSummaryViewModel" />
+    </data>
+
     <LinearLayout
-        android:id="@+id/game_over_layout"
+        android:id="@+id/game_summary_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="48dp"
@@ -17,50 +24,51 @@
 
 
         <TextView
-            android:id="@+id/game_over_winloss"
+            android:id="@+id/game_summary_winloss"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="game_win"
             android:textAlignment="center"
             android:textSize="48sp"
             android:textStyle="bold"
+            app:winLoss="@{vm.win}"
             tools:text="Victory!" />
 
 
         <TextView
-            android:id="@+id/game_over_time"
+            android:id="@+id/game_summary_time"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="Time: 45s"
+            android:text="@{@string/time_taken_fmt(vm.time)}"
             android:textAlignment="center"
             android:textStyle="bold"
             tools:text="Time 12:01" />
 
         <TextView
-            android:id="@+id/game_over_points"
+            android:id="@+id/game_summary_points"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="Points earned: 122000"
             android:textAlignment="center"
             android:textStyle="bold"
+            app:animScoreTime="@{vm.animTime}"
+            app:pointsEarned="@{vm.pointsEarned}"
             tools:text="Points earned: 120000" />
 
         <TextView
-            android:id="@+id/game_over_current_difficulty"
+            android:id="@+id/game_summary_current_difficulty"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="Current Difficulty: Easy"
+            android:text="@{@string/current_difficulty_fmt(vm.nextGameDifficulty)}"
             android:textAlignment="center"
             android:textStyle="bold"
-            tools:text="Difficulty: Easy" />
+            tools:text="Current Difficulty: Easy" />
 
         <com.google.android.material.chip.ChipGroup
             android:layout_width="match_parent"

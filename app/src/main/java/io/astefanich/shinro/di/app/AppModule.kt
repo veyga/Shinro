@@ -28,16 +28,6 @@ class AppModule {
         return { msg: String -> Toast.makeText(ctx, msg, Toast.LENGTH_SHORT).show() }
     }
 
-//    @PerApplication
-//    @Provides
-//    @Named("lastVisitedFile")
-//    fun providesLastVisitedFileName(): String = "last_visited.txt"
-
-    @PerApplication
-    @Provides
-    internal fun providesBoardCount(): BoardCount = BoardCount(135)
-
-
     @Provides
     internal fun providesBoardDao(database: AppDatabase): BoardDao = database.boardDao()
 
@@ -47,10 +37,9 @@ class AppModule {
     @Provides
     internal fun providesResultsDao(database: AppDatabase): ResultsDao = database.resultsDao()
 
-    @PerApplication
+//    @PerApplication
 //    @Provides
-    internal fun providesDatabaseName(ct: BoardCount): DatabaseName =
-        DatabaseName("shinro${ct.value}.db")
+    internal fun providesDatabaseName(): DatabaseName = DatabaseName("shinro.db")
 
 
     @PerApplication
@@ -72,14 +61,8 @@ class AppModule {
         The below are for testing/board creation.
         Releases should output to DB file, and app should load from file
      */
-    @PerApplication
     @Provides
-    internal fun providesBoardGenerator(boardCount: BoardCount): BoardGenerator =
-        BoardGenerator(boardCount)
-
-    @PerApplication
-    @Provides
-    internal fun providesBoards(generator: BoardGenerator): Array<Board?> = generator.genBoards()
+    internal fun providesBoards(): Array<Board?> = BoardGenerator().genBoards()
 
     @Provides
     internal fun providesInitialBoard(boards: Array<Board>): Board = boards[0]

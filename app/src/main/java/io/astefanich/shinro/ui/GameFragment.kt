@@ -19,7 +19,6 @@ import androidx.navigation.ui.NavigationUI
 import io.astefanich.shinro.R
 import io.astefanich.shinro.ShinroApplication
 import io.astefanich.shinro.databinding.FragmentGameBinding
-import io.astefanich.shinro.domain.BoardCount
 import io.astefanich.shinro.viewmodels.GameViewModel
 import io.astefanich.shinro.viewmodels.ViewModelFactory
 import javax.inject.Inject
@@ -29,9 +28,6 @@ class GameFragment : Fragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
-
-    @Inject
-    lateinit var boardCount: BoardCount
 
     @Inject
     @field:Named("winBuzz")
@@ -53,12 +49,6 @@ class GameFragment : Fragment() {
         val gameFragmentArgs by navArgs<GameFragmentArgs>()
         var playRequest = gameFragmentArgs.playRequest
 
-//        val gameComponent = (activity!!.application as ShinroApplication)
-//            .appComponent
-//            .getGameComponentBuilder()
-//            .playRequest(playRequest)
-//            .build()
-//        gameComponent.inject(this)
         (activity!!.application as ShinroApplication)
             .appComponent
             .getGameComponentBuilder()
@@ -69,7 +59,7 @@ class GameFragment : Fragment() {
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(GameViewModel::class.java)
 
 
-        viewModel.gameWon.observe(this, Observer { isWon ->
+        viewModel.gameWonBuzz.observe(this, Observer { isWon ->
             if (isWon) {
                 buzz(winBuzzPattern)
             }
@@ -84,8 +74,7 @@ class GameFragment : Fragment() {
         }
 
         binding.resetBoard.setOnClickListener {
-            val dialogBuilder = AlertDialog.Builder(activity)
-            dialogBuilder
+            AlertDialog.Builder(activity)
                 .setTitle("Reset Board")
                 .setMessage("Are you sure?")
                 .setCancelable(false)
@@ -95,7 +84,6 @@ class GameFragment : Fragment() {
                 })
                 .setNegativeButton("NO", DialogInterface.OnClickListener { dialog, id ->
                 })
-                .create()
                 .show()
         }
 
@@ -119,10 +107,10 @@ class GameFragment : Fragment() {
 
 
     //onDestroy isn't reliably called. This call reliably saves last visited board
-//    override fun onStop() {
-//        super.onStop()
-//        viewModel.saveLastVisited()
-//    }
+    override fun onStop() {
+        super.onStop()
+        viewModel.saveGame()
+    }
 
     private fun buzz(pattern: LongArray) {
         val buzzer = activity?.getSystemService<Vibrator>()

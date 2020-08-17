@@ -12,10 +12,11 @@ import androidx.navigation.fragment.findNavController
 import io.astefanich.shinro.R
 import io.astefanich.shinro.databinding.FragmentTipsChoiceBinding
 import io.astefanich.shinro.domain.TipChoice
+import timber.log.Timber
 
 class TipsChoiceFragment : Fragment() {
 
-    lateinit var binding : FragmentTipsChoiceBinding
+    lateinit var binding: FragmentTipsChoiceBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,45 +27,22 @@ class TipsChoiceFragment : Fragment() {
 
         // neither chip style nor raw xml bolds text deterministically....
         binding.howToPlayChip.typeface = Typeface.DEFAULT_BOLD
-//        binding.howToPlayChip.setOnClickListener {
-//            findNavController().navigate(
-//                TipsChoiceFragmentDirections.actionTipsChoiceToTipsList(
-//                    TipChoice.GENERAL
-//                )
-//            )
-//        }
+        binding.howToPlayChip.setOnClickListener { navToChoice(TipChoice.HOWTOPLAY) }
 
         binding.pathfinderChip.typeface = Typeface.DEFAULT_BOLD
-//        binding.pathfinderChip.setOnClickListener {
-//            findNavController().navigate(
-//                TipsChoiceFragmentDirections.actionTipsChoiceToTipsList(
-//                    TipChoice.PATHFINDER
-//                )
-//            )
-//        }
+        binding.pathfinderChip.setOnClickListener { navToChoice(TipChoice.PATHFINDER) }
 
         binding.blockerChip.typeface = Typeface.DEFAULT_BOLD
-//        binding.blockerChip.setOnClickListener {
-//            findNavController().navigate(
-//                TipsChoiceFragmentDirections.actionTipsChoiceToTipsList(
-//                    TipChoice.BLOCKER
-//                )
-//            )
-//        }
+        binding.blockerChip.setOnClickListener { navToChoice(TipChoice.BLOCKER) }
 
         binding.pigeonholeChip.typeface = Typeface.DEFAULT_BOLD
-//        binding.pigeonholeChip.setOnClickListener {
-//            findNavController().navigate(
-//                TipsChoiceFragmentDirections.actionTipsChoiceToTipsList(
-//                    TipChoice.PIGEONHOLE
-//                )
-//            )
-//        }
+        binding.pigeonholeChip.setOnClickListener { navToChoice(TipChoice.PIGEONHOLE) }
+
         return binding.root
     }
 
 
-    fun navToChoice(choice: TipChoice)  {
+    private fun navToChoice(choice: TipChoice) {
         findNavController().navigate(
             TipsChoiceFragmentDirections.actionTipsChoiceToTipsList(choice)
         )

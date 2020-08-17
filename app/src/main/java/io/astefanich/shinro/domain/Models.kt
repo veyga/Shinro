@@ -4,14 +4,17 @@ import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import dagger.Provides
 import kotlinx.android.parcel.Parcelize
 
-enum class Difficulty(val repr: String) {
-    EASY("EASY"),
-    MEDIUM("MEDIUM"),
-    HARD("HARD")
-}
+//enum class Difficulty(val repr: String) {
+//    EASY("EASY"),
+//    MEDIUM("MEDIUM"),
+//    HARD("HARD")
+//}
+enum class Difficulty { EASY, MEDIUM, HARD }
+
+
+//val DIFFICULTIES: Array<String> = arrayOf(Difficulty.)
 
 @Entity(tableName = "board_table")
 data class Board(
@@ -64,18 +67,8 @@ data class GameResult(
 
 //// between gameVM and gameOver
 @Parcelize
-class GameSummary(val difficulty: Difficulty, val win: Boolean, val time: Long) : Parcelable {
+data class GameSummary(val difficulty: Difficulty, val win: Boolean, val time: Long) : Parcelable
 
-    val pointsEarned: Int
-
-    init {
-        pointsEarned = if (!win) 0 else when (difficulty) {
-            Difficulty.EASY -> 25000
-            Difficulty.MEDIUM -> 75000
-            Difficulty.HARD -> 150000
-        }
-    }
-}
 
 sealed class PlayRequest : Parcelable {
     @Parcelize
@@ -96,4 +89,3 @@ typealias Grid = Array<Array<Cell>>
 
 data class DatabaseName(val name: String)
 
-data class BoardCount(val value: Int)

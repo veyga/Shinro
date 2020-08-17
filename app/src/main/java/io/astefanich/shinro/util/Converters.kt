@@ -4,7 +4,6 @@ import androidx.room.TypeConverter
 import com.google.gson.Gson
 import io.astefanich.shinro.domain.Difficulty
 import io.astefanich.shinro.domain.Grid
-import timber.log.Timber
 
 object Converters {
 
@@ -24,15 +23,9 @@ object Converters {
 
     @TypeConverter
     @JvmStatic
-    fun difficultyToString(diff: Difficulty): String {
-        Timber.i("converting difficulty $diff to string")
-        return diff.repr
-    }
+    fun difficultyToString(diff: Difficulty): String = diff.name
 
     @TypeConverter
     @JvmStatic
-    fun stringToDifficulty(str: String): Difficulty {
-        Timber.i("converting string $str to difficulty")
-        return Difficulty.valueOf(str)
-    }
+    fun stringToDifficulty(str: String): Difficulty = Difficulty.valueOf(str)
 }

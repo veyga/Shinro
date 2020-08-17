@@ -1,28 +1,38 @@
 package io.astefanich.shinro.util
 
-import android.graphics.Typeface
+import android.animation.ValueAnimator
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
-import com.google.android.material.chip.Chip
 import io.astefanich.shinro.R
 import io.astefanich.shinro.domain.TipChoice
 
-//@BindingAdapter("completionStatus")
-//fun TextView.setCompletionStatus(status: Boolean) {
-//    val (txt, color) = if (status)
-//        Pair(resources.getString(R.string.complete), resources.getColor(R.color.green))
-//    else Pair(resources.getString(R.string.incomplete), resources.getColor(R.color.red))
-//    text = txt.toUpperCase()
-//    setTextColor(color)
-//}
+@BindingAdapter("winLoss")
+fun TextView.setWinLossString(status: Boolean) {
+    val (txt, color) = if (status)
+        Pair(resources.getString(R.string.victory), resources.getColor(R.color.green))
+    else Pair(resources.getString(R.string.defeat), resources.getColor(R.color.red))
+    text = txt.toUpperCase()
+    setTextColor(color)
+}
 
 @BindingAdapter("hideIfFalse")
 fun hideViewIfFalseCondition(view: View, isActive: Boolean) = when (isActive) {
     true -> view.visibility = View.VISIBLE
     else -> view.visibility = View.INVISIBLE
+}
+
+@BindingAdapter("animScoreTime", "pointsEarned")
+fun TextView.animatePointsEarned(animTime: Long, score: Int) {
+    val delay = 1000L
+    ValueAnimator.ofInt(0, score).apply {
+        addUpdateListener { text = String.format(resources.getString(R.string.points_earned_fmt, it.animatedValue as Int)) }
+        duration = delay + animTime
+        startDelay = delay
+        start()
+    }
 }
 
 @BindingAdapter("videoPlaying", "videoStarted")
@@ -52,7 +62,7 @@ fun setVideoButtonText(button: Button, isPlaying: Boolean, isStarted: Boolean) {
 //}
 
 @BindingAdapter("gridSvg")
-fun bindGridSvg(view: ImageView, str: String) {
+fun bindGridSvg(view: ImageView, str: String?) {
     val res = when (str) {
         " " -> R.drawable.blank_cell
         "X" -> R.drawable.letter_x

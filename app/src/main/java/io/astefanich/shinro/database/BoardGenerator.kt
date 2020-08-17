@@ -4,7 +4,9 @@ import io.astefanich.shinro.domain.*
 import timber.log.Timber
 import java.lang.IllegalStateException
 
-class BoardGenerator(private val boardCount: BoardCount) {
+class BoardGenerator() {
+
+    private val boardCount = 135
 
     init {
         Timber.i("BOARD GENERATOR CREATED")
@@ -15,18 +17,19 @@ class BoardGenerator(private val boardCount: BoardCount) {
         val lines = str.lines()
         val boardNum = lines[0].toInt()
         val difficulty = Difficulty.valueOf(lines[1])
-        Timber.i("difficulty for board $boardNum is $difficulty: ${difficulty.repr}")
         val cells = Array(9) { Array(9) { Cell(" ") } }
         for (i in 0..8) {
             val chars = lines[i + 2].split(" ")
             for (j in 0..8) {
                 val actual = chars[j]
-                if (actual == "M")
-                    numMarbles += 1
-                if (actual == "M" || actual == "X")
-                    cells[i][j] = Cell(" ", actual)
-                else
-                    cells[i][j] = Cell(actual)
+                when (actual) {
+                    "M" -> { //ensure only 12 marbles
+                        numMarbles += 1
+                        cells[i][j] = Cell(" ", actual)
+                    }
+                    "X" -> cells[i][j] = Cell(" ", actual)
+                    else -> cells[i][j] = Cell(actual)
+                }
             }
         }
         if (numMarbles != 12)
@@ -36,10 +39,9 @@ class BoardGenerator(private val boardCount: BoardCount) {
     }
 
     fun genBoards(): Array<Board?> {
-        val length = boardCount.value
-        val boards = arrayOfNulls<Board>(length)
+        val boards = arrayOfNulls<Board>(boardCount)
 
-        for (i in 0 until length)
+        for (i in 0 until boardCount)
             boards[i] = boardFromString(stringz[i])
 
         return boards
@@ -48,7 +50,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
 
     val stringz: Array<String> by lazy {
         arrayOf(
-        """
+            """
         1
         EASY
         0 1 2 1 1 1 3 2 1
@@ -61,7 +63,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         1 X M X F D X X X
         2 X X M X A M X A 
         """.trimIndent(),
-        """
+            """
         2
         EASY
         0 3 1 2 1 1 1 2 1
@@ -74,7 +76,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         2 C M A X X F M X
         1 X X X X M X A X
         """.trimIndent(),
-        """
+            """
         3
         EASY
         0 2 0 2 1 5 1 0 1
@@ -87,7 +89,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         1 X B X X M X H X
         1 X X X X M X X X
         """.trimIndent(),
-        """
+            """
         4
         EASY
         0 0 2 3 1 1 3 2 0
@@ -100,7 +102,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         5 X M M M X M M X
         2 X X X X X M M X
         """.trimIndent(),
-        """
+            """
         5
         EASY
         0 1 0 1 2 1 1 1 5
@@ -113,7 +115,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         2 X X M X X X X M
         1 X X X M X X X X
         """.trimIndent(),
-        """
+            """
         6
         EASY
         0 3 1 3 0 1 1 1 2
@@ -126,7 +128,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         3 M X M H X X F M
         1 X X X X X M H X
         """.trimIndent(),
-        """
+            """
         7
         EASY
         0 5 1 2 0 0 0 1 3
@@ -139,7 +141,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         0 X X X X X X X X
         2 M X C X G X X M
         """.trimIndent(),
-        """
+            """
         8
         EASY
         0 2 3 3 1 0 0 1 2
@@ -152,7 +154,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         0 X X X X X X X X
         2 M A M X X X X X
         """.trimIndent(),
-        """
+            """
         9
         EASY
         0 1 1 3 1 0 3 2 1
@@ -165,7 +167,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         2 A M X X X X M X
         1 B X X X X M X H
         """.trimIndent(),
-        """
+            """
         10
         EASY
         0 1 3 2 3 1 1 1 0
@@ -178,7 +180,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         0 X X F X X X X X
         2 X M X X C M X X
         """.trimIndent(),
-        """
+            """
         11
         EASY
         0 1 3 1 2 0 0 3 2
@@ -191,7 +193,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         1 X M B X G X X X
         2 B X C M X X H M
         """.trimIndent(),
-        """
+            """
         12
         EASY
         0 3 2 1 2 2 1 0 1
@@ -204,7 +206,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         2 X X M M B A X X
         1 M X B A A X X X
         """.trimIndent(),
-        """
+            """
         13
         EASY
         0 0 3 1 1 2 1 1 3
@@ -217,7 +219,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         0 X X X X X X X H
         1 X X C X X X X M
         """.trimIndent(),
-        """
+            """
         14
         EASY
         0 1 0 4 1 2 2 1 1
@@ -230,7 +232,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         0 A X X X X X X X
         1 C X M A X X X X
         """.trimIndent(),
-        """
+            """
         15
         EASY
         0 1 1 1 1 5 1 0 2
@@ -243,7 +245,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         1 M X X B X H X X
         1 X H X X M X X X
         """.trimIndent(),
-        """
+            """
         16
         EASY
         0 3 1 1 1 4 1 1 0
@@ -256,7 +258,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         1 M X X B X X X X
         1 B X X X M X X X
         """.trimIndent(),
-        """
+            """
         17
         EASY
         0 2 1 3 1 1 1 0 3
@@ -269,7 +271,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         0 X X X X X X X X
         3 M X M X X X X M
         """.trimIndent(),
-        """
+            """
         18
         EASY
         0 1 2 1 2 0 2 1 3
@@ -282,7 +284,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         2 C A M C X X X M
         1 X X X X X M X X
         """.trimIndent(),
-        """
+            """
         19
         EASY
         0 3 0 1 2 1 2 0 3
@@ -295,7 +297,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         4 M X M G C M X M
         2 M X X X X X H M
         """.trimIndent(),
-        """
+            """
         20
         EASY
         0 1 2 0 1 2 0 2 4
@@ -308,7 +310,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         1 X X X B X X X M
         3 A M X A X X M M
         """.trimIndent(),
-        """
+            """
         21
         EASY
         0 0 3 1 2 2 1 0 3
@@ -321,7 +323,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         0 X X B A X X X X
         1 X M X X A X X X
         """.trimIndent(),
-        """
+            """
         22
         EASY
         0 2 1 3 0 1 1 1 3
@@ -334,7 +336,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         2 X X M X X X X M
         3 M G M X M X X G
         """.trimIndent(),
-        """
+            """
         23
         EASY
         0 0 1 1 3 4 1 1 1
@@ -347,7 +349,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         1 X X X M X D X X
         1 C X X X X X M X
         """.trimIndent(),
-        """
+            """
         24
         EASY
         0 1 1 1 3 1 1 4 0
@@ -360,7 +362,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         3 X X M M X A M X
         1 X X B X M G X X
         """.trimIndent(),
-        """
+            """
         25
         EASY
         0 3 0 1 2 2 0 1 3
@@ -373,7 +375,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         3 M X X M X X X M
         1 M X X A X X X X
         """.trimIndent(),
-        """
+            """
         26
         EASY
         0 0 3 2 1 0 2 2 2
@@ -386,7 +388,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         1 X X X B H M X X
         1 X M X X X X X X
         """.trimIndent(),
-        """
+            """
         27
         EASY
         0 3 2 1 2 2 0 1 1
@@ -399,7 +401,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         1 X X X M B X X X
         0 X X X X X H X H
         """.trimIndent(),
-        """
+            """
         28
         EASY
         0 0 1 1 3 2 0 2 3
@@ -412,7 +414,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         2 X X X M M X X A
         0 X X B X X X X X
         """.trimIndent(),
-        """
+            """
         29
         EASY
         0 1 1 1 3 1 4 1 0
@@ -425,7 +427,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         0 X X X X X H X X
         2 X X A X M M X X
         """.trimIndent(),
-        """
+            """
         30
         EASY
         0 1 1 2 2 2 2 1 1
@@ -438,7 +440,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         0 X X X X X D X X
         2 X X M B X C M X
         """.trimIndent(),
-        """
+            """
         31
         EASY
         0 1 2 1 1 3 2 1 1
@@ -451,7 +453,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         0 B X X X X X X X
         2 X X X M A X X M
         """.trimIndent(),
-        """
+            """
         32
         EASY
         0 2 0 1 2 2 2 2 1
@@ -464,7 +466,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         1 X B X X X X H M
         2 A X X M X X M G
         """.trimIndent(),
-        """
+            """
         33
         EASY
         0 0 3 1 2 1 2 1 2
@@ -477,7 +479,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         2 X X X D X X M M
         1 X X X X M X X X
         """.trimIndent(),
-        """
+            """
         34
         EASY
         0 2 1 1 2 1 0 2 3
@@ -490,7 +492,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         0 X X X X X X H X
         1 C X C X X X M H
         """.trimIndent(),
-        """
+            """
         35
         EASY
         0 1 1 1 1 3 2 2 1
@@ -503,7 +505,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         1 M X B X G X X X
         0 X A X X B X X X
         """.trimIndent(),
-        """
+            """
         36
         EASY
         0 3 1 2 1 2 2 0 1
@@ -516,7 +518,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         0 B X X A X X X H
         2 X X M A X M X H
         """.trimIndent(),
-        """
+            """
         37
         EASY
         0 2 1 0 0 1 3 1 4
@@ -529,7 +531,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         2 M X B X G X H M
         1 X X X X X X M X
         """.trimIndent(),
-        """
+            """
         38
         EASY
         0 2 1 1 1 0 2 2 3
@@ -542,7 +544,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         2 M X X X X X X M
         3 A B M X X X M M
         """.trimIndent(),
-        """
+            """
         39
         EASY
         0 1 3 1 3 1 2 1 0
@@ -555,7 +557,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         3 M M X M X D X X
         2 X X B M X X M X
         """.trimIndent(),
-        """
+            """
         40
         EASY
         0 1 2 1 1 1 1 3 2
@@ -568,7 +570,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         3 X M X M X H M X
         1 X A H X X X M X
         """.trimIndent(),
-        """
+            """
         41
         EASY
         0 1 1 1 0 1 2 4 2
@@ -581,7 +583,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         3 X X X X C M M M
         1 X M X X X X X X
         """.trimIndent(),
-        """
+            """
         42
         EASY
         0 2 1 1 1 2 1 3 1
@@ -594,7 +596,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         1 X X X X X X M X
         1 X X X M X A X X
         """.trimIndent(),
-        """
+            """
         43
         EASY
         0 1 5 1 1 1 1 1 1
@@ -607,7 +609,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         2 X M G B X M D X
         1 X X X X X H A M
         """.trimIndent(),
-        """
+            """
         44
         EASY
         0 1 0 2 1 1 1 5 1
@@ -620,7 +622,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         2 C X X X D X M M
         2 X X X M G M X X
         """.trimIndent(),
-        """
+            """
         45
         EASY
         0 1 2 1 2 1 2 2 1
@@ -633,7 +635,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         3 C C X M M M G X
         1 X M X A X X X X
         """.trimIndent(),
-        """
+            """
         1
         MEDIUM
         0 1 3 2 2 1 0 3 0
@@ -646,7 +648,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         3 X M X X M X M X
         1 X B H M A B X G
         """.trimIndent(),
-        """
+            """
         2
         MEDIUM
         0 3 0 4 1 0 1 1 2
@@ -659,7 +661,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         1 X X M X X X X X
         1 B C X X X M X H
         """.trimIndent(),
-        """
+            """
         3
         MEDIUM
         0 3 2 3 0 0 3 0 1
@@ -672,7 +674,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         1 M X B X X H X X
         2 A X M G X M X X
         """.trimIndent(),
-        """
+            """
         4
         MEDIUM
         0 1 0 1 3 2 2 0 3
@@ -685,7 +687,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         1 X X X H H M X H
         1 X B X M X X H X
         """.trimIndent(),
-        """
+            """
         5
         MEDIUM
         0 1 1 0 3 5 1 0 1
@@ -698,7 +700,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         1 X X X X X C X M
         4 M M X M M X X X
         """.trimIndent(),
-        """
+            """
         6
         MEDIUM
         0 2 1 1 2 3 0 2 1
@@ -711,7 +713,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         2 X X X M M X X X
         3 M B X M C X M X
         """.trimIndent(),
-        """
+            """
         7
         MEDIUM
         0 2 2 1 0 2 3 0 2
@@ -724,7 +726,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         1 X M X X X X X X
         3 X C M G M M X X
         """.trimIndent(),
-        """
+            """
         8
         MEDIUM
         0 2 2 1 0 0 2 3 2
@@ -737,7 +739,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         2 M X G X X X X M
         1 X X X B X X M X
         """.trimIndent(),
-        """
+            """
         9
         MEDIUM
         0 2 2 2 1 2 2 0 1
@@ -750,7 +752,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         1 X B X X X M H X
         3 M X M X X H X M
         """.trimIndent(),
-        """
+            """
         10
         MEDIUM
         0 1 0 6 1 0 2 1 1
@@ -763,7 +765,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         1 X D M X X H X X
         1 X X M X X X X X
         """.trimIndent(),
-        """
+            """
         11
         MEDIUM
         0 3 1 1 1 1 2 1 2
@@ -776,7 +778,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         0 X X H H X X X X
         1 A X X X X A M X
         """.trimIndent(),
-        """
+            """
         12
         MEDIUM
         0 1 1 1 2 2 2 2 1
@@ -789,7 +791,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         1 X X X B M X X X
         1 C X X M H X X G
         """.trimIndent(),
-        """
+            """
         13
         MEDIUM
         0 0 0 1 1 5 1 2 2
@@ -802,7 +804,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         0 X B B X X B X X
         3 X X C X M M M X
         """.trimIndent(),
-        """
+            """
         14
         MEDIUM
         0 1 1 1 1 2 3 2 1
@@ -815,7 +817,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         0 X X A X H X X X
         1 X M B B X X X X
         """.trimIndent(),
-        """
+            """
         15
         MEDIUM
         0 2 2 0 0 3 2 1 2
@@ -828,7 +830,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         1 A X X X X H X M
         2 X X X X M M X G
         """.trimIndent(),
-        """
+            """
         16
         MEDIUM
         0 0 3 2 1 3 1 1 1
@@ -841,7 +843,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         1 X X X X M B X X
         1 X X X M X X X X
         """.trimIndent(),
-        """
+            """
         17
         MEDIUM
         0 2 1 2 2 0 2 1 2
@@ -854,7 +856,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         1 X X M X X A X X
         0 X X X X X X X X
         """.trimIndent(),
-        """
+            """
         18
         MEDIUM
         0 2 0 2 1 2 2 3 0
@@ -867,7 +869,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         4 M X M B M X M X
         2 C X M X X M G X
         """.trimIndent(),
-        """
+            """
         19
         MEDIUM
         0 1 1 2 1 1 2 3 1
@@ -880,7 +882,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         1 X X X X H X M H
         5 X X M M M X M M
         """.trimIndent(),
-        """
+            """
         20
         MEDIUM
         0 1 4 1 2 1 0 1 2
@@ -893,7 +895,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         3 M M X A X X G M
         2 X M X C X X M X
         """.trimIndent(),
-        """
+            """
         21
         MEDIUM
         0 2 1 0 2 2 0 4 1
@@ -906,7 +908,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         1 X X X B H H M G
         1 X X X X X X M X
         """.trimIndent(),
-        """
+            """
         22
         MEDIUM
         0 1 1 1 4 3 1 1 0
@@ -919,7 +921,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         2 X X X M X C M X
         0 X X X X X X H X
         """.trimIndent(),
-        """
+            """
         23
         MEDIUM
         0 1 3 1 2 2 0 1 2
@@ -932,7 +934,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         2 X F B B X X M M
         1 M X X X X X X X
         """.trimIndent(),
-        """
+            """
         24
         MEDIUM
         0 1 1 1 0 3 2 3 1
@@ -945,7 +947,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         1 X X X B X X M X
         0 X X X X A X X X
         """.trimIndent(),
-        """
+            """
         25
         MEDIUM
         0 1 4 2 0 1 1 2 1
@@ -958,7 +960,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         2 M M X B X H X G
         1 X M A X X X X X
         """.trimIndent(),
-        """
+            """
         26
         MEDIUM
         0 2 2 0 1 1 1 2 3
@@ -971,7 +973,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         0 X X X X X X A X
         2 X M B G X H M X
         """.trimIndent(),
-        """
+            """
         27
         MEDIUM
         0 3 3 1 1 2 0 1 1
@@ -984,7 +986,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         3 M D X X M G X M
         1 X X M X X X X H
         """.trimIndent(),
-        """
+            """
         28
         MEDIUM
         0 1 0 2 0 1 2 4 2
@@ -997,7 +999,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         2 C X M X B M X X
         1 X B X H B M X X
         """.trimIndent(),
-        """
+            """
         29
         MEDIUM
         0 2 2 1 0 2 0 3 2
@@ -1010,7 +1012,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         2 X X X X M X X M
         3 M M X B A G X M
         """.trimIndent(),
-        """
+            """
         30
         MEDIUM
         0 0 4 3 0 1 2 1 1
@@ -1023,7 +1025,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         1 X X A X X A M X
         4 X M M X M M G X
         """.trimIndent(),
-        """
+            """
         31
         MEDIUM
         0 2 1 2 0 2 3 1 1
@@ -1036,7 +1038,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         1 X X X X X H C M
         0 B B X X X X H X
         """.trimIndent(),
-        """
+            """
         32
         MEDIUM
         0 2 0 1 1 3 2 1 2
@@ -1049,7 +1051,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         1 X X X X X X M X
         4 M B M X M X H M
         """.trimIndent(),
-        """
+            """
         33
         MEDIUM
         0 2 4 0 1 2 1 1 1
@@ -1062,7 +1064,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         2 M M X X H X H X
         1 X M X H A X X X
         """.trimIndent(),
-        """
+            """
         34
         MEDIUM
         0 2 1 2 2 1 1 1 2
@@ -1075,7 +1077,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         1 X X X X X X X M
         4 M M M M A X X H
         """.trimIndent(),
-        """
+            """
         35
         MEDIUM
         0 1 0 2 1 3 3 1 1
@@ -1088,7 +1090,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         1 X X X X M H X X
         1 X X X X M X X X
         """.trimIndent(),
-        """
+            """
         36
         MEDIUM
         0 1 2 1 2 3 1 1 1
@@ -1101,7 +1103,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         1 X X M X X X X X
         0 X X B X X X X X
         """.trimIndent(),
-        """
+            """
         37
         MEDIUM
         0 1 1 3 1 1 3 1 1
@@ -1114,7 +1116,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         1 X X X M X X X X
         0 X B X X X B X X
         """.trimIndent(),
-        """
+            """
         38
         MEDIUM
         0 1 1 0 3 2 3 1 1
@@ -1127,7 +1129,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         1 B X X M X A X X
         1 X X X M X X H X
         """.trimIndent(),
-        """
+            """
         39
         MEDIUM
         0 2 0 2 1 0 5 0 2
@@ -1140,7 +1142,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         1 A X B X X X X M
         2 M X X X X M H X
         """.trimIndent(),
-        """
+            """
         40
         MEDIUM
         0 2 1 1 2 1 1 3 1
@@ -1153,7 +1155,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         2 M X B C X M X G
         2 X X X M M X X X
         """.trimIndent(),
-        """
+            """
         41
         MEDIUM
         0 3 1 2 2 0 1 1 2
@@ -1166,7 +1168,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         1 X X X X X X X M
         1 M X X X X X A H
         """.trimIndent(),
-        """
+            """
         42
         MEDIUM
         0 2 0 2 1 0 5 1 1
@@ -1179,7 +1181,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         1 X X M X X X X X
         2 M X X H X M X X
         """.trimIndent(),
-        """
+            """
         43
         MEDIUM
         0 0 2 2 1 2 0 3 2
@@ -1192,7 +1194,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         1 C X M X X X X G
         0 X X A X A X X X
         """.trimIndent(),
-        """
+            """
         44
         MEDIUM
         0 1 0 2 1 2 1 2 3
@@ -1205,7 +1207,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         3 B X C M A M M A
         1 X X M X X X X X
         """.trimIndent(),
-        """
+            """
         45
         MEDIUM
         0 0 2 2 3 1 1 2 1
@@ -1218,7 +1220,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         4 X X M M M M X H
         0 X X X X H X X X
         """.trimIndent(),
-        """
+            """
         1
         HARD
         0 1 1 1 4 2 0 2 1
@@ -1231,7 +1233,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         0 X B X X X X H X
         1 X X X M X X H X
         """.trimIndent(),
-        """
+            """
         2
         HARD
         0 2 2 1 0 1 1 1 4
@@ -1244,7 +1246,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         1 M X X X X X X X
         3 B M X X G B M M
         """.trimIndent(),
-        """
+            """
         3
         HARD
         0 1 1 3 3 0 2 1 1
@@ -1257,7 +1259,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         2 X X M M G X X X
         1 X X M X X X X A
         """.trimIndent(),
-        """
+            """
         4
         HARD
         0 4 2 3 1 1 0 1 0
@@ -1270,7 +1272,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         1 C X M B X X H X
         1 M A X X X X A X
         """.trimIndent(),
-        """
+            """
         5
         HARD
         0 3 2 1 1 0 2 1 2
@@ -1283,7 +1285,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         3 M M X X X A M A
         2 M C X M H B X A
         """.trimIndent(),
-        """
+            """
         6
         HARD
         0 2 1 0 2 3 1 1 2
@@ -1296,7 +1298,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         3 X X X B M M X M
         0 X X X X B X X X
         """.trimIndent(),
-        """
+            """
         7
         HARD
         0 1 0 1 1 1 4 2 2
@@ -1309,7 +1311,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         1 X X X X X M X X
         3 C B X M G M M G
         """.trimIndent(),
-        """
+            """
         8
         HARD
         0 3 3 1 1 0 1 1 2
@@ -1322,7 +1324,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         1 X X X M X X X X
         1 A A M X X X X X
         """.trimIndent(),
-        """
+            """
         9
         HARD
         0 3 1 1 1 2 2 1 1
@@ -1335,7 +1337,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         2 M X M X X X G X
         1 M A X X X X X X
         """.trimIndent(),
-        """
+            """
         10
         HARD
         0 1 3 1 1 0 2 2 2
@@ -1348,7 +1350,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         2 B X X C C M X M
         0 X X X X X X H X
         """.trimIndent(),
-        """
+            """
         11
         HARD
         0 3 1 2 1 0 2 0 3
@@ -1361,7 +1363,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         0 B X X X X A X X
         1 M X X X X H X X
         """.trimIndent(),
-        """
+            """
         12
         HARD
         0 2 1 2 1 4 1 0 1
@@ -1374,7 +1376,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         1 B X X X M X X X
         3 M X M X H X X M
         """.trimIndent(),
-        """
+            """
         13
         HARD
         0 1 1 2 2 2 1 2 1
@@ -1387,7 +1389,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         0 X X X X X X X H
         2 X X B B M M X X
         """.trimIndent(),
-        """
+            """
         14
         HARD
         0 1 2 2 1 0 0 3 3
@@ -1400,7 +1402,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         2 X M X X X X M G
         1 C X B X X X M X
         """.trimIndent(),
-        """
+            """
         15
         HARD
         0 2 2 1 0 2 1 2 2
@@ -1413,7 +1415,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         2 M X G H M X X H
         1 X B X X M X X X
         """.trimIndent(),
-        """
+            """
         16
         HARD
         0 3 3 1 1 1 2 1 0
@@ -1426,7 +1428,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         1 X X B M X G X X
         1 M X A B X X X X
         """.trimIndent(),
-        """
+            """
         17
         HARD
         0 2 0 3 1 1 2 1 2
@@ -1439,7 +1441,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         3 C X M X X M X M
         2 X X M X M X X A
         """.trimIndent(),
-        """
+            """
         18
         HARD
         0 0 0 3 1 1 5 2 0
@@ -1452,7 +1454,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         1 X X X H X M X H
         1 X B A M X A X G
         """.trimIndent(),
-        """
+            """
         19
         HARD
         0 3 1 1 1 1 2 1 2
@@ -1465,7 +1467,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         1 A M B B H B X A
         0 X X X X X A X X
         """.trimIndent(),
-        """
+            """
         20
         HARD
         0 1 2 2 2 2 1 1 1
@@ -1478,7 +1480,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         1 X A X A A M X X
         0 X X X X X X X X
         """.trimIndent(),
-        """
+            """
         21
         HARD
         0 1 2 1 1 1 2 2 2
@@ -1491,7 +1493,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         2 X X X X M X X M
         1 X A M X X G A A
         """.trimIndent(),
-        """
+            """
         22
         HARD
         0 2 1 1 1 2 1 2 2
@@ -1504,7 +1506,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         1 C C M X X X A X
         1 X B X X M X A X
         """.trimIndent(),
-        """
+            """
         23
         HARD
         0 1 1 1 2 1 1 1 4
@@ -1517,7 +1519,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         3 X M C A X X M M
         2 X C X M A M G X
         """.trimIndent(),
-        """
+            """
         24
         HARD
         0 1 1 1 1 2 2 2 2
@@ -1530,7 +1532,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         3 M X X G C M A M
         1 X X X X M X X X
         """.trimIndent(),
-        """
+            """
         25
         HARD
         0 2 0 1 2 0 2 2 3
@@ -1543,7 +1545,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         4 M X M A X A M M
         0 B B X X X X X X
         """.trimIndent(),
-        """
+            """
         26
         HARD
         0 2 1 0 3 2 1 1 2
@@ -1556,7 +1558,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         1 M X X A X X X X
         5 M X X M M H M M
         """.trimIndent(),
-        """
+            """
         27
         HARD
         0 1 1 5 1 3 0 0 1
@@ -1569,7 +1571,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         0 X X X B A X X X
         3 M C M A M X G X
         """.trimIndent(),
-        """
+            """
         28
         HARD
         0 1 1 5 1 0 0 3 1
@@ -1582,7 +1584,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         1 X X M X X X X X
         1 X A B X X H X M
         """.trimIndent(),
-        """
+            """
         29
         HARD
         0 0 1 2 1 2 4 1 1
@@ -1595,7 +1597,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         5 X M M X M M M X
         0 B X X X X X H X
         """.trimIndent(),
-        """
+            """
         30
         HARD
         0 1 0 1 3 2 3 1 1
@@ -1608,7 +1610,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         5 M X X M M M H M
         0 X X X X X X X X
         """.trimIndent(),
-        """
+            """
         31
         HARD
         0 1 1 3 2 1 1 2 1
@@ -1621,7 +1623,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         1 B X X M H X X X
         0 X B X X X X A H
         """.trimIndent(),
-        """
+            """
         32
         HARD
         0 1 2 1 2 0 0 5 1
@@ -1634,7 +1636,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         1 X A X X X X M X
         1 A X B X X B M X
         """.trimIndent(),
-        """
+            """
         33
         HARD
         0 2 3 2 0 2 0 1 2
@@ -1647,7 +1649,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         1 B M X X X X B H
         1 M X X X X X X X
         """.trimIndent(),
-        """
+            """
         34
         HARD
         0 1 2 2 1 2 1 2 1
@@ -1660,7 +1662,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         2 X X X M M X X X
         1 M A A X X X X X
         """.trimIndent(),
-        """
+            """
         35
         HARD
         0 2 2 1 1 1 1 1 3
@@ -1673,7 +1675,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         0 B X X X X X X X
         2 M X X X G X G M
         """.trimIndent(),
-        """
+            """
         36
         HARD
         0 1 2 1 3 3 0 2 0
@@ -1686,7 +1688,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         3 X X X M M X M X
         3 X M X C M H M X
         """.trimIndent(),
-        """
+            """
         37
         HARD
         0 2 1 1 1 1 2 1 3
@@ -1699,7 +1701,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         2 X X X X X M H M
         1 X M A H X G X X
         """.trimIndent(),
-        """
+            """
         38
         HARD
         0 3 1 1 1 0 1 1 4
@@ -1712,7 +1714,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         2 C X M X X X X M
         3 M X X H X M A M
         """.trimIndent(),
-        """
+            """
         39
         HARD
         0 1 0 2 3 0 1 3 2
@@ -1725,7 +1727,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         0 B X X X X X X X
         2 X X X M X X M X
         """.trimIndent(),
-        """
+            """
         40
         HARD
         0 2 1 3 1 3 1 1 0
@@ -1738,7 +1740,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         1 X X A X M X X X
         5 M A M G M M M X
         """.trimIndent(),
-        """
+            """
         41
         HARD
         0 3 2 1 2 0 1 3 0
@@ -1751,7 +1753,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         0 X X X X X X X X
         1 B M X X X X X X
         """.trimIndent(),
-        """
+            """
         42
         HARD
         0 1 4 1 3 0 1 1 1
@@ -1764,7 +1766,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         1 B C X M X X X H
         4 C M M M X X M G
         """.trimIndent(),
-        """
+            """
         43
         HARD
         0 2 2 0 1 2 2 0 3
@@ -1777,7 +1779,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         3 M X X M M A X H
         0 A B X X X X X X
         """.trimIndent(),
-        """
+            """
         44
         HARD
         0 2 3 1 2 2 0 2 0
@@ -1790,7 +1792,7 @@ class BoardGenerator(private val boardCount: BoardCount) {
         1 X M X X A X X X
         2 X X X M M X H X
         """.trimIndent(),
-        """
+            """
         45
         HARD
         0 4 0 1 2 3 1 0 1
