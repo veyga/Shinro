@@ -21,6 +21,7 @@ import io.astefanich.shinro.ShinroApplication
 import io.astefanich.shinro.databinding.FragmentGameBinding
 import io.astefanich.shinro.viewmodels.GameViewModel
 import io.astefanich.shinro.viewmodels.ViewModelFactory
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -59,7 +60,7 @@ class GameFragment : Fragment() {
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(GameViewModel::class.java)
 
 
-        viewModel.gameWonBuzz.observe(this, Observer { isWon ->
+        viewModel.gameWonBuzz.observe(viewLifecycleOwner, Observer { isWon ->
             if (isWon) {
                 buzz(winBuzzPattern)
             }
@@ -113,13 +114,22 @@ class GameFragment : Fragment() {
     }
 
     private fun buzz(pattern: LongArray) {
-        val buzzer = activity?.getSystemService<Vibrator>()
-        buzzer?.let {
+//        VibrationEffect.createOneShot(2000, VibrationEffect.DEFAULT_AMPLITUDE)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                buzzer.vibrate(VibrationEffect.createWaveform(pattern, -1))
+                val effect = VibrationEffect.createOneShot(2000, VibrationEffect.DEFAULT_AMPLITUDE)
+                Timber.i("buzzzing")
+//                buzzer.vibrate(VibrationEffect.createWaveform(pattern, -1))
             } else {
-                buzzer.vibrate(pattern, -1) //deprecated in API 26
+                Timber.i("cant buzz yo")
+//                buzzer.vibrate(pattern, -1) //deprecated in API 26
             }
-        }
+//        val buzzer = activity?.getSystemService<Vibrator>()
+//        buzzer?.let {
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//                buzzer.vibrate(VibrationEffect.createWaveform(pattern, -1))
+//            } else {
+//                buzzer.vibrate(pattern, -1) //deprecated in API 26
+//            }
+//        }
     }
 }
