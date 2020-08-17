@@ -1,22 +1,20 @@
 package io.astefanich.shinro.viewmodels
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import io.astefanich.shinro.domain.*
+import io.astefanich.shinro.domain.Game
+import io.astefanich.shinro.domain.GameSummary
+import io.astefanich.shinro.domain.PlayRequest
 import io.astefanich.shinro.repository.GameRepository
-import kotlinx.coroutines.*
-import timber.log.Timber
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.*
 import javax.inject.Inject
 
 private class Move(val row: Int, val column: Int, val oldVal: String, val newVal: String)
 
-//sealed class GameViewModelCommand {
-//    object SaveGame : GameViewModelCommand()
-//    data class LoadGame(val req: PlayRequest): GameViewModelCommand()
-//}
 
 /**
  * Core game logic class
@@ -34,19 +32,17 @@ constructor(
     val undoStackActive = MutableLiveData<Boolean>()
     private var undoStack = Stack<Move>()
 
-    private val _gameWon = MutableLiveData<Boolean>()
-    val gameWon: LiveData<Boolean>
-        get() = _gameWon
+    val gameWon = MutableLiveData<Boolean>()
 
-    private val _gameWonBuzz = MutableLiveData<Boolean>()
-    val gameWonBuzz: LiveData<Boolean>
-        get() = _gameWonBuzz
+    val gameWonBuzz = MutableLiveData<Boolean>()
 
     val gameLoaded = MutableLiveData<Boolean>()
 
+    val toastMe = MutableLiveData<String>()
+
     init {
         loadGame(playRequest)
-        undoStackActive.value = false
+//        undoStackActive.value = false
     }
 
     private fun loadGame(req: PlayRequest) {
@@ -95,7 +91,7 @@ constructor(
             if (mPlaced == 12)
                 checkWin()
             else if (mPlaced > 12)
-                Timber.i("You have placed ${mPlaced} marbles, which is too many")
+                toastMe.value = "You have placed ${mPlaced} marbles, which is too many"
         }
 
         when (cell.current) {
@@ -117,14 +113,14 @@ constructor(
             }
         }
         if (numIncorrect == 0) {
-            Timber.i("YOU WON!!!!")
-            _gameWon.value = true
-            _gameWonBuzz.value = true //notify fragment to buzz
-            _gameWonBuzz.value = false //reset it so navigating back doesn't re-trigger the buzz
+            toastMe.value = "YOU WON!"
+            gameWon.value = true
+            gameWonBuzz.value = true //notify fragment to buzz
+            gameWonBuzz.value = false //reset it so navigating back doesn't re-trigger the buzz
             undoStackActive.value = false
             saveGame()
         } else
-            Timber.i("$numIncorrect of your marbles are in the wrong spots.")
+            toastMe.value = "$numIncorrect of your marbles are in the wrong spots."
     }
 
     /**
@@ -142,7 +138,7 @@ constructor(
         _game.marblesPlaced = 0
         undoStack = Stack<Move>()
         undoStackActive.value = false
-        Timber.i("Cleared")
+        toastMe.value = "Cleared"
         updateUI()
     }
 
@@ -178,6 +174,6 @@ constructor(
 
 
     fun getSummary(): GameSummary =
-        GameSummary(_game.difficulty, _gameWon.value ?: true, _game.timeElapsed)
+        GameSummary(_game.difficulty, gameWon.value ?: true, _game.timeElapsed)
 }
 

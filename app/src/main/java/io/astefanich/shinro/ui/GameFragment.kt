@@ -6,9 +6,7 @@ import android.content.DialogInterface
 import android.os.Build
 import android.os.Bundle
 import android.os.VibrationEffect
-import android.os.Vibrator
 import android.view.*
-import androidx.core.content.getSystemService
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -38,8 +36,8 @@ class GameFragment : Fragment() {
     @field:Named("resetBuzz")
     lateinit var resetBuzzPattern: LongArray
 
-//    @Inject
-//    lateinit var toaster: @JvmSuppressWildcards(true) (String) -> Unit
+    @Inject
+    lateinit var toaster: @JvmSuppressWildcards(true) (String) -> Unit
 
     private lateinit var viewModel: GameViewModel
     private lateinit var binding: FragmentGameBinding
@@ -70,6 +68,8 @@ class GameFragment : Fragment() {
         })
 
 
+        viewModel.toastMe.observe(viewLifecycleOwner, Observer { toaster(it) })
+
         binding.nextArrow.setOnClickListener { view ->
             view.findNavController()
                 .navigate(
@@ -91,7 +91,6 @@ class GameFragment : Fragment() {
                 .show()
         }
 
-//        toaster("do ittttt")
         binding.vm = viewModel
         binding.lifecycleOwner = this
         setHasOptionsMenu(true)
@@ -119,14 +118,14 @@ class GameFragment : Fragment() {
 
     private fun buzz(pattern: LongArray) {
 //        VibrationEffect.createOneShot(2000, VibrationEffect.DEFAULT_AMPLITUDE)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                val effect = VibrationEffect.createOneShot(2000, VibrationEffect.DEFAULT_AMPLITUDE)
-                Timber.i("buzzzing")
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val effect = VibrationEffect.createOneShot(2000, VibrationEffect.DEFAULT_AMPLITUDE)
+            Timber.i("buzzzing")
 //                buzzer.vibrate(VibrationEffect.createWaveform(pattern, -1))
-            } else {
-                Timber.i("cant buzz yo")
+        } else {
+            Timber.i("cant buzz yo")
 //                buzzer.vibrate(pattern, -1) //deprecated in API 26
-            }
+        }
 //        val buzzer = activity?.getSystemService<Vibrator>()
 //        buzzer?.let {
 //            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

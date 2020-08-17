@@ -3,8 +3,6 @@ package io.astefanich.shinro.repository
 import io.astefanich.shinro.database.GameDao
 import io.astefanich.shinro.domain.Difficulty
 import io.astefanich.shinro.domain.Game
-import kotlinx.coroutines.delay
-import timber.log.Timber
 import javax.inject.Inject
 
 class GameRepository

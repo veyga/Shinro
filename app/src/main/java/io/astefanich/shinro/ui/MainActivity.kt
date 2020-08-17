@@ -12,5 +12,4 @@ class MainActivity : DaggerAppCompatActivity() {
         setContentView(R.layout.activity_main)
         AppCompatDelegate.MODE_NIGHT_YES
     }
-
 }
