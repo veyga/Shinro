@@ -25,4 +25,6 @@ class GameSummaryModule {
     @Provides
     fun providesDifficultiesReprs(): Array<String> = arrayOf("EASY", "MEDIUM", "HARD")
 
+    @Provides
+    fun providesChangeDifficultyPrompt(): String = "Change Difficulty:"
 }

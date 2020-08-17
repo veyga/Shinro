@@ -29,6 +29,9 @@ class GameSummaryFragment : Fragment() {
     @Inject
     lateinit var difficultiesReprs: Array<String>
 
+    @Inject
+    lateinit var changeDifficultyPrompt: String
+
     private lateinit var viewModel: GameSummaryViewModel
     private lateinit var binding: FragmentGameSummaryBinding
 
@@ -65,7 +68,7 @@ class GameSummaryFragment : Fragment() {
 
         binding.changeDifficultyChip.setOnClickListener {
             AlertDialog.Builder(activity)
-                .setTitle("Change Difficulty")
+                .setTitle(changeDifficultyPrompt)
                 .setCancelable(true)
                 .setItems(difficultiesReprs, DialogInterface.OnClickListener { dialog, choice ->
                     viewModel.difficultyChanged(Difficulty.valueOf(difficultiesReprs[choice]))

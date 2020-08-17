@@ -7,7 +7,7 @@ import io.astefanich.shinro.domain.*
 interface GameDao {
 
     @Query("SELECT * FROM game_table WHERE id = 1")
-    suspend fun getActiveGame(): Game?
+    suspend fun getActiveGame(): Game
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertGame(game: Game)

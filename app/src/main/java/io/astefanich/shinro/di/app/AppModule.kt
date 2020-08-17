@@ -72,10 +72,7 @@ class AppModule {
 
     @PerApplication
     @Provides
-    internal fun providesInitialGame(board: Board): Game {
-        Timber.i("providing initial game. the difficulty is ${board.difficulty}")
-        return Game(difficulty = board.difficulty, board = board.cells)
-    }
+    internal fun providesInitialGame(board: Board): Game = Game(difficulty = board.difficulty, board = board.cells)
 
     @PerApplication
     @Provides

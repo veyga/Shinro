@@ -25,12 +25,10 @@ class GameViewModel
 @Inject
 constructor(
     playRequest: PlayRequest,
-    val repo: GameRepository,
-    val toaster: @JvmSuppressWildcards(true) (String) -> Unit
+    val repo: GameRepository
 ) : ViewModel() {
 
-//    private var _game: Game
-    lateinit var _game: Game
+    private lateinit var _game: Game
     val game = MutableLiveData<Game>()
 
     val undoStackActive = MutableLiveData<Boolean>()
@@ -44,44 +42,25 @@ constructor(
     val gameWonBuzz: LiveData<Boolean>
         get() = _gameWonBuzz
 
+    val gameLoaded = MutableLiveData<Boolean>()
 
     init {
-        Timber.i("game vm created")
-
-//        _game = when (playRequest) {
-//            is PlayRequest.Resume -> repo.getActiveGame()
-//            is PlayRequest.NewGame -> repo.getNewGameByDifficulty(playRequest.difficulty)
-//        }
-//        game.value = _game
         loadGame(playRequest)
         undoStackActive.value = false
     }
 
     private fun loadGame(req: PlayRequest) {
-        Timber.i("getting game in vm")
         viewModelScope.launch(Dispatchers.IO) {
-            Timber.i("getting game in vm in IO")
             _game = when(req) {
                 is PlayRequest.Resume -> repo.getActiveGame()
                 is PlayRequest.NewGame -> repo.getNewGameByDifficulty(req.difficulty)
             }
-            Timber.i("got the game in vm its ${_game}")
             withContext(Dispatchers.Main){
-                Timber.i("setting game in vm")
-//                game.value = _game
+                game.value = _game
+                gameLoaded.value = true
             }
         }
     }
-//        viewModelScope.launch {
-//            Timber.i("loading game")
-//            delay(3000)
-//            _game = when (req) {
-//                is PlayRequest.Resume -> repo.getActiveGame()
-//                is PlayRequest.NewGame -> repo.getNewGameByDifficulty(req.difficulty)
-//            }
-//            game.value = _game
-//        }
-
 
     /**
      * Record a move in this VM
@@ -116,7 +95,7 @@ constructor(
             if (mPlaced == 12)
                 checkWin()
             else if (mPlaced > 12)
-                toaster("You have placed ${mPlaced} marbles, which is too many")
+                Timber.i("You have placed ${mPlaced} marbles, which is too many")
         }
 
         when (cell.current) {
@@ -138,14 +117,14 @@ constructor(
             }
         }
         if (numIncorrect == 0) {
-            toaster("YOU WON!!!!")
+            Timber.i("YOU WON!!!!")
             _gameWon.value = true
             _gameWonBuzz.value = true //notify fragment to buzz
             _gameWonBuzz.value = false //reset it so navigating back doesn't re-trigger the buzz
             undoStackActive.value = false
             saveGame()
         } else
-            toaster("$numIncorrect of your marbles are in the wrong spots.")
+            Timber.i("$numIncorrect of your marbles are in the wrong spots.")
     }
 
     /**
@@ -163,7 +142,7 @@ constructor(
         _game.marblesPlaced = 0
         undoStack = Stack<Move>()
         undoStackActive.value = false
-        toaster("Cleared")
+        Timber.i("Cleared")
         updateUI()
     }
 
@@ -187,7 +166,6 @@ constructor(
 
 
     fun saveGame() {
-        Timber.i("asking repo to save game")
         viewModelScope.launch(Dispatchers.IO) {
             repo.saveGame(_game)
         }
