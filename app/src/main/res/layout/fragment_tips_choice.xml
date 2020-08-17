@@ -8,6 +8,10 @@
         <variable
             name="fragment"
             type="io.astefanich.shinro.ui.TipsChoiceFragment" />
+
+        <variable
+            name="tipChoice"
+            type="io.astefanich.shinro.domain.TipChoice" />
     </data>
 
     <LinearLayout
@@ -23,6 +27,7 @@
             <com.google.android.material.chip.Chip
                 android:id="@+id/how_to_play_chip"
                 style="@style/ChipStyle"
+                android:onClick="@{() -> fragment.navToChoice(tipChoice.HOWTOPLAY)}"
                 android:text="@string/how_to_play"
                 tools:text="How to Play" />
 
@@ -30,19 +35,22 @@
             <com.google.android.material.chip.Chip
                 android:id="@+id/pathfinder_chip"
                 style="@style/ChipStyle"
-                android:textStyle="bold"
+                android:onClick="@{() -> fragment.navToChoice(tipChoice.PATHFINDER)}"
                 android:text="@string/pathfinder"
+                android:textStyle="bold"
                 tools:text="Pathfinder" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/blocker_chip"
                 style="@style/ChipStyle"
+                android:onClick="@{() -> fragment.navToChoice(tipChoice.BLOCKER)}"
                 android:text="@string/blocker"
                 tools:text="Blocker" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/pigeonhole_chip"
                 style="@style/ChipStyle"
+                android:onClick="@{() -> fragment.navToChoice(tipChoice.PIGEONHOLE)}"
                 android:text="@string/pigeonhole"
                 tools:text="Pigeonhole" />
         </com.google.android.material.chip.ChipGroup>

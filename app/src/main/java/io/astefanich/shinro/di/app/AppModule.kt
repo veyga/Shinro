@@ -11,10 +11,9 @@ import dagger.Provides
 import io.astefanich.shinro.database.AppDatabase
 import io.astefanich.shinro.database.BoardDao
 import io.astefanich.shinro.database.BoardGenerator
+import io.astefanich.shinro.database.GameDao
 import io.astefanich.shinro.di.PerApplication
-import io.astefanich.shinro.domain.Board
-import io.astefanich.shinro.domain.BoardCount
-import io.astefanich.shinro.domain.DatabaseName
+import io.astefanich.shinro.domain.*
 import timber.log.Timber
 import java.util.concurrent.Executors
 import javax.inject.Named
@@ -33,6 +32,8 @@ class AppModule {
         return { msg: String -> Toast.makeText(ctx, msg, Toast.LENGTH_SHORT).show() }
     }
 
+
+
     @PerApplication
     @Provides
     @Named("lastVisitedFile")
@@ -43,10 +44,11 @@ class AppModule {
     internal fun providesBoardCount(): BoardCount = BoardCount(135)
 
 
-    @PerApplication
     @Provides
     internal fun providesBoardDao(database: AppDatabase): BoardDao = database.boardDao()
 
+    @Provides
+    internal fun providesGameDao(database: AppDatabase): GameDao = database.gameDao()
 
     @PerApplication
 //    @Provides
@@ -82,11 +84,21 @@ class AppModule {
     @Provides
     internal fun providesBoards(generator: BoardGenerator): Array<Board?> = generator.genBoards()
 
+    @Provides
+    internal fun providesInitialBoard(boards: Array<Board>): Board = boards[0]
+
+    @Provides
+    internal fun providesInitialGame(board: Board): Game {
+        Timber.i("providing initial game. the difficulty is ${board.difficulty}")
+        return Game(difficulty = board.difficulty, board = board.cells)
+    }
+
     @PerApplication
     @Provides
     internal fun providesInMemoryAppDatabase(
         application: Application,
-        boards: Array<Board>
+        boards: Array<Board>,
+        initalGame: Game
     ): AppDatabase {
         lateinit var appDatabase: AppDatabase
         appDatabase = Room.inMemoryDatabaseBuilder(
@@ -100,6 +112,7 @@ class AppModule {
                     Executors.newSingleThreadScheduledExecutor().execute() {
                         Timber.i("ONCREATE INMEMORY")
                         appDatabase.boardDao().insertBoards(*boards)
+                        appDatabase.gameDao().insertGame(initalGame)
                         Timber.i("BOARDS LOADED INMEMORY")
                     }
                 }

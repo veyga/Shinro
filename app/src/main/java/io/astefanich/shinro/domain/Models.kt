@@ -6,38 +6,61 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
 
+enum class Difficulty(val repr: String) {
+    EASY("EASY"),
+    MEDIUM("MEDIUM"),
+    HARD("HARD")
+}
+
 @Entity(tableName = "board_table")
-data class Board(
+data class Board (
+
+    @PrimaryKey(autoGenerate = true)
+    val id: Long = 0L,
+
+    @ColumnInfo(name = "board_num")
+    val boardNum: Int,  //multiple difficulties share puzzle nums
+
+    val difficulty: Difficulty,
+
+    val cells: Grid
+)
+
+@Entity(tableName = "game_table")
+data class Game(
 
     @PrimaryKey(autoGenerate = false)
-    @ColumnInfo(name = "board_id")
-    val boardId: Int,
+    val id: Int = 1, //only storing 1 game (the active game) in the db
 
-    val difficulty: String,
+    val difficulty: Difficulty,
 
-    val grid: Grid,
-
-    var completed: Boolean = false,
+    val board: Grid,
 
     @ColumnInfo(name = "marbles_placed")
-    var marblesPlaced: Int = 0
+    var marblesPlaced: Int = 0,
+
+    @ColumnInfo(name = "time_elapsed")
+    var timeElapsed: Long = 0,
+
+    @ColumnInfo(name = "freebies_remaining")
+    var freebiesRemaining: Int = 1
 )
 
-data class Progress(
-    @ColumnInfo(name = "board_id")
-    val boardNum: Int,
-    val difficulty: String,
-    val completed: Boolean
-)
+sealed class PlayRequest : Parcelable {
+    @Parcelize
+    object Resume : PlayRequest()
+    @Parcelize
+    data class NewGame(val difficulty: Difficulty) : PlayRequest()
+}
 
 @Parcelize
-enum class TipChoice : Parcelable { GENERAL, PATHFINDER, BLOCKER, PIGEONHOLE }
+enum class TipChoice : Parcelable { HOWTOPLAY, PATHFINDER, BLOCKER, PIGEONHOLE }
 
 data class Tip(val drawable: Int, val text: String)
 
 data class Cell(var current: String, val actual: String = current)
 
-data class Grid(val cells: Array<Array<Cell>>)
+typealias Grid = Array<Array<Cell>>
 
 data class DatabaseName(val name: String)
 

@@ -51,23 +51,23 @@ class GameFragment : Fragment() {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_game, container, false)
         val gameFragmentArgs by navArgs<GameFragmentArgs>()
-        var boardId = gameFragmentArgs.boardId
+        var playRequest = gameFragmentArgs.playRequest
 
         val gameComponent = (activity!!.application as ShinroApplication)
             .appComponent
             .getGameComponentBuilder()
-            .boardId(boardId)
+            .playRequest(playRequest)
             .build()
 
         gameComponent.inject(this)
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(GameViewModel::class.java)
 
-        if (viewModel.boardId == 1)
-            binding.backArrow.visibility = View.INVISIBLE
-
-        if (viewModel.boardId == boardCount.value)
-            binding.nextArrow.visibility = View.INVISIBLE
+//        if (viewModel.boardId == 1)
+//            binding.backArrow.visibility = View.INVISIBLE
+//
+//        if (viewModel.boardId == boardCount.value)
+//            binding.nextArrow.visibility = View.INVISIBLE
 
         viewModel.gameWonBuzz.observe(this, Observer { isWon ->
             if (isWon) {
@@ -76,22 +76,22 @@ class GameFragment : Fragment() {
         })
 
 
-        binding.nextArrow.setOnClickListener { view ->
-            view.findNavController()
-                .navigate(
-                    GameFragmentDirections.actionGameDestinationSelf(
-                        viewModel.boardId + 1
-                    )
-                )
-        }
-        binding.backArrow.setOnClickListener { view ->
-            view.findNavController()
-                .navigate(
-                    GameFragmentDirections.actionGameDestinationSelf(
-                        viewModel.boardId - 1
-                    )
-                )
-        }
+//        binding.nextArrow.setOnClickListener { view ->
+//            view.findNavController()
+//                .navigate(
+//                    GameFragmentDirections.actionGameDestinationSelf(
+//                        viewModel.boardId + 1
+//                    )
+//                )
+//        }
+//        binding.backArrow.setOnClickListener { view ->
+//            view.findNavController()
+//                .navigate(
+//                    GameFragmentDirections.actionGameDestinationSelf(
+//                        viewModel.boardId - 1
+//                    )
+//                )
+//        }
 
         binding.resetBoard.setOnClickListener {
             val dialogBuilder = AlertDialog.Builder(activity)
@@ -129,10 +129,10 @@ class GameFragment : Fragment() {
 
 
     //onDestroy isn't reliably called. This call reliably saves last visited board
-    override fun onStop() {
-        super.onStop()
-        viewModel.saveLastVisited()
-    }
+//    override fun onStop() {
+//        super.onStop()
+//        viewModel.saveLastVisited()
+//    }
 
     private fun buzz(pattern: LongArray) {
         val buzzer = activity?.getSystemService<Vibrator>()

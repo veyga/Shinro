@@ -14,16 +14,13 @@
     <string name="about_text">Shinro (Android)\n2020\nDeveloper: Andrew Stefanich\ngithub.com/veyga/Shinro</string>
     <string name="thanks_text">Very special thanks to David Oranchak (PlayShinro.com)\n for providing much of this app\'s content</string>
     <string name="puzzle">Puzzle</string>
-    <string name="board_num_fmt">%d / %d</string>
-    <string name="completed_fmt">%s</string>
+    <string name="board_num_fmt">%d</string>
     <string name="how_to_play">How To Play</string>
     <string name="pathfinder">The Pathfinder</string>
     <string name="blocker">The Blocker</string>
     <string name="pigeonhole">The Pigeonhole</string>
     <string name="difficulty_fmt">Difficulty: %s</string>
-    <string name="progress_fmt">"Puzzle %d\t(%s)      "</string>
+    <string name="time_elapsed_fmt">Time: %d</string>
     <string name="marbles_placed_fmt">Placed:\n%d</string>
-    <string name="complete">Complete</string>
-    <string name="incomplete">Incomplete</string>
 </resources>
 

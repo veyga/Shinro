@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import io.astefanich.shinro.R
 import io.astefanich.shinro.databinding.FragmentTitleBinding
+import io.astefanich.shinro.domain.PlayRequest
 
 class TitleFragment  : Fragment() {
 
@@ -24,7 +25,7 @@ class TitleFragment  : Fragment() {
 
         binding.playResumeChip.setOnClickListener {
             findNavController().navigate(
-                TitleFragmentDirections.actionTitleToGame(0)
+                TitleFragmentDirections.actionTitleToGame(PlayRequest.Resume)
             )
         }
 

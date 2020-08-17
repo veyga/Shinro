@@ -15,52 +15,58 @@ import io.astefanich.shinro.domain.TipChoice
 
 class TipsChoiceFragment : Fragment() {
 
+    lateinit var binding : FragmentTipsChoiceBinding
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        val binding: FragmentTipsChoiceBinding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_tips_choice, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_tips_choice, container, false)
 
         // neither chip style nor raw xml bolds text deterministically....
         binding.howToPlayChip.typeface = Typeface.DEFAULT_BOLD
-        binding.howToPlayChip.setOnClickListener {
-            findNavController().navigate(
-                TipsChoiceFragmentDirections.actionTipsChoiceToTipsList(
-                    TipChoice.GENERAL
-                )
-            )
-        }
+//        binding.howToPlayChip.setOnClickListener {
+//            findNavController().navigate(
+//                TipsChoiceFragmentDirections.actionTipsChoiceToTipsList(
+//                    TipChoice.GENERAL
+//                )
+//            )
+//        }
 
         binding.pathfinderChip.typeface = Typeface.DEFAULT_BOLD
-        binding.pathfinderChip.setOnClickListener {
-            findNavController().navigate(
-                TipsChoiceFragmentDirections.actionTipsChoiceToTipsList(
-                    TipChoice.PATHFINDER
-                )
-            )
-        }
+//        binding.pathfinderChip.setOnClickListener {
+//            findNavController().navigate(
+//                TipsChoiceFragmentDirections.actionTipsChoiceToTipsList(
+//                    TipChoice.PATHFINDER
+//                )
+//            )
+//        }
 
         binding.blockerChip.typeface = Typeface.DEFAULT_BOLD
-        binding.blockerChip.setOnClickListener {
-            findNavController().navigate(
-                TipsChoiceFragmentDirections.actionTipsChoiceToTipsList(
-                    TipChoice.BLOCKER
-                )
-            )
-        }
+//        binding.blockerChip.setOnClickListener {
+//            findNavController().navigate(
+//                TipsChoiceFragmentDirections.actionTipsChoiceToTipsList(
+//                    TipChoice.BLOCKER
+//                )
+//            )
+//        }
 
         binding.pigeonholeChip.typeface = Typeface.DEFAULT_BOLD
-        binding.pigeonholeChip.setOnClickListener {
-            findNavController().navigate(
-                TipsChoiceFragmentDirections.actionTipsChoiceToTipsList(
-                    TipChoice.PIGEONHOLE
-                )
-            )
-        }
+//        binding.pigeonholeChip.setOnClickListener {
+//            findNavController().navigate(
+//                TipsChoiceFragmentDirections.actionTipsChoiceToTipsList(
+//                    TipChoice.PIGEONHOLE
+//                )
+//            )
+//        }
         return binding.root
     }
 
 
+    fun navToChoice(choice: TipChoice)  {
+        findNavController().navigate(
+            TipsChoiceFragmentDirections.actionTipsChoiceToTipsList(choice)
+        )
+    }
 }

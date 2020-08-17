@@ -8,17 +8,16 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.google.android.material.chip.Chip
 import io.astefanich.shinro.R
-import io.astefanich.shinro.domain.Progress
 import io.astefanich.shinro.domain.TipChoice
 
-@BindingAdapter("completionStatus")
-fun TextView.setCompletionStatus(status: Boolean) {
-    val (txt, color) = if (status)
-        Pair(resources.getString(R.string.complete), resources.getColor(R.color.green))
-    else Pair(resources.getString(R.string.incomplete), resources.getColor(R.color.red))
-    text = txt.toUpperCase()
-    setTextColor(color)
-}
+//@BindingAdapter("completionStatus")
+//fun TextView.setCompletionStatus(status: Boolean) {
+//    val (txt, color) = if (status)
+//        Pair(resources.getString(R.string.complete), resources.getColor(R.color.green))
+//    else Pair(resources.getString(R.string.incomplete), resources.getColor(R.color.red))
+//    text = txt.toUpperCase()
+//    setTextColor(color)
+//}
 
 @BindingAdapter("hideIfFalse")
 fun hideViewIfFalseCondition(view: View, isActive: Boolean) = when (isActive) {

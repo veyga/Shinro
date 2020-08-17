@@ -4,6 +4,7 @@ import dagger.BindsInstance
 import dagger.Subcomponent
 import dagger.android.AndroidInjector
 import io.astefanich.shinro.di.PerFragment
+import io.astefanich.shinro.domain.PlayRequest
 import io.astefanich.shinro.ui.GameFragment
 
 /*
@@ -17,7 +18,7 @@ interface GameComponent : AndroidInjector<GameFragment> {
     interface Builder {
 
         @BindsInstance
-        fun boardId(id: Int): Builder
+        fun playRequest(req: PlayRequest): Builder
 
         fun build(): GameComponent
     }
