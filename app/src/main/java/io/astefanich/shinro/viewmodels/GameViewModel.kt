@@ -3,14 +3,20 @@ package io.astefanich.shinro.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import io.astefanich.shinro.domain.*
 import io.astefanich.shinro.repository.GameRepository
+import kotlinx.coroutines.*
 import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 
 private class Move(val row: Int, val column: Int, val oldVal: String, val newVal: String)
 
+//sealed class GameViewModelCommand {
+//    object SaveGame : GameViewModelCommand()
+//    data class LoadGame(val req: PlayRequest): GameViewModelCommand()
+//}
 
 /**
  * Core game logic class
@@ -18,12 +24,13 @@ private class Move(val row: Int, val column: Int, val oldVal: String, val newVal
 class GameViewModel
 @Inject
 constructor(
-    val playRequest: PlayRequest,
+    playRequest: PlayRequest,
     val repo: GameRepository,
     val toaster: @JvmSuppressWildcards(true) (String) -> Unit
 ) : ViewModel() {
 
-    private var _game: Game
+//    private var _game: Game
+    lateinit var _game: Game
     val game = MutableLiveData<Game>()
 
     val undoStackActive = MutableLiveData<Boolean>()
@@ -40,13 +47,40 @@ constructor(
 
     init {
         Timber.i("game vm created")
-        _game = when (playRequest) {
-            is PlayRequest.Resume -> repo.getActiveGame()
-            is PlayRequest.NewGame -> repo.getNewGameByDifficulty(playRequest.difficulty)
-        }
-        game.value = _game
+
+//        _game = when (playRequest) {
+//            is PlayRequest.Resume -> repo.getActiveGame()
+//            is PlayRequest.NewGame -> repo.getNewGameByDifficulty(playRequest.difficulty)
+//        }
+//        game.value = _game
+        loadGame(playRequest)
         undoStackActive.value = false
     }
+
+    private fun loadGame(req: PlayRequest) {
+        Timber.i("getting game in vm")
+        viewModelScope.launch(Dispatchers.IO) {
+            Timber.i("getting game in vm in IO")
+            _game = when(req) {
+                is PlayRequest.Resume -> repo.getActiveGame()
+                is PlayRequest.NewGame -> repo.getNewGameByDifficulty(req.difficulty)
+            }
+            Timber.i("got the game in vm its ${_game}")
+            withContext(Dispatchers.Main){
+                Timber.i("setting game in vm")
+//                game.value = _game
+            }
+        }
+    }
+//        viewModelScope.launch {
+//            Timber.i("loading game")
+//            delay(3000)
+//            _game = when (req) {
+//                is PlayRequest.Resume -> repo.getActiveGame()
+//                is PlayRequest.NewGame -> repo.getNewGameByDifficulty(req.difficulty)
+//            }
+//            game.value = _game
+//        }
 
 
     /**
@@ -151,9 +185,12 @@ constructor(
         updateUI()
     }
 
+
     fun saveGame() {
-        Timber.i("repo saving game")
-        repo.saveGame(_game)
+        Timber.i("asking repo to save game")
+        viewModelScope.launch(Dispatchers.IO) {
+            repo.saveGame(_game)
+        }
         updateUI()
     }
 
@@ -165,3 +202,4 @@ constructor(
     fun getSummary(): GameSummary =
         GameSummary(_game.difficulty, _gameWon.value ?: true, _game.timeElapsed)
 }
+

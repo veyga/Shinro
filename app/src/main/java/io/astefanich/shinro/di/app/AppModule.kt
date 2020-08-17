@@ -11,6 +11,7 @@ import dagger.Provides
 import io.astefanich.shinro.database.*
 import io.astefanich.shinro.di.PerApplication
 import io.astefanich.shinro.domain.*
+import kotlinx.coroutines.*
 import timber.log.Timber
 import java.util.concurrent.Executors
 
@@ -22,7 +23,7 @@ class AppModule {
     @Provides
     internal fun providesContext(application: Application): Context = application.applicationContext
 
-//    @PerApplication
+    //    @PerApplication
     @Provides
     fun providesToaster(ctx: Context): (String) -> Unit {
         return { msg: String -> Toast.makeText(ctx, msg, Toast.LENGTH_SHORT).show() }
@@ -37,12 +38,12 @@ class AppModule {
     @Provides
     internal fun providesResultsDao(database: AppDatabase): ResultsDao = database.resultsDao()
 
-//    @PerApplication
+    //    @PerApplication
 //    @Provides
     internal fun providesDatabaseName(): DatabaseName = DatabaseName("shinro.db")
 
 
-    @PerApplication
+//    @PerApplication
 //    @Provides
     internal fun providesDatabaseFromFile(
         application: Application,
@@ -61,12 +62,15 @@ class AppModule {
         The below are for testing/board creation.
         Releases should output to DB file, and app should load from file
      */
+    @PerApplication
     @Provides
     internal fun providesBoards(): Array<Board?> = BoardGenerator().genBoards()
 
+    @PerApplication
     @Provides
     internal fun providesInitialBoard(boards: Array<Board>): Board = boards[0]
 
+    @PerApplication
     @Provides
     internal fun providesInitialGame(board: Board): Game {
         Timber.i("providing initial game. the difficulty is ${board.difficulty}")
@@ -78,30 +82,25 @@ class AppModule {
     internal fun providesInMemoryAppDatabase(
         application: Application,
         boards: Array<Board>,
-        initalGame: Game
+        initialGame: Game
     ): AppDatabase {
         lateinit var appDatabase: AppDatabase
         appDatabase = Room.inMemoryDatabaseBuilder(
             application, AppDatabase::class.java
         )
-            .allowMainThreadQueries()
             .fallbackToDestructiveMigration()
             .addCallback(object : RoomDatabase.Callback() {
                 override fun onCreate(db: SupportSQLiteDatabase) {
                     super.onCreate(db)
-                    Executors.newSingleThreadScheduledExecutor().execute() {
-                        Timber.i("ONCREATE INMEMORY")
-//                        Thread.sleep(3000)
+                    GlobalScope.launch(Dispatchers.IO) {
+                        Timber.i("BOARDS INSERTED")
                         appDatabase.boardDao().insertBoards(*boards)
-                        appDatabase.gameDao().insertGame(initalGame)
-                        Timber.i("BOARDS LOADED INMEMORY")
                     }
                 }
             })
             .build()
         return appDatabase
     }
-
 }
 
 

@@ -7,13 +7,13 @@ import io.astefanich.shinro.domain.*
 interface GameDao {
 
     @Query("SELECT * FROM game_table WHERE id = 1")
-    fun getActiveGame(): Game
+    suspend fun getActiveGame(): Game?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertGame(game: Game)
+    suspend fun insertGame(game: Game)
 
     @Update
-    fun updateGame(game: Game)
+    suspend fun updateGame(game: Game)
 
 }
 
@@ -21,7 +21,7 @@ interface GameDao {
 interface BoardDao {
 
     @Query("SELECT * FROM board_table WHERE board_num = :boardNum AND difficulty = :difficulty")
-    fun getBoardByNumAndDifficulty(boardNum: Int, difficulty: Difficulty): Board
+    suspend fun getBoardByNumAndDifficulty(boardNum: Int, difficulty: Difficulty): Board
 
     @Insert
     fun insertBoards(vararg boards: Board)
@@ -32,5 +32,5 @@ interface BoardDao {
 interface ResultsDao {
 
     @Insert
-    fun insertGameResult(result: GameResult)
+    suspend fun insertGameResult(result: GameResult)
 }

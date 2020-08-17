@@ -10,6 +10,7 @@ import javax.inject.Inject
 import javax.inject.Named
 
 
+//internal class BoardRepository
 class BoardRepository
 @Inject
 constructor(
@@ -17,7 +18,7 @@ constructor(
 ) {
 
 
-    fun getRandomBoardByDifficulty(difficulty: Difficulty): Board {
+    suspend fun getRandomBoardByDifficulty(difficulty: Difficulty): Board {
         //TODO select random number, assert not in blacklist
         val newBoard = boardDao.getBoardByNumAndDifficulty(1, Difficulty.EASY)
         Timber.i("board repo serving up board#: ${newBoard.boardNum} diff: ${newBoard.difficulty}")

@@ -60,34 +60,34 @@ class GameFragment : Fragment() {
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(GameViewModel::class.java)
 
 
-        viewModel.gameWonBuzz.observe(viewLifecycleOwner, Observer { isWon ->
-            if (isWon) {
-                buzz(winBuzzPattern)
-            }
-        })
-
-
-        binding.nextArrow.setOnClickListener { view ->
-            view.findNavController()
-                .navigate(
-                    GameFragmentDirections.actionGameToGameSummary(viewModel.getSummary())
-                )
-        }
-
-        binding.resetBoard.setOnClickListener {
-            AlertDialog.Builder(activity)
-                .setTitle("Reset Board")
-                .setMessage("Are you sure?")
-                .setCancelable(false)
-                .setPositiveButton("YES", DialogInterface.OnClickListener { dialog, id ->
-                    buzz(resetBuzzPattern)
-                    viewModel.onReset()
-                })
-                .setNegativeButton("NO", DialogInterface.OnClickListener { dialog, id ->
-                })
-                .show()
-        }
-
+//        viewModel.gameWonBuzz.observe(viewLifecycleOwner, Observer { isWon ->
+//            if (isWon) {
+//                buzz(winBuzzPattern)
+//            }
+//        })
+//
+//
+//        binding.nextArrow.setOnClickListener { view ->
+//            view.findNavController()
+//                .navigate(
+//                    GameFragmentDirections.actionGameToGameSummary(viewModel.getSummary())
+//                )
+//        }
+//
+//        binding.resetBoard.setOnClickListener {
+//            AlertDialog.Builder(activity)
+//                .setTitle("Reset Board")
+//                .setMessage("Are you sure?")
+//                .setCancelable(false)
+//                .setPositiveButton("YES", DialogInterface.OnClickListener { dialog, id ->
+//                    buzz(resetBuzzPattern)
+//                    viewModel.onReset()
+//                })
+//                .setNegativeButton("NO", DialogInterface.OnClickListener { dialog, id ->
+//                })
+//                .show()
+//        }
+//
         binding.vm = viewModel
         binding.lifecycleOwner = this
         setHasOptionsMenu(true)

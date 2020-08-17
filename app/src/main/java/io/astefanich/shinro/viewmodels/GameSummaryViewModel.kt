@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.astefanich.shinro.domain.Difficulty
+import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
 
 class GameSummaryViewModel
@@ -38,5 +39,10 @@ constructor(
     }
 
     fun saveToStatistics(): Unit = TODO()
-    fun saveToLeaderboard(): Unit = TODO()
+    fun saveToLeaderboard(): Unit {
+        with(Dispatchers.IO) {
+
+
+        }
+    }
 }

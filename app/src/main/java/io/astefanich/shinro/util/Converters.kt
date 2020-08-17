@@ -11,15 +11,11 @@ object Converters {
 
     @TypeConverter
     @JvmStatic
-    fun gridToJson(grid: Grid): String {
-        return gson.toJson(grid)
-    }
+    fun gridToJson(grid: Grid): String = gson.toJson(grid)
 
     @TypeConverter
     @JvmStatic
-    fun jsonToGrid(str: String): Grid {
-        return gson.fromJson(str, Grid::class.java)
-    }
+    fun jsonToGrid(str: String): Grid = gson.fromJson(str, Grid::class.java)
 
     @TypeConverter
     @JvmStatic
