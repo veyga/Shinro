@@ -40,13 +40,13 @@
         <argument
             android:name="playRequest"
             app:argType="io.astefanich.shinro.domain.PlayRequest" />
-<!--        <action-->
-<!--            android:id="@+id/action_game_destination_self"-->
-<!--            app:destination="@id/game_destination"-->
-<!--            app:enterAnim="@anim/fade_in"-->
-<!--            app:exitAnim="@anim/fade_out"-->
-<!--            app:popEnterAnim="@anim/fade_in"-->
-<!--            app:popExitAnim="@anim/fade_out" />-->
+        <action
+            android:id="@+id/action_game_to_game_summary"
+            app:destination="@id/game_summary_destination"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
     </fragment>
     <fragment
         android:id="@+id/tips_choice_destination"
@@ -75,4 +75,13 @@
         android:name="io.astefanich.shinro.ui.AboutFragment"
         android:label="fragment_about"
         tools:layout="@layout/fragment_about" />
+    <fragment
+        android:id="@+id/game_summary_destination"
+        android:name="io.astefanich.shinro.ui.GameSummaryFragment"
+        android:label="fragment_game_summary"
+        tools:layout="@layout/fragment_game_summary">
+        <argument
+            android:name="gameSummary"
+            app:argType="io.astefanich.shinro.domain.GameSummary" />
+    </fragment>
 </navigation>

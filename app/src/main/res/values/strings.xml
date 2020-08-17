@@ -20,7 +20,12 @@
     <string name="blocker">The Blocker</string>
     <string name="pigeonhole">The Pigeonhole</string>
     <string name="difficulty_fmt">Difficulty: %s</string>
+    <string name="freebies_remaining_fmt">Freebies Remaining: %d</string>
     <string name="time_elapsed_fmt">Time: %d</string>
-    <string name="marbles_placed_fmt">Placed:\n%d</string>
+    <string name="current_difficulty_fmt">Current Difficulty: %s</string>
+    <string name="time_taken_fmt">Time %s</string>
+    <string name="points_earned_fmt">Points Earned: %s</string>
+    <string name="new_game">New Game</string>
+    <string name="change_difficulty">Change Difficulty</string>
 </resources>
 

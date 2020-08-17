@@ -1,9 +1,7 @@
 package io.astefanich.shinro.database
 
 import androidx.room.*
-import io.astefanich.shinro.domain.Board
-import io.astefanich.shinro.domain.Difficulty
-import io.astefanich.shinro.domain.Game
+import io.astefanich.shinro.domain.*
 
 @Dao
 interface GameDao {
@@ -28,6 +26,11 @@ interface BoardDao {
     @Insert
     fun insertBoards(vararg boards: Board)
 
-//    @Update
-//    fun updateBoard(board: Board)
+}
+
+@Dao
+interface ResultsDao {
+
+    @Insert
+    fun insertGameResult(result: GameResult)
 }

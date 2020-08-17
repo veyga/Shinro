@@ -13,8 +13,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:background="@color/white">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:id="@+id/game_header"
@@ -28,27 +27,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/puzzle_title"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/puzzle"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                tools:text="Puzzle" />
-
-            <TextView
-                android:id="@+id/board_number"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="board#"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                tools:text="4 / 50" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -62,23 +40,27 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:visibility="invisible"
                     app:layout_constraintTop_toTopOf="@id/difficulty"
                     app:srcCompat="@drawable/arrow_back" />
 
                 <TextView
                     android:id="@+id/difficulty"
                     android:layout_width="0dp"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
                     android:layout_height="match_parent"
                     android:layout_weight="2"
                     android:gravity="center"
                     android:text="@{@string/difficulty_fmt(vm.game.difficulty)}"
-                    tools:text="DIFFICULTY: MEDIUM" />
+                    tools:text="Difficulty: MEDIUM" />
 
                 <ImageView
                     android:id="@+id/next_arrow"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    app:hideIfFalse="@{vm.gameWon}"
                     app:srcCompat="@drawable/arrow_forward" />
             </LinearLayout>
 
@@ -90,7 +72,15 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@{@string/time_elapsed_fmt(vm.game.timeElapsed)}"
-                tools:text="INCOMPLETE" />
+                tools:text="Time 1:21" />
+            <TextView
+                android:id="@+id/freebies_remaining"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@{@string/freebies_remaining_fmt(vm.game.freebiesRemaining)}"
+                tools:text="Freebies Remaining: 1" />
         </LinearLayout>
 
         <LinearLayout

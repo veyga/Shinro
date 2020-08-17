@@ -53,45 +53,35 @@ class GameFragment : Fragment() {
         val gameFragmentArgs by navArgs<GameFragmentArgs>()
         var playRequest = gameFragmentArgs.playRequest
 
-        val gameComponent = (activity!!.application as ShinroApplication)
+//        val gameComponent = (activity!!.application as ShinroApplication)
+//            .appComponent
+//            .getGameComponentBuilder()
+//            .playRequest(playRequest)
+//            .build()
+//        gameComponent.inject(this)
+        (activity!!.application as ShinroApplication)
             .appComponent
             .getGameComponentBuilder()
             .playRequest(playRequest)
             .build()
-
-        gameComponent.inject(this)
+            .inject(this)
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(GameViewModel::class.java)
 
-//        if (viewModel.boardId == 1)
-//            binding.backArrow.visibility = View.INVISIBLE
-//
-//        if (viewModel.boardId == boardCount.value)
-//            binding.nextArrow.visibility = View.INVISIBLE
 
-        viewModel.gameWonBuzz.observe(this, Observer { isWon ->
+        viewModel.gameWon.observe(this, Observer { isWon ->
             if (isWon) {
                 buzz(winBuzzPattern)
             }
         })
 
 
-//        binding.nextArrow.setOnClickListener { view ->
-//            view.findNavController()
-//                .navigate(
-//                    GameFragmentDirections.actionGameDestinationSelf(
-//                        viewModel.boardId + 1
-//                    )
-//                )
-//        }
-//        binding.backArrow.setOnClickListener { view ->
-//            view.findNavController()
-//                .navigate(
-//                    GameFragmentDirections.actionGameDestinationSelf(
-//                        viewModel.boardId - 1
-//                    )
-//                )
-//        }
+        binding.nextArrow.setOnClickListener { view ->
+            view.findNavController()
+                .navigate(
+                    GameFragmentDirections.actionGameToGameSummary(viewModel.getSummary())
+                )
+        }
 
         binding.resetBoard.setOnClickListener {
             val dialogBuilder = AlertDialog.Builder(activity)

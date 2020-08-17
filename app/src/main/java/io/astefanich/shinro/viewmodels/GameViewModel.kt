@@ -3,14 +3,12 @@ package io.astefanich.shinro.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import io.astefanich.shinro.domain.Game
-import io.astefanich.shinro.domain.PlayRequest
+import io.astefanich.shinro.domain.*
 import io.astefanich.shinro.repository.GameRepository
 import java.util.*
 import javax.inject.Inject
 
 private class Move(val row: Int, val column: Int, val oldVal: String, val newVal: String)
-
 
 
 /**
@@ -21,7 +19,7 @@ class GameViewModel
 constructor(
     val playRequest: PlayRequest,
     val repo: GameRepository,
-    val toaster: @JvmSuppressWildcards(true) (String) -> Unit  //only way this will work :(
+    val toaster: @JvmSuppressWildcards(true) (String) -> Unit
 ) : ViewModel() {
 
     private var _game: Game
@@ -30,13 +28,13 @@ constructor(
     val undoStackActive = MutableLiveData<Boolean>()
     private var undoStack = Stack<Move>()
 
-    private val _gameWonBuzz = MutableLiveData<Boolean>()
-    val gameWonBuzz: LiveData<Boolean>
-        get() = _gameWonBuzz
+    private val _gameWon = MutableLiveData<Boolean>()
+    val gameWon: LiveData<Boolean>
+        get() = _gameWon
 
 
     init {
-        _game = when(playRequest) {
+        _game = when (playRequest) {
             is PlayRequest.Resume -> repo.getActiveGame()
             is PlayRequest.NewGame -> repo.getNewGameByDifficulty(playRequest.difficulty)
         }
@@ -52,7 +50,7 @@ constructor(
         val cell = _game.board[row][column]
 
         //do nothing if board is already complete or user clicks on arrow
-        if (cell.actual in "A".."G")
+        if (gameWon.value == true || cell.actual in "A".."G")
             return
 
         undoStackActive.value = true
@@ -101,8 +99,8 @@ constructor(
         }
         if (numIncorrect == 0) {
             toaster("YOU WON!!!!")
-            _gameWonBuzz.value = true //notify fragment to buzz
-            _gameWonBuzz.value = false //reset it so navigating back doesn't re-trigger the buzz
+            _gameWon.value = true //notify fragment to buzz
+//            _gameWon.value = false //reset it so navigating back doesn't re-trigger the buzz
             undoStackActive.value = false
         } else
             toaster("$numIncorrect of your marbles are in the wrong spots.")
@@ -149,4 +147,20 @@ constructor(
         repo.saveGame(_game)
         game.value = _game //setting board value notifies registered observers
     }
+
+
+    fun getSummary(): GameSummary =
+        GameSummary(_game.difficulty, _gameWon.value ?: true, _game.timeElapsed)
+//    fun getResults(): GameResult {
+//        val difficulty = _game.difficulty
+//        val gameWon = _gameWon.value ?: true
+//        val timeTaken = _game.timeElapsed
+//        return GameResult(
+//            difficulty = difficulty,
+//            win = gameWon,
+//            time = timeTaken,
+//            points = pointsCalculator(difficulty, gameWon, timeTaken)
+//
+//        )
+//    }
 }

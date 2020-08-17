@@ -6,6 +6,7 @@ import dagger.Component
 import dagger.android.AndroidInjectionModule
 import dagger.android.AndroidInjector
 import io.astefanich.shinro.ShinroApplication
+import io.astefanich.shinro.database.ResultsDao
 import io.astefanich.shinro.di.ActivityInjectorsModule
 import io.astefanich.shinro.di.PerApplication
 import io.astefanich.shinro.di.ViewModelModule
@@ -23,6 +24,8 @@ import io.astefanich.shinro.di.game.GameComponent
 interface AppComponent : AndroidInjector<ShinroApplication> {
 
     fun getGameComponentBuilder(): GameComponent.Builder
+
+    fun getResultsDao(): ResultsDao
 
     @Component.Builder
     interface Builder {

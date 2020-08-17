@@ -8,15 +8,11 @@ import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import dagger.Module
 import dagger.Provides
-import io.astefanich.shinro.database.AppDatabase
-import io.astefanich.shinro.database.BoardDao
-import io.astefanich.shinro.database.BoardGenerator
-import io.astefanich.shinro.database.GameDao
+import io.astefanich.shinro.database.*
 import io.astefanich.shinro.di.PerApplication
 import io.astefanich.shinro.domain.*
 import timber.log.Timber
 import java.util.concurrent.Executors
-import javax.inject.Named
 
 
 @Module
@@ -26,18 +22,16 @@ class AppModule {
     @Provides
     internal fun providesContext(application: Application): Context = application.applicationContext
 
-    @PerApplication
+//    @PerApplication
     @Provides
     fun providesToaster(ctx: Context): (String) -> Unit {
         return { msg: String -> Toast.makeText(ctx, msg, Toast.LENGTH_SHORT).show() }
     }
 
-
-
-    @PerApplication
-    @Provides
-    @Named("lastVisitedFile")
-    fun providesLastVisitedFileName(): String = "last_visited.txt"
+//    @PerApplication
+//    @Provides
+//    @Named("lastVisitedFile")
+//    fun providesLastVisitedFileName(): String = "last_visited.txt"
 
     @PerApplication
     @Provides
@@ -49,6 +43,9 @@ class AppModule {
 
     @Provides
     internal fun providesGameDao(database: AppDatabase): GameDao = database.gameDao()
+
+    @Provides
+    internal fun providesResultsDao(database: AppDatabase): ResultsDao = database.resultsDao()
 
     @PerApplication
 //    @Provides
