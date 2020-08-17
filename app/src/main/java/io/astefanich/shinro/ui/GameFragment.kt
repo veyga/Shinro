@@ -73,12 +73,12 @@ class GameFragment : Fragment() {
 
         viewModel.toastMe.observe(viewLifecycleOwner, Observer { toast(it) })
 
-        binding.nextArrow.setOnClickListener { view ->
-            view.findNavController()
-                .navigate(
-                    GameFragmentDirections.actionGameToGameSummary(viewModel.getSummary())
-                )
-        }
+//        binding.nextArrow.setOnClickListener { view ->
+//            view.findNavController()
+//                .navigate(
+//                    GameFragmentDirections.actionGameToGameSummary(viewModel.getSummary())
+//                )
+//        }
 
         binding.resetBoard.setOnClickListener {
             AlertDialog.Builder(activity)

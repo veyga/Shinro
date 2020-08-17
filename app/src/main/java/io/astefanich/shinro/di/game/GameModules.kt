@@ -7,8 +7,6 @@ import dagger.Provides
 import dagger.multibindings.IntoMap
 import io.astefanich.shinro.di.PerFragment
 import io.astefanich.shinro.di.ViewModelKey
-import io.astefanich.shinro.domain.Difficulty
-import io.astefanich.shinro.domain.GameResult
 import io.astefanich.shinro.viewmodels.GameViewModel
 import javax.inject.Named
 
@@ -36,5 +34,6 @@ object GameModule {
     @Named("resetBuzz")
     @JvmStatic
     fun providesResetBuzzPattern(): LongArray = longArrayOf(0, 50)
+
 }
 

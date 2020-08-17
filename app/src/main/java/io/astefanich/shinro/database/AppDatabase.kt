@@ -8,6 +8,8 @@ import io.astefanich.shinro.domain.Game
 import io.astefanich.shinro.domain.GameResult
 import io.astefanich.shinro.util.Converters
 
+data class DatabaseName(val name: String)
+
 @Database(entities = [
     Board::class,
     Game::class,

@@ -22,17 +22,18 @@ private class Move(val row: Int, val column: Int, val oldVal: String, val newVal
 class GameViewModel
 @Inject
 constructor(
-    playRequest: PlayRequest,
+    val playRequest: PlayRequest,
     val repo: GameRepository
 ) : ViewModel() {
 
+    //    @Inject
+//    lateinit var numFreebies: Int
     private lateinit var _game: Game
     val game = MutableLiveData<Game>()
 
-    val undoStackActive = MutableLiveData<Boolean>()
     private var undoStack = Stack<Move>()
 
-    val gameWon = MutableLiveData<Boolean>()
+    val gameOver = MutableLiveData<Boolean>()
 
     val gameWonBuzz = MutableLiveData<Boolean>()
 
@@ -40,18 +41,18 @@ constructor(
 
     val toastMe = MutableLiveData<String>()
 
-    init {
-        loadGame(playRequest)
-//        undoStackActive.value = false
-    }
+//    init {
+//        loadGame(playRequest)
+//    }
 
-    private fun loadGame(req: PlayRequest) {
+    //    private fun loadGame(req: PlayRequest) {
+    init {
         viewModelScope.launch(Dispatchers.IO) {
-            _game = when(req) {
+            _game = when (playRequest) {
                 is PlayRequest.Resume -> repo.getActiveGame()
-                is PlayRequest.NewGame -> repo.getNewGameByDifficulty(req.difficulty)
+                is PlayRequest.NewGame -> repo.getNewGameByDifficulty(playRequest.difficulty)
             }
-            withContext(Dispatchers.Main){
+            withContext(Dispatchers.Main) {
                 game.value = _game
                 gameLoaded.value = true
             }
@@ -65,10 +66,8 @@ constructor(
         val cell = _game.board[row][column]
 
         //do nothing if board is already complete or user clicks on arrow
-        if (gameWon.value == true || cell.actual in "A".."G")
+        if (gameOver.value == true || cell.actual in "A".."G")
             return
-
-        undoStackActive.value = true
 
         fun OClicked() {
             undoStack.push(Move(row, column, " ", "X"))
@@ -114,10 +113,9 @@ constructor(
         }
         if (numIncorrect == 0) {
             toastMe.value = "YOU WON!"
-            gameWon.value = true
+            gameOver.value = true
             gameWonBuzz.value = true //notify fragment to buzz
             gameWonBuzz.value = false //reset it so navigating back doesn't re-trigger the buzz
-            undoStackActive.value = false
             saveGame()
         } else
             toastMe.value = "$numIncorrect of your marbles are in the wrong spots."
@@ -127,6 +125,9 @@ constructor(
      * Resets board via dialog box
      */
     fun onReset() {
+        if(gameOver.value == true)
+            return
+
         val cells = _game.board
         for (i in 0..8) {
             for (j in 0..8) {
@@ -137,7 +138,6 @@ constructor(
         }
         _game.marblesPlaced = 0
         undoStack = Stack<Move>()
-        undoStackActive.value = false
         toastMe.value = "Cleared"
         updateUI()
     }
@@ -147,15 +147,14 @@ constructor(
      * Undoes most recent move
      */
     fun onUndo() {
+        if (undoStack.isEmpty() || gameOver.value == true)
+            return
         val move = undoStack.pop()
         _game.board[move.row][move.column].current = move.oldVal
         if (move.newVal == "M")
             _game.marblesPlaced -= 1
         else if (move.oldVal == "M")
             _game.marblesPlaced += 1
-
-        if (undoStack.isEmpty())
-            undoStackActive.value = false
 
         updateUI()
     }
@@ -174,6 +173,6 @@ constructor(
 
 
     fun getSummary(): GameSummary =
-        GameSummary(_game.difficulty, gameWon.value ?: true, _game.timeElapsed)
+        GameSummary(_game.difficulty, gameOver.value ?: true, _game.timeElapsed)
 }
 

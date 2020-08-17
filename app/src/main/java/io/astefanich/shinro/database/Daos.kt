@@ -2,6 +2,7 @@ package io.astefanich.shinro.database
 
 import androidx.room.*
 import io.astefanich.shinro.domain.*
+import java.util.*
 
 @Dao
 interface GameDao {
@@ -18,6 +19,13 @@ interface GameDao {
 }
 
 @Dao
+interface ResultsDao {
+
+    @Insert
+    suspend fun insertGameResult(result: GameResult)
+}
+
+@Dao
 interface BoardDao {
 
     @Query("SELECT * FROM board_table WHERE board_num = :boardNum AND difficulty = :difficulty")
@@ -29,8 +37,9 @@ interface BoardDao {
 }
 
 @Dao
-interface ResultsDao {
+interface BlacklistDao {
 
-    @Insert
-    suspend fun insertGameResult(result: GameResult)
+    @Query("SELECT reserved FROM blacklist_table WHERE difficulty = :difficulty ")
+    suspend fun getBlacklistByDifficulty(difficulty: Difficulty): Queue<Int>?
 }
+

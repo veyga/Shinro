@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <resources>
     <string name="app_name">Shinro</string>
-    <string name="reset">Reset</string>
-    <string name="undo">Undo</string>
     <string name="play_resume">Play/Resume</string>
     <string name="how_to_play_tips">How To Play/Tips</string>
     <string name="statistics">Statistics</string>
@@ -20,8 +18,13 @@
     <string name="blocker">The Blocker</string>
     <string name="pigeonhole">The Pigeonhole</string>
     <string name="difficulty_fmt">%s</string>
-    <string name="freebies_remaining_fmt">Freebies Remaining: %d</string>
-    <string name="time_elapsed_fmt">Time: %d</string>
+    <string name="freebies_remaining_fmt">Freebies:\n%d / 1</string>
+    <string name="time_elapsed_fmt">Time:\n%d</string>
+    <string name="surrender">Surrender</string>
+    <string name="reset">Reset</string>
+    <string name="set_checkpoint">Set</string>
+    <string name="undo_to_checkpoint">Undo to</string>
+    <string name="undo">Undo</string>
     <string name="victory">Victory</string>
     <string name="defeat">Defeat</string>
     <string name="current_difficulty_fmt">Current Difficulty: %s</string>

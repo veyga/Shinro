@@ -17,87 +17,68 @@
 
         <ProgressBar
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:hideIfFalse="@{!vm.gameLoaded}"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:hideIfFalse="@{!vm.gameLoaded}"
-            android:layout_height="wrap_content"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/game_board"
+            android:id="@+id/game"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:hideIfFalse="@{vm.gameLoaded}">
 
-            <LinearLayout
-                android:id="@+id/game_header"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="0dp"
+
+            <TextView
+                android:id="@+id/freebies_remaining"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/circle_red_no_outline"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_margin="16dp"
+                app:layout_constraintLeft_toLeftOf="parent"
                 android:gravity="center"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toTopOf="@id/grid"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:text="@{@string/freebies_remaining_fmt(vm.game.freebiesRemaining)}"
+                tools:text="Freebies\n1 / 1" />
 
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="horizontal">
+            <TextView
+                android:id="@+id/time_elapsed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_margin="16dp"
+                android:drawableTop="@drawable/stopwatch"
+                android:text="@{@string/time_elapsed_fmt(vm.game.timeElapsed)}"
+                android:textSize="14sp"
+                tools:text="Time:\n1:21" />
+            <!--            <TextView-->
+            <!--                android:id="@+id/difficulty"-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_weight="1"-->
+            <!--                android:gravity="center"-->
+            <!--                android:textSize="48sp"-->
+            <!--                android:textStyle="bold"-->
+            <!--                android:text="@{@string/difficulty_fmt(vm.game.difficulty)}"-->
+            <!--                tools:text="EASY" />-->
+<!--            </LinearLayout>-->
+            <!--            <LinearLayout-->
+            <!--                android:id="@+id/game_header"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="0dp"-->
+            <!--                android:layout_margin="16dp"-->
+            <!--                android:layout_weight="1"-->
+            <!--                android:gravity="center"-->
+            <!--                android:orientation="horizontal"-->
+            <!--                app:layout_constraintTop_toTopOf="parent"-->
+            <!--                app:layout_constraintLeft_toLeftOf="parent"-->
+            <!--                app:layout_constraintRight_toRightOf="parent">-->
 
-                    <ImageView
-                        android:id="@+id/back_arrow"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:visibility="invisible"
-                        app:layout_constraintTop_toTopOf="@id/difficulty"
-                        app:srcCompat="@drawable/arrow_back" />
-
-                    <TextView
-                        android:id="@+id/difficulty"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="2"
-                        android:gravity="center"
-                        android:text="@{@string/difficulty_fmt(vm.game.difficulty)}"
-                        android:textSize="24sp"
-                        android:textStyle="bold"
-                        tools:text="Difficulty: MEDIUM" />
-
-                    <ImageView
-                        android:id="@+id/next_arrow"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        app:hideIfFalse="@{vm.gameWon}"
-                        app:srcCompat="@drawable/arrow_forward" />
-                </LinearLayout>
-
-
-                <TextView
-                    android:id="@+id/time_elapsed"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="@{@string/time_elapsed_fmt(vm.game.timeElapsed)}"
-                    tools:text="Time 1:21" />
-
-                <TextView
-                    android:id="@+id/freebies_remaining"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="@{@string/freebies_remaining_fmt(vm.game.freebiesRemaining)}"
-                    tools:text="Freebies Remaining: 1" />
-            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/grid"
@@ -108,9 +89,9 @@
                 android:background="@color/lightGray"
                 android:gravity="center"
                 android:orientation="vertical"
-                app:layout_constraintBottom_toTopOf="@+id/reset_board"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="1:1"
-                app:layout_constraintTop_toBottomOf="@+id/game_header">
+                app:layout_constraintTop_toTopOf="parent">
 
                 <!-- Row 0 -->
                 <LinearLayout
@@ -1139,34 +1120,78 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/reset_board"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <LinearLayout
+                android:id="@+id/game_buttons"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
                 android:layout_margin="16dp"
-                android:drawableTop="@drawable/clear"
-                android:text="@string/reset"
-                android:textSize="14sp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:text="@string/reset" />
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent">
+
+                <TextView
+                    android:id="@+id/surrender_board"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.1"
+                    android:drawableTop="@drawable/flag_finish"
+                    android:gravity="center"
+                    android:text="@string/surrender"
+                    android:textSize="14sp"
+                    tools:text="@string/surrender" />
+
+                <TextView
+                    android:id="@+id/reset_board"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableTop="@drawable/clear"
+                    android:gravity="center"
+                    android:text="@string/reset"
+                    android:textSize="14sp"
+                    tools:text="@string/reset" />
+
+                <TextView
+                    android:id="@+id/set_checkpoint"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableTop="@drawable/flag_filled"
+                    android:gravity="center"
+                    android:text="@string/set_checkpoint"
+                    android:textSize="14sp"
+                    tools:text="Set"
+                    tools:drawableTop="@drawable/flag_filled"/>
+
+                <TextView
+                    android:id="@+id/undo_to_checkpoint"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableTop="@drawable/flag_empty"
+                    android:gravity="center"
+                    android:text="@string/undo_to_checkpoint"
+                    android:textSize="14sp"
+                    tools:text="Undo to"
+                    tools:drawableTop="@drawable/flag_empty"/>
+
+                <TextView
+                    android:id="@+id/undo_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableTop="@drawable/undo"
+                    android:gravity="center"
+                    android:onClick="@{() -> vm.onUndo()}"
+                    android:text="@string/undo"
+                    android:textSize="14dp"
+                    tools:text="@string/undo" />
+            </LinearLayout>
 
 
-            <TextView
-                android:id="@+id/undo_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:drawableTop="@drawable/undo"
-                android:onClick="@{() -> vm.onUndo()}"
-                android:text="@string/undo"
-                android:textSize="14dp"
-                app:hideIfFalse="@{vm.undoStackActive}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                tools:text="@string/undo" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
+        </androidx.constraintlayout.widget.ConstraintLayout> <!-- end of grid -->
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -12,7 +12,6 @@ import javax.inject.Inject
 import javax.inject.Named
 
 
-//internal class BoardRepository
 class BoardRepository
 @Inject
 constructor(
