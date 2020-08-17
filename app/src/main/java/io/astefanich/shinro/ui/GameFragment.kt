@@ -2,11 +2,13 @@ package io.astefanich.shinro.ui
 
 
 import android.app.AlertDialog
+import android.content.Context
 import android.content.DialogInterface
 import android.os.Build
 import android.os.Bundle
 import android.os.VibrationEffect
 import android.view.*
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -37,10 +39,11 @@ class GameFragment : Fragment() {
     lateinit var resetBuzzPattern: LongArray
 
     @Inject
-    lateinit var toaster: @JvmSuppressWildcards(true) (String) -> Unit
+    lateinit var ctx: Context
 
     private lateinit var viewModel: GameViewModel
     private lateinit var binding: FragmentGameBinding
+    private val toast = { msg: String -> Toast.makeText(ctx, msg, Toast.LENGTH_SHORT).show()}
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -68,7 +71,7 @@ class GameFragment : Fragment() {
         })
 
 
-        viewModel.toastMe.observe(viewLifecycleOwner, Observer { toaster(it) })
+        viewModel.toastMe.observe(viewLifecycleOwner, Observer { toast(it) })
 
         binding.nextArrow.setOnClickListener { view ->
             view.findNavController()

@@ -24,10 +24,10 @@ class AppModule {
     internal fun providesContext(application: Application): Context = application.applicationContext
 
     //    @PerApplication
-    @Provides
-    fun providesToaster(ctx: Context): (String) -> Unit {
-        return { msg: String -> Toast.makeText(ctx, msg, Toast.LENGTH_SHORT).show() }
-    }
+//    @Provides
+//    fun providesToaster(ctx: Context): (String) -> Unit {
+//        return { msg: String -> Toast.makeText(ctx, msg, Toast.LENGTH_SHORT).show() }
+//    }
 
     @Provides
     internal fun providesBoardDao(database: AppDatabase): BoardDao = database.boardDao()
