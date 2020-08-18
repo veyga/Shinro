@@ -9,10 +9,6 @@
         <variable
             name="vm"
             type="io.astefanich.shinro.viewmodels.GameViewModel" />
-
-        <variable
-            name="cmd"
-            type="io.astefanich.shinro.viewmodels.GameCommand" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,9 +16,9 @@
         android:layout_height="match_parent">
 
         <ProgressBar
+            android:id="@+id/progress_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:hideIfFalse="@{!vm.gameLoaded}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -32,7 +28,7 @@
             android:id="@+id/game"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:hideIfFalse="@{vm.gameLoaded}">
+            android:visibility="gone">
 
 
             <TextView
@@ -105,10 +101,14 @@
                     android:layout_weight="1"
                     android:orientation="horizontal">
 
-                    <io.astefanich.shinro.ui.SquareImageView style="@style/CellStyle" />
+                    <io.astefanich.shinro.ui.SquareImageView
+                        android:id="@+id/cell00"
+                        style="@style/CellStyle" />
 
                     <io.astefanich.shinro.ui.SquareImageView
+                        android:id="@+id/cell01"
                         style="@style/CellStyle"
+                        android:contentDescription="cell"
                         app:gridSvg="@{vm.game.board[0][1].current}"
                         tools:src="@drawable/number1" />
 
@@ -162,53 +162,45 @@
                         app:gridSvg="@{vm.game.board[1][0].current}"
                         tools:src="@drawable/number1" />
 
-                    <!--                    android:onClick="@{() -> vm.onMove(1,1)}"-->
-                    <!--                    android:onClick="@{() -> vm.accept(new cmd.Move(1,1))}"-->
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(1,1)}"
                         app:gridSvg="@{vm.game.board[1][1].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(1,2)}"
                         app:gridSvg="@{vm.game.board[1][2].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(1,3)}"
                         app:gridSvg="@{vm.game.board[1][3].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(1,4)}"
                         app:gridSvg="@{vm.game.board[1][4].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(1,5)}"
                         app:gridSvg="@{vm.game.board[1][5].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(1,6)}"
                         app:gridSvg="@{vm.game.board[1][6].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(1,7)}"
                         app:gridSvg="@{vm.game.board[1][7].current}"
                         tools:src="@drawable/number1" />
 
+                    <!--                    android:onClick="@{() -> vm.onMove(1,8)}"-->
                     <io.astefanich.shinro.ui.SquareImageView
+                        android:id="@+id/cell18"
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(1,8)}"
                         app:gridSvg="@{vm.game.board[1][8].current}"
                         tools:src="@drawable/number1" />
                 </LinearLayout>
@@ -226,49 +218,41 @@
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(2,1)}"
                         app:gridSvg="@{vm.game.board[2][1].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(2,2)}"
                         app:gridSvg="@{vm.game.board[2][2].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(2,3)}"
                         app:gridSvg="@{vm.game.board[2][3].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(2,4)}"
                         app:gridSvg="@{vm.game.board[2][4].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(2,5)}"
                         app:gridSvg="@{vm.game.board[2][5].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(2,6)}"
                         app:gridSvg="@{vm.game.board[2][6].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(2,7)}"
                         app:gridSvg="@{vm.game.board[2][7].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(2,8)}"
                         app:gridSvg="@{vm.game.board[2][8].current}"
                         tools:src="@drawable/number1" />
                 </LinearLayout>
@@ -286,49 +270,41 @@
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(3,1)}"
                         app:gridSvg="@{vm.game.board[3][1].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(3,2)}"
                         app:gridSvg="@{vm.game.board[3][2].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(3,3)}"
                         app:gridSvg="@{vm.game.board[3][3].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(3,4)}"
                         app:gridSvg="@{vm.game.board[3][4].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(3,5)}"
                         app:gridSvg="@{vm.game.board[3][5].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(3,6)}"
                         app:gridSvg="@{vm.game.board[3][6].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(3,7)}"
                         app:gridSvg="@{vm.game.board[3][7].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(3,8)}"
                         app:gridSvg="@{vm.game.board[3][8].current}"
                         tools:src="@drawable/number1" />
                 </LinearLayout>
@@ -346,49 +322,41 @@
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(4,1)}"
                         app:gridSvg="@{vm.game.board[4][1].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(4,2)}"
                         app:gridSvg="@{vm.game.board[4][2].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(4,3)}"
                         app:gridSvg="@{vm.game.board[4][3].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(4,4)}"
                         app:gridSvg="@{vm.game.board[4][4].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(4,5)}"
                         app:gridSvg="@{vm.game.board[4][5].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(4,6)}"
                         app:gridSvg="@{vm.game.board[4][6].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(4,7)}"
                         app:gridSvg="@{vm.game.board[4][7].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(4,8)}"
                         app:gridSvg="@{vm.game.board[4][8].current}"
                         tools:src="@drawable/number1" />
                 </LinearLayout>
@@ -408,49 +376,41 @@
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(5,1)}"
                         app:gridSvg="@{vm.game.board[5][1].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(5,2)}"
                         app:gridSvg="@{vm.game.board[5][2].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(5,3)}"
                         app:gridSvg="@{vm.game.board[5][3].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(5,4)}"
                         app:gridSvg="@{vm.game.board[5][4].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(5,5)}"
                         app:gridSvg="@{vm.game.board[5][5].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(5,6)}"
                         app:gridSvg="@{vm.game.board[5][6].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(5,7)}"
                         app:gridSvg="@{vm.game.board[5][7].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(5,8)}"
                         app:gridSvg="@{vm.game.board[5][8].current}"
                         tools:src="@drawable/number1" />
                 </LinearLayout>
@@ -469,49 +429,41 @@
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(6,1)}"
                         app:gridSvg="@{vm.game.board[6][1].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(6,2)}"
                         app:gridSvg="@{vm.game.board[6][2].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(6,3)}"
                         app:gridSvg="@{vm.game.board[6][3].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(6,4)}"
                         app:gridSvg="@{vm.game.board[6][4].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(6,5)}"
                         app:gridSvg="@{vm.game.board[6][5].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(6,6)}"
                         app:gridSvg="@{vm.game.board[6][6].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(6,7)}"
                         app:gridSvg="@{vm.game.board[6][7].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(6,8)}"
                         app:gridSvg="@{vm.game.board[6][8].current}"
                         tools:src="@drawable/number1" />
                 </LinearLayout>
@@ -530,49 +482,41 @@
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(7,1)}"
                         app:gridSvg="@{vm.game.board[7][1].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(7,2)}"
                         app:gridSvg="@{vm.game.board[7][2].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(7,3)}"
                         app:gridSvg="@{vm.game.board[7][3].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(7,4)}"
                         app:gridSvg="@{vm.game.board[7][4].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(7,5)}"
                         app:gridSvg="@{vm.game.board[7][5].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(7,6)}"
                         app:gridSvg="@{vm.game.board[7][6].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(7,7)}"
                         app:gridSvg="@{vm.game.board[7][7].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(7,8)}"
                         app:gridSvg="@{vm.game.board[7][8].current}"
                         tools:src="@drawable/number1" />
                 </LinearLayout>
@@ -591,49 +535,41 @@
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(8,1)}"
                         app:gridSvg="@{vm.game.board[8][1].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(8,2)}"
                         app:gridSvg="@{vm.game.board[8][2].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(8,3)}"
                         app:gridSvg="@{vm.game.board[8][3].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(8,4)}"
                         app:gridSvg="@{vm.game.board[8][4].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(8,5)}"
                         app:gridSvg="@{vm.game.board[8][5].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(8,6)}"
                         app:gridSvg="@{vm.game.board[8][6].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(8,7)}"
                         app:gridSvg="@{vm.game.board[8][7].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
-                        android:onClick="@{() -> vm.onMove(8,8)}"
                         app:gridSvg="@{vm.game.board[8][8].current}"
                         tools:src="@drawable/number1" />
                 </LinearLayout>
@@ -704,7 +640,6 @@
                     android:layout_weight="1"
                     android:drawableTop="@drawable/undo"
                     android:gravity="center"
-                    android:onClick="@{() -> vm.onUndo()}"
                     android:text="@string/undo"
                     android:textSize="14dp"
                     tools:text="@string/undo" />

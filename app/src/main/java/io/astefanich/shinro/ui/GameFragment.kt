@@ -4,11 +4,10 @@ package io.astefanich.shinro.ui
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
-import android.os.Build
 import android.os.Bundle
-import android.os.VibrationEffect
 import android.view.*
 import android.widget.Toast
+import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -22,8 +21,10 @@ import io.astefanich.shinro.databinding.FragmentGameBinding
 import io.astefanich.shinro.viewmodels.GameViewModel
 import io.astefanich.shinro.viewmodels.ViewModelFactory
 import timber.log.Timber
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Named
+
 
 class GameFragment : Fragment() {
 
@@ -41,9 +42,11 @@ class GameFragment : Fragment() {
     @Inject
     lateinit var ctx: Context
 
+    val toast = { msg: String -> Toast.makeText(ctx, msg, Toast.LENGTH_SHORT).show() }
+    val buzz = { pattern: LongArray -> Timber.i("buzzzzinggg ${Arrays.toString(pattern)}") }
+
     private lateinit var viewModel: GameViewModel
     private lateinit var binding: FragmentGameBinding
-    private val toast = { msg: String -> Toast.makeText(ctx, msg, Toast.LENGTH_SHORT).show()}
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -62,44 +65,40 @@ class GameFragment : Fragment() {
             .inject(this)
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(GameViewModel::class.java)
-
-
-        viewModel.gameWonBuzz.observe(viewLifecycleOwner, Observer { isWon ->
-            if (isWon) {
-                buzz(winBuzzPattern)
-            }
-        })
-
-
-        viewModel.toastMe.observe(viewLifecycleOwner, Observer { toast(it) })
-
-//        binding.nextArrow.setOnClickListener { view ->
-//            view.findNavController()
-//                .navigate(
-//                    GameFragmentDirections.actionGameToGameSummary(viewModel.getSummary())
-//                )
-//        }
-
-        binding.resetBoard.setOnClickListener {
-            AlertDialog.Builder(activity)
-                .setTitle("Reset Board")
-                .setMessage("Are you sure?")
-                .setCancelable(false)
-                .setPositiveButton("YES", DialogInterface.OnClickListener { dialog, id ->
-                    buzz(resetBuzzPattern)
-                    viewModel.onReset()
-                })
-                .setNegativeButton("NO", DialogInterface.OnClickListener { dialog, id ->
-                })
-                .show()
-        }
-
+        viewModel.gameEvent.observe(viewLifecycleOwner, Observer { handle(it)})
+        initListeners()
         binding.vm = viewModel
         binding.lifecycleOwner = this
         setHasOptionsMenu(true)
         return binding.root
     }
 
+
+    private fun handle(evt: GameViewModel.Event) {
+            when(evt) {
+                is GameViewModel.Event.Loaded -> {
+                    binding.progressBar.visibility = View.GONE
+                    binding.game.visibility = View.VISIBLE
+                }
+                is GameViewModel.Event.CheckpointSet -> toast("Checkpoint Set")
+                is GameViewModel.Event.RevertedToCheckpoint -> toast("Reverted")
+                is GameViewModel.Event.IncorrectSolution -> toast("${evt.numIncorrect} of your marbles are wrong")
+                is GameViewModel.Event.TooManyPlaced -> toast("You have placed ${evt.numPlaced} marbles, which is too many")
+                is GameViewModel.Event.Reset -> {
+                    toast("Cleared")
+                    buzz(resetBuzzPattern)
+                }
+                is GameViewModel.Event.GameOver -> {
+                    when(evt) {
+                        is GameViewModel.Event.GameOver.Win -> {
+                            toast("You Won!")
+                            buzz(winBuzzPattern)
+                        }
+                    }
+                    toast("Gonna navigate now...")
+                }
+            }
+        }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
@@ -116,26 +115,88 @@ class GameFragment : Fragment() {
     //onDestroy isn't reliably called. This call reliably saves last visited board
     override fun onStop() {
         super.onStop()
-        viewModel.saveGame()
+        viewModel.accept(GameViewModel.Command.SaveGame)
     }
 
-    private fun buzz(pattern: LongArray) {
-//        VibrationEffect.createOneShot(2000, VibrationEffect.DEFAULT_AMPLITUDE)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val effect = VibrationEffect.createOneShot(2000, VibrationEffect.DEFAULT_AMPLITUDE)
-            Timber.i("buzzzing")
-//                buzzer.vibrate(VibrationEffect.createWaveform(pattern, -1))
-        } else {
-            Timber.i("cant buzz yo")
-//                buzzer.vibrate(pattern, -1) //deprecated in API 26
+
+    //Associating views with command objects (issuing Command objects not possible via XML)
+    private fun initListeners() {
+        fun associateMoveCommands() {
+            for (i in 1..8) {
+                val row = binding.grid[i] as ViewGroup
+                for (j in 1..8) {
+                    val cell = row[j]
+                    cell.setOnClickListener { viewModel.accept(GameViewModel.Command.Move(i, j)) }
+                }
+
+            }
         }
-//        val buzzer = activity?.getSystemService<Vibrator>()
-//        buzzer?.let {
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//                buzzer.vibrate(VibrationEffect.createWaveform(pattern, -1))
-//            } else {
-//                buzzer.vibrate(pattern, -1) //deprecated in API 26
-//            }
-//        }
+        fun associateResetCommand() {
+            binding.resetBoard.setOnClickListener {
+                viewModel.accept(GameViewModel.Command.Reset)
+            }
+        }
+        fun associateUndoCommand() {
+            binding.undoButton.setOnClickListener { viewModel.accept(GameViewModel.Command.Undo) }
+        }
+        fun associateSurrenderCommand() {
+            binding.surrenderBoard.setOnClickListener {
+                when (viewModel.gameEvent.value) {
+                    is GameViewModel.Event.GameOver -> { Timber.i("game is over")}
+                    else ->
+                        AlertDialog.Builder(activity)
+                            .setTitle("Surrender")
+                            .setMessage("Are you sure?")
+                            .setCancelable(false)
+                            .setPositiveButton(
+                                "YES",
+                                DialogInterface.OnClickListener { dialog, id ->
+                                    viewModel.accept(GameViewModel.Command.Surrender)
+                                })
+                            .setNegativeButton("NO", DialogInterface.OnClickListener { dialog, id ->
+                            })
+                            .show()
+                }
+            }
+
+        }
+        associateMoveCommands()
+        associateResetCommand()
+        associateUndoCommand()
+        associateSurrenderCommand()
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//    private fun buzz(pattern: LongArray) {
+////        VibrationEffect.createOneShot(2000, VibrationEffect.DEFAULT_AMPLITUDE)
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            val effect = VibrationEffect.createOneShot(2000, VibrationEffect.DEFAULT_AMPLITUDE)
+//            Timber.i("buzzzing")
+////                buzzer.vibrate(VibrationEffect.createWaveform(pattern, -1))
+//        } else {
+//            Timber.i("cant buzz yo")
+////                buzzer.vibrate(pattern, -1) //deprecated in API 26
+//        }
+////        val buzzer = activity?.getSystemService<Vibrator>()
+////        buzzer?.let {
+////            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+////                buzzer.vibrate(VibrationEffect.createWaveform(pattern, -1))
+////            } else {
+////                buzzer.vibrate(pattern, -1) //deprecated in API 26
+////            }
+////        }
+//    }
