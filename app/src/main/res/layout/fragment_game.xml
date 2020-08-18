@@ -9,6 +9,10 @@
         <variable
             name="vm"
             type="io.astefanich.shinro.viewmodels.GameViewModel" />
+
+        <variable
+            name="cmd"
+            type="io.astefanich.shinro.viewmodels.GameCommand" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -35,12 +39,12 @@
                 android:id="@+id/freebies_remaining"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableTop="@drawable/circle_red_no_outline"
-                app:layout_constraintTop_toTopOf="parent"
                 android:layout_margin="16dp"
-                app:layout_constraintLeft_toLeftOf="parent"
+                android:drawableTop="@drawable/circle_red_no_outline"
                 android:gravity="center"
                 android:text="@{@string/freebies_remaining_fmt(vm.game.freebiesRemaining)}"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:text="Freebies\n1 / 1" />
 
 
@@ -48,13 +52,13 @@
                 android:id="@+id/time_elapsed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
                 android:layout_margin="16dp"
                 android:drawableTop="@drawable/stopwatch"
+                android:gravity="center"
                 android:text="@{@string/time_elapsed_fmt(vm.game.timeElapsed)}"
                 android:textSize="14sp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:text="Time:\n1:21" />
             <!--            <TextView-->
             <!--                android:id="@+id/difficulty"-->
@@ -66,7 +70,7 @@
             <!--                android:textStyle="bold"-->
             <!--                android:text="@{@string/difficulty_fmt(vm.game.difficulty)}"-->
             <!--                tools:text="EASY" />-->
-<!--            </LinearLayout>-->
+            <!--            </LinearLayout>-->
             <!--            <LinearLayout-->
             <!--                android:id="@+id/game_header"-->
             <!--                android:layout_width="match_parent"-->
@@ -101,100 +105,45 @@
                     android:layout_weight="1"
                     android:orientation="horizontal">
 
-                    <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
-                        android:padding="2dp" />
+                    <io.astefanich.shinro.ui.SquareImageView style="@style/CellStyle" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
-                        android:padding="2dp"
+                        style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[0][1].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
-                        android:padding="2dp"
+                        style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[0][2].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
-                        android:padding="2dp"
+                        style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[0][3].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
-                        android:padding="2dp"
+                        style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[0][4].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
-                        android:padding="2dp"
+                        style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[0][5].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
-                        android:padding="2dp"
+                        style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[0][6].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
-                        android:padding="2dp"
+                        style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[0][7].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
-                        android:padding="2dp"
+                        style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[0][8].current}"
                         tools:src="@drawable/number1" />
                 </LinearLayout>
@@ -209,109 +158,57 @@
                     android:orientation="horizontal">
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
-                        android:padding="2dp"
+                        style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[1][0].current}"
                         tools:src="@drawable/number1" />
 
+                    <!--                    android:onClick="@{() -> vm.onMove(1,1)}"-->
+                    <!--                    android:onClick="@{() -> vm.accept(new cmd.Move(1,1))}"-->
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(1,1)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[1][1].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(1,2)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[1][2].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(1,3)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[1][3].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(1,4)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[1][4].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(1,5)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[1][5].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(1,6)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[1][6].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(1,7)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[1][7].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(1,8)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[1][8].current}"
                         tools:src="@drawable/number1" />
                 </LinearLayout>
@@ -323,109 +220,55 @@
                     android:orientation="horizontal">
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
-                        android:padding="2dp"
+                        style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[2][0].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(2,1)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[2][1].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(2,2)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[2][2].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(2,3)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[2][3].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(2,4)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[2][4].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(2,5)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[2][5].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(2,6)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[2][6].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(2,7)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[2][7].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(2,8)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[2][8].current}"
                         tools:src="@drawable/number1" />
                 </LinearLayout>
@@ -437,109 +280,55 @@
                     android:orientation="horizontal">
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
-                        android:padding="2dp"
+                        style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[3][0].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(3,1)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[3][1].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(3,2)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[3][2].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(3,3)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[3][3].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(3,4)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[3][4].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(3,5)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[3][5].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(3,6)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[3][6].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(3,7)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[3][7].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(3,8)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[3][8].current}"
                         tools:src="@drawable/number1" />
                 </LinearLayout>
@@ -551,109 +340,55 @@
                     android:orientation="horizontal">
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
-                        android:padding="2dp"
+                        style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[4][0].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(4,1)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[4][1].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(4,2)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[4][2].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(4,3)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[4][3].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(4,4)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[4][4].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(4,5)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[4][5].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(4,6)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[4][6].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(4,7)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[4][7].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(4,8)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[4][8].current}"
                         tools:src="@drawable/number1" />
                 </LinearLayout>
@@ -667,109 +402,55 @@
                     android:orientation="horizontal">
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
-                        android:padding="2dp"
+                        style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[5][0].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(5,1)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[5][1].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(5,2)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[5][2].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(5,3)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[5][3].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(5,4)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[5][4].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(5,5)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[5][5].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(5,6)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[5][6].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(5,7)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[5][7].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(5,8)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[5][8].current}"
                         tools:src="@drawable/number1" />
                 </LinearLayout>
@@ -782,109 +463,55 @@
                     android:orientation="horizontal">
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
-                        android:padding="2dp"
+                        style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[6][0].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(6,1)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[6][1].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(6,2)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[6][2].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(6,3)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[6][3].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(6,4)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[6][4].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(6,5)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[6][5].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(6,6)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[6][6].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(6,7)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[6][7].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(6,8)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[6][8].current}"
                         tools:src="@drawable/number1" />
                 </LinearLayout>
@@ -897,109 +524,55 @@
                     android:orientation="horizontal">
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
-                        android:padding="2dp"
+                        style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[7][0].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(7,1)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[7][1].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(7,2)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[7][2].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(7,3)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[7][3].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(7,4)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[7][4].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(7,5)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[7][5].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(7,6)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[7][6].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(7,7)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[7][7].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(7,8)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[7][8].current}"
                         tools:src="@drawable/number1" />
                 </LinearLayout>
@@ -1012,109 +585,55 @@
                     android:orientation="horizontal">
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
-                        android:padding="2dp"
+                        style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[8][0].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(8,1)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[8][1].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(8,2)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[8][2].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(8,3)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[8][3].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(8,4)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[8][4].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(8,5)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[8][5].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(8,6)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[8][6].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(8,7)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[8][7].current}"
                         tools:src="@drawable/number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="1dp"
-                        android:layout_weight="1"
-                        android:background="@color/materialBlack"
+                        style="@style/CellStyle"
                         android:onClick="@{() -> vm.onMove(8,8)}"
-                        android:padding="2dp"
                         app:gridSvg="@{vm.game.board[8][8].current}"
                         tools:src="@drawable/number1" />
                 </LinearLayout>
@@ -1163,8 +682,8 @@
                     android:gravity="center"
                     android:text="@string/set_checkpoint"
                     android:textSize="14sp"
-                    tools:text="Set"
-                    tools:drawableTop="@drawable/flag_filled"/>
+                    tools:drawableTop="@drawable/flag_filled"
+                    tools:text="Set" />
 
                 <TextView
                     android:id="@+id/undo_to_checkpoint"
@@ -1175,8 +694,8 @@
                     android:gravity="center"
                     android:text="@string/undo_to_checkpoint"
                     android:textSize="14sp"
-                    tools:text="Undo to"
-                    tools:drawableTop="@drawable/flag_empty"/>
+                    tools:drawableTop="@drawable/flag_empty"
+                    tools:text="Undo to" />
 
                 <TextView
                     android:id="@+id/undo_button"
