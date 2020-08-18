@@ -11,6 +11,7 @@ import io.astefanich.shinro.repository.GameRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 
@@ -39,8 +40,10 @@ constructor(
     sealed class Event {
         object Loaded : Event()
         object Reset : Event()
-        object CheckpointSet: Event()
-        object RevertedToCheckpoint: Event()
+        object CheckpointSet : Event()
+        object RevertedToCheckpoint : Event()
+        class FreebiePlaced(val row: Int, val col: Int) : Event()
+        object OutOfFreebies : Event()
         class IncorrectSolution(val numIncorrect: Int) : Event()
         class TooManyPlaced(val numPlaced: Int) : Event()
         sealed class GameOver(val summary: GameSummary) : Event() {
@@ -82,11 +85,14 @@ constructor(
             is Command.Move -> move(cmd.row, cmd.col)
             is Command.Reset -> reset()
             is Command.Undo -> undo()
+            is Command.UseFreebie -> useFreebie()
             is Command.SaveGame -> save()
             is Command.Surrender -> completeGame(false)
-            else -> {}
+            else -> {
+            }
         }
     }
+
 
     /**
      * Record a move in this VM
@@ -188,6 +194,28 @@ constructor(
         }
     }
 
+    private fun useFreebie() {
+        if (_game.freebiesRemaining == 0)
+            _gameEvent.value = Event.OutOfFreebies
+        else {
+            val ranges = arrayOf((1..8), (8 downTo 1))
+            val rand = Random()
+            val verticalStrategy = ranges[rand.nextInt(2)]
+            val horizontalStrategy = ranges[rand.nextInt(2)]
+            outer@ for (i in verticalStrategy) {
+                for (j in horizontalStrategy) {
+                    val cell = _game.board[i][j]
+                    if (cell.actual == "M" && cell.current != "M") {
+                        cell.current = "M"
+                        _game.freebiesRemaining -= 1
+                        _gameEvent.value = Event.FreebiePlaced(i, j)
+                        updateUI()
+                        break@outer
+                    }
+                }
+            }
+        }
+    }
 
     private fun save() {
         viewModelScope.launch(Dispatchers.IO) {

@@ -1,9 +1,11 @@
 package io.astefanich.shinro.ui
 
 
+import android.animation.ObjectAnimator
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
+import android.graphics.Color
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
@@ -65,7 +67,7 @@ class GameFragment : Fragment() {
             .inject(this)
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(GameViewModel::class.java)
-        viewModel.gameEvent.observe(viewLifecycleOwner, Observer { handle(it)})
+        viewModel.gameEvent.observe(viewLifecycleOwner, Observer { handle(it) })
         initListeners()
         binding.vm = viewModel
         binding.lifecycleOwner = this
@@ -75,30 +77,38 @@ class GameFragment : Fragment() {
 
 
     private fun handle(evt: GameViewModel.Event) {
-            when(evt) {
-                is GameViewModel.Event.Loaded -> {
-                    binding.progressBar.visibility = View.GONE
-                    binding.game.visibility = View.VISIBLE
-                }
-                is GameViewModel.Event.CheckpointSet -> toast("Checkpoint Set")
-                is GameViewModel.Event.RevertedToCheckpoint -> toast("Reverted")
-                is GameViewModel.Event.IncorrectSolution -> toast("${evt.numIncorrect} of your marbles are wrong")
-                is GameViewModel.Event.TooManyPlaced -> toast("You have placed ${evt.numPlaced} marbles, which is too many")
-                is GameViewModel.Event.Reset -> {
-                    toast("Cleared")
-                    buzz(resetBuzzPattern)
-                }
-                is GameViewModel.Event.GameOver -> {
-                    when(evt) {
-                        is GameViewModel.Event.GameOver.Win -> {
-                            toast("You Won!")
-                            buzz(winBuzzPattern)
-                        }
+        when (evt) {
+            is GameViewModel.Event.Loaded -> {
+                binding.progressBar.visibility = View.GONE
+                binding.game.visibility = View.VISIBLE
+            }
+            is GameViewModel.Event.CheckpointSet -> toast("Checkpoint Set")
+            is GameViewModel.Event.RevertedToCheckpoint -> toast("Reverted")
+            is GameViewModel.Event.IncorrectSolution -> toast("${evt.numIncorrect} of your marbles are wrong")
+            is GameViewModel.Event.TooManyPlaced -> toast("You have placed ${evt.numPlaced} marbles, which is too many")
+            is GameViewModel.Event.OutOfFreebies -> toast("Out of freebies")
+            is GameViewModel.Event.FreebiePlaced -> {
+                ObjectAnimator.ofArgb( (binding.grid[evt.row] as ViewGroup)[evt.col],
+                     "backgroundColor", Color.RED, resources.getColor(R.color.materialBlack))
+                    .setDuration(2000)
+                    .start()
+            }
+            is GameViewModel.Event.Reset -> {
+                toast("Cleared")
+                buzz(resetBuzzPattern)
+            }
+            is GameViewModel.Event.GameOver -> {
+                viewModel.gameEvent.removeObservers(viewLifecycleOwner)
+                when (evt) {
+                    is GameViewModel.Event.GameOver.Win -> {
+                        toast("You Won!")
+                        buzz(winBuzzPattern)
                     }
-                    toast("Gonna navigate now...")
                 }
+                toast("Gonna navigate now...")
             }
         }
+    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
@@ -121,64 +131,53 @@ class GameFragment : Fragment() {
 
     //Associating views with command objects (issuing Command objects not possible via XML)
     private fun initListeners() {
-        fun associateMoveCommands() {
-            for (i in 1..8) {
-                val row = binding.grid[i] as ViewGroup
-                for (j in 1..8) {
-                    val cell = row[j]
-                    cell.setOnClickListener { viewModel.accept(GameViewModel.Command.Move(i, j)) }
-                }
-
+        for (i in 1..8) {
+            val row = binding.grid[i] as ViewGroup
+            for (j in 1..8) {
+                val cell = row[j]
+                cell.setOnClickListener { viewModel.accept(GameViewModel.Command.Move(i, j)) }
             }
         }
-        fun associateResetCommand() {
-            binding.resetBoard.setOnClickListener {
-                viewModel.accept(GameViewModel.Command.Reset)
-            }
-        }
-        fun associateUndoCommand() {
-            binding.undoButton.setOnClickListener { viewModel.accept(GameViewModel.Command.Undo) }
-        }
-        fun associateSurrenderCommand() {
-            binding.surrenderBoard.setOnClickListener {
-                when (viewModel.gameEvent.value) {
-                    is GameViewModel.Event.GameOver -> { Timber.i("game is over")}
-                    else ->
-                        AlertDialog.Builder(activity)
-                            .setTitle("Surrender")
-                            .setMessage("Are you sure?")
-                            .setCancelable(false)
-                            .setPositiveButton(
-                                "YES",
-                                DialogInterface.OnClickListener { dialog, id ->
-                                    viewModel.accept(GameViewModel.Command.Surrender)
-                                })
-                            .setNegativeButton("NO", DialogInterface.OnClickListener { dialog, id ->
+        binding.resetBoard.setOnClickListener { viewModel.accept(GameViewModel.Command.Reset) }
+        binding.undoButton.setOnClickListener { viewModel.accept(GameViewModel.Command.Undo) }
+        binding.surrenderBoard.setOnClickListener {
+            when (viewModel.gameEvent.value) {
+                is GameViewModel.Event.GameOver -> { }
+                else ->
+                    AlertDialog.Builder(activity)
+                        .setTitle("Surrender")
+                        .setMessage("Are you sure?")
+                        .setCancelable(false)
+                        .setPositiveButton(
+                            "YES", DialogInterface.OnClickListener { dialog, id ->
+                                viewModel.accept(GameViewModel.Command.Surrender)
                             })
-                            .show()
+                        .setNegativeButton("NO", DialogInterface.OnClickListener { dialog, id ->
+                        })
+                        .show()
+            }
+        }
+        binding.freebiesRemaining.setOnClickListener {
+            when (viewModel.gameEvent.value) {
+                is GameViewModel.Event.GameOver -> { }
+                else -> {
+                    AlertDialog.Builder(activity)
+                        .setTitle("Freebie")
+                        .setMessage("Use freebie? This cannot be undone")
+                        .setCancelable(false)
+                        .setPositiveButton(
+                            "YES", DialogInterface.OnClickListener { dialog, id ->
+                                viewModel.accept(GameViewModel.Command.UseFreebie)
+                            })
+                        .setNegativeButton(
+                            "NO", DialogInterface.OnClickListener { dialog, id ->
+                            })
+                        .show()
                 }
             }
-
         }
-        associateMoveCommands()
-        associateResetCommand()
-        associateUndoCommand()
-        associateSurrenderCommand()
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 //    private fun buzz(pattern: LongArray) {
