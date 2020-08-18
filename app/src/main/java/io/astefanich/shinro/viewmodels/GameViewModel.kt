@@ -8,11 +8,14 @@ import io.astefanich.shinro.model.Game
 import io.astefanich.shinro.common.GameSummary
 import io.astefanich.shinro.common.PlayRequest
 import io.astefanich.shinro.repository.GameRepository
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
+import kotlin.concurrent.fixedRateTimer
 
 
 /**
@@ -25,6 +28,8 @@ constructor(
     val repo: GameRepository
 ) : ViewModel() {
 
+    //Commands to apply to model
+    //Corresponding events are for user notifications/navigation
     sealed class Command {
         data class Move(val row: Int, val col: Int) : Command()
         object Reset : Command()
@@ -43,6 +48,7 @@ constructor(
         object Reset : Event()
         object CheckpointSet : Event()
         object RevertedToCheckpoint : Event()
+        class TimeChanged(val time: Long) : Event()
         class FreebiePlaced(val row: Int, val col: Int) : Event()
         object OutOfFreebies : Event()
         class IncorrectSolution(val numIncorrect: Int) : Event()
@@ -55,25 +61,36 @@ constructor(
 
     private lateinit var _game: Game
     val game = MutableLiveData<Game>()
-
-    private val _gameEvent = MutableLiveData<Event>()
-    val gameEvent: LiveData<Event>
-        get() = _gameEvent
+    val gameEvent = MutableLiveData<Event>()
 
     private var undoStack = Stack<Move>()
 
+    lateinit var timer: Timer
+
     init {
-        viewModelScope.launch(Dispatchers.IO) {
+        CoroutineScope(Dispatchers.Main).launch { //need to utilize main so lateinit var loads
             _game = when (playRequest) {
                 is PlayRequest.Resume -> repo.getActiveGame()
                 is PlayRequest.NewGame -> repo.getNewGameByDifficulty(playRequest.difficulty)
             }
-            withContext(Dispatchers.Main) {
                 game.value = _game
-                _gameEvent.value = Event.Loaded
-//                _gameEvent.value = Event.Loaded(_game.timeElapsed)
-            }
+                gameEvent.value = Event.Loaded
+                startTimer()
         }
+    }
+
+    private fun startTimer() {
+        Timber.i("starting timer")
+//        timer = fixedRateTimer(period = 1000L) {
+//
+//            _game.timeElapsed += 1000
+//            updateUI()
+//        }
+    }
+
+    private fun stopTimer() {
+        Timber.i("stopping timer")
+        timer.cancel()
     }
 
 
@@ -81,13 +98,15 @@ constructor(
      * Accept a command on the game state
      */
     fun accept(cmd: Command) {
-        when (_gameEvent.value) {
+        when (gameEvent.value) {
             is Event.GameOver -> return
         }
         when (cmd) {
             is Command.Move -> move(cmd.row, cmd.col)
             is Command.Reset -> reset()
             is Command.Undo -> undo()
+            is Command.StartTimer -> startTimer()
+            is Command.StopTimer -> stopTimer()
             is Command.UseFreebie -> useFreebie()
             is Command.SaveGame -> save()
             is Command.Surrender -> completeGame(false)
@@ -110,7 +129,7 @@ constructor(
         if (numIncorrect == 0)
             completeGame(true)
         else
-            _gameEvent.value = Event.IncorrectSolution(numIncorrect)
+            gameEvent.value = Event.IncorrectSolution(numIncorrect)
     }
 
     /**
@@ -145,7 +164,7 @@ constructor(
             if (mPlaced == 12)
                 checkWin()
             else if (mPlaced > 12)
-                _gameEvent.value = Event.TooManyPlaced(mPlaced)
+                gameEvent.value = Event.TooManyPlaced(mPlaced)
         }
 
         when (cell.current) {
@@ -158,9 +177,9 @@ constructor(
     }
 
     private fun completeGame(isWin: Boolean) {
-        val summary = GameSummary(_game.difficulty, isWin, _game.timeElapsed)
+        val summary = GameSummary(_game.difficulty, isWin, game.value!!.timeElapsed)
         save()
-        _gameEvent.value = if (isWin) Event.GameOver.Win(summary) else Event.GameOver.Loss(summary)
+        gameEvent.value = if (isWin) Event.GameOver.Win(summary) else Event.GameOver.Loss(summary)
 
     }
 
@@ -178,7 +197,7 @@ constructor(
         }
         _game.marblesPlaced = 0
         undoStack = Stack<Move>()
-        _gameEvent.value = Event.Reset
+        gameEvent.value = Event.Reset
         updateUI()
     }
 
@@ -200,7 +219,7 @@ constructor(
 
     private fun useFreebie() {
         if (_game.freebiesRemaining == 0)
-            _gameEvent.value = Event.OutOfFreebies
+            gameEvent.value = Event.OutOfFreebies
         else {
             val ranges = arrayOf((1..8), (8 downTo 1))
             val rand = Random()
@@ -211,14 +230,14 @@ constructor(
                     val cell = _game.board[i][j]
                     if (cell.actual == "M" && cell.current != "M") {
                         cell.current = "M"
-                        _gameEvent.value = Event.FreebiePlaced(i, j)
+                        gameEvent.value = Event.FreebiePlaced(i, j)
                         break@outer
                     }
                 }
             }
-            updateUI()
             _game.freebiesRemaining -= 1
             _game.marblesPlaced += 1
+            updateUI()
             if (_game.marblesPlaced == 12)
                 checkWin()
         }
@@ -228,14 +247,13 @@ constructor(
         viewModelScope.launch(Dispatchers.IO) {
             repo.saveGame(_game)
         }
-        updateUI()
     }
 
     private fun updateUI() {
-        game.value = _game //setting board value notifies registered observers
+        game.value = _game  //triggers databinding
     }
 
+    private class Move(val row: Int, val column: Int, val oldVal: String, val newVal: String)
 }
 
-private class Move(val row: Int, val column: Int, val oldVal: String, val newVal: String)
 

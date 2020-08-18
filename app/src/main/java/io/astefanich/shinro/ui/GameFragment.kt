@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.DialogInterface
 import android.graphics.Color
 import android.os.Bundle
+import android.text.format.DateUtils
 import android.view.*
 import android.widget.Toast
 import androidx.core.view.get
@@ -21,6 +22,7 @@ import androidx.navigation.ui.NavigationUI
 import io.astefanich.shinro.R
 import io.astefanich.shinro.ShinroApplication
 import io.astefanich.shinro.databinding.FragmentGameBinding
+import io.astefanich.shinro.util.bindGridSvg
 import io.astefanich.shinro.viewmodels.GameViewModel
 import io.astefanich.shinro.viewmodels.ViewModelFactory
 import kotlinx.coroutines.*
@@ -89,6 +91,11 @@ class GameFragment : Fragment() {
             is GameViewModel.Event.IncorrectSolution -> toast("${evt.numIncorrect} of your marbles are wrong")
             is GameViewModel.Event.TooManyPlaced -> toast("You have placed ${evt.numPlaced} marbles, which is too many")
             is GameViewModel.Event.OutOfFreebies -> toast("Out of freebies")
+//            is GameViewModel.Event.CellChanged -> updateCell(evt.row, evt.col, evt.newVal)
+            is GameViewModel.Event.TimeChanged -> {
+                binding.timeElapsed.text = DateUtils.formatElapsedTime(evt.time)
+                Timber.i("frag got time ${evt.time}")
+            }
             is GameViewModel.Event.FreebiePlaced -> {
                 ObjectAnimator.ofArgb( (binding.grid[evt.row] as ViewGroup)[evt.col],
                      "backgroundColor", Color.RED, resources.getColor(R.color.materialBlack))
@@ -115,6 +122,11 @@ class GameFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun updateCell(row: Int, col: Int, newVal: String){
+        val cell =  (binding.grid[row] as ViewGroup)[col]
+        bindGridSvg(cell as SquareImageView, newVal)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

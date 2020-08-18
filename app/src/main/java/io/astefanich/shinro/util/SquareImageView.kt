@@ -2,6 +2,7 @@ package io.astefanich.shinro.ui
 
 import android.content.Context
 import android.util.AttributeSet
+import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
 
 /**
@@ -18,3 +19,7 @@ class SquareImageView @JvmOverloads constructor(
     }
 
 }
+
+//class SquareTextView : Im() {
+//
+//}

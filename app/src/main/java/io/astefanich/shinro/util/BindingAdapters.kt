@@ -1,6 +1,7 @@
 package io.astefanich.shinro.util
 
 import android.animation.ValueAnimator
+import android.text.format.DateUtils
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
@@ -8,6 +9,7 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import io.astefanich.shinro.R
 import io.astefanich.shinro.common.TipChoice
+import io.astefanich.shinro.ui.SquareImageView
 
 @BindingAdapter("winLoss")
 fun TextView.setWinLossString(status: Boolean) {
@@ -61,8 +63,12 @@ fun setVideoButtonText(button: Button, isPlaying: Boolean, isStarted: Boolean) {
 //    }
 //}
 
+@BindingAdapter("timeElapsed")
+fun TextView.displayTime(time: Long){
+    text = DateUtils.formatElapsedTime(time)
+}
 @BindingAdapter("gridSvg")
-fun bindGridSvg(view: ImageView, str: String?) {
+fun bindGridSvg(view: SquareImageView, str: String?) {
     val res = when (str) {
         " " -> R.drawable.ic_blank_cell
         "X" -> R.drawable.ic_letter_x
