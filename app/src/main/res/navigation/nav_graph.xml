@@ -39,7 +39,7 @@
         tools:layout="@layout/fragment_game">
         <argument
             android:name="playRequest"
-            app:argType="io.astefanich.shinro.domain.PlayRequest" />
+            app:argType="io.astefanich.shinro.common.PlayRequest" />
         <action
             android:id="@+id/action_game_to_game_summary"
             app:destination="@id/game_summary_destination"
@@ -68,7 +68,7 @@
         tools:layout="@layout/fragment_tips_detail_list">
         <argument
             android:name="tipChoice"
-            app:argType="io.astefanich.shinro.domain.TipChoice" />
+            app:argType="io.astefanich.shinro.common.TipChoice" />
     </fragment>
     <fragment
         android:id="@+id/about_destination"
@@ -82,7 +82,7 @@
         tools:layout="@layout/fragment_game_summary">
         <argument
             android:name="gameSummary"
-            app:argType="io.astefanich.shinro.domain.GameSummary" />
+            app:argType="io.astefanich.shinro.common.GameSummary" />
         <action
             android:id="@+id/action_game_summary_to_game"
             app:destination="@id/game_destination"

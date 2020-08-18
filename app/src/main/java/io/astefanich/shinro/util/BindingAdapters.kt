@@ -7,7 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import io.astefanich.shinro.R
-import io.astefanich.shinro.domain.TipChoice
+import io.astefanich.shinro.common.TipChoice
 
 @BindingAdapter("winLoss")
 fun TextView.setWinLossString(status: Boolean) {
@@ -64,26 +64,26 @@ fun setVideoButtonText(button: Button, isPlaying: Boolean, isStarted: Boolean) {
 @BindingAdapter("gridSvg")
 fun bindGridSvg(view: ImageView, str: String?) {
     val res = when (str) {
-        " " -> R.drawable.blank_cell
-        "X" -> R.drawable.letter_x
-        "M" -> R.drawable.circle_red
-        "0" -> R.drawable.number0
-        "1" -> R.drawable.number1
-        "2" -> R.drawable.number2
-        "3" -> R.drawable.number3
-        "4" -> R.drawable.number4
-        "5" -> R.drawable.number5
-        "6" -> R.drawable.number6
-        "7" -> R.drawable.number7
-        "A" -> R.drawable.arrow_up
-        "B" -> R.drawable.arrow_up_right
-        "C" -> R.drawable.arrow_right
-        "D" -> R.drawable.arrow_down_right
-        "E" -> R.drawable.arrow_down
-        "F" -> R.drawable.arrow_down_left
-        "G" -> R.drawable.arrow_left
-        "H" -> R.drawable.arrow_up_left
-        else -> R.drawable.blank_cell
+        " " -> R.drawable.ic_blank_cell
+        "X" -> R.drawable.ic_letter_x
+        "M" -> R.drawable.ic_circle_red
+        "0" -> R.drawable.ic_number0
+        "1" -> R.drawable.ic_number1
+        "2" -> R.drawable.ic_number2
+        "3" -> R.drawable.ic_number3
+        "4" -> R.drawable.ic_number4
+        "5" -> R.drawable.ic_number5
+        "6" -> R.drawable.ic_number6
+        "7" -> R.drawable.ic_number7
+        "A" -> R.drawable.ic_arrow_up
+        "B" -> R.drawable.ic_arrow_up_right
+        "C" -> R.drawable.ic_arrow_right
+        "D" -> R.drawable.ic_arrow_down_right
+        "E" -> R.drawable.ic_arrow_down
+        "F" -> R.drawable.ic_arrow_down_left
+        "G" -> R.drawable.ic_arrow_left
+        "H" -> R.drawable.ic_arrow_up_left
+        else -> R.drawable.ic_blank_cell
     }
     view.setImageResource(res)
 }

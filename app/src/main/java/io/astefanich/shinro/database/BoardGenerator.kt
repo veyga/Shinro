@@ -1,6 +1,8 @@
 package io.astefanich.shinro.database
 
-import io.astefanich.shinro.domain.*
+import io.astefanich.shinro.common.Cell
+import io.astefanich.shinro.common.Difficulty
+import io.astefanich.shinro.model.Board
 import timber.log.Timber
 import java.lang.IllegalStateException
 

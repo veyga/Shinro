@@ -1,10 +1,12 @@
-package io.astefanich.shinro.model
+package io.astefanich.shinro.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import io.astefanich.shinro.domain.GameWin
+import io.astefanich.shinro.model.Game
+import io.astefanich.shinro.common.GameSummary
+import io.astefanich.shinro.common.PlayRequest
 import io.astefanich.shinro.repository.GameRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -21,7 +23,7 @@ class GameViewModel
 constructor(
     val playRequest: PlayRequest,
     val repo: GameRepository
-) {
+) : ViewModel() {
 
     sealed class Command {
         data class Move(val row: Int, val col: Int) : Command()
@@ -37,7 +39,7 @@ constructor(
     }
 
     sealed class Event {
-        class Loaded(val initialGameTime: Long): Event()
+        object Loaded : Event()
         object Reset : Event()
         object CheckpointSet : Event()
         object RevertedToCheckpoint : Event()
@@ -68,7 +70,7 @@ constructor(
             }
             withContext(Dispatchers.Main) {
                 game.value = _game
-                _gameEvent.value = Event.Loaded(5000)
+                _gameEvent.value = Event.Loaded
 //                _gameEvent.value = Event.Loaded(_game.timeElapsed)
             }
         }
@@ -88,7 +90,7 @@ constructor(
             is Command.Undo -> undo()
             is Command.UseFreebie -> useFreebie()
             is Command.SaveGame -> save()
-            is Command.Surrender -> completeGame(GameWin((false)))
+            is Command.Surrender -> completeGame(false)
             else -> {
             }
         }
@@ -156,11 +158,9 @@ constructor(
     }
 
     private fun completeGame(isWin: Boolean) {
-        if(isWin) Event.GameOver.Win
-//        val summary = GameSummary(_game.difficulty, win, _game.timeElapsed)
+        val summary = GameSummary(_game.difficulty, isWin, _game.timeElapsed)
         save()
-//        _gameEvent.value =
-//            if (win) Event.GameOver.Win(summary) else Event.GameOver.Loss(summary)
+        _gameEvent.value = if (isWin) Event.GameOver.Win(summary) else Event.GameOver.Loss(summary)
 
     }
 

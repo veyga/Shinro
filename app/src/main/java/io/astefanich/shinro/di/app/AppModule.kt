@@ -10,7 +10,8 @@ import dagger.Module
 import dagger.Provides
 import io.astefanich.shinro.database.*
 import io.astefanich.shinro.di.PerApplication
-import io.astefanich.shinro.domain.*
+import io.astefanich.shinro.model.Board
+import io.astefanich.shinro.model.Game
 import kotlinx.coroutines.*
 import timber.log.Timber
 import java.util.concurrent.Executors

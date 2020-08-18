@@ -3,9 +3,9 @@ package io.astefanich.shinro.di.tips
 import dagger.Module
 import dagger.Provides
 import io.astefanich.shinro.R
+import io.astefanich.shinro.common.Tip
+import io.astefanich.shinro.common.TipChoice
 import io.astefanich.shinro.di.PerFragment
-import io.astefanich.shinro.domain.Tip
-import io.astefanich.shinro.domain.TipChoice
 
 
 /*

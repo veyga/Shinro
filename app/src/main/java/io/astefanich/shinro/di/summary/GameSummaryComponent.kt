@@ -3,9 +3,9 @@ package io.astefanich.shinro.di.summary
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector
+import io.astefanich.shinro.common.Difficulty
 import io.astefanich.shinro.di.PerFragment
 import io.astefanich.shinro.di.app.AppComponent
-import io.astefanich.shinro.domain.Difficulty
 import io.astefanich.shinro.ui.GameSummaryFragment
 
 @PerFragment

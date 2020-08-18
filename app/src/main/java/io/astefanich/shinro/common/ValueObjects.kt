@@ -1,4 +1,4 @@
-package io.astefanich.shinro.model
+package io.astefanich.shinro.common
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

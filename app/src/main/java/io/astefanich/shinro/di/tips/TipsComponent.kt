@@ -3,8 +3,8 @@ package io.astefanich.shinro.di.tips
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector
+import io.astefanich.shinro.common.TipChoice
 import io.astefanich.shinro.di.PerFragment
-import io.astefanich.shinro.domain.TipChoice
 import io.astefanich.shinro.ui.TipsDetailListFragment
 
 @PerFragment

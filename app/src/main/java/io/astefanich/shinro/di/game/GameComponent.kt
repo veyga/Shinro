@@ -3,8 +3,8 @@ package io.astefanich.shinro.di.game
 import dagger.BindsInstance
 import dagger.Subcomponent
 import dagger.android.AndroidInjector
+import io.astefanich.shinro.common.PlayRequest
 import io.astefanich.shinro.di.PerFragment
-import io.astefanich.shinro.domain.PlayRequest
 import io.astefanich.shinro.ui.GameFragment
 
 /*

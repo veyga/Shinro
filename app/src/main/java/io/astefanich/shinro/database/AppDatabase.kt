@@ -3,9 +3,9 @@ package io.astefanich.shinro.database
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import io.astefanich.shinro.domain.Board
-import io.astefanich.shinro.domain.Game
-import io.astefanich.shinro.domain.GameResult
+import io.astefanich.shinro.model.Board
+import io.astefanich.shinro.model.Game
+import io.astefanich.shinro.model.GameResult
 import io.astefanich.shinro.util.Converters
 
 data class DatabaseName(val name: String)

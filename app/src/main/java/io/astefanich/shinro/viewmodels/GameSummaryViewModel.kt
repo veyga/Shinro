@@ -3,7 +3,7 @@ package io.astefanich.shinro.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import io.astefanich.shinro.domain.Difficulty
+import io.astefanich.shinro.common.Difficulty
 import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
 

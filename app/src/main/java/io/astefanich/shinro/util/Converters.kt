@@ -2,8 +2,8 @@ package io.astefanich.shinro.util
 
 import androidx.room.TypeConverter
 import com.google.gson.Gson
-import io.astefanich.shinro.domain.Difficulty
-import io.astefanich.shinro.domain.Grid
+import io.astefanich.shinro.common.Difficulty
+import io.astefanich.shinro.common.Grid
 
 object Converters {
 

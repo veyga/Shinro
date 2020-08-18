@@ -1,7 +1,10 @@
 package io.astefanich.shinro.database
 
 import androidx.room.*
-import io.astefanich.shinro.domain.*
+import io.astefanich.shinro.common.Difficulty
+import io.astefanich.shinro.model.Board
+import io.astefanich.shinro.model.Game
+import io.astefanich.shinro.model.GameResult
 import java.util.*
 
 @Dao

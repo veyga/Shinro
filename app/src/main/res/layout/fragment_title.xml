@@ -20,8 +20,8 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            app:srcCompat="@drawable/launcher_shinro_background"
-            tools:srcCompat="@drawable/launcher_shinro_background" />
+            app:srcCompat="@drawable/ic_launcher_shinro_background"
+            tools:srcCompat="@drawable/ic_launcher_shinro_background" />
 
         <TextView
             android:id="@+id/title_text"

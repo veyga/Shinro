@@ -50,8 +50,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/video_playback_button"
-            app:srcCompat="@drawable/play_button"
-            tools:srcCompat="@drawable/play_button" />
+            app:srcCompat="@drawable/ic_play_button"
+            tools:srcCompat="@drawable/ic_play_button" />
 
         <TextView
             android:id="@+id/about_text"

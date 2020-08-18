@@ -1,9 +1,9 @@
 package io.astefanich.shinro.repository
 
 import android.content.Context
+import io.astefanich.shinro.common.Difficulty
 import io.astefanich.shinro.database.BoardDao
-import io.astefanich.shinro.domain.Board
-import io.astefanich.shinro.domain.Difficulty
+import io.astefanich.shinro.model.Board
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber

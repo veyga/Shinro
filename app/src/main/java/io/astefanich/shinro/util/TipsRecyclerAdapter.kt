@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import io.astefanich.shinro.R
-import io.astefanich.shinro.domain.Tip
+import io.astefanich.shinro.common.Tip
 import kotlinx.android.synthetic.main.list_item_tip.view.*
 
 class TipsRecyclerAdapter(private val items: List<Tip>) :

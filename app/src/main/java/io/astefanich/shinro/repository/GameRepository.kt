@@ -1,8 +1,8 @@
 package io.astefanich.shinro.repository
 
 import io.astefanich.shinro.database.GameDao
-import io.astefanich.shinro.domain.Difficulty
-import io.astefanich.shinro.domain.Game
+import io.astefanich.shinro.common.Difficulty
+import io.astefanich.shinro.model.Game
 import javax.inject.Inject
 
 class GameRepository

@@ -9,10 +9,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import io.astefanich.shinro.R
+import io.astefanich.shinro.common.Tip
+import io.astefanich.shinro.common.TipChoice
 import io.astefanich.shinro.databinding.FragmentTipsDetailListBinding
 import io.astefanich.shinro.di.tips.DaggerTipsComponent
-import io.astefanich.shinro.domain.Tip
-import io.astefanich.shinro.domain.TipChoice
 import io.astefanich.shinro.util.TipsRecyclerAdapter
 import javax.inject.Inject
 

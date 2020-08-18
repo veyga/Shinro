@@ -36,7 +36,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:drawableTop="@drawable/circle_red_no_outline"
+                android:drawableTop="@drawable/ic_circle_red_no_outline"
                 android:gravity="center"
                 android:text="@{@string/freebies_remaining_fmt(vm.game.freebiesRemaining)}"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -49,7 +49,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:drawableTop="@drawable/stopwatch"
+                android:drawableTop="@drawable/ic_stopwatch"
                 android:gravity="center"
                 android:text="@{@string/time_elapsed_fmt(vm.game.timeElapsed)}"
                 android:textSize="14sp"
@@ -110,42 +110,42 @@
                         style="@style/CellStyle"
                         android:contentDescription="cell"
                         app:gridSvg="@{vm.game.board[0][1].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[0][2].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[0][3].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[0][4].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[0][5].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[0][6].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[0][7].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[0][8].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
                 </LinearLayout>
 
                 <!-- Row 1 -->
@@ -160,49 +160,49 @@
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[1][0].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[1][1].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[1][2].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[1][3].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[1][4].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[1][5].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[1][6].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[1][7].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <!--                    android:onClick="@{() -> vm.onMove(1,8)}"-->
                     <io.astefanich.shinro.ui.SquareImageView
                         android:id="@+id/cell18"
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[1][8].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
                 </LinearLayout>
                 <!-- Row 2 -->
                 <LinearLayout
@@ -214,47 +214,47 @@
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[2][0].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[2][1].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[2][2].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[2][3].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[2][4].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[2][5].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[2][6].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[2][7].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[2][8].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
                 </LinearLayout>
                 <!-- Row 3 -->
                 <LinearLayout
@@ -266,47 +266,47 @@
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[3][0].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[3][1].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[3][2].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[3][3].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[3][4].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[3][5].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[3][6].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[3][7].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[3][8].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
                 </LinearLayout>
                 <!-- Row 4 -->
                 <LinearLayout
@@ -318,47 +318,47 @@
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[4][0].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[4][1].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[4][2].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[4][3].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[4][4].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[4][5].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[4][6].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[4][7].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[4][8].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
                 </LinearLayout>
 
                 <!-- Row 5 -->
@@ -372,47 +372,47 @@
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[5][0].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[5][1].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[5][2].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[5][3].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[5][4].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[5][5].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[5][6].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[5][7].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[5][8].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
                 </LinearLayout>
 
                 <!-- Row 6 -->
@@ -425,47 +425,47 @@
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[6][0].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[6][1].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[6][2].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[6][3].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[6][4].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[6][5].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[6][6].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[6][7].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[6][8].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
                 </LinearLayout>
 
                 <!-- Row 7 -->
@@ -478,47 +478,47 @@
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[7][0].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[7][1].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[7][2].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[7][3].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[7][4].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[7][5].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[7][6].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[7][7].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[7][8].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
                 </LinearLayout>
 
                 <!-- Row 8 -->
@@ -531,47 +531,47 @@
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[8][0].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[8][1].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[8][2].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[8][3].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[8][4].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[8][5].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[8][6].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[8][7].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
 
                     <io.astefanich.shinro.ui.SquareImageView
                         style="@style/CellStyle"
                         app:gridSvg="@{vm.game.board[8][8].current}"
-                        tools:src="@drawable/number1" />
+                        tools:src="@drawable/ic_number1" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -592,7 +592,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1.1"
-                    android:drawableTop="@drawable/flag_finish"
+                    android:drawableTop="@drawable/ic_flag_finish"
                     android:gravity="center"
                     android:text="@string/surrender"
                     android:textSize="14sp"
@@ -603,7 +603,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:drawableTop="@drawable/clear"
+                    android:drawableTop="@drawable/ic_clear"
                     android:gravity="center"
                     android:text="@string/reset"
                     android:textSize="14sp"
@@ -614,11 +614,11 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:drawableTop="@drawable/flag_filled"
+                    android:drawableTop="@drawable/ic_flag_filled"
                     android:gravity="center"
                     android:text="@string/set_checkpoint"
                     android:textSize="14sp"
-                    tools:drawableTop="@drawable/flag_filled"
+                    tools:drawableTop="@drawable/ic_flag_filled"
                     tools:text="Set" />
 
                 <TextView
@@ -626,11 +626,11 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:drawableTop="@drawable/flag_empty"
+                    android:drawableTop="@drawable/ic_flag_empty"
                     android:gravity="center"
                     android:text="@string/undo_to_checkpoint"
                     android:textSize="14sp"
-                    tools:drawableTop="@drawable/flag_empty"
+                    tools:drawableTop="@drawable/ic_flag_empty"
                     tools:text="Undo to" />
 
                 <TextView
@@ -638,7 +638,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:drawableTop="@drawable/undo"
+                    android:drawableTop="@drawable/ic_undo"
                     android:gravity="center"
                     android:text="@string/undo"
                     android:textSize="14dp"
