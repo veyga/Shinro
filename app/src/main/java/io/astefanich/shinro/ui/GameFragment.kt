@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.NavigationUI
 import io.astefanich.shinro.R
@@ -22,6 +23,7 @@ import io.astefanich.shinro.ShinroApplication
 import io.astefanich.shinro.databinding.FragmentGameBinding
 import io.astefanich.shinro.viewmodels.GameViewModel
 import io.astefanich.shinro.viewmodels.ViewModelFactory
+import kotlinx.coroutines.*
 import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
@@ -90,7 +92,7 @@ class GameFragment : Fragment() {
             is GameViewModel.Event.FreebiePlaced -> {
                 ObjectAnimator.ofArgb( (binding.grid[evt.row] as ViewGroup)[evt.col],
                      "backgroundColor", Color.RED, resources.getColor(R.color.materialBlack))
-                    .setDuration(2000)
+                    .setDuration(3000)
                     .start()
             }
             is GameViewModel.Event.Reset -> {
@@ -99,13 +101,18 @@ class GameFragment : Fragment() {
             }
             is GameViewModel.Event.GameOver -> {
                 viewModel.gameEvent.removeObservers(viewLifecycleOwner)
+                var navDelay = 500L
                 when (evt) {
                     is GameViewModel.Event.GameOver.Win -> {
                         toast("You Won!")
                         buzz(winBuzzPattern)
+                        navDelay = 1500L
                     }
                 }
-                toast("Gonna navigate now...")
+                CoroutineScope(Dispatchers.Main).launch {
+                    delay(navDelay)
+                    findNavController().navigate(GameFragmentDirections.actionGameToGameSummary(evt.summary))
+                }
             }
         }
     }
