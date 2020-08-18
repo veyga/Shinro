@@ -1,8 +1,10 @@
-package io.astefanich.shinro.domain
+package io.astefanich.shinro.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import io.astefanich.shinro.domain.Difficulty
+import io.astefanich.shinro.domain.Grid
 import java.util.*
 
 @Entity(tableName = "game_table")

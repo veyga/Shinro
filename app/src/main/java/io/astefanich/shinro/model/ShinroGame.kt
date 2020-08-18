@@ -1,17 +1,14 @@
-package io.astefanich.shinro.viewmodels
+package io.astefanich.shinro.model
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import io.astefanich.shinro.domain.Game
-import io.astefanich.shinro.domain.GameSummary
-import io.astefanich.shinro.domain.PlayRequest
+import io.astefanich.shinro.domain.GameWin
 import io.astefanich.shinro.repository.GameRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 
@@ -24,13 +21,15 @@ class GameViewModel
 constructor(
     val playRequest: PlayRequest,
     val repo: GameRepository
-) : ViewModel() {
+) {
 
     sealed class Command {
         data class Move(val row: Int, val col: Int) : Command()
         object Reset : Command()
         object SetCheckpoint : Command()
         object UndoToCheckpoint : Command()
+        object StartTimer : Command()
+        object StopTimer : Command()
         object SaveGame : Command()
         object Undo : Command()
         object UseFreebie : Command()
@@ -38,7 +37,7 @@ constructor(
     }
 
     sealed class Event {
-        object Loaded : Event()
+        class Loaded(val initialGameTime: Long): Event()
         object Reset : Event()
         object CheckpointSet : Event()
         object RevertedToCheckpoint : Event()
@@ -69,10 +68,12 @@ constructor(
             }
             withContext(Dispatchers.Main) {
                 game.value = _game
-                _gameEvent.value = Event.Loaded
+                _gameEvent.value = Event.Loaded(5000)
+//                _gameEvent.value = Event.Loaded(_game.timeElapsed)
             }
         }
     }
+
 
     /**
      * Accept a command on the game state
@@ -87,33 +88,33 @@ constructor(
             is Command.Undo -> undo()
             is Command.UseFreebie -> useFreebie()
             is Command.SaveGame -> save()
-            is Command.Surrender -> completeGame(false)
+            is Command.Surrender -> completeGame(GameWin((false)))
             else -> {
             }
         }
     }
 
 
+    private fun checkWin() {
+        var numIncorrect = 0
+        val cells = _game.board
+        for (i in 0..8) {
+            for (j in 0..8) {
+                val cell = cells[i][j]
+                if (cell.current == "M" && cell.actual != "M")
+                    numIncorrect += 1
+            }
+        }
+        if (numIncorrect == 0)
+            completeGame(true)
+        else
+            _gameEvent.value = Event.IncorrectSolution(numIncorrect)
+    }
+
     /**
      * Record a move in this VM
      */
     private fun move(row: Int, column: Int) {
-        fun checkWin() {
-            var numIncorrect = 0
-            val cells = _game.board
-            for (i in 0..8) {
-                for (j in 0..8) {
-                    val cell = cells[i][j]
-                    if (cell.current == "M" && cell.actual != "M")
-                        numIncorrect += 1
-                }
-            }
-            if (numIncorrect == 0) {
-                completeGame(true)
-            } else
-                _gameEvent.value = Event.IncorrectSolution(numIncorrect)
-
-        }
 
         val cell = _game.board[row][column]
 
@@ -154,10 +155,13 @@ constructor(
         updateUI()
     }
 
-    private fun completeGame(win: Boolean) {
-        val summary = GameSummary(_game.difficulty, win, _game.timeElapsed)
-        _gameEvent.value = if (win) Event.GameOver.Win(summary) else Event.GameOver.Loss(summary)
+    private fun completeGame(isWin: Boolean) {
+        if(isWin) Event.GameOver.Win
+//        val summary = GameSummary(_game.difficulty, win, _game.timeElapsed)
         save()
+//        _gameEvent.value =
+//            if (win) Event.GameOver.Win(summary) else Event.GameOver.Loss(summary)
+
     }
 
     /**
@@ -207,13 +211,16 @@ constructor(
                     val cell = _game.board[i][j]
                     if (cell.actual == "M" && cell.current != "M") {
                         cell.current = "M"
-                        _game.freebiesRemaining -= 1
                         _gameEvent.value = Event.FreebiePlaced(i, j)
-                        updateUI()
                         break@outer
                     }
                 }
             }
+            updateUI()
+            _game.freebiesRemaining -= 1
+            _game.marblesPlaced += 1
+            if (_game.marblesPlaced == 12)
+                checkWin()
         }
     }
 
@@ -231,3 +238,4 @@ constructor(
 }
 
 private class Move(val row: Int, val column: Int, val oldVal: String, val newVal: String)
+

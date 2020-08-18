@@ -1,4 +1,4 @@
-package io.astefanich.shinro.domain
+package io.astefanich.shinro.model
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
@@ -10,9 +10,12 @@ typealias Grid = Array<Array<Cell>>
 
 enum class Difficulty { EASY, MEDIUM, HARD }
 
+//@Parcelize
+//data class GameWin(val isWin: Boolean): Parcelable
+
 //// between gameVM and gameOver
 @Parcelize
-data class GameSummary(val difficulty: Difficulty, val win: Boolean, val time: Long) : Parcelable
+data class GameSummary(val difficulty: Difficulty, val isWin: Boolean, val time: Long) : Parcelable
 
 sealed class PlayRequest : Parcelable {
     @Parcelize
