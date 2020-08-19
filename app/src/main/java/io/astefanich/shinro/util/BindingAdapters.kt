@@ -1,10 +1,13 @@
 package io.astefanich.shinro.util
 
 import android.animation.ValueAnimator
+import android.graphics.drawable.Drawable
 import android.text.format.DateUtils
 import android.view.View
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.BindingAdapter
 import io.astefanich.shinro.R
 import io.astefanich.shinro.common.Freebie
@@ -27,11 +30,48 @@ fun hideViewIfFalseCondition(view: View, isActive: Boolean) = when (isActive) {
     else -> view.visibility = View.INVISIBLE
 }
 
+@BindingAdapter("grayIfFalse")
+fun grayIfFalseCondition(view: ImageView, isActive: Boolean) {
+    view.labelFor
+}
+
+//@BindingAdapter("whiteGrayToggle", "activeIcon", "inactiveIcon")
+//fun TextView.grayTextIfFalseCondition(isActive: Boolean, activeDrawable: Int, inactiveDrawable: Int) {
+//    val (color, drawable) = if(isActive)
+//        Pair(resources.getColor(R.color.white), resources.getDrawable(activeDrawable))
+//
+//   else Pair(resources.getColor(R.color.lightGray), resources.getDrawable(inactiveDrawable))
+//    setTextColor(color)
+//    setCompoundDrawables(null, drawable, null, null)
+//}
+@BindingAdapter("whiteGrayCheckpoint")
+fun TextView.whiteGrayCheckpoint(isActive: Boolean) {
+    val drawable = if (isActive) R.drawable.ic_flag_empty else R.drawable.ic_flag_empty_gray
+    val color = if (isActive) R.color.white else R.color.lightGray
+    setTextColor(resources.getColor(color))
+    setCompoundDrawablesRelativeWithIntrinsicBounds(0, drawable, 0, 0)
+}
+
+@BindingAdapter("whiteGrayUndo")
+fun TextView.whiteGrayUndo(isActive: Boolean) {
+    val drawable = if (isActive) R.drawable.ic_undo else R.drawable.ic_undo_gray
+    val color = if (isActive) R.color.white else R.color.lightGray
+    setTextColor(resources.getColor(color))
+    setCompoundDrawablesRelativeWithIntrinsicBounds(0, drawable, 0, 0)
+}
+
 @BindingAdapter("animScoreTime", "pointsEarned")
 fun TextView.animatePointsEarned(animTime: Long, score: Int) {
     val delay = 1000L
     ValueAnimator.ofInt(0, score).apply {
-        addUpdateListener { text = String.format(resources.getString(R.string.points_earned_fmt, it.animatedValue as Int)) }
+        addUpdateListener {
+            text = String.format(
+                resources.getString(
+                    R.string.points_earned_fmt,
+                    it.animatedValue as Int
+                )
+            )
+        }
         duration = delay + animTime
         startDelay = delay
         start()
@@ -64,31 +104,22 @@ fun setVideoButtonText(button: Button, isPlaying: Boolean, isStarted: Boolean) {
 //    }
 //}
 
-//@BindingAdapter("freebiesRemaining")
-//fun TextView.displayRemaining(freebie: Freebie?){
-//    if(freebie == null){
-//        Timber.i("FREEBIE is NULL")
-//    } else {
-//        Timber.i("FREEBIE is $freebie")
-//    }
-//    val remaining = if (freebie == Freebie(0,0)) 1 else 0
-//    text = String.format(resources.getString(R.string.freebies_remaining_fmt), remaining)
-//}
-
 @BindingAdapter("timer")
-fun TextView.displayTimer(time: Long){
+fun TextView.displayTimer(time: Long) {
     text = String.format(resources.getString(R.string.timer_fmt), DateUtils.formatElapsedTime(time))
 }
 
 @BindingAdapter("timeTaken")
-fun TextView.displayTimeTaken(time: Long){
+fun TextView.displayTimeTaken(time: Long) {
     val fmt = "Time: %s"
-    text = String.format(resources.getString(R.string.time_taken_fmt), DateUtils.formatElapsedTime(time))
+    text = String.format(
+        resources.getString(R.string.time_taken_fmt),
+        DateUtils.formatElapsedTime(time)
+    )
 }
 
 @BindingAdapter("gridSvg")
 fun bindGridSvg(view: SquareImageView, str: String?) {
-    Timber.i("updating cell")
     val res = when (str) {
         " " -> R.drawable.ic_blank_cell
         "X" -> R.drawable.ic_letter_x

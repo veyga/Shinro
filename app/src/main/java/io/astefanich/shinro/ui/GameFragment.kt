@@ -93,7 +93,7 @@ class GameFragment : Fragment() {
                 binding.game.visibility = View.VISIBLE
             }
             is GameViewModel.Event.CheckpointSet -> toast("Checkpoint Set")
-            is GameViewModel.Event.CheckpointNotYetSet -> toast("No checkpoint yet set")
+            is GameViewModel.Event.CheckpointReset -> toast("Checkpoint Reset")
             is GameViewModel.Event.RevertedToCheckpoint -> toast("Reverted")
             is GameViewModel.Event.IncorrectSolution -> toast("${evt.numIncorrect} of your marbles are wrong")
             is GameViewModel.Event.TooManyPlaced -> toast("You have placed ${evt.numPlaced} marbles, which is too many")
@@ -101,7 +101,7 @@ class GameFragment : Fragment() {
             is GameViewModel.Event.FreebiePlaced -> {
                 ObjectAnimator.ofArgb(
                     (binding.grid[evt.row] as ViewGroup)[evt.col],
-                    "backgroundColor", Color.RED, resources.getColor(R.color.materialBlack)
+                    "backgroundColor", Color.RED, resources.getColor(R.color.darkRed)
                 )
                     .setDuration(3000)
                     .start()
@@ -172,17 +172,16 @@ class GameFragment : Fragment() {
             }
         }
 
-        binding.undoButton.setOnClickListener { viewModel.accept(GameViewModel.Command.Undo) }
-        binding.resetBoard.setOnClickListener {
-            if (gameIsActive())
-                gameDialogBuilder("Reset", "Clear the board?\n(freebie will persist if used)") {
-                    viewModel.accept(GameViewModel.Command.Reset)
-                }.show()
-        }
         binding.surrenderBoard.setOnClickListener {
             if (gameIsActive())
                 gameDialogBuilder("Surrender", "Are you sure?") {
                     viewModel.accept(GameViewModel.Command.Surrender)
+                }.show()
+        }
+        binding.resetBoard.setOnClickListener {
+            if (gameIsActive())
+                gameDialogBuilder("Reset", "Clear the board?\n(freebie will persist if used)") {
+                    viewModel.accept(GameViewModel.Command.Reset)
                 }.show()
         }
         binding.freebiesRemaining.setOnClickListener {
@@ -191,6 +190,9 @@ class GameFragment : Fragment() {
                     viewModel.accept(GameViewModel.Command.UseFreebie)
                 }.show()
         }
+        binding.setCheckpoint.setOnClickListener{ viewModel.accept(GameViewModel.Command.SetCheckpoint)}
+        binding.undoToCheckpoint.setOnClickListener{ viewModel.accept(GameViewModel.Command.UndoToCheckpoint)}
+        binding.undoButton.setOnClickListener { viewModel.accept(GameViewModel.Command.Undo) }
     }
 }
 

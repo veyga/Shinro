@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 
-data class Cell(var current: String, val actual: String = current)
+data class Cell(val current: String, val actual: String = current)
 
 typealias Grid = Array<Array<Cell>>
 

@@ -9,5 +9,6 @@
     <color name="nearWhite">#DDDDDD</color>
     <color name="lightGray">#777777</color>
     <color name="red">#FF0000</color>
+    <color name="darkRed">#440000</color>
     <color name="green">#00FF00</color>
 </resources>

@@ -35,8 +35,6 @@ constructor(
     @field:Named("gameTimer")
     lateinit var gameTimer: GameTimer
 
-//    private var freebie: Optional<Pair<Int,Int>> = Optional.empty()
-    private var checkpoint: Optional<Grid> = Optional.empty()
 
     //Commands to apply to model
     //Corresponding events are for user notifications/navigation
@@ -57,7 +55,7 @@ constructor(
         object Loaded : Event()
         object Reset : Event()
         object CheckpointSet : Event()
-        object CheckpointNotYetSet : Event()
+        object CheckpointReset : Event()
         object RevertedToCheckpoint : Event()
         class FreebiePlaced(val row: Int, val col: Int) : Event()
         object OutOfFreebies : Event()
@@ -69,13 +67,16 @@ constructor(
         }
     }
 
-    private lateinit var _game: Game
-    private var undoStack = Stack<Move>()
-    lateinit var difficulty: Difficulty
     val freebiesRemaining = MutableLiveData<Int>()
-    val grid = MutableLiveData<Grid>()
     val timeElapsed = MutableLiveData<Long>()
+    val grid = MutableLiveData<Grid>()
     val gameEvent = MutableLiveData<Event>()
+    val checkpointSet = MutableLiveData<Boolean>()
+    val undoStackActive = MutableLiveData<Boolean>()
+    lateinit var difficulty: Difficulty
+    private lateinit var _game: Game
+    private lateinit var checkpoint: Grid
+    private var undoStack = Stack<Move>()
 
 
     init {
@@ -86,8 +87,11 @@ constructor(
             }
             difficulty = _game.difficulty
             grid.value = _game.board
-            freebiesRemaining.value = if (_game.freebie == Freebie(0,0)) 1 else 0
-            delay(2000)
+            freebiesRemaining.value = if (_game.freebie == Freebie(0, 0)) 1 else 0
+            undoStackActive.value = false
+            checkpointSet.value = false
+            checkpoint = Array(9) { Array(9) { Cell(" ") } }
+            delay(1000)
             Timber.i("got the game. freebie is ${_game.freebie}")
             gameTimer.start {
                 _game.timeElapsed += gameTimer.period.seconds
@@ -111,27 +115,43 @@ constructor(
             is Command.Undo -> undo()
             is Command.ResumeTimer -> gameTimer.resume()
             is Command.PauseTimer -> gameTimer.pause()
+            is Command.SetCheckpoint -> setCheckpoint()
             is Command.UndoToCheckpoint -> undoToCheckpoint()
             is Command.UseFreebie -> useFreebie()
             is Command.SaveGame -> save()
             is Command.Surrender -> completeGame(false)
-            else -> {
-            }
         }
     }
 
+    private fun setCheckpoint() {
+        for (i in 0..8)
+            for (j in 0..8)
+                checkpoint[i][j] = _game.board[i][j]
+        undoStack = Stack<Move>()
+        if(checkpointSet.value!!)
+            gameEvent.value = Event.CheckpointReset
+        else
+            gameEvent.value = Event.CheckpointSet
+        checkpointSet.value = true
+        undoStackActive.value = false
+    }
+
     private fun undoToCheckpoint() {
-        if(!checkpoint.isPresent)
-            gameEvent.value = Event.CheckpointNotYetSet
-        else{
+        if (checkpointSet.value!!) {
+            for (i in 0..8)
+                for (j in 0..8)
+                    _game.board[i][j] = checkpoint[i][j]
+            undoStack = Stack<Move>()
+            undoStackActive.value = false
+            checkpointSet.value = false
+            grid.postValue(_game.board)
             gameEvent.value = Event.RevertedToCheckpoint
         }
-
     }
 
 
     private fun checkWin() {
-        if(_game.marblesPlaced != 12)
+        if (_game.marblesPlaced != 12)
             return
         var numIncorrect = 0
         val cells = _game.board
@@ -151,41 +171,45 @@ constructor(
     /**
      * Record a move in this VM
      */
-    private fun move(row: Int, column: Int) {
+    private fun move(row: Int, col: Int) {
 
-        val cell = _game.board[row][column]
+        val clickedCell = _game.board[row][col]
 
-        //user clicked on arrow
-        if (cell.actual in "A".."G")
+        //user clicked on arrow or freebie
+        if (clickedCell.actual in "A".."G" || Freebie(row, col) == _game.freebie)
             return
 
         fun OClicked() {
-            undoStack.push(Move(row, column, " ", "X"))
-            cell.current = "X"
+            val newCell = Cell("X", clickedCell.actual)
+            undoStack.push(Move(row, col, clickedCell, newCell))
+            _game.board[row][col] = newCell
         }
 
         fun MClicked() {
-            undoStack.push(Move(row, column, "M", " "))
-            cell.current = " "
+            val newCell = Cell(" ", clickedCell.actual)
+            undoStack.push(Move(row, col, clickedCell, newCell))
+            _game.board[row][col] = newCell
             _game.marblesPlaced -= 1 //can win by placing marbles or taking them away
             checkWin()
         }
 
         fun XClicked() {
-            undoStack.push(Move(row, column, "X", "M"))
-            cell.current = "M"
+            val newCell = Cell("M", clickedCell.actual)
+            undoStack.push(Move(row, col, clickedCell, newCell))
+            _game.board[row][col] = newCell
             _game.marblesPlaced += 1
-            if(_game.marblesPlaced > 12)
+            if (_game.marblesPlaced > 12)
                 gameEvent.value = Event.TooManyPlaced(_game.marblesPlaced)
             else
                 checkWin()
         }
 
-        when (cell.current) {
+        when (clickedCell.current) {
             " " -> OClicked()
             "M" -> MClicked()
             "X" -> XClicked()
         }
+        undoStackActive.value = true
         grid.postValue(_game.board)
     }
 
@@ -202,19 +226,21 @@ constructor(
         val cells = _game.board
         for (i in 1..8) {
             for (j in 1..8) {
-                if(_game.freebie == Freebie(i,j))
+                if (_game.freebie == Freebie(i, j))
                     continue
                 val cell = cells[i][j]
                 if (cell.actual == "M" || cell.actual == "X")
-                    cell.current = " "
+                    _game.board[i][j] = Cell(" ", cell.actual)
             }
         }
 
         with(_game) {
-            if (freebie == Freebie(0,0)) marblesPlaced = 0
+            if (freebie == Freebie(0, 0)) marblesPlaced = 0
             else marblesPlaced = 1
         }
         undoStack = Stack<Move>()
+        undoStackActive.value = false
+        checkpointSet.value = false
         gameEvent.value = Event.Reset
         grid.postValue(_game.board)
     }
@@ -224,19 +250,21 @@ constructor(
      * Undoes most recent move
      */
     fun undo() {
-        if (undoStack.isNotEmpty()) {
-            val move = undoStack.pop()
-            _game.board[move.row][move.column].current = move.oldVal
-            if (move.newVal == "M")
-                _game.marblesPlaced -= 1
-            else if (move.oldVal == "M")
-                _game.marblesPlaced += 1
-            grid.postValue(_game.board)
-        }
+        if (undoStack.isEmpty())
+            return
+        val move = undoStack.pop()
+        _game.board[move.row][move.column] = move.oldCell
+        if (move.newCell.current == "M")
+            _game.marblesPlaced -= 1
+        else if (move.oldCell.current == "M")
+            _game.marblesPlaced += 1
+        grid.postValue(_game.board)
+        if (undoStack.isEmpty())
+            undoStackActive.value = false
     }
 
     private fun useFreebie() {
-        if (_game.freebie != Freebie(0,0))
+        if (_game.freebie != Freebie(0, 0))
             gameEvent.value = Event.OutOfFreebies
         else {
             val ranges = arrayOf((1..8), (8 downTo 1))
@@ -247,7 +275,8 @@ constructor(
                 for (j in horizontalStrategy) {
                     val cell = _game.board[i][j]
                     if (cell.actual == "M" && cell.current != "M") {
-                        cell.current = "M"
+                        _game.board[i][j] = Cell("M")
+                        checkpoint[i][j] = Cell("M")
                         _game.freebie = Freebie(i, j)
                         gameEvent.value = Event.FreebiePlaced(i, j)
                         break@outer
@@ -268,10 +297,7 @@ constructor(
         }
     }
 
-    private fun refreshGridUI() {
-    }
-
-    private class Move(val row: Int, val column: Int, val oldVal: String, val newVal: String)
+    private class Move(val row: Int, val column: Int, val oldCell: Cell, val newCell: Cell)
 }
 
 

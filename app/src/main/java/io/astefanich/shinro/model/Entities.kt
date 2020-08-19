@@ -15,7 +15,7 @@ data class Game(
 
     val difficulty: Difficulty,
 
-    val board: Grid,
+    var board: Grid,
 
     @ColumnInfo(name = "marbles_placed")
     var marblesPlaced: Int = 0,
@@ -25,8 +25,6 @@ data class Game(
 
     @ColumnInfo(name = "freebie")
     var freebie: Freebie = Freebie(0,0) //0,0 -> freebie available
-//    @ColumnInfo(name = "freebies_remaining")
-//    var freebiesRemaining: Int = 1
 )
 
 @Entity(tableName = "results_table")

@@ -32,7 +32,7 @@
 
 
             <!--            freebiesRemaining-->
-<!--            app:freebiesRemaining="@{vm.game.freebie}"-->
+            <!--            app:freebiesRemaining="@{vm.game.freebie}"-->
             <TextView
                 android:id="@+id/freebies_remaining"
                 android:layout_width="wrap_content"
@@ -44,6 +44,18 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Freebies\n1 / 1" />
+
+<!--            <ImageView-->
+<!--                android:id="@+id/solve_button"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_margin="8dp"-->
+<!--                android:drawableTop="@drawable/ic_checkmark"-->
+<!--                android:labelFor=""-->
+<!--                android:gravity="center"-->
+<!--                app:layout_constraintLeft_toLeftOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent"-->
+<!--                tools:text="Solve" />-->
 
 
             <!--            android:text="@{@string/time_elapsed_fmt(vm.game.timeElapsed)}"-->
@@ -583,6 +595,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_margin="16dp"
+                android:layout_marginBottom="32dp"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:orientation="horizontal"
@@ -624,28 +637,31 @@
                     tools:drawableTop="@drawable/ic_flag_filled"
                     tools:text="Set" />
 
+<!--                android:drawableTop="@drawable/ic_flag_empty"-->
                 <TextView
                     android:id="@+id/undo_to_checkpoint"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:drawableTop="@drawable/ic_flag_empty"
                     android:gravity="center"
+                    android:drawableTop="@drawable/ic_flag_empty"
                     android:text="@string/undo_to_checkpoint"
                     android:textSize="14sp"
-                    tools:drawableTop="@drawable/ic_flag_empty"
+                    app:whiteGrayCheckpoint="@{vm.checkpointSet}"
                     tools:text="Undo to" />
+<!--                app:whiteGrayToggle="@{vm.checkpointSet}"-->
 
                 <TextView
                     android:id="@+id/undo_button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:drawableTop="@drawable/ic_undo"
                     android:gravity="center"
                     android:text="@string/undo"
                     android:textSize="14dp"
+                    app:whiteGrayUndo="@{vm.undoStackActive}"
                     tools:text="@string/undo" />
+<!--                app:hideIfFalse="@{vm.undoStackActive}"-->
             </LinearLayout>
 
 
