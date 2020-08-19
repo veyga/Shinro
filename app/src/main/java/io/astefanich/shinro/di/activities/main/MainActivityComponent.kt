@@ -10,21 +10,21 @@ import io.astefanich.shinro.di.activities.main.fragments.game.GameComponent
 import io.astefanich.shinro.ui.MainActivity
 import javax.inject.Named
 
-//@PerActivity
-//@Subcomponent(modules = [
-//    MainActivityModule::class,
-//    MainActivityFragmentInjectorsModule::class
-//])
-//interface MainActivityComponent : AndroidInjector<MainActivity> {
-//
-//    abstract fun getGameComponentBuilder(): GameComponent.Builder
-//
-//    @Subcomponent.Builder
-//    interface Builder {
-//
-//        @BindsInstance
-//        fun actitivtyContext(@Named("actCtx") context: Context): Builder
-//
-//        fun build(): MainActivityComponent
-//    }
-//}
+@PerActivity
+@Subcomponent(modules = [
+    MainActivityModule::class,
+    MainActivityFragmentInjectorsModule::class
+])
+interface MainActivityComponent : AndroidInjector<MainActivity> {
+
+    abstract fun getGameComponentBuilder(): GameComponent.Builder
+
+    @Subcomponent.Builder
+    interface Builder {
+
+        @BindsInstance
+        fun actitivtyContext(@Named("actCtx") context: Context): Builder
+
+        fun build(): MainActivityComponent
+    }
+}

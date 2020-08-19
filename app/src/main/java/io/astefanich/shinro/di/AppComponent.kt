@@ -7,6 +7,7 @@ import dagger.android.AndroidInjectionModule
 import dagger.android.AndroidInjector
 import io.astefanich.shinro.ShinroApplication
 import io.astefanich.shinro.di.activities.ActivityInjectorsModule
+import io.astefanich.shinro.di.activities.main.MainActivityComponent
 
 @PerApplication
 @Component(
@@ -19,7 +20,7 @@ import io.astefanich.shinro.di.activities.ActivityInjectorsModule
 )
 interface AppComponent : AndroidInjector<ShinroApplication> {
 
-//    fun getActivityComponentBuilder(): MainActivityComponent.Builder
+    fun getMainActivityComponentBuilder(): MainActivityComponent.Builder
 
 //    fun getGameComponentBuilder(): GameComponent.Builder
 

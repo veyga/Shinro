@@ -21,6 +21,7 @@ import androidx.navigation.ui.NavigationUI
 import io.astefanich.shinro.R
 import io.astefanich.shinro.ShinroApplication
 import io.astefanich.shinro.databinding.FragmentGameBinding
+import io.astefanich.shinro.di.AppComponent
 import io.astefanich.shinro.model.Game
 import io.astefanich.shinro.util.bindGridSvg
 import io.astefanich.shinro.viewmodels.GameViewModel
@@ -51,6 +52,9 @@ class GameFragment : Fragment() {
     @Inject
     lateinit var dialogBuilder: @JvmSuppressWildcards(true)(String, String, () -> Unit) -> AlertDialog.Builder
 
+//    @Inject
+//    lateinit var appComponent: AppComponent
+
 //    val toast = { msg: String -> Toast.makeText(ctx, msg, Toast.LENGTH_SHORT).show() }
     val buzz = { pattern: LongArray -> Timber.i("buzzzzinggg ${Arrays.toString(pattern)}") }
 
@@ -68,12 +72,23 @@ class GameFragment : Fragment() {
 
         val myActivity = activity!!
 
-//        (activity!!.application as ShinroApplication)
-//            .appComponent
+//        appComponent
+//            .getMainActivityComponentBuilder()
+//            .actitivtyContext(activity!!)
+//            .build()
 //            .getGameComponentBuilder()
 //            .playRequest(playRequest)
 //            .build()
 //            .inject(this)
+        (activity!!.application as ShinroApplication)
+            .appComponent
+            .getMainActivityComponentBuilder()
+            .actitivtyContext(activity!!)
+            .build()
+            .getGameComponentBuilder()
+            .playRequest(playRequest)
+            .build()
+            .inject(this)
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(GameViewModel::class.java)
         viewModel.gameEvent.observe(viewLifecycleOwner, Observer { handle(it) })

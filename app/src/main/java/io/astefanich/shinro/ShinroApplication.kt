@@ -12,8 +12,11 @@ class ShinroApplication : DaggerApplication() {
             .builder()
             .application(this)
             .build()
-
+//
     override fun applicationInjector(): AppComponent = appComponent
+
+//
+//    override fun applicationInjector(): AppComponent = TODO()
 
     override fun onCreate() {
         super.onCreate()

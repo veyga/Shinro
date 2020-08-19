@@ -29,7 +29,10 @@ class AppModule {
     internal fun providesAppContext(application: Application): Context = application.applicationContext
 
 //    @Provides
-//    fun providesAppComponent(): AppComponent = DaggerAppComponent.builder().build()
+//    fun providesAppComponent(application: Application): AppComponent {
+//        Timber.i("providing new app component")
+//        return AppComponent.builder().application(application).build()
+//    }
 
     @Provides
     internal fun providesGameDao(database: AppDatabase): GameDao = database.gameDao()

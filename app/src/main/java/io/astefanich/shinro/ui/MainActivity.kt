@@ -6,6 +6,7 @@ import dagger.android.support.DaggerAppCompatActivity
 import io.astefanich.shinro.R
 import io.astefanich.shinro.ShinroApplication
 import io.astefanich.shinro.di.DaggerAppComponent
+import io.astefanich.shinro.di.activities.main.MainActivityComponent
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -16,6 +17,12 @@ class MainActivity : DaggerAppCompatActivity() {
 //    @Inject
 //    lateinit var appComponent: DaggerAppComponent
 //
+//    val mainActivityComponent =
+//    (application as ShinroApplication)
+//        .appComponent
+//        .getMainActivityComponentBuilder()
+//        .actitivtyContext(this)
+//        .build()
 //    val mainActivityComponent =
 //        DaggerAppComponent
 //            .builder(
@@ -29,7 +36,7 @@ class MainActivity : DaggerAppCompatActivity() {
 //        Timber.i("main activity component requested")
 //        return (application as ShinroApplication)
 //            .appComponent
-//            .getActivityComponentBuilder()
+//            .getMainActivityComponentBuilder()
 //            .actitivtyContext(this)
 //            .build()
 //    }

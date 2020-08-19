@@ -11,11 +11,13 @@ import io.astefanich.shinro.ui.TitleFragment
 @Module
 abstract class MainActivityFragmentInjectorsModule {
 
-    @ContributesAndroidInjector
-    abstract fun providesTitleFragment(): TitleFragment
-
     @PerFragment //scope goes here, not above @Module
     @ContributesAndroidInjector(modules = [AboutModule::class])
     abstract fun providesAboutFragment(): AboutFragment
+
+    @PerFragment
+    @ContributesAndroidInjector
+    abstract fun providesTitleFragment(): TitleFragment
+
 
 }

@@ -35,7 +35,7 @@ class AboutFragment : DaggerFragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        AndroidSupportInjection.inject(this)
+//        AndroidSupportInjection.inject(this)
 
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_about, container, false)
