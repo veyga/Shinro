@@ -54,9 +54,6 @@ constructor(
     sealed class Event {
         object Loaded : Event()
         object Reset : Event()
-        object CheckpointSet : Event()
-        object CheckpointReset : Event()
-        object RevertedToCheckpoint : Event()
         class FreebiePlaced(val row: Int, val col: Int) : Event()
         object OutOfFreebies : Event()
         class IncorrectSolution(val numIncorrect: Int) : Event()
@@ -128,10 +125,6 @@ constructor(
             for (j in 0..8)
                 checkpoint[i][j] = _game.board[i][j]
         undoStack = Stack<Move>()
-        if(checkpointSet.value!!)
-            gameEvent.value = Event.CheckpointReset
-        else
-            gameEvent.value = Event.CheckpointSet
         checkpointSet.value = true
         undoStackActive.value = false
     }
@@ -145,7 +138,6 @@ constructor(
             undoStackActive.value = false
             checkpointSet.value = false
             grid.postValue(_game.board)
-            gameEvent.value = Event.RevertedToCheckpoint
         }
     }
 

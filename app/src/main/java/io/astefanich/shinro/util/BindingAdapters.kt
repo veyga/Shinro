@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.updatePadding
 import androidx.databinding.BindingAdapter
 import io.astefanich.shinro.R
 import io.astefanich.shinro.common.Freebie
@@ -135,6 +136,12 @@ fun bindGridSvg(view: SquareImageView, str: String?) {
         else -> R.drawable.ic_blank_cell
     }
     view.setImageResource(res)
+    val isDiagonal = str in setOf("B","D","F","H")
+    //TODO use DP not px?  Would need the context
+    val px = 12
+    if(isDiagonal)
+        view.updatePadding(top = px, bottom = px, left = px, right = px)
+
 }
 
 

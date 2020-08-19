@@ -92,9 +92,6 @@ class GameFragment : Fragment() {
                 binding.progressBar.visibility = View.GONE
                 binding.game.visibility = View.VISIBLE
             }
-            is GameViewModel.Event.CheckpointSet -> toast("Checkpoint Set")
-            is GameViewModel.Event.CheckpointReset -> toast("Checkpoint Reset")
-            is GameViewModel.Event.RevertedToCheckpoint -> toast("Reverted")
             is GameViewModel.Event.IncorrectSolution -> toast("${evt.numIncorrect} of your marbles are wrong")
             is GameViewModel.Event.TooManyPlaced -> toast("You have placed ${evt.numPlaced} marbles, which is too many")
             is GameViewModel.Event.OutOfFreebies -> toast("Out of freebies")

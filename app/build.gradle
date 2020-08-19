@@ -40,6 +40,10 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
     //needed for @Parcelize enum type
     androidExtensions{
         experimental = true
