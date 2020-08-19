@@ -7,6 +7,7 @@ import io.astefanich.shinro.model.Game
 import io.astefanich.shinro.common.GameSummary
 import io.astefanich.shinro.common.PlayRequest
 import io.astefanich.shinro.repository.GameRepository
+import io.astefanich.shinro.util.GameTimer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -24,7 +25,8 @@ class GameViewModel
 @Inject
 constructor(
     val playRequest: PlayRequest,
-    val repo: GameRepository
+    val repo: GameRepository,
+    val timer: GameTimer
 ) : ViewModel() {
 
     //Commands to apply to model
@@ -60,15 +62,8 @@ constructor(
     private lateinit var _game: Game
     val game = MutableLiveData<Game>()
     val gameEvent = MutableLiveData<Event>()
-
     private var undoStack = Stack<Move>()
 
-//    lateinit var timer: GameViewModel.MyTimer
-    private val timer = MyTimer(1000) {
-            Timber.i("doing it yo")
-        _game.timeElapsed += 1L
-        updateUI()
-    }
 
     init {
         CoroutineScope(Dispatchers.Main).launch { //need to utilize main so lateinit var loads
@@ -78,55 +73,14 @@ constructor(
             }
             game.value = _game
             gameEvent.value = Event.Loaded
-//            timer = MyTimer(1000){
-//                _game.timeElapsed += 1L
-//                updateUI()
-//            }
             delay(2000)
-            timer.start()
-        }
-    }
-
-
-    class MyTimer(val period: Long, val task: () -> Unit) {
-        private var isStarted = false
-        private var timer: Timer = fixedRateTimer(period = 1000){} //do nothing until time explicitly started
-
-        fun start() {
-            Timber.i("starting timer")
-            isStarted = true
-            timer = fixedRateTimer(period = period) { task() }
-        }
-
-        fun resume() {
-            Timber.i("resume called")
-            if (isStarted){
-                Timber.i(" calling start from resume")
-                start()
-            } else {
-                Timber.i("it is started")
-            }
-        }
-
-        fun pause(){
-            if(isStarted){
-                timer.cancel()
+            timer.start {
+                Timber.i("accccction")
+                _game.timeElapsed += timer.periodSeconds
+                updateUI()
             }
         }
     }
-
-//    private fun startTimer() {
-//        Timber.i("starting timer")
-//        timer = fixedRateTimer(period = 1000L) {
-//            _game.timeElapsed += 1L
-//            updateUI()
-//        }
-//    }
-//
-//    private fun stopTimer() {
-//        Timber.i("stopping timer")
-//        timer.cancel()
-//    }
 
 
     /**
@@ -141,7 +95,10 @@ constructor(
             is Command.Reset -> reset()
             is Command.Undo -> undo()
             is Command.ResumeTimer -> timer.resume()
-            is Command.PauseTimer -> timer.pause()
+            is Command.PauseTimer -> {
+                Timber.i("got the paused command. asking timer to pause")
+                timer.pause()
+            }
             is Command.UseFreebie -> useFreebie()
             is Command.SaveGame -> save()
             is Command.Surrender -> completeGame(false)
@@ -214,7 +171,6 @@ constructor(
     private fun completeGame(isWin: Boolean) {
         val summary = GameSummary(_game.difficulty, isWin, game.value!!.timeElapsed)
         timer.pause()
-        save()
         gameEvent.value = if (isWin) Event.GameOver.Win(summary) else Event.GameOver.Loss(summary)
     }
 
@@ -281,6 +237,7 @@ constructor(
     private fun save() {
         viewModelScope.launch(Dispatchers.IO) {
             repo.saveGame(_game)
+            Timber.i("game saved")
         }
     }
 

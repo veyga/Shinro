@@ -137,20 +137,17 @@ class GameFragment : Fragment() {
     }
 
 
-    //stop timer during dialog prompts
-    override fun onPause() {
-        super.onPause()
-        viewModel.accept(GameViewModel.Command.PauseTimer)
-    }
-
-    //onDestroy isn't reliably called. This call reliably saves last visited board
+    //onDestroy isn't reliably called. This call reliably saves active game
     override fun onStop() {
         super.onStop()
+        Timber.i("ON STOP")
+        viewModel.accept(GameViewModel.Command.PauseTimer)
         viewModel.accept(GameViewModel.Command.SaveGame)
     }
 
     override fun onStart() {
         super.onStart()
+        Timber.i("ON START")
         viewModel.accept(GameViewModel.Command.ResumeTimer)
     }
 
