@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import io.astefanich.shinro.common.Difficulty
+import io.astefanich.shinro.common.Freebie
 import io.astefanich.shinro.common.Grid
 
 @Entity(tableName = "game_table")
@@ -22,8 +23,10 @@ data class Game(
     @ColumnInfo(name = "time_elapsed")
     var timeElapsed: Long = 0,
 
-    @ColumnInfo(name = "freebies_remaining")
-    var freebiesRemaining: Int = 1
+    @ColumnInfo(name = "freebie")
+    var freebie: Freebie = Freebie(0,0) //0,0 -> freebie available
+//    @ColumnInfo(name = "freebies_remaining")
+//    var freebiesRemaining: Int = 1
 )
 
 @Entity(tableName = "results_table")

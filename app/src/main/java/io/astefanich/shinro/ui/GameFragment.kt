@@ -18,6 +18,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.NavigationUI
 import io.astefanich.shinro.R
 import io.astefanich.shinro.databinding.FragmentGameBinding
+import io.astefanich.shinro.model.Game
 import io.astefanich.shinro.viewmodels.GameViewModel
 import io.astefanich.shinro.viewmodels.ViewModelFactory
 import kotlinx.coroutines.*
@@ -44,7 +45,7 @@ class GameFragment : Fragment() {
     lateinit var toast: @JvmSuppressWildcards(true) (String) -> Unit
 
     @Inject
-    lateinit var gameDialogBuilder: @JvmSuppressWildcards(true)(String, String, () -> Unit) -> AlertDialog.Builder
+    lateinit var gameDialogBuilder: @JvmSuppressWildcards(true) (String, String, () -> Unit) -> AlertDialog.Builder
 
     val buzz = { pattern: LongArray -> Timber.i("buzzzzinggg ${Arrays.toString(pattern)}") }
 
@@ -55,6 +56,7 @@ class GameFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -91,6 +93,7 @@ class GameFragment : Fragment() {
                 binding.game.visibility = View.VISIBLE
             }
             is GameViewModel.Event.CheckpointSet -> toast("Checkpoint Set")
+            is GameViewModel.Event.CheckpointNotYetSet -> toast("No checkpoint yet set")
             is GameViewModel.Event.RevertedToCheckpoint -> toast("Reverted")
             is GameViewModel.Event.IncorrectSolution -> toast("${evt.numIncorrect} of your marbles are wrong")
             is GameViewModel.Event.TooManyPlaced -> toast("You have placed ${evt.numPlaced} marbles, which is too many")
@@ -161,28 +164,32 @@ class GameFragment : Fragment() {
                 cell.setOnClickListener { viewModel.accept(GameViewModel.Command.Move(i, j)) }
             }
         }
-        binding.resetBoard.setOnClickListener { viewModel.accept(GameViewModel.Command.Reset) }
-        binding.undoButton.setOnClickListener { viewModel.accept(GameViewModel.Command.Undo) }
-        binding.surrenderBoard.setOnClickListener {
+
+        val gameIsActive = {
             when (viewModel.gameEvent.value) {
-                is GameViewModel.Event.GameOver -> { }
-                else ->
-                    gameDialogBuilder("Surrender", "Are you sure?") {
-                        Timber.i("you clicked yes on surrender")
-                        viewModel.accept(GameViewModel.Command.Surrender)
-                    }.show()
+                is GameViewModel.Event.GameOver -> false
+                else -> true
             }
         }
+
+        binding.undoButton.setOnClickListener { viewModel.accept(GameViewModel.Command.Undo) }
+        binding.resetBoard.setOnClickListener {
+            if (gameIsActive())
+                gameDialogBuilder("Reset", "Clear the board?\n(freebie will persist if used)") {
+                    viewModel.accept(GameViewModel.Command.Reset)
+                }.show()
+        }
+        binding.surrenderBoard.setOnClickListener {
+            if (gameIsActive())
+                gameDialogBuilder("Surrender", "Are you sure?") {
+                    viewModel.accept(GameViewModel.Command.Surrender)
+                }.show()
+        }
         binding.freebiesRemaining.setOnClickListener {
-            when (viewModel.gameEvent.value) {
-                is GameViewModel.Event.GameOver -> { }
-                else -> {
-                    gameDialogBuilder("Freebie", "Use freebie? This will persist until the game is over") {
-                        Timber.i("you clicked yes on freebie")
-                        viewModel.accept(GameViewModel.Command.UseFreebie)
-                    }.show()
-                }
-            }
+            if (gameIsActive())
+                gameDialogBuilder( "Freebie", "Use freebie?\nThis will persist until the game is over") {
+                    viewModel.accept(GameViewModel.Command.UseFreebie)
+                }.show()
         }
     }
 }

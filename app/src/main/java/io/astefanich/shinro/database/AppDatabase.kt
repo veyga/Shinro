@@ -4,7 +4,6 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import io.astefanich.shinro.model.*
-import io.astefanich.shinro.util.Converters
 
 data class DatabaseName(val name: String)
 

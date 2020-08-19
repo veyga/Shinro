@@ -1,8 +1,9 @@
-package io.astefanich.shinro.util
+package io.astefanich.shinro.database
 
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import io.astefanich.shinro.common.Difficulty
+import io.astefanich.shinro.common.Freebie
 import io.astefanich.shinro.common.Grid
 import io.astefanich.shinro.model.Blacklist
 import timber.log.Timber
@@ -26,6 +27,14 @@ object Converters {
     @TypeConverter
     @JvmStatic
     fun stringToDifficulty(str: String): Difficulty = Difficulty.valueOf(str)
+
+    @TypeConverter
+    @JvmStatic
+    fun freebieFromJson(str: String): Freebie = gson.fromJson(str, Freebie::class.java)
+
+    @TypeConverter
+    @JvmStatic
+    fun freebieToJson(freebie: Freebie): String = gson.toJson(freebie)
 
     @TypeConverter
     @JvmStatic

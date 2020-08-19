@@ -33,4 +33,6 @@ enum class TipChoice : Parcelable { HOWTOPLAY, PATHFINDER, BLOCKER, PIGEONHOLE }
 
 data class Tip(val drawable: Int, val text: String)
 
+data class Freebie(val row: Int, val col: Int)
+
 

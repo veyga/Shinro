@@ -46,13 +46,13 @@ object GameModule {
     fun providesToaster(@Named("appCtx") ctx: Context): (String) -> Unit =
         { msg -> Toast.makeText(ctx, msg, Toast.LENGTH_SHORT).show() }
 
-    //    @Named("gameTimer")
     @PerFragment
     @Provides
+    @Named("gameTimer")
     fun providesGameTimer(): GameTimer = GameTimer(TimeSeconds.ONE)
 
     @Provides
-    fun providesGameDialogBuilder(@Named("actCtx")ctx: Context): (String, String, () -> Unit) -> AlertDialog.Builder {
+    fun providesGameDialogBuilder(@Named("actCtx") ctx: Context): (String, String, () -> Unit) -> AlertDialog.Builder {
         return { title, message, posAction ->
             AlertDialog.Builder(ctx)
                 .setTitle(title)

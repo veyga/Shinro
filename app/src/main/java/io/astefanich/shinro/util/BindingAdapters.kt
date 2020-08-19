@@ -4,10 +4,10 @@ import android.animation.ValueAnimator
 import android.text.format.DateUtils
 import android.view.View
 import android.widget.Button
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import io.astefanich.shinro.R
+import io.astefanich.shinro.common.Freebie
 import io.astefanich.shinro.common.TipChoice
 import io.astefanich.shinro.ui.SquareImageView
 import timber.log.Timber
@@ -64,6 +64,17 @@ fun setVideoButtonText(button: Button, isPlaying: Boolean, isStarted: Boolean) {
 //    }
 //}
 
+//@BindingAdapter("freebiesRemaining")
+//fun TextView.displayRemaining(freebie: Freebie?){
+//    if(freebie == null){
+//        Timber.i("FREEBIE is NULL")
+//    } else {
+//        Timber.i("FREEBIE is $freebie")
+//    }
+//    val remaining = if (freebie == Freebie(0,0)) 1 else 0
+//    text = String.format(resources.getString(R.string.freebies_remaining_fmt), remaining)
+//}
+
 @BindingAdapter("timer")
 fun TextView.displayTimer(time: Long){
     text = String.format(resources.getString(R.string.timer_fmt), DateUtils.formatElapsedTime(time))
@@ -77,6 +88,7 @@ fun TextView.displayTimeTaken(time: Long){
 
 @BindingAdapter("gridSvg")
 fun bindGridSvg(view: SquareImageView, str: String?) {
+    Timber.i("updating cell")
     val res = when (str) {
         " " -> R.drawable.ic_blank_cell
         "X" -> R.drawable.ic_letter_x

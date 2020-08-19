@@ -3,8 +3,7 @@ package io.astefanich.shinro.viewmodels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import io.astefanich.shinro.common.GameSummary
-import io.astefanich.shinro.common.PlayRequest
+import io.astefanich.shinro.common.*
 import io.astefanich.shinro.model.Game
 import io.astefanich.shinro.repository.GameRepository
 import io.astefanich.shinro.util.GameTimer
@@ -15,6 +14,7 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
+import javax.inject.Named
 
 
 /**
@@ -24,9 +24,19 @@ class GameViewModel
 @Inject
 constructor(
     val playRequest: PlayRequest,
-    val repo: GameRepository,
-    val timer: GameTimer
+    val repo: GameRepository
 ) : ViewModel() {
+
+    init {
+        Timber.i("game viewmodel created")
+    }
+
+    @Inject
+    @field:Named("gameTimer")
+    lateinit var gameTimer: GameTimer
+
+//    private var freebie: Optional<Pair<Int,Int>> = Optional.empty()
+    private var checkpoint: Optional<Grid> = Optional.empty()
 
     //Commands to apply to model
     //Corresponding events are for user notifications/navigation
@@ -47,6 +57,7 @@ constructor(
         object Loaded : Event()
         object Reset : Event()
         object CheckpointSet : Event()
+        object CheckpointNotYetSet : Event()
         object RevertedToCheckpoint : Event()
         class FreebiePlaced(val row: Int, val col: Int) : Event()
         object OutOfFreebies : Event()
@@ -59,25 +70,30 @@ constructor(
     }
 
     private lateinit var _game: Game
-    val game = MutableLiveData<Game>()
-    val gameEvent = MutableLiveData<Event>()
     private var undoStack = Stack<Move>()
+    lateinit var difficulty: Difficulty
+    val freebiesRemaining = MutableLiveData<Int>()
+    val grid = MutableLiveData<Grid>()
+    val timeElapsed = MutableLiveData<Long>()
+    val gameEvent = MutableLiveData<Event>()
 
 
     init {
-        Timber.i("got the play request. its $playRequest")
         CoroutineScope(Dispatchers.Main).launch { //need to utilize main so lateinit var loads
             _game = when (playRequest) {
                 is PlayRequest.Resume -> repo.getActiveGame()
                 is PlayRequest.NewGame -> repo.getNewGameByDifficulty(playRequest.difficulty)
             }
-            game.value = _game
-            gameEvent.value = Event.Loaded
+            difficulty = _game.difficulty
+            grid.value = _game.board
+            freebiesRemaining.value = if (_game.freebie == Freebie(0,0)) 1 else 0
             delay(2000)
-            timer.start {
-                _game.timeElapsed += timer.period.seconds
-                updateUI()
+            Timber.i("got the game. freebie is ${_game.freebie}")
+            gameTimer.start {
+                _game.timeElapsed += gameTimer.period.seconds
+                timeElapsed.postValue(_game.timeElapsed)
             }
+            gameEvent.value = Event.Loaded
         }
     }
 
@@ -86,7 +102,6 @@ constructor(
      * Accept a command on the game state
      */
     fun accept(cmd: Command) {
-        Timber.i("got the cmd $cmd")
         when (gameEvent.value) {
             is Event.GameOver -> return
         }
@@ -94,8 +109,9 @@ constructor(
             is Command.Move -> move(cmd.row, cmd.col)
             is Command.Reset -> reset()
             is Command.Undo -> undo()
-            is Command.ResumeTimer -> timer.resume()
-            is Command.PauseTimer -> timer.pause()
+            is Command.ResumeTimer -> gameTimer.resume()
+            is Command.PauseTimer -> gameTimer.pause()
+            is Command.UndoToCheckpoint -> undoToCheckpoint()
             is Command.UseFreebie -> useFreebie()
             is Command.SaveGame -> save()
             is Command.Surrender -> completeGame(false)
@@ -104,8 +120,19 @@ constructor(
         }
     }
 
+    private fun undoToCheckpoint() {
+        if(!checkpoint.isPresent)
+            gameEvent.value = Event.CheckpointNotYetSet
+        else{
+            gameEvent.value = Event.RevertedToCheckpoint
+        }
+
+    }
+
 
     private fun checkWin() {
+        if(_game.marblesPlaced != 12)
+            return
         var numIncorrect = 0
         val cells = _game.board
         for (i in 0..8) {
@@ -141,19 +168,17 @@ constructor(
             undoStack.push(Move(row, column, "M", " "))
             cell.current = " "
             _game.marblesPlaced -= 1 //can win by placing marbles or taking them away
-            if (_game.marblesPlaced == 12)
-                checkWin()
+            checkWin()
         }
 
         fun XClicked() {
             undoStack.push(Move(row, column, "X", "M"))
             cell.current = "M"
             _game.marblesPlaced += 1
-            val mPlaced = _game.marblesPlaced
-            if (mPlaced == 12)
+            if(_game.marblesPlaced > 12)
+                gameEvent.value = Event.TooManyPlaced(_game.marblesPlaced)
+            else
                 checkWin()
-            else if (mPlaced > 12)
-                gameEvent.value = Event.TooManyPlaced(mPlaced)
         }
 
         when (cell.current) {
@@ -161,13 +186,12 @@ constructor(
             "M" -> MClicked()
             "X" -> XClicked()
         }
-
-        updateUI()
+        grid.postValue(_game.board)
     }
 
     private fun completeGame(isWin: Boolean) {
-        val summary = GameSummary(_game.difficulty, isWin, game.value!!.timeElapsed)
-        timer.pause()
+        val summary = GameSummary(_game.difficulty, isWin, _game.timeElapsed)
+        gameTimer.pause()
         gameEvent.value = if (isWin) Event.GameOver.Win(summary) else Event.GameOver.Loss(summary)
     }
 
@@ -176,17 +200,23 @@ constructor(
      */
     private fun reset() {
         val cells = _game.board
-        for (i in 0..8) {
-            for (j in 0..8) {
+        for (i in 1..8) {
+            for (j in 1..8) {
+                if(_game.freebie == Freebie(i,j))
+                    continue
                 val cell = cells[i][j]
                 if (cell.actual == "M" || cell.actual == "X")
                     cell.current = " "
             }
         }
-        _game.marblesPlaced = 0
+
+        with(_game) {
+            if (freebie == Freebie(0,0)) marblesPlaced = 0
+            else marblesPlaced = 1
+        }
         undoStack = Stack<Move>()
         gameEvent.value = Event.Reset
-        updateUI()
+        grid.postValue(_game.board)
     }
 
 
@@ -201,12 +231,12 @@ constructor(
                 _game.marblesPlaced -= 1
             else if (move.oldVal == "M")
                 _game.marblesPlaced += 1
-            updateUI()
+            grid.postValue(_game.board)
         }
     }
 
     private fun useFreebie() {
-        if (_game.freebiesRemaining == 0)
+        if (_game.freebie != Freebie(0,0))
             gameEvent.value = Event.OutOfFreebies
         else {
             val ranges = arrayOf((1..8), (8 downTo 1))
@@ -218,16 +248,16 @@ constructor(
                     val cell = _game.board[i][j]
                     if (cell.actual == "M" && cell.current != "M") {
                         cell.current = "M"
+                        _game.freebie = Freebie(i, j)
                         gameEvent.value = Event.FreebiePlaced(i, j)
                         break@outer
                     }
                 }
             }
-            _game.freebiesRemaining -= 1
             _game.marblesPlaced += 1
-            updateUI()
-            if (_game.marblesPlaced == 12)
-                checkWin()
+            freebiesRemaining.value = (freebiesRemaining.value)?.minus(1)
+            grid.postValue(_game.board)
+            checkWin()
         }
     }
 
@@ -238,8 +268,7 @@ constructor(
         }
     }
 
-    private fun updateUI() {
-        game.postValue(_game)  //triggers databinding
+    private fun refreshGridUI() {
     }
 
     private class Move(val row: Int, val column: Int, val oldVal: String, val newVal: String)
