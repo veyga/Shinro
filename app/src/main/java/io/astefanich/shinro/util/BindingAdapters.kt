@@ -30,21 +30,13 @@ fun hideViewIfFalseCondition(view: View, isActive: Boolean) = when (isActive) {
     else -> view.visibility = View.INVISIBLE
 }
 
-@BindingAdapter("grayIfFalse")
-fun grayIfFalseCondition(view: ImageView, isActive: Boolean) {
-    view.labelFor
+@BindingAdapter("setResetCheckpointText")
+fun TextView.toggleSetCheckpointText(isActive: Boolean){
+    Timber.i("its active? $isActive")
+    val stringId = if (isActive) R.string.reset_checkpoint else R.string.set_checkpoint
+    text = resources.getString(stringId)
 }
-
-//@BindingAdapter("whiteGrayToggle", "activeIcon", "inactiveIcon")
-//fun TextView.grayTextIfFalseCondition(isActive: Boolean, activeDrawable: Int, inactiveDrawable: Int) {
-//    val (color, drawable) = if(isActive)
-//        Pair(resources.getColor(R.color.white), resources.getDrawable(activeDrawable))
-//
-//   else Pair(resources.getColor(R.color.lightGray), resources.getDrawable(inactiveDrawable))
-//    setTextColor(color)
-//    setCompoundDrawables(null, drawable, null, null)
-//}
-@BindingAdapter("whiteGrayCheckpoint")
+@BindingAdapter("whiteGrayUndoCheckpoint")
 fun TextView.whiteGrayCheckpoint(isActive: Boolean) {
     val drawable = if (isActive) R.drawable.ic_flag_empty else R.drawable.ic_flag_empty_gray
     val color = if (isActive) R.color.white else R.color.lightGray

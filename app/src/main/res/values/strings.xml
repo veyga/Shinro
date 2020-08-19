@@ -22,6 +22,7 @@
     <string name="surrender">Surrender</string>
     <string name="reset">Reset</string>
     <string name="set_checkpoint">Set</string>
+    <string name="reset_checkpoint">Reset</string>
     <string name="undo_to_checkpoint">Undo to</string>
     <string name="undo">Undo</string>
     <string name="victory">Victory</string>
