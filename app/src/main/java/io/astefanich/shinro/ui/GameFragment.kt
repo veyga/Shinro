@@ -4,11 +4,9 @@ package io.astefanich.shinro.ui
 import android.animation.ObjectAnimator
 import android.app.AlertDialog
 import android.content.Context
-import android.content.DialogInterface
 import android.graphics.Color
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
 import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -18,15 +16,8 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.NavigationUI
-import dagger.android.support.AndroidSupportInjection
-import dagger.android.support.DaggerFragment
 import io.astefanich.shinro.R
-import io.astefanich.shinro.ShinroApplication
 import io.astefanich.shinro.databinding.FragmentGameBinding
-import io.astefanich.shinro.di.AppComponent
-import io.astefanich.shinro.di.AppComponentProvider
-import io.astefanich.shinro.model.Game
-import io.astefanich.shinro.util.bindGridSvg
 import io.astefanich.shinro.viewmodels.GameViewModel
 import io.astefanich.shinro.viewmodels.ViewModelFactory
 import kotlinx.coroutines.*
@@ -53,15 +44,8 @@ class GameFragment : Fragment() {
     lateinit var toast: @JvmSuppressWildcards(true) (String) -> Unit
 
     @Inject
-    lateinit var dialogBuilder: @JvmSuppressWildcards(true)(String, String, () -> Unit) -> AlertDialog.Builder
+    lateinit var gameDialogBuilder: @JvmSuppressWildcards(true)(String, String, () -> Unit) -> AlertDialog.Builder
 
-//    @Inject
-//    @field:Named("actCtx")
-//    lateinit var ctx: Context
-//    @Inject
-//    lateinit var appComponentProvider: AppComponentProvider
-
-//    val toast = { msg: String -> Toast.makeText(ctx, msg, Toast.LENGTH_SHORT).show() }
     val buzz = { pattern: LongArray -> Timber.i("buzzzzinggg ${Arrays.toString(pattern)}") }
 
     private lateinit var viewModel: GameViewModel
@@ -183,7 +167,7 @@ class GameFragment : Fragment() {
             when (viewModel.gameEvent.value) {
                 is GameViewModel.Event.GameOver -> { }
                 else ->
-                    dialogBuilder("Surrender", "Are you sure?") {
+                    gameDialogBuilder("Surrender", "Are you sure?") {
                         Timber.i("you clicked yes on surrender")
                         viewModel.accept(GameViewModel.Command.Surrender)
                     }.show()
@@ -193,7 +177,7 @@ class GameFragment : Fragment() {
             when (viewModel.gameEvent.value) {
                 is GameViewModel.Event.GameOver -> { }
                 else -> {
-                    dialogBuilder("Freebie", "Use freebie? This will persist until the game is over") {
+                    gameDialogBuilder("Freebie", "Use freebie? This will persist until the game is over") {
                         Timber.i("you clicked yes on freebie")
                         viewModel.accept(GameViewModel.Command.UseFreebie)
                     }.show()
