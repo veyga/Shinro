@@ -5,7 +5,6 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import io.astefanich.shinro.common.Difficulty
 import io.astefanich.shinro.common.Grid
-import java.util.*
 
 @Entity(tableName = "game_table")
 data class Game(
@@ -56,13 +55,17 @@ data class Board(
     val cells: Grid
 )
 
-@Entity(tableName = "blacklist_table")
-data class Blacklist(
+typealias Blacklist = java.util.ArrayDeque<Int>
+
+@Entity(tableName = "board_history_table")
+data class BoardHistory(
 
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0L,
 
     val difficulty: Difficulty,
 
-    val reserved: Queue<Int>
+    val blacklist: Blacklist
+//    val reserved: IntArray
+//    val reserved: ArrayDeque<Int>
 )

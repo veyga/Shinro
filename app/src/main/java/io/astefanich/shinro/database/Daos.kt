@@ -2,10 +2,10 @@ package io.astefanich.shinro.database
 
 import androidx.room.*
 import io.astefanich.shinro.common.Difficulty
+import io.astefanich.shinro.model.BoardHistory
 import io.astefanich.shinro.model.Board
 import io.astefanich.shinro.model.Game
 import io.astefanich.shinro.model.GameResult
-import java.util.*
 
 @Dao
 interface GameDao {
@@ -34,15 +34,23 @@ interface BoardDao {
     @Query("SELECT * FROM board_table WHERE board_num = :boardNum AND difficulty = :difficulty")
     suspend fun getBoardByNumAndDifficulty(boardNum: Int, difficulty: Difficulty): Board
 
+    //inserted on db create
     @Insert
-    fun insertBoards(vararg boards: Board)
+    suspend fun insertBoards(vararg boards: Board)
 
 }
 
 @Dao
-interface BlacklistDao {
+interface BoardHistoryDao {
 
-    @Query("SELECT reserved FROM blacklist_table WHERE difficulty = :difficulty ")
-    suspend fun getBlacklistByDifficulty(difficulty: Difficulty): Queue<Int>?
+    @Query("SELECT * FROM board_history_table WHERE difficulty = :difficulty ")
+    suspend fun getBoardHistoryByDifficulty(difficulty: Difficulty): BoardHistory
+
+    @Update
+    suspend fun updateBoardHistory(blackList: BoardHistory)
+
+    //inserted on db create
+    @Insert
+    suspend fun insertBoardHistory(blackList: BoardHistory)
 }
 

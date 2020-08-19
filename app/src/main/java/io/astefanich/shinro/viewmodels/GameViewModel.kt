@@ -3,10 +3,9 @@ package io.astefanich.shinro.viewmodels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import io.astefanich.shinro.model.Game
 import io.astefanich.shinro.common.GameSummary
 import io.astefanich.shinro.common.PlayRequest
-import io.astefanich.shinro.common.TimePeriod
+import io.astefanich.shinro.model.Game
 import io.astefanich.shinro.repository.GameRepository
 import io.astefanich.shinro.util.GameTimer
 import kotlinx.coroutines.CoroutineScope
@@ -75,7 +74,6 @@ constructor(
             gameEvent.value = Event.Loaded
             delay(2000)
             timer.start {
-                Timber.i("accccction")
                 _game.timeElapsed += timer.period.seconds
                 updateUI()
             }
