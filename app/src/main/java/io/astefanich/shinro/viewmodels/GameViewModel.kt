@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import io.astefanich.shinro.model.Game
 import io.astefanich.shinro.common.GameSummary
 import io.astefanich.shinro.common.PlayRequest
+import io.astefanich.shinro.common.TimePeriod
 import io.astefanich.shinro.repository.GameRepository
 import io.astefanich.shinro.util.GameTimer
 import kotlinx.coroutines.CoroutineScope
@@ -15,7 +16,6 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
-import kotlin.concurrent.fixedRateTimer
 
 
 /**
@@ -76,7 +76,7 @@ constructor(
             delay(2000)
             timer.start {
                 Timber.i("accccction")
-                _game.timeElapsed += timer.periodSeconds
+                _game.timeElapsed += timer.period.seconds
                 updateUI()
             }
         }
@@ -95,10 +95,7 @@ constructor(
             is Command.Reset -> reset()
             is Command.Undo -> undo()
             is Command.ResumeTimer -> timer.resume()
-            is Command.PauseTimer -> {
-                Timber.i("got the paused command. asking timer to pause")
-                timer.pause()
-            }
+            is Command.PauseTimer -> timer.pause()
             is Command.UseFreebie -> useFreebie()
             is Command.SaveGame -> save()
             is Command.Surrender -> completeGame(false)

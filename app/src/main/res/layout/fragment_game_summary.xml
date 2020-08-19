@@ -35,16 +35,16 @@
             app:winLoss="@{vm.win}"
             tools:text="Victory!" />
 
-
         <TextView
             android:id="@+id/game_summary_time"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="@{@string/time_taken_fmt(vm.time)}"
             android:textAlignment="center"
+            android:textSize="18sp"
             android:textStyle="bold"
+            app:timeTaken="@{vm.time}"
             tools:text="Time 12:01" />
 
         <TextView
@@ -54,6 +54,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:textAlignment="center"
+            android:textSize="18sp"
             android:textStyle="bold"
             app:animScoreTime="@{vm.animTime}"
             app:pointsEarned="@{vm.pointsEarned}"
@@ -67,6 +68,7 @@
             android:gravity="center"
             android:text="@{@string/current_difficulty_fmt(vm.nextGameDifficulty)}"
             android:textAlignment="center"
+            android:textSize="18sp"
             android:textStyle="bold"
             tools:text="Current Difficulty: Easy" />
 

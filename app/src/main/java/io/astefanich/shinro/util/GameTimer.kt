@@ -1,12 +1,13 @@
 package io.astefanich.shinro.util
 
+import io.astefanich.shinro.common.TimePeriod
 import timber.log.Timber
 import java.util.*
 import kotlin.concurrent.timerTask
 
-class GameTimer(val periodSeconds: Long) {
+class GameTimer(val period: TimePeriod) {
     init {
-        Timber.i("TIMER CREATED period is $periodSeconds")
+        Timber.i("TIMER CREATED period is $period")
     }
     private var started = false
     private var isRunning = false
@@ -20,7 +21,7 @@ class GameTimer(val periodSeconds: Long) {
                 started = true
                 isRunning = true
                 Timber.i("its started and running")
-                timer.scheduleAtFixedRate( timerTask { myTask() }, 0, periodSeconds * 1000)
+                timer.scheduleAtFixedRate( timerTask { myTask() }, 0, period.seconds * 1000)
         } else{
             Timber.i("timer is already started. call resume instead")
         }
@@ -32,7 +33,7 @@ class GameTimer(val periodSeconds: Long) {
             isRunning= true
             Timber.i("its now running")
             timer = Timer()
-            timer.scheduleAtFixedRate( timerTask { myTask() }, 0, periodSeconds * 1000)
+            timer.scheduleAtFixedRate( timerTask { myTask() }, 0, period.seconds * 1000)
         } else {
             Timber.i("Timer is not started. cant resume it")
         }

@@ -5,6 +5,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
+import io.astefanich.shinro.common.TimePeriod
 import io.astefanich.shinro.di.PerFragment
 import io.astefanich.shinro.di.ViewModelKey
 import io.astefanich.shinro.util.GameTimer
@@ -34,13 +35,13 @@ object GameModule {
     @Named("resetBuzz")
     fun providesResetBuzzPattern(): LongArray = longArrayOf(0, 50)
 
-    @PerFragment
-    @Provides
-    fun providesTimerPeriodSeconds(): Long = 1L
+//    @PerFragment
+//    @Provides
+//    fun providesTimerPeriodSeconds(): TimePeriod = TimePeriod.ONE
 
     @PerFragment
     @Provides
     @JvmStatic
-    fun providesGameTimer(period: Long): GameTimer = GameTimer(period)
+    fun providesGameTimer(): GameTimer = GameTimer(TimePeriod.ONE)
 }
 

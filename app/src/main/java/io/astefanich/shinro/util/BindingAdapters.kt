@@ -64,17 +64,16 @@ fun setVideoButtonText(button: Button, isPlaying: Boolean, isStarted: Boolean) {
 //    }
 //}
 
-@BindingAdapter("timeElapsed")
-fun TextView.displayTime(time: Long){
-    val fmt = "Time:\n%s"
-    text = String.format(fmt, DateUtils.formatElapsedTime(time))
-//    text = DateUtils.formatElapsedTime(time)
+@BindingAdapter("timer")
+fun TextView.displayTimer(time: Long){
+    text = String.format(resources.getString(R.string.timer_fmt), DateUtils.formatElapsedTime(time))
 }
 
-//@BindingAdapter("timeD", "timeElapsed")
-//fun TextView.displayTime(fmt: Int, time: Long){
-//    text = String.format(resources.getString(fmt), DateUtils.formatElapsedTime(time))
-//}
+@BindingAdapter("timeTaken")
+fun TextView.displayTimeTaken(time: Long){
+    val fmt = "Time: %s"
+    text = String.format(resources.getString(R.string.time_taken_fmt), DateUtils.formatElapsedTime(time))
+}
 
 @BindingAdapter("gridSvg")
 fun bindGridSvg(view: SquareImageView, str: String?) {

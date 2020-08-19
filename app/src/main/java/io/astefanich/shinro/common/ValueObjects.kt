@@ -10,8 +10,11 @@ typealias Grid = Array<Array<Cell>>
 
 enum class Difficulty { EASY, MEDIUM, HARD }
 
-//@Parcelize
-//data class GameWin(val isWin: Boolean): Parcelable
+enum class TimePeriod(val seconds: Long) {
+    ONE(1L),
+    FIVE(5L),
+    TEN(10L)
+}
 
 //// between gameVM and gameOver
 @Parcelize
