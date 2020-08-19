@@ -1,4 +1,4 @@
-package io.astefanich.shinro.di.about
+package io.astefanich.shinro.di.activities.main.fragments.about
 
 import android.net.Uri
 import dagger.Module

@@ -65,6 +65,7 @@ constructor(
 
 
     init {
+        Timber.i("got the play request. its $playRequest")
         CoroutineScope(Dispatchers.Main).launch { //need to utilize main so lateinit var loads
             _game = when (playRequest) {
                 is PlayRequest.Resume -> repo.getActiveGame()

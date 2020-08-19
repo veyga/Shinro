@@ -1,4 +1,4 @@
-package io.astefanich.shinro.di.app
+package io.astefanich.shinro.di
 
 import android.app.Application
 import android.content.Context
@@ -9,13 +9,15 @@ import dagger.Module
 import dagger.Provides
 import io.astefanich.shinro.common.Difficulty
 import io.astefanich.shinro.database.*
-import io.astefanich.shinro.di.PerApplication
 import io.astefanich.shinro.model.Blacklist
-import io.astefanich.shinro.model.BoardHistory
 import io.astefanich.shinro.model.Board
+import io.astefanich.shinro.model.BoardHistory
 import io.astefanich.shinro.model.Game
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import timber.log.Timber
+import javax.inject.Named
 
 
 @Module
@@ -23,7 +25,11 @@ class AppModule {
 
     @PerApplication
     @Provides
-    internal fun providesContext(application: Application): Context = application.applicationContext
+    @Named("appCtx")
+    internal fun providesAppContext(application: Application): Context = application.applicationContext
+
+//    @Provides
+//    fun providesAppComponent(): AppComponent = DaggerAppComponent.builder().build()
 
     @Provides
     internal fun providesGameDao(database: AppDatabase): GameDao = database.gameDao()

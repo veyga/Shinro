@@ -12,7 +12,7 @@ import io.astefanich.shinro.R
 import io.astefanich.shinro.common.Tip
 import io.astefanich.shinro.common.TipChoice
 import io.astefanich.shinro.databinding.FragmentTipsDetailListBinding
-import io.astefanich.shinro.di.tips.DaggerTipsComponent
+import io.astefanich.shinro.di.activities.main.fragments.tips.DaggerTipsComponent
 import io.astefanich.shinro.util.TipsRecyclerAdapter
 import javax.inject.Inject
 

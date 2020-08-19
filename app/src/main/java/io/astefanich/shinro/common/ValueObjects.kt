@@ -10,7 +10,7 @@ typealias Grid = Array<Array<Cell>>
 
 enum class Difficulty { EASY, MEDIUM, HARD }
 
-enum class TimePeriod(val seconds: Long) {
+enum class TimeSeconds(val seconds: Long) {
     ONE(1L),
     FIVE(5L),
     TEN(10L)

@@ -21,6 +21,7 @@ import androidx.navigation.ui.NavigationUI
 import io.astefanich.shinro.R
 import io.astefanich.shinro.ShinroApplication
 import io.astefanich.shinro.databinding.FragmentGameBinding
+import io.astefanich.shinro.model.Game
 import io.astefanich.shinro.util.bindGridSvg
 import io.astefanich.shinro.viewmodels.GameViewModel
 import io.astefanich.shinro.viewmodels.ViewModelFactory
@@ -45,9 +46,12 @@ class GameFragment : Fragment() {
     lateinit var resetBuzzPattern: LongArray
 
     @Inject
-    lateinit var ctx: Context
+    lateinit var toast: @JvmSuppressWildcards(true) (String) -> Unit
 
-    val toast = { msg: String -> Toast.makeText(ctx, msg, Toast.LENGTH_SHORT).show() }
+    @Inject
+    lateinit var dialogBuilder: @JvmSuppressWildcards(true)(String, String, () -> Unit) -> AlertDialog.Builder
+
+//    val toast = { msg: String -> Toast.makeText(ctx, msg, Toast.LENGTH_SHORT).show() }
     val buzz = { pattern: LongArray -> Timber.i("buzzzzinggg ${Arrays.toString(pattern)}") }
 
     private lateinit var viewModel: GameViewModel
@@ -62,12 +66,14 @@ class GameFragment : Fragment() {
         val gameFragmentArgs by navArgs<GameFragmentArgs>()
         var playRequest = gameFragmentArgs.playRequest
 
-        (activity!!.application as ShinroApplication)
-            .appComponent
-            .getGameComponentBuilder()
-            .playRequest(playRequest)
-            .build()
-            .inject(this)
+        val myActivity = activity!!
+
+//        (activity!!.application as ShinroApplication)
+//            .appComponent
+//            .getGameComponentBuilder()
+//            .playRequest(playRequest)
+//            .build()
+//            .inject(this)
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(GameViewModel::class.java)
         viewModel.gameEvent.observe(viewLifecycleOwner, Observer { handle(it) })
@@ -120,11 +126,6 @@ class GameFragment : Fragment() {
         }
     }
 
-    private fun updateCell(row: Int, col: Int, newVal: String) {
-        val cell = (binding.grid[row] as ViewGroup)[col]
-        bindGridSvg(cell as SquareImageView, newVal)
-    }
-
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater?.inflate(R.menu.overflow_menu, menu)
@@ -165,39 +166,20 @@ class GameFragment : Fragment() {
         binding.undoButton.setOnClickListener { viewModel.accept(GameViewModel.Command.Undo) }
         binding.surrenderBoard.setOnClickListener {
             when (viewModel.gameEvent.value) {
-                is GameViewModel.Event.GameOver -> {
-                }
+                is GameViewModel.Event.GameOver -> { }
                 else ->
-                    AlertDialog.Builder(activity)
-                        .setTitle("Surrender")
-                        .setMessage("Are you sure?")
-                        .setCancelable(false)
-                        .setPositiveButton(
-                            "YES", DialogInterface.OnClickListener { dialog, id ->
-                                viewModel.accept(GameViewModel.Command.Surrender)
-                            })
-                        .setNegativeButton("NO", DialogInterface.OnClickListener { dialog, id ->
-                        })
-                        .show()
+                    dialogBuilder("Surrender", "Are you sure?") {
+                        viewModel.accept(GameViewModel.Command.Surrender)
+                    }.show()
             }
         }
         binding.freebiesRemaining.setOnClickListener {
             when (viewModel.gameEvent.value) {
-                is GameViewModel.Event.GameOver -> {
-                }
+                is GameViewModel.Event.GameOver -> { }
                 else -> {
-                    AlertDialog.Builder(activity)
-                        .setTitle("Freebie")
-                        .setMessage("Use freebie? This cannot be undone")
-                        .setCancelable(false)
-                        .setPositiveButton(
-                            "YES", DialogInterface.OnClickListener { dialog, id ->
-                                viewModel.accept(GameViewModel.Command.UseFreebie)
-                            })
-                        .setNegativeButton(
-                            "NO", DialogInterface.OnClickListener { dialog, id ->
-                            })
-                        .show()
+                    dialogBuilder("Freebie", "Use freebie? This will persist until the game is over") {
+                        viewModel.accept(GameViewModel.Command.UseFreebie)
+                    }.show()
                 }
             }
         }

@@ -4,10 +4,11 @@ import io.astefanich.shinro.common.Difficulty
 import io.astefanich.shinro.database.BoardHistoryDao
 import io.astefanich.shinro.database.BoardDao
 import io.astefanich.shinro.model.Board
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
-import kotlin.random.Random
 
 
 class BoardRepository
@@ -17,37 +18,38 @@ constructor(
     val boardHistoryDao: BoardHistoryDao
 ) {
 
-    private val randomBoardIdGen = { Random.nextInt(1, 46) }
+//    private val randomBoardIdGen = { Random.nextInt(1, 46) }
 
     suspend fun getRandomBoardByDifficulty(difficulty: Difficulty): Board {
         //TODO select random number, assert not in blacklist
-        var targetBoard = randomBoardIdGen() //use 1 for testing
-//            val first = blacklistDao.getBlacklistedIdsByDifficulty(difficulty)
-//            if(first == null)
-//                Timber.i("blacklist is null")
-
-        var history = boardHistoryDao.getBoardHistoryByDifficulty(difficulty)
-        if(history == null) {
-            delay(1000)
+//        var targetBoard = randomBoardIdGen() //use 1 for testing
+//        var history = boardHistoryDao.getBoardHistoryByDifficulty(difficulty)
+//        if(history == null) {
+//            delay(1000)
+//        }
+//        history = boardHistoryDao.getBoardHistoryByDifficulty(difficulty)
+//        val blacklist = history.blacklist
+//        while (blacklist.contains(targetBoard)) {
+//            Timber.i("$targetBoard is blacklisted. continuing..")
+//            targetBoard = randomBoardIdGen()
+//        }
+//        Timber.i("$targetBoard is NOT blacklisted. adding to blacklist")
+//        if (blacklist.size >= 3) { //arraydeque default == 16
+//            val whitelisted = blacklist.remove()
+//            Timber.i("blacklist full. adding $whitelisted to whitelist")
+//        }
+//        blacklist.add(targetBoard)
+//        boardHistoryDao.updateBoardHistory(history)
+        var newBoard: Board? = null
+        withContext(Dispatchers.IO){
+            delay(2000)
+            newBoard = boardDao.getBoardByNumAndDifficulty(1, difficulty)
+            Timber.i("board repo serving up board#: ${newBoard!!.boardNum} diff: ${newBoard!!.difficulty}. Thread: ${Thread.currentThread()}")
         }
-        history = boardHistoryDao.getBoardHistoryByDifficulty(difficulty)
-        val blacklist = history.blacklist
-        while (blacklist.contains(targetBoard)) {
-            Timber.i("$targetBoard is blacklisted. continuing..")
-            targetBoard = randomBoardIdGen()
-        }
-        Timber.i("$targetBoard is NOT blacklisted. adding to blacklist")
-        if (blacklist.size >= 3) { //arraydeque default == 16
-            val whitelisted = blacklist.remove()
-            Timber.i("blacklist full. adding $whitelisted to whitelist")
-        }
-        blacklist.add(targetBoard)
-        boardHistoryDao.updateBoardHistory(history)
-        val newBoard = boardDao.getBoardByNumAndDifficulty(targetBoard, difficulty)
-        Timber.i("board repo serving up board#: ${newBoard.boardNum} diff: ${newBoard.difficulty}. Thread: ${Thread.currentThread()}")
-        delay(3000)
-        return newBoard
+        return newBoard!!
     }
+
+
 //    fun getBoardById(boardId: Int): Board = boardDao.getBoardById(boardId)
 //
 //    fun insertBoards(vararg boards: Board) = boardDao.insertBoards(*boards)

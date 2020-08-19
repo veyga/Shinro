@@ -1,4 +1,4 @@
-package io.astefanich.shinro.di.app
+package io.astefanich.shinro.di
 
 import android.app.Application
 import dagger.BindsInstance
@@ -6,26 +6,24 @@ import dagger.Component
 import dagger.android.AndroidInjectionModule
 import dagger.android.AndroidInjector
 import io.astefanich.shinro.ShinroApplication
-import io.astefanich.shinro.database.ResultsDao
-import io.astefanich.shinro.di.ActivityInjectorsModule
-import io.astefanich.shinro.di.PerApplication
-import io.astefanich.shinro.di.ViewModelModule
-import io.astefanich.shinro.di.game.GameComponent
+import io.astefanich.shinro.di.activities.ActivityInjectorsModule
 
 @PerApplication
 @Component(
     modules = [
         AndroidInjectionModule::class,
-        ActivityInjectorsModule::class,
         AppModule::class,
+        ActivityInjectorsModule::class,
         ViewModelModule::class
     ]
 )
 interface AppComponent : AndroidInjector<ShinroApplication> {
 
-    fun getGameComponentBuilder(): GameComponent.Builder
+//    fun getActivityComponentBuilder(): MainActivityComponent.Builder
 
-    fun getResultsDao(): ResultsDao
+//    fun getGameComponentBuilder(): GameComponent.Builder
+
+//    fun getResultsDao(): ResultsDao
 
     @Component.Builder
     interface Builder {
@@ -35,5 +33,6 @@ interface AppComponent : AndroidInjector<ShinroApplication> {
 
         fun build(): AppComponent
     }
+
 }
 

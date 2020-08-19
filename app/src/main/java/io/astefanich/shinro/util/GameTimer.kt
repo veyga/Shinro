@@ -1,11 +1,11 @@
 package io.astefanich.shinro.util
 
-import io.astefanich.shinro.common.TimePeriod
+import io.astefanich.shinro.common.TimeSeconds
 import timber.log.Timber
 import java.util.*
 import kotlin.concurrent.timerTask
 
-class GameTimer(val period: TimePeriod) {
+class GameTimer(val period: TimeSeconds) {
     init {
         Timber.i("TIMER CREATED period is $period")
     }

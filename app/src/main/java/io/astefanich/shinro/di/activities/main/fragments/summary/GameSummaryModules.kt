@@ -1,4 +1,4 @@
-package io.astefanich.shinro.di.summary
+package io.astefanich.shinro.di.activities.main.fragments.summary
 
 import androidx.lifecycle.ViewModel
 import dagger.Binds

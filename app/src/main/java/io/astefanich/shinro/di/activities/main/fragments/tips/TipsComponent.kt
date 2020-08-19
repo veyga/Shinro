@@ -1,4 +1,4 @@
-package io.astefanich.shinro.di.tips
+package io.astefanich.shinro.di.activities.main.fragments.tips
 
 import dagger.BindsInstance
 import dagger.Component

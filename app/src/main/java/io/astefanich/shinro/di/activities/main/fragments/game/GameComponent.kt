@@ -1,4 +1,4 @@
-package io.astefanich.shinro.di.game
+package io.astefanich.shinro.di.activities.main.fragments.game
 
 import dagger.BindsInstance
 import dagger.Subcomponent

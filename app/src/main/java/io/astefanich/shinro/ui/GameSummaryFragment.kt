@@ -12,11 +12,9 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import io.astefanich.shinro.R
-import io.astefanich.shinro.ShinroApplication
 import io.astefanich.shinro.common.Difficulty
 import io.astefanich.shinro.common.PlayRequest
 import io.astefanich.shinro.databinding.FragmentGameSummaryBinding
-import io.astefanich.shinro.di.summary.DaggerGameSummaryComponent
 import io.astefanich.shinro.viewmodels.GameSummaryViewModel
 import io.astefanich.shinro.viewmodels.ViewModelFactory
 import javax.inject.Inject
@@ -45,13 +43,13 @@ class GameSummaryFragment : Fragment() {
         val gameOverFragmentArgs by navArgs<GameSummaryFragmentArgs>()
         var gameSummary = gameOverFragmentArgs.gameSummary
 
-        DaggerGameSummaryComponent.builder()
-            .appComponent((activity!!.application as ShinroApplication).appComponent)
-            .difficulty(gameSummary.difficulty)
-            .win(gameSummary.isWin)
-            .time(gameSummary.time)
-            .build()
-            .inject(this)
+//        DaggerGameSummaryComponent.builder()
+//            .appComponent((activity!!.application as ShinroApplication).appComponent)
+//            .difficulty(gameSummary.difficulty)
+//            .win(gameSummary.isWin)
+//            .time(gameSummary.time)
+//            .build()
+//            .inject(this)
 
         viewModel =
             ViewModelProviders.of(this, viewModelFactory).get(GameSummaryViewModel::class.java)
