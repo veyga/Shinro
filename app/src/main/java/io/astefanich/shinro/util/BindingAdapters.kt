@@ -10,6 +10,7 @@ import androidx.databinding.BindingAdapter
 import io.astefanich.shinro.R
 import io.astefanich.shinro.common.TipChoice
 import io.astefanich.shinro.ui.SquareImageView
+import timber.log.Timber
 
 @BindingAdapter("winLoss")
 fun TextView.setWinLossString(status: Boolean) {
@@ -65,8 +66,16 @@ fun setVideoButtonText(button: Button, isPlaying: Boolean, isStarted: Boolean) {
 
 @BindingAdapter("timeElapsed")
 fun TextView.displayTime(time: Long){
-    text = DateUtils.formatElapsedTime(time)
+    val fmt = "Time:\n%s"
+    text = String.format(fmt, DateUtils.formatElapsedTime(time))
+//    text = DateUtils.formatElapsedTime(time)
 }
+
+//@BindingAdapter("timeD", "timeElapsed")
+//fun TextView.displayTime(fmt: Int, time: Long){
+//    text = String.format(resources.getString(fmt), DateUtils.formatElapsedTime(time))
+//}
+
 @BindingAdapter("gridSvg")
 fun bindGridSvg(view: SquareImageView, str: String?) {
     val res = when (str) {

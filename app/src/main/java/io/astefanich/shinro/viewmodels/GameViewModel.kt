@@ -1,6 +1,5 @@
 package io.astefanich.shinro.viewmodels
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,8 +9,8 @@ import io.astefanich.shinro.common.PlayRequest
 import io.astefanich.shinro.repository.GameRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
@@ -35,8 +34,8 @@ constructor(
         object Reset : Command()
         object SetCheckpoint : Command()
         object UndoToCheckpoint : Command()
-        object StartTimer : Command()
-        object StopTimer : Command()
+        object ResumeTimer : Command()
+        object PauseTimer : Command()
         object SaveGame : Command()
         object Undo : Command()
         object UseFreebie : Command()
@@ -48,7 +47,6 @@ constructor(
         object Reset : Event()
         object CheckpointSet : Event()
         object RevertedToCheckpoint : Event()
-        class TimeChanged(val time: Long) : Event()
         class FreebiePlaced(val row: Int, val col: Int) : Event()
         object OutOfFreebies : Event()
         class IncorrectSolution(val numIncorrect: Int) : Event()
@@ -65,7 +63,12 @@ constructor(
 
     private var undoStack = Stack<Move>()
 
-    lateinit var timer: Timer
+//    lateinit var timer: GameViewModel.MyTimer
+    private val timer = MyTimer(1000) {
+            Timber.i("doing it yo")
+        _game.timeElapsed += 1L
+        updateUI()
+    }
 
     init {
         CoroutineScope(Dispatchers.Main).launch { //need to utilize main so lateinit var loads
@@ -73,25 +76,57 @@ constructor(
                 is PlayRequest.Resume -> repo.getActiveGame()
                 is PlayRequest.NewGame -> repo.getNewGameByDifficulty(playRequest.difficulty)
             }
-                game.value = _game
-                gameEvent.value = Event.Loaded
-                startTimer()
+            game.value = _game
+            gameEvent.value = Event.Loaded
+//            timer = MyTimer(1000){
+//                _game.timeElapsed += 1L
+//                updateUI()
+//            }
+            delay(2000)
+            timer.start()
         }
     }
 
-    private fun startTimer() {
-        Timber.i("starting timer")
-//        timer = fixedRateTimer(period = 1000L) {
-//
-//            _game.timeElapsed += 1000
-//            updateUI()
-//        }
+
+    class MyTimer(val period: Long, val task: () -> Unit) {
+        private var isStarted = false
+        private var timer: Timer = fixedRateTimer(period = 1000){} //do nothing until time explicitly started
+
+        fun start() {
+            Timber.i("starting timer")
+            isStarted = true
+            timer = fixedRateTimer(period = period) { task() }
+        }
+
+        fun resume() {
+            Timber.i("resume called")
+            if (isStarted){
+                Timber.i(" calling start from resume")
+                start()
+            } else {
+                Timber.i("it is started")
+            }
+        }
+
+        fun pause(){
+            if(isStarted){
+                timer.cancel()
+            }
+        }
     }
 
-    private fun stopTimer() {
-        Timber.i("stopping timer")
-        timer.cancel()
-    }
+//    private fun startTimer() {
+//        Timber.i("starting timer")
+//        timer = fixedRateTimer(period = 1000L) {
+//            _game.timeElapsed += 1L
+//            updateUI()
+//        }
+//    }
+//
+//    private fun stopTimer() {
+//        Timber.i("stopping timer")
+//        timer.cancel()
+//    }
 
 
     /**
@@ -105,8 +140,8 @@ constructor(
             is Command.Move -> move(cmd.row, cmd.col)
             is Command.Reset -> reset()
             is Command.Undo -> undo()
-            is Command.StartTimer -> startTimer()
-            is Command.StopTimer -> stopTimer()
+            is Command.ResumeTimer -> timer.resume()
+            is Command.PauseTimer -> timer.pause()
             is Command.UseFreebie -> useFreebie()
             is Command.SaveGame -> save()
             is Command.Surrender -> completeGame(false)
@@ -178,9 +213,9 @@ constructor(
 
     private fun completeGame(isWin: Boolean) {
         val summary = GameSummary(_game.difficulty, isWin, game.value!!.timeElapsed)
+        timer.pause()
         save()
         gameEvent.value = if (isWin) Event.GameOver.Win(summary) else Event.GameOver.Loss(summary)
-
     }
 
     /**
@@ -250,7 +285,7 @@ constructor(
     }
 
     private fun updateUI() {
-        game.value = _game  //triggers databinding
+        game.postValue(_game)  //triggers databinding
     }
 
     private class Move(val row: Int, val column: Int, val oldVal: String, val newVal: String)

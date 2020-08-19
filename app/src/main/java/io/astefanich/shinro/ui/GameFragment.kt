@@ -7,7 +7,6 @@ import android.content.Context
 import android.content.DialogInterface
 import android.graphics.Color
 import android.os.Bundle
-import android.text.format.DateUtils
 import android.view.*
 import android.widget.Toast
 import androidx.core.view.get
@@ -91,14 +90,11 @@ class GameFragment : Fragment() {
             is GameViewModel.Event.IncorrectSolution -> toast("${evt.numIncorrect} of your marbles are wrong")
             is GameViewModel.Event.TooManyPlaced -> toast("You have placed ${evt.numPlaced} marbles, which is too many")
             is GameViewModel.Event.OutOfFreebies -> toast("Out of freebies")
-//            is GameViewModel.Event.CellChanged -> updateCell(evt.row, evt.col, evt.newVal)
-            is GameViewModel.Event.TimeChanged -> {
-                binding.timeElapsed.text = DateUtils.formatElapsedTime(evt.time)
-                Timber.i("frag got time ${evt.time}")
-            }
             is GameViewModel.Event.FreebiePlaced -> {
-                ObjectAnimator.ofArgb( (binding.grid[evt.row] as ViewGroup)[evt.col],
-                     "backgroundColor", Color.RED, resources.getColor(R.color.materialBlack))
+                ObjectAnimator.ofArgb(
+                    (binding.grid[evt.row] as ViewGroup)[evt.col],
+                    "backgroundColor", Color.RED, resources.getColor(R.color.materialBlack)
+                )
                     .setDuration(3000)
                     .start()
             }
@@ -124,8 +120,8 @@ class GameFragment : Fragment() {
         }
     }
 
-    private fun updateCell(row: Int, col: Int, newVal: String){
-        val cell =  (binding.grid[row] as ViewGroup)[col]
+    private fun updateCell(row: Int, col: Int, newVal: String) {
+        val cell = (binding.grid[row] as ViewGroup)[col]
         bindGridSvg(cell as SquareImageView, newVal)
     }
 
@@ -141,10 +137,21 @@ class GameFragment : Fragment() {
     }
 
 
+    //stop timer during dialog prompts
+    override fun onPause() {
+        super.onPause()
+        viewModel.accept(GameViewModel.Command.PauseTimer)
+    }
+
     //onDestroy isn't reliably called. This call reliably saves last visited board
     override fun onStop() {
         super.onStop()
         viewModel.accept(GameViewModel.Command.SaveGame)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        viewModel.accept(GameViewModel.Command.ResumeTimer)
     }
 
 
@@ -161,7 +168,8 @@ class GameFragment : Fragment() {
         binding.undoButton.setOnClickListener { viewModel.accept(GameViewModel.Command.Undo) }
         binding.surrenderBoard.setOnClickListener {
             when (viewModel.gameEvent.value) {
-                is GameViewModel.Event.GameOver -> { }
+                is GameViewModel.Event.GameOver -> {
+                }
                 else ->
                     AlertDialog.Builder(activity)
                         .setTitle("Surrender")
@@ -178,7 +186,8 @@ class GameFragment : Fragment() {
         }
         binding.freebiesRemaining.setOnClickListener {
             when (viewModel.gameEvent.value) {
-                is GameViewModel.Event.GameOver -> { }
+                is GameViewModel.Event.GameOver -> {
+                }
                 else -> {
                     AlertDialog.Builder(activity)
                         .setTitle("Freebie")

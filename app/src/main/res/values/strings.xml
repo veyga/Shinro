@@ -19,7 +19,6 @@
     <string name="pigeonhole">The Pigeonhole</string>
     <string name="difficulty_fmt">%s</string>
     <string name="freebies_remaining_fmt">Freebies:\n%d / 1</string>
-    <string name="time_elapsed_fmt">Time:\n%d</string>
     <string name="surrender">Surrender</string>
     <string name="reset">Reset</string>
     <string name="set_checkpoint">Set</string>
@@ -28,7 +27,8 @@
     <string name="victory">Victory</string>
     <string name="defeat">Defeat</string>
     <string name="current_difficulty_fmt">Current Difficulty: %s</string>
-    <string name="time_taken_fmt">Time %s</string>
+    <string name="time_elapsed_fmt">Time:\n%s</string>
+    <string name="time_taken_fmt">Time: %s</string>
     <string name="points_earned_fmt">Points Earned: %d</string>
     <string name="new_game">New Game</string>
     <string name="change_difficulty">Change Difficulty</string>
