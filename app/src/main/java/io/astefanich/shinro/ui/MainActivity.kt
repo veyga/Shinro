@@ -17,14 +17,14 @@ class MainActivity : DaggerAppCompatActivity() {
 //    @Inject
 //    lateinit var appComponent: DaggerAppComponent
 //
-    val mainActivityComponent by lazy {
-//    Timber.i(" main activity created")
-    (application as ShinroApplication)
-        .appComponent
-        .getMainActivityComponentBuilder()
-        .actitivtyContext(this)
-        .build()
-    }
+//    val mainActivityComponent by lazy {
+////    Timber.i(" main activity created")
+//    (application as ShinroApplication)
+//        .appComponent
+//        .getMainActivityComponentBuilder()
+//        .actitivtyContext(this)
+//        .build()
+//    }
 //    val mainActivityComponent =
 //        DaggerAppComponent
 //            .builder(
@@ -45,11 +45,23 @@ class MainActivity : DaggerAppCompatActivity() {
 
 //    override fun androidInjector():  = mainActivityComponent
 
+    lateinit var activityComponent: MainActivityComponent
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         AppCompatDelegate.MODE_NIGHT_YES
+
+        val appComponent = (application as ShinroApplication).appComponent
+        activityComponent = appComponent.getMainActivityComponentBuilder()
+            .actitivtyContext(this)
+            .build()
     }
+
+   fun getMainActivityComponent(): MainActivityComponent {
+       Timber.i("getting main activity component")
+       return activityComponent
+   }
 
 
 }

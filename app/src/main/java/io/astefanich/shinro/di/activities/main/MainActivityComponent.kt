@@ -7,6 +7,7 @@ import dagger.android.AndroidInjector
 import io.astefanich.shinro.di.activities.main.fragments.MainActivityFragmentInjectorsModule
 import io.astefanich.shinro.di.PerActivity
 import io.astefanich.shinro.di.activities.main.fragments.game.GameComponent
+import io.astefanich.shinro.di.activities.main.fragments.summary.GameSummaryComponent
 import io.astefanich.shinro.ui.MainActivity
 import javax.inject.Named
 
@@ -18,6 +19,8 @@ import javax.inject.Named
 interface MainActivityComponent : AndroidInjector<MainActivity> {
 
     abstract fun getGameComponentBuilder(): GameComponent.Builder
+
+    abstract fun getGameSummaryComponentBuilder(): GameSummaryComponent.Builder
 
     @Subcomponent.Builder
     interface Builder {

@@ -61,13 +61,13 @@ object GameModule {
     fun providesGameTimer(): GameTimer = GameTimer(TimeSeconds.ONE)
 
     @Provides
-    fun providesGameDialogBuilder(@Named("appCtx")ctx: Context): (String, String, () -> Unit) -> AlertDialog.Builder {
+    fun providesGameDialogBuilder(@Named("actCtx")ctx: Context): (String, String, () -> Unit) -> AlertDialog.Builder {
         return { title, message, posAction ->
             AlertDialog.Builder(ctx)
                 .setTitle(title)
                 .setMessage(message)
                 .setPositiveButton("YES", DialogInterface.OnClickListener { dialog, id ->
-                    posAction
+                    posAction()
                 })
                 .setNegativeButton("NO", DialogInterface.OnClickListener { dialog, id ->
                 })

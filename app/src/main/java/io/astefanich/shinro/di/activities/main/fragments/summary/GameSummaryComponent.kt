@@ -2,6 +2,7 @@ package io.astefanich.shinro.di.activities.main.fragments.summary
 
 import dagger.BindsInstance
 import dagger.Component
+import dagger.Subcomponent
 import dagger.android.AndroidInjector
 import io.astefanich.shinro.common.Difficulty
 import io.astefanich.shinro.di.PerFragment
@@ -13,12 +14,12 @@ import io.astefanich.shinro.ui.GameSummaryFragment
 //    modules = [GameSummaryModule::class, GameSummaryViewModelModule::class])
 //interface GameSummaryComponent : AndroidInjector<GameSummaryFragment> {
 @PerFragment
-@Component(
+@Subcomponent(
     modules = [GameSummaryModule::class, GameSummaryViewModelModule::class]
 )
 interface GameSummaryComponent : AndroidInjector<GameSummaryFragment> {
 
-    @Component.Builder
+    @Subcomponent.Builder
     interface Builder {
 
         @BindsInstance
@@ -29,8 +30,6 @@ interface GameSummaryComponent : AndroidInjector<GameSummaryFragment> {
 
         @BindsInstance
         fun time(time: Long): Builder
-
-//        fun appComponent(component: AppComponent): Builder
 
         fun build(): GameSummaryComponent
     }

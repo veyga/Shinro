@@ -55,8 +55,11 @@ class GameFragment : Fragment() {
     @Inject
     lateinit var dialogBuilder: @JvmSuppressWildcards(true)(String, String, () -> Unit) -> AlertDialog.Builder
 
-    @Inject
-    lateinit var appComponentProvider: AppComponentProvider
+//    @Inject
+//    @field:Named("actCtx")
+//    lateinit var ctx: Context
+//    @Inject
+//    lateinit var appComponentProvider: AppComponentProvider
 
 //    val toast = { msg: String -> Toast.makeText(ctx, msg, Toast.LENGTH_SHORT).show() }
     val buzz = { pattern: LongArray -> Timber.i("buzzzzinggg ${Arrays.toString(pattern)}") }
@@ -64,6 +67,10 @@ class GameFragment : Fragment() {
     private lateinit var viewModel: GameViewModel
     private lateinit var binding: FragmentGameBinding
 
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -74,11 +81,10 @@ class GameFragment : Fragment() {
         val gameFragmentArgs by navArgs<GameFragmentArgs>()
         var playRequest = gameFragmentArgs.playRequest
 
-        (activity!!.application as ShinroApplication)
-            .appComponent
-            .getMainActivityComponentBuilder()
-            .actitivtyContext(activity!!)
-            .build()
+
+        Timber.i("building new game component")
+        (activity as MainActivity)
+            .getMainActivityComponent()
             .getGameComponentBuilder()
             .playRequest(playRequest)
             .build()
@@ -178,6 +184,7 @@ class GameFragment : Fragment() {
                 is GameViewModel.Event.GameOver -> { }
                 else ->
                     dialogBuilder("Surrender", "Are you sure?") {
+                        Timber.i("you clicked yes on surrender")
                         viewModel.accept(GameViewModel.Command.Surrender)
                     }.show()
             }
@@ -187,6 +194,7 @@ class GameFragment : Fragment() {
                 is GameViewModel.Event.GameOver -> { }
                 else -> {
                     dialogBuilder("Freebie", "Use freebie? This will persist until the game is over") {
+                        Timber.i("you clicked yes on freebie")
                         viewModel.accept(GameViewModel.Command.UseFreebie)
                     }.show()
                 }

@@ -43,16 +43,16 @@ class GameSummaryFragment : Fragment() {
         val gameOverFragmentArgs by navArgs<GameSummaryFragmentArgs>()
         var gameSummary = gameOverFragmentArgs.gameSummary
 
-//        DaggerGameSummaryComponent.builder()
-//            .appComponent((activity!!.application as ShinroApplication).appComponent)
-//            .difficulty(gameSummary.difficulty)
-//            .win(gameSummary.isWin)
-//            .time(gameSummary.time)
-//            .build()
-//            .inject(this)
+        (activity as MainActivity)
+            .getMainActivityComponent()
+            .getGameSummaryComponentBuilder()
+            .difficulty(gameSummary.difficulty)
+            .win(gameSummary.isWin)
+            .time(gameSummary.time)
+            .build()
+            .inject(this)
 
-        viewModel =
-            ViewModelProviders.of(this, viewModelFactory).get(GameSummaryViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(GameSummaryViewModel::class.java)
         binding.vm = viewModel
         binding.lifecycleOwner = this
 

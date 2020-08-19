@@ -86,6 +86,7 @@ constructor(
      * Accept a command on the game state
      */
     fun accept(cmd: Command) {
+        Timber.i("got the cmd $cmd")
         when (gameEvent.value) {
             is Event.GameOver -> return
         }
