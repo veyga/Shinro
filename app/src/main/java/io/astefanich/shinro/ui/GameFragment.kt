@@ -18,10 +18,13 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.NavigationUI
+import dagger.android.support.AndroidSupportInjection
+import dagger.android.support.DaggerFragment
 import io.astefanich.shinro.R
 import io.astefanich.shinro.ShinroApplication
 import io.astefanich.shinro.databinding.FragmentGameBinding
 import io.astefanich.shinro.di.AppComponent
+import io.astefanich.shinro.di.AppComponentProvider
 import io.astefanich.shinro.model.Game
 import io.astefanich.shinro.util.bindGridSvg
 import io.astefanich.shinro.viewmodels.GameViewModel
@@ -52,8 +55,8 @@ class GameFragment : Fragment() {
     @Inject
     lateinit var dialogBuilder: @JvmSuppressWildcards(true)(String, String, () -> Unit) -> AlertDialog.Builder
 
-//    @Inject
-//    lateinit var appComponent: AppComponent
+    @Inject
+    lateinit var appComponentProvider: AppComponentProvider
 
 //    val toast = { msg: String -> Toast.makeText(ctx, msg, Toast.LENGTH_SHORT).show() }
     val buzz = { pattern: LongArray -> Timber.i("buzzzzinggg ${Arrays.toString(pattern)}") }
@@ -66,20 +69,11 @@ class GameFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
+
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_game, container, false)
         val gameFragmentArgs by navArgs<GameFragmentArgs>()
         var playRequest = gameFragmentArgs.playRequest
 
-        val myActivity = activity!!
-
-//        appComponent
-//            .getMainActivityComponentBuilder()
-//            .actitivtyContext(activity!!)
-//            .build()
-//            .getGameComponentBuilder()
-//            .playRequest(playRequest)
-//            .build()
-//            .inject(this)
         (activity!!.application as ShinroApplication)
             .appComponent
             .getMainActivityComponentBuilder()

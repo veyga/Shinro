@@ -17,12 +17,14 @@ class MainActivity : DaggerAppCompatActivity() {
 //    @Inject
 //    lateinit var appComponent: DaggerAppComponent
 //
-//    val mainActivityComponent =
-//    (application as ShinroApplication)
-//        .appComponent
-//        .getMainActivityComponentBuilder()
-//        .actitivtyContext(this)
-//        .build()
+    val mainActivityComponent by lazy {
+//    Timber.i(" main activity created")
+    (application as ShinroApplication)
+        .appComponent
+        .getMainActivityComponentBuilder()
+        .actitivtyContext(this)
+        .build()
+    }
 //    val mainActivityComponent =
 //        DaggerAppComponent
 //            .builder(
