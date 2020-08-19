@@ -1,12 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-<!--    <item-->
-<!--        android:id="@+id/tips_choice_destination"-->
-<!--        android:menuCategory="secondary"-->
-<!--        android:title="@string/advanced_tips_title"></item>-->
-<!--    <item-->
-<!--        android:id="@+id/about_destination"-->
-<!--        android:menuCategory="secondary"-->
-<!--        android:title="@string/about_title"></item>-->
+    <item
+        android:id="@+id/overflowMenu"
+        android:icon="@drawable/ic_vertical_dots"
+        android:title=""
+        app:showAsAction="always">
+
+        <menu>
+            <item
+                android:id="@+id/title_destination"
+                android:icon="@drawable/ic_home"
+                android:title="@string/home"
+                />
+            <item
+                android:id="@+id/about_destination"
+                android:icon="@drawable/ic_settings"
+                android:title="@string/settings"
+                />
+        </menu>
+    </item>
 </menu>
