@@ -61,8 +61,17 @@ class GameFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        AndroidSupportInjection.inject(this)
+//        AndroidSupportInjection.inject(this)
 
+        val gameFragmentArgs by navArgs<GameFragmentArgs>()
+        var playRequest = gameFragmentArgs.playRequest
+        bus.post(LoadGameCommand(playRequest))
+        (activity as MainActivity)
+            .getMainActivityComponent()
+            .getGameComponentBuilder()
+            .playRequest(playRequest)
+            .build()
+            .inject(this)
         Timber.i("Game Fragment onCreateView")
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_game, container, false)
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(GameViewModel::class.java)
@@ -88,10 +97,11 @@ class GameFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        val gameFragmentArgs by navArgs<GameFragmentArgs>()
-        var playRequest = gameFragmentArgs.playRequest
-        bus.post(LoadGameCommand(playRequest))
+        Timber.i("game fragment onViewCreated")
+//        super.onViewCreated(view, savedInstanceState)
+//        val gameFragmentArgs by navArgs<GameFragmentArgs>()
+//        var playRequest = gameFragmentArgs.playRequest
+//        bus.post(LoadGameCommand(playRequest))
     }
 
     //onDestroy isn't reliably called. This call reliably saves active game

@@ -6,6 +6,7 @@ import dagger.Subcomponent
 import dagger.android.AndroidInjector
 import io.astefanich.shinro.di.activities.main.fragments.MainActivityFragmentInjectorsModule
 import io.astefanich.shinro.di.PerActivity
+import io.astefanich.shinro.di.activities.main.fragments.game.GameComponent
 import io.astefanich.shinro.di.activities.main.fragments.summary.GameSummaryComponent
 import io.astefanich.shinro.ui.MainActivity
 import javax.inject.Named
@@ -17,7 +18,7 @@ import javax.inject.Named
 ])
 interface MainActivityComponent : AndroidInjector<MainActivity> {
 
-//    abstract fun getGameComponentBuilder(): GameComponent.Builder
+    abstract fun getGameComponentBuilder(): GameComponent.Builder
 
     abstract fun getGameSummaryComponentBuilder(): GameSummaryComponent.Builder
 
@@ -25,7 +26,7 @@ interface MainActivityComponent : AndroidInjector<MainActivity> {
     interface Builder {
 
         @BindsInstance
-        fun actitivtyContext(ctx: MainActivityContext): Builder
+        fun actitivtyContext(@Named("actCtx") ctx: Context): Builder
 
         fun build(): MainActivityComponent
     }

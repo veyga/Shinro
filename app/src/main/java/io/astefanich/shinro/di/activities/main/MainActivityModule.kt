@@ -7,7 +7,7 @@ import io.astefanich.shinro.di.PerActivity
 import org.greenrobot.eventbus.EventBus
 import timber.log.Timber
 
-data class MainActivityContext(val ctx: Context)
+//data class MainActivityContext(val ctx: Context)
 
 @Module
 object MainActivityModule {

@@ -6,7 +6,6 @@ import dagger.android.support.DaggerAppCompatActivity
 import io.astefanich.shinro.R
 import io.astefanich.shinro.ShinroApplication
 import io.astefanich.shinro.di.activities.main.MainActivityComponent
-import io.astefanich.shinro.di.activities.main.MainActivityContext
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -23,7 +22,7 @@ class MainActivity : DaggerAppCompatActivity() {
 
         val appComponent = (application as ShinroApplication).appComponent
         activityComponent = appComponent.getMainActivityComponentBuilder()
-            .actitivtyContext(MainActivityContext(this))
+            .actitivtyContext(this)
             .build()
     }
 

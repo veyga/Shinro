@@ -22,7 +22,7 @@ abstract class MainActivityFragmentInjectorsModule {
     @ContributesAndroidInjector
     abstract fun providesTitleFragment(): TitleFragment
 
-    @PerFragment
-    @ContributesAndroidInjector(modules = [GameModule::class, GameViewModelModule::class])
-    abstract fun providesGameFragment(): GameFragment
+//    @PerFragment
+//    @ContributesAndroidInjector(modules = [GameModule::class, GameViewModelModule::class])
+//    abstract fun providesGameFragment(): GameFragment
 }

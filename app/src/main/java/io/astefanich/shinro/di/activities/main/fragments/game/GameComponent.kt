@@ -11,19 +11,16 @@ import io.astefanich.shinro.ui.GameFragment
 ///*
 // * Sub-component of AppComponent so it can access the repository and the ViewModelModule
 // */
-//@PerFragment
-//@Subcomponent(modules = [GameModule::class, GameViewModelModule::class])
-//interface GameComponent : AndroidInjector<GameFragment> {
-//
-//    @Subcomponent.Builder
-//    interface Builder {
-//
-//        @BindsInstance
-//        fun playRequest(req: PlayRequest): Builder
-//
-////        @BindsInstance
-////        fun timerIncrements(period: TimeSeconds): Builder
-//
-//        fun build(): GameComponent
-//    }
-//}
+@PerFragment
+@Subcomponent(modules = [GameModule::class, GameViewModelModule::class])
+interface GameComponent : AndroidInjector<GameFragment> {
+
+    @Subcomponent.Builder
+    interface Builder {
+
+        @BindsInstance
+        fun playRequest(req: PlayRequest): Builder
+
+        fun build(): GameComponent
+    }
+}
