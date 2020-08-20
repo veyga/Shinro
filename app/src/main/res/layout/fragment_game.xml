@@ -55,8 +55,8 @@
                 android:layout_margin="8dp"
                 android:gravity="center"
                 android:onClick="@{() -> vm.solve()}"
-                android:textColor="@color/darkBlue"
                 android:text="solve"
+                android:textColor="@color/darkBlue"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/freebies_remaining"
                 tools:text="Solve" />
@@ -70,11 +70,13 @@
                 android:layout_margin="16dp"
                 android:drawableTop="@drawable/ic_timer"
                 android:gravity="center"
+                android:text="@string/timer_placholder"
                 android:textSize="14sp"
+                android:visibility="invisible"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:timer="@{vm.timeElapsed}"
                 tools:text="Time:\n1:21" />
+            <!--            app:timer="@{vm.timeElapsed}"-->
 
             <!--        android:text="@{@string/difficulty_fmt(vm.difficulty)}"-->
             <ImageView

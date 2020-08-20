@@ -3,6 +3,7 @@ package io.astefanich.shinro.di.activities.main.fragments.game
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
+import android.content.SharedPreferences
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import dagger.Binds
@@ -12,9 +13,8 @@ import dagger.multibindings.IntoMap
 import io.astefanich.shinro.common.TimeSeconds
 import io.astefanich.shinro.di.PerFragment
 import io.astefanich.shinro.di.ViewModelKey
-import io.astefanich.shinro.util.GameTimer
+import io.astefanich.shinro.util.ShinroTimer
 import io.astefanich.shinro.viewmodels.GameViewModel
-import timber.log.Timber
 import javax.inject.Named
 
 //GameComponent is a sub-component, the view model needs to bound here
@@ -49,7 +49,14 @@ object GameModule {
     @PerFragment
     @Provides
     @Named("gameTimer")
-    fun providesGameTimer(): GameTimer = GameTimer(TimeSeconds.ONE)
+    fun providesGameTimer(): ShinroTimer = ShinroTimer(TimeSeconds.ONE)
+
+//    @PerFragment
+//    @Provides
+//    @Named
+//    fun providesUITimerPeriod(prefs: SharedPreferences): TimeSeconds {
+//
+//    }
 
     @Provides
     fun providesGameDialogBuilder(@Named("actCtx") ctx: Context): (String, String, () -> Unit) -> AlertDialog.Builder {

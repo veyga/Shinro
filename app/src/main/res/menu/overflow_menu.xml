@@ -19,4 +19,13 @@
                 android:title="@string/settings" />
         </menu>
     </item>
+    <!-- icons don't appear this way? -->
+<!--    <item-->
+<!--        android:id="@+id/title_destination"-->
+<!--        android:icon="@drawable/ic_home"-->
+<!--        android:title="@string/home" />-->
+<!--    <item-->
+<!--        android:id="@+id/settings_destination"-->
+<!--        android:icon="@drawable/ic_settings"-->
+<!--        android:title="@string/settings" />-->
 </menu>

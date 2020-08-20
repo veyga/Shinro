@@ -12,6 +12,7 @@
         <item>1 second</item>
         <item>5 seconds</item>
         <item>10 seconds</item>
+        <item>30 seconds</item>
     </string-array>
 
 </resources>

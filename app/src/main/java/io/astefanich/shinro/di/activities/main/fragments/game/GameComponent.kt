@@ -4,6 +4,7 @@ import dagger.BindsInstance
 import dagger.Subcomponent
 import dagger.android.AndroidInjector
 import io.astefanich.shinro.common.PlayRequest
+import io.astefanich.shinro.common.TimeSeconds
 import io.astefanich.shinro.di.PerFragment
 import io.astefanich.shinro.ui.GameFragment
 
@@ -19,6 +20,9 @@ interface GameComponent : AndroidInjector<GameFragment> {
 
         @BindsInstance
         fun playRequest(req: PlayRequest): Builder
+
+//        @BindsInstance
+//        fun timerIncrements(period: TimeSeconds): Builder
 
         fun build(): GameComponent
     }

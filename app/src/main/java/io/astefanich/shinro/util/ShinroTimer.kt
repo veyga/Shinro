@@ -5,7 +5,7 @@ import timber.log.Timber
 import java.util.*
 import kotlin.concurrent.timerTask
 
-class GameTimer(val period: TimeSeconds) {
+class ShinroTimer(val period: TimeSeconds) {
     init {
         Timber.i("TIMER CREATED period is $period")
     }

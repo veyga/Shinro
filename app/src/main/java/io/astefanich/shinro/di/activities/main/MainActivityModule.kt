@@ -1,9 +1,15 @@
 package io.astefanich.shinro.di.activities.main
 
+import android.content.Context
+import android.content.SharedPreferences
+import androidx.preference.PreferenceManager
 import dagger.Module
 import dagger.Provides
+import io.astefanich.shinro.di.PerActivity
 import io.astefanich.shinro.di.PerFragment
+import io.astefanich.shinro.ui.MainActivity
 import timber.log.Timber
+import javax.inject.Named
 
 @Module
 object MainActivityModule {
@@ -12,16 +18,21 @@ object MainActivityModule {
         Timber.i("Main activity module init")
     }
 
-    @PerFragment
+    @PerActivity
     @Provides
     fun providesADouble(): List<Int> = listOf(1,2,3)
+
 //    @PerActivity
 //    @Provides
-//    fun providesActivityComponent(
-//        appComponent: AppComponent,
-//        @Named("actCtx") activityContext: Context
-//    ): MainActivityComponent {
-//        Timber.i("Main activity module has app component and activity context")
-//        return appComponent.getActivityComponentBuilder().actitivtyContext(activityContext).build()
+//    fun providesSharesPreferences(@Named("actContext") ctx: Context): SharedPreferences {
+////        val pref = ctx.getSharedPreferences(Context.MODE_PRIVATE)
+////        return pref
+////        return (ctx as MainActivity).ge
+//        val prefs = PreferenceManager.getDefaultSharedPreferences(ctx)
+//        Timber.i("providing shared prefs: $prefs")
+//        return prefs
+////        return  ctx.getSharedPreferences(Context.MODE_PRIVATE)
+//
 //    }
+
 }

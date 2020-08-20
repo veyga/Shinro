@@ -8,8 +8,8 @@
         <item name="colorSurface">@color/materialBlack</item>
         <item name="android:textColor">@color/nearWhite</item>
         <item name="android:navigationBarColor">@color/materialBlack</item>
-        <item name="fontFamily">@font/convergence</item>
     </style>
+<!--    <item name="fontFamily">@font/convergence</item>-->
 
 
     <style name="ChipStyle" parent="Widget.MaterialComponents.Chip.Choice">

@@ -2,12 +2,13 @@ package io.astefanich.shinro.di
 
 import android.app.Application
 import android.content.Context
+import android.content.SharedPreferences
+import androidx.preference.PreferenceManager
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import dagger.Module
 import dagger.Provides
-import io.astefanich.shinro.ShinroApplication
 import io.astefanich.shinro.common.Difficulty
 import io.astefanich.shinro.database.*
 import io.astefanich.shinro.model.Blacklist
@@ -20,31 +21,19 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Named
 
-class AppComponentProvider(val provide: () -> AppComponent)
-
 @Module
 class AppModule {
+
+    @PerApplication
+    @Provides
+    fun providesSharesPreferences(@Named("appCtx") ctx: Context): SharedPreferences =
+        PreferenceManager.getDefaultSharedPreferences(ctx)
 
     @PerApplication
     @Provides
     @Named("appCtx")
     internal fun providesAppContext(application: Application): Context =
         application.applicationContext
-
-    @PerApplication
-    @Provides
-    fun providesAppComponentProvider(application: Application): AppComponentProvider {
-        Timber.i("providing new app component from module")
-        return AppComponentProvider { (application as ShinroApplication).appComponent }
-    }
-
-//    @PerApplication
-//    @Provides
-//    fun providesAppComponent(application: Application): AppComponent {
-//        Timber.i("providing new app component from module")
-//        return (application as ShinroApplication).appComponent
-////        return AppComponent.builder().application(application).build()
-//    }
 
     @Provides
     internal fun providesGameDao(database: AppDatabase): GameDao = database.gameDao()

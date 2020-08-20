@@ -3,9 +3,10 @@ package io.astefanich.shinro.ui
 
 import android.animation.ObjectAnimator
 import android.app.AlertDialog
-import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
+import android.text.format.DateUtils
 import android.view.*
 import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
@@ -17,11 +18,14 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.NavigationUI
 import io.astefanich.shinro.R
+import io.astefanich.shinro.common.TimeSeconds
 import io.astefanich.shinro.databinding.FragmentGameBinding
-import io.astefanich.shinro.model.Game
 import io.astefanich.shinro.viewmodels.GameViewModel
 import io.astefanich.shinro.viewmodels.ViewModelFactory
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
@@ -29,6 +33,10 @@ import javax.inject.Named
 
 
 class GameFragment : Fragment() {
+
+    init {
+        Timber.i("Game Fragment Init")
+    }
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -47,27 +55,25 @@ class GameFragment : Fragment() {
     @Inject
     lateinit var gameDialogBuilder: @JvmSuppressWildcards(true) (String, String, () -> Unit) -> AlertDialog.Builder
 
+    @Inject
+    lateinit var sharedPreferences: SharedPreferences
+
+
     val buzz = { pattern: LongArray -> Timber.i("buzzzzinggg ${Arrays.toString(pattern)}") }
 
+    private var timerVisible = false
+    private lateinit var uiTimePeriod: TimeSeconds
     private lateinit var viewModel: GameViewModel
     private lateinit var binding: FragmentGameBinding
-
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-
+        Timber.i("Game Fragment onCreateView")
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_game, container, false)
         val gameFragmentArgs by navArgs<GameFragmentArgs>()
         var playRequest = gameFragmentArgs.playRequest
-
-
         Timber.i("building new game component")
         (activity as MainActivity)
             .getMainActivityComponent()
@@ -75,7 +81,16 @@ class GameFragment : Fragment() {
             .playRequest(playRequest)
             .build()
             .inject(this)
-
+        if (sharedPreferences.getBoolean("timer_visible", true)) {
+            timerVisible = true
+            binding.timeElapsed.visibility = View.VISIBLE
+            uiTimePeriod = when (sharedPreferences.getString("timer_increment", "")) {
+                "5 seconds" -> TimeSeconds.FIVE
+                "10 seconds" -> TimeSeconds.TEN
+                "30 seconds" -> TimeSeconds.THIRTY
+                else -> TimeSeconds.ONE
+            }
+        }
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(GameViewModel::class.java)
         viewModel.gameEvent.observe(viewLifecycleOwner, Observer { handle(it) })
         initListeners()
@@ -88,9 +103,13 @@ class GameFragment : Fragment() {
 
     private fun handle(evt: GameViewModel.Event) {
         when (evt) {
-            is GameViewModel.Event.Loaded -> {
-                binding.progressBar.visibility = View.GONE
-                binding.game.visibility = View.VISIBLE
+            is GameViewModel.Event.TimeIncremented -> {
+                if (timerVisible && (evt.sec % uiTimePeriod.seconds) == 0L) {
+                    binding.timeElapsed.text = String.format(
+                        resources.getString(R.string.timer_fmt),
+                        DateUtils.formatElapsedTime(evt.sec)
+                    )
+                }
             }
             is GameViewModel.Event.IncorrectSolution -> toast("${evt.numIncorrect} of your marbles are wrong")
             is GameViewModel.Event.TooManyPlaced -> toast("You have placed ${evt.numPlaced} marbles, which is too many")
@@ -132,8 +151,16 @@ class GameFragment : Fragment() {
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return NavigationUI.onNavDestinationSelected(item!!, view!!.findNavController())
-                || super.onOptionsItemSelected(item)
+        return when (item.itemId) {
+            R.id.settings_destination -> {
+                findNavController().navigate(GameFragmentDirections.actionGameToSettings())
+                true
+            }
+            else -> {
+                (NavigationUI.onNavDestinationSelected(item!!, requireView().findNavController())
+                        || super.onOptionsItemSelected(item))
+            }
+        }
     }
 
 
@@ -151,9 +178,19 @@ class GameFragment : Fragment() {
         viewModel.accept(GameViewModel.Command.ResumeTimer)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        Timber.i("ON RESUME")
+    }
 
     //Associating views with command objects (issuing Command objects not possible via XML)
     private fun initListeners() {
+        viewModel.isLoaded.observe(viewLifecycleOwner, Observer {
+            if (it) {
+                binding.progressBar.visibility = View.GONE
+                binding.game.visibility = View.VISIBLE
+            }
+        })
         for (i in 1..8) {
             val row = binding.grid[i] as ViewGroup
             for (j in 1..8) {
@@ -183,12 +220,15 @@ class GameFragment : Fragment() {
         }
         binding.freebiesRemaining.setOnClickListener {
             if (gameIsActive())
-                gameDialogBuilder( "Freebie", "Use freebie?\nThis will persist until the game is over") {
+                gameDialogBuilder(
+                    "Freebie",
+                    "Use freebie?\nThis will persist until the game is over"
+                ) {
                     viewModel.accept(GameViewModel.Command.UseFreebie)
                 }.show()
         }
-        binding.setCheckpoint.setOnClickListener{ viewModel.accept(GameViewModel.Command.SetCheckpoint)}
-        binding.undoToCheckpoint.setOnClickListener{ viewModel.accept(GameViewModel.Command.UndoToCheckpoint)}
+        binding.setCheckpoint.setOnClickListener { viewModel.accept(GameViewModel.Command.SetCheckpoint) }
+        binding.undoToCheckpoint.setOnClickListener { viewModel.accept(GameViewModel.Command.UndoToCheckpoint) }
         binding.undoButton.setOnClickListener { viewModel.accept(GameViewModel.Command.Undo) }
     }
 }

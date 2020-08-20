@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import io.astefanich.shinro.common.*
 import io.astefanich.shinro.model.Game
 import io.astefanich.shinro.repository.GameRepository
-import io.astefanich.shinro.util.GameTimer
+import io.astefanich.shinro.util.ShinroTimer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -33,7 +33,7 @@ constructor(
 
     @Inject
     @field:Named("gameTimer")
-    lateinit var gameTimer: GameTimer
+    lateinit var gameTimer: ShinroTimer
 
 
     //Commands to apply to model
@@ -52,7 +52,7 @@ constructor(
     }
 
     sealed class Event {
-        object Loaded : Event()
+        class TimeIncremented(val sec: Long): Event()
         object Reset : Event()
         class FreebiePlaced(val row: Int, val col: Int) : Event()
         object OutOfFreebies : Event()
@@ -64,17 +64,18 @@ constructor(
         }
     }
 
-    val freebiesRemaining = MutableLiveData<Int>()
-    val timeElapsed = MutableLiveData<Long>()
-    val grid = MutableLiveData<Grid>()
-    val gameEvent = MutableLiveData<Event>()
-    val checkpointSet = MutableLiveData<Boolean>()
-    val undoStackActive = MutableLiveData<Boolean>()
-    val difficulty = MutableLiveData<Difficulty>() //not live/mutable but works easier with binding adpater
-//    lateinit var difficulty: Difficulty
     private lateinit var _game: Game
     private lateinit var checkpoint: Grid
     private var undoStack = Stack<Move>()
+    //for xml bindings
+    val freebiesRemaining = MutableLiveData<Int>()
+    val grid = MutableLiveData<Grid>()
+    val checkpointSet = MutableLiveData<Boolean>()
+    val undoStackActive = MutableLiveData<Boolean>()
+    val difficulty = MutableLiveData<Difficulty>() //not live/mutable but works easier with binding adpater
+    //for fragment notifications
+    val isLoaded = MutableLiveData<Boolean>()
+    val gameEvent = MutableLiveData<Event>()
 
 
     init {
@@ -90,12 +91,11 @@ constructor(
             checkpointSet.value = false
             checkpoint = Array(9) { Array(9) { Cell(" ") } }
             delay(3000)
-            Timber.i("got the game. freebie is ${_game.freebie}")
             gameTimer.start {
                 _game.timeElapsed += gameTimer.period.seconds
-                timeElapsed.postValue(_game.timeElapsed)
+                gameEvent.postValue(Event.TimeIncremented(_game.timeElapsed))
             }
-            gameEvent.value = Event.Loaded
+            isLoaded.value = true
         }
     }
 
@@ -286,7 +286,7 @@ constructor(
     private fun save() {
         viewModelScope.launch(Dispatchers.IO) {
             repo.saveGame(_game)
-            Timber.i("game saved")
+            Timber.i("game saved. elapsed time: ${_game.timeElapsed}")
         }
     }
 
@@ -302,6 +302,11 @@ constructor(
         }
         grid.postValue(_game.board)
         completeGame(true)
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        Timber.i("game viewmodel onCleared")
     }
 }
 

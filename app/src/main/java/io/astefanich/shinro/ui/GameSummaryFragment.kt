@@ -2,6 +2,7 @@ package io.astefanich.shinro.ui
 
 import android.app.AlertDialog
 import android.content.DialogInterface
+import android.graphics.Typeface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -56,6 +57,7 @@ class GameSummaryFragment : Fragment() {
         binding.vm = viewModel
         binding.lifecycleOwner = this
 
+        binding.newGameChip.typeface = Typeface.DEFAULT_BOLD
         binding.newGameChip.setOnClickListener {
             findNavController().navigate(
                 GameSummaryFragmentDirections.actionGameSummaryToGame(
@@ -64,6 +66,7 @@ class GameSummaryFragment : Fragment() {
             )
         }
 
+        binding.changeDifficultyChip.typeface = Typeface.DEFAULT_BOLD
         binding.changeDifficultyChip.setOnClickListener {
             AlertDialog.Builder(activity)
                 .setTitle(changeDifficultyPrompt)

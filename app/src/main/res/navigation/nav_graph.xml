@@ -23,7 +23,8 @@
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_title_to_tips_choice"
             app:destination="@id/tips_choice_destination"
@@ -46,7 +47,12 @@
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/title_destination"
+            app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_game_to_settings"
+            app:destination="@id/settings_destination" />
     </fragment>
     <fragment
         android:id="@+id/tips_choice_destination"
@@ -59,7 +65,9 @@
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/tips_choice_destination"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/tips_list_detail_destination"
@@ -89,11 +97,13 @@
             app:enterAnim="@anim/fade_in"
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/fade_out" />
-            />
+            app:popExitAnim="@anim/fade_out"
+            app:popUpTo="@id/title_destination"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/settings_destination"
         android:name="io.astefanich.shinro.ui.SettingsFragment"
-        android:label="fragment_settings" />
+        android:label="fragment_settings" >
+    </fragment>
 </navigation>

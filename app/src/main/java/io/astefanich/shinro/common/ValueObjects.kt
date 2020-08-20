@@ -13,10 +13,11 @@ enum class Difficulty { EASY, MEDIUM, HARD }
 enum class TimeSeconds(val seconds: Long) {
     ONE(1L),
     FIVE(5L),
-    TEN(10L)
+    TEN(10L),
+    THIRTY(30L)
 }
 
-//// between gameVM and gameOver
+// between gameVM and gameOver
 @Parcelize
 data class GameSummary(val difficulty: Difficulty, val isWin: Boolean, val time: Long) : Parcelable
 

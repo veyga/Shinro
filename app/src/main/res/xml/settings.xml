@@ -13,7 +13,7 @@
             android:entryValues="@array/timer_periods"
             app:dependency="timer_visible"
             app:key="timer_increment"
-            app:title="Timer increments"
+            app:title="Increments"
             app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
 
