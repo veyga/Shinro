@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        app:key="timer"
+        app:title="Timer">
+        <SwitchPreferenceCompat
+            app:key="timer_visible"
+            app:title="Visible" />
+        <DropDownPreference
+            android:entries="@array/timer_periods"
+            android:entryValues="@array/timer_periods"
+            app:dependency="timer_visible"
+            app:key="timer_increment"
+            app:title="Timer increments"
+            app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:key="sound"
+        app:title="Sound">
+        <SwitchPreferenceCompat
+            app:key="touch_sound_enabled"
+            app:title="Touch sounds" />
+        <SwitchPreferenceCompat
+            app:key="game_event_sound_enabled"
+            app:title="Game event sounds" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:key="vibrations"
+        app:title="Vibrations">
+        <SwitchPreferenceCompat
+            app:key="touch_vibrations_enabled"
+            app:title="Touch vibrations" />
+        <SwitchPreferenceCompat
+            app:key="game_event_vibrations_enabled"
+            app:title="Game event vibrations" />
+    </PreferenceCategory>
+
+
+</PreferenceScreen>

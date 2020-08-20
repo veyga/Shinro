@@ -1,17 +1,15 @@
 package io.astefanich.shinro.util
 
 import android.animation.ValueAnimator
-import android.graphics.drawable.Drawable
 import android.text.format.DateUtils
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.updatePadding
 import androidx.databinding.BindingAdapter
 import io.astefanich.shinro.R
-import io.astefanich.shinro.common.Freebie
+import io.astefanich.shinro.common.Difficulty
 import io.astefanich.shinro.common.TipChoice
 import io.astefanich.shinro.ui.SquareImageView
 import timber.log.Timber
@@ -32,11 +30,12 @@ fun hideViewIfFalseCondition(view: View, isActive: Boolean) = when (isActive) {
 }
 
 @BindingAdapter("setResetCheckpointText")
-fun TextView.toggleSetCheckpointText(isActive: Boolean){
+fun TextView.toggleSetCheckpointText(isActive: Boolean) {
     Timber.i("its active? $isActive")
     val stringId = if (isActive) R.string.reset_checkpoint else R.string.set_checkpoint
     text = resources.getString(stringId)
 }
+
 @BindingAdapter("whiteGrayUndoCheckpoint")
 fun TextView.whiteGrayCheckpoint(isActive: Boolean) {
     val drawable = if (isActive) R.drawable.ic_flag_empty else R.drawable.ic_flag_empty_gray
@@ -111,6 +110,26 @@ fun TextView.displayTimeTaken(time: Long) {
     )
 }
 
+@BindingAdapter("difficultyText")
+fun TextView.setDifficultyText(difficulty: Difficulty?) {
+    val repr =
+        if (difficulty == Difficulty.EASY) "Easy"
+        else if (difficulty == Difficulty.MEDIUM) "Medium"
+        else "Hard"
+    text = repr
+}
+
+@BindingAdapter("difficultyIcon")
+fun ImageView.setDifficultyIcon(difficulty: Difficulty?) {
+    val drawable =
+        if (difficulty == Difficulty.EASY) R.drawable.ic_green_circle32
+        else if (difficulty == Difficulty.MEDIUM) R.drawable.ic_blue_square32
+        else R.drawable.ic_gray_diamond32
+
+
+    setImageDrawable(resources.getDrawable(drawable))
+}
+
 @BindingAdapter("gridSvg")
 fun bindGridSvg(view: SquareImageView, str: String?) {
     val res = when (str) {
@@ -136,10 +155,10 @@ fun bindGridSvg(view: SquareImageView, str: String?) {
         else -> R.drawable.ic_blank_cell
     }
     view.setImageResource(res)
-    val isDiagonal = str in setOf("B","D","F","H")
+    val isDiagonal = str in setOf("B", "D", "F", "H")
     //TODO use DP not px?  Would need the context
     val px = 12
-    if(isDiagonal)
+    if (isDiagonal)
         view.updatePadding(top = px, bottom = px, left = px, right = px)
 
 }

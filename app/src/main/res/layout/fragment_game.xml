@@ -22,13 +22,15 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="gone" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/game"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone">
+            android:visibility="gone"
+            tools:visibility="visible">
 
 
             <!--            freebiesRemaining-->
@@ -45,17 +47,19 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Freebies\n1 / 1" />
 
-            <!--            <ImageView-->
-            <!--                android:id="@+id/solve_button"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_margin="8dp"-->
-            <!--                android:drawableTop="@drawable/ic_checkmark"-->
-            <!--                android:labelFor=""-->
-            <!--                android:gravity="center"-->
-            <!--                app:layout_constraintLeft_toLeftOf="parent"-->
-            <!--                app:layout_constraintTop_toTopOf="parent"-->
-            <!--                tools:text="Solve" />-->
+            <!-- for quick testing. disable this -->
+            <TextView
+                android:id="@+id/solve_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:gravity="center"
+                android:onClick="@{() -> vm.solve()}"
+                android:textColor="@color/darkBlue"
+                android:text="solve"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/freebies_remaining"
+                tools:text="Solve" />
 
 
             <!--            android:text="@{@string/time_elapsed_fmt(vm.game.timeElapsed)}"-->
@@ -64,23 +68,92 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:drawableTop="@drawable/ic_stopwatch"
+                android:drawableTop="@drawable/ic_timer"
                 android:gravity="center"
                 android:textSize="14sp"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:timer="@{vm.timeElapsed}"
                 tools:text="Time:\n1:21" />
-            <!--            <TextView-->
-            <!--                android:id="@+id/difficulty"-->
+
+            <!--        android:text="@{@string/difficulty_fmt(vm.difficulty)}"-->
+            <ImageView
+                android:id="@+id/difficulty_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:foregroundGravity="center"
+                android:scaleType="fitCenter"
+                app:difficultyIcon="@{vm.difficulty}"
+                app:layout_constraintBottom_toTopOf="@+id/difficulty_text"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/difficulty_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textAlignment="center"
+                android:textSize="32sp"
+                android:textStyle="bold"
+                app:difficultyText="@{vm.difficulty}"
+                app:layout_constraintBottom_toTopOf="@id/grid"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="EASY" />
+
+
+            <!--            <LinearLayout-->
+            <!--                android:id="@+id/asdfasdf"-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="match_parent"-->
+            <!--                android:layout_weight="1"-->
+            <!--                android:orientation="horizontal"></LinearLayout>-->
+            <!--            <LinearLayout-->
             <!--                android:layout_width="0dp"-->
             <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_weight="1"-->
-            <!--                android:gravity="center"-->
-            <!--                android:textSize="48sp"-->
-            <!--                android:textStyle="bold"-->
-            <!--                android:text="@{@string/difficulty_fmt(vm.game.difficulty)}"-->
-            <!--                tools:text="EASY" />-->
+            <!--                android:orientation="horizontal"-->
+            <!--                app:layout_constraintBottom_toTopOf="@id/grid"-->
+            <!--                app:layout_constraintLeft_toLeftOf="parent"-->
+            <!--                app:layout_constraintRight_toRightOf="parent"-->
+            <!--                app:layout_constraintTop_toTopOf="parent">-->
+
+            <!--                <TextView-->
+            <!--                    android:layout_width="0dp"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:layout_gravity="center"-->
+            <!--                    android:visibility="invisible"-->
+            <!--                    android:layout_weight="1"-->
+            <!--                    android:text="X"-->
+            <!--                    tools:text="X" />-->
+            <!--                &lt;!&ndash;                    android:visibility="gone" />&ndash;&gt;-->
+
+            <!--                <TextView-->
+            <!--                    android:id="@+id/difficulty"-->
+            <!--                    android:layout_width="0dp"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:layout_gravity="center"-->
+            <!--                    android:layout_weight="2"-->
+            <!--                    android:drawableRight="@drawable/ic_blue_square32"-->
+            <!--                    app:difficultyText="@{vm.difficulty}"-->
+            <!--                    android:textAlignment="center"-->
+            <!--                    android:textSize="32sp"-->
+            <!--                    android:textStyle="bold"-->
+            <!--                    tools:text="Easy" />-->
+
+            <!--                <TextView-->
+            <!--                    android:layout_width="0dp"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:layout_gravity="center"-->
+            <!--                    android:layout_weight="1"-->
+            <!--                    android:text="Y"-->
+            <!--                    android:visibility="invisible"-->
+            <!--                    tools:text="X" />-->
+            <!--                &lt;!&ndash;                    android:visibility="gone" />&ndash;&gt;-->
+
+            <!--            </LinearLayout>-->
             <!--            </LinearLayout>-->
             <!--            <LinearLayout-->
             <!--                android:id="@+id/game_header"-->
@@ -595,7 +668,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_margin="16dp"
-                android:layout_marginBottom="32dp"
+                android:layout_marginBottom="72dp"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:orientation="horizontal"
@@ -664,4 +737,5 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout> <!-- end of grid -->
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

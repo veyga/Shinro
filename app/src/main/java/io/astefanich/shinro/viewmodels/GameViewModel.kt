@@ -70,7 +70,8 @@ constructor(
     val gameEvent = MutableLiveData<Event>()
     val checkpointSet = MutableLiveData<Boolean>()
     val undoStackActive = MutableLiveData<Boolean>()
-    lateinit var difficulty: Difficulty
+    val difficulty = MutableLiveData<Difficulty>() //not live/mutable but works easier with binding adpater
+//    lateinit var difficulty: Difficulty
     private lateinit var _game: Game
     private lateinit var checkpoint: Grid
     private var undoStack = Stack<Move>()
@@ -82,13 +83,13 @@ constructor(
                 is PlayRequest.Resume -> repo.getActiveGame()
                 is PlayRequest.NewGame -> repo.getNewGameByDifficulty(playRequest.difficulty)
             }
-            difficulty = _game.difficulty
+            difficulty.value = _game.difficulty
             grid.value = _game.board
             freebiesRemaining.value = if (_game.freebie == Freebie(0, 0)) 1 else 0
             undoStackActive.value = false
             checkpointSet.value = false
             checkpoint = Array(9) { Array(9) { Cell(" ") } }
-            delay(1000)
+            delay(3000)
             Timber.i("got the game. freebie is ${_game.freebie}")
             gameTimer.start {
                 _game.timeElapsed += gameTimer.period.seconds
@@ -290,6 +291,18 @@ constructor(
     }
 
     private class Move(val row: Int, val column: Int, val oldCell: Cell, val newCell: Cell)
+
+    fun solve() {
+        for (i in 1..8) {
+            for (j in 1..8) {
+                if(_game.board[i][j].actual == "M"){
+                    _game.board[i][j] = Cell("M")
+                }
+            }
+        }
+        grid.postValue(_game.board)
+        completeGame(true)
+    }
 }
 
 

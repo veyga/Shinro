@@ -12,13 +12,11 @@
             <item
                 android:id="@+id/title_destination"
                 android:icon="@drawable/ic_home"
-                android:title="@string/home"
-                />
+                android:title="@string/home" />
             <item
-                android:id="@+id/about_destination"
+                android:id="@+id/settings_destination"
                 android:icon="@drawable/ic_settings"
-                android:title="@string/settings"
-                />
+                android:title="@string/settings" />
         </menu>
     </item>
 </menu>

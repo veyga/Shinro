@@ -92,4 +92,8 @@
             app:popExitAnim="@anim/fade_out" />
             />
     </fragment>
+    <fragment
+        android:id="@+id/settings_destination"
+        android:name="io.astefanich.shinro.ui.SettingsFragment"
+        android:label="fragment_settings" />
 </navigation>

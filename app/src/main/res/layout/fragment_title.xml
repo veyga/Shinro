@@ -28,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:fontFamily="@font/chango"
+            android:fontFamily="@font/convergence"
             android:gravity="center"
             android:text="@string/app_name"
             android:textAlignment="center"
