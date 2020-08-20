@@ -25,7 +25,7 @@ interface MainActivityComponent : AndroidInjector<MainActivity> {
     interface Builder {
 
         @BindsInstance
-        fun actitivtyContext(@Named("actCtx") context: Context): Builder
+        fun actitivtyContext(ctx: MainActivityContext): Builder
 
         fun build(): MainActivityComponent
     }

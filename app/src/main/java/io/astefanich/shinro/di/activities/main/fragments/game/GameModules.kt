@@ -13,6 +13,7 @@ import dagger.multibindings.IntoMap
 import io.astefanich.shinro.common.TimeSeconds
 import io.astefanich.shinro.di.PerFragment
 import io.astefanich.shinro.di.ViewModelKey
+import io.astefanich.shinro.di.activities.main.MainActivityContext
 import io.astefanich.shinro.util.ShinroTimer
 import io.astefanich.shinro.viewmodels.GameViewModel
 import org.greenrobot.eventbus.EventBus
@@ -44,8 +45,8 @@ object GameModule {
     @PerFragment
     @Provides
     @JvmStatic
-    fun providesToaster(@Named("appCtx") ctx: Context): (String) -> Unit =
-        { msg -> Toast.makeText(ctx, msg, Toast.LENGTH_SHORT).show() }
+    fun providesToaster(act: MainActivityContext): (String) -> Unit =
+        { msg -> Toast.makeText(act.ctx, msg, Toast.LENGTH_SHORT).show() }
 
     @PerFragment
     @Provides
@@ -56,9 +57,9 @@ object GameModule {
 //    fun providesEventBus(): EventBus = EventBus.getDefault()
 
     @Provides
-    fun providesGameDialogBuilder(@Named("actCtx") ctx: Context): (String, String, () -> Unit) -> AlertDialog.Builder {
+    fun providesGameDialogBuilder(act: MainActivityContext): (String, String, () -> Unit) -> AlertDialog.Builder {
         return { title, message, posAction ->
-            AlertDialog.Builder(ctx)
+            AlertDialog.Builder(act.ctx)
                 .setTitle(title)
                 .setMessage(message)
                 .setPositiveButton("YES", DialogInterface.OnClickListener { dialog, id ->

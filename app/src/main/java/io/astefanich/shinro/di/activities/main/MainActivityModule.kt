@@ -1,10 +1,13 @@
 package io.astefanich.shinro.di.activities.main
 
+import android.content.Context
 import dagger.Module
 import dagger.Provides
 import io.astefanich.shinro.di.PerActivity
 import org.greenrobot.eventbus.EventBus
 import timber.log.Timber
+
+data class MainActivityContext(val ctx: Context)
 
 @Module
 object MainActivityModule {
@@ -17,8 +20,8 @@ object MainActivityModule {
     @Provides
     fun providesADouble(): List<Int> = listOf(1,2,3)
 
-    @PerActivity
-    fun providesBus(): EventBus = EventBus.getDefault()
+//    @PerActivity
+//    fun providesBus(): EventBus = EventBus.getDefault()
 
 //    @PerActivity
 //    @Provides
