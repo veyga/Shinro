@@ -21,11 +21,14 @@ import io.astefanich.shinro.R
 import io.astefanich.shinro.common.TimeSeconds
 import io.astefanich.shinro.databinding.FragmentGameBinding
 import io.astefanich.shinro.viewmodels.GameViewModel
+import io.astefanich.shinro.viewmodels.MyEvent
 import io.astefanich.shinro.viewmodels.ViewModelFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
 import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
@@ -62,6 +65,7 @@ class GameFragment : Fragment() {
     val buzz = { pattern: LongArray -> Timber.i("buzzzzinggg ${Arrays.toString(pattern)}") }
 
     private var timerVisible = false
+//    private lateinit var bus: EventBus
     private lateinit var uiTimePeriod: TimeSeconds
     private lateinit var viewModel: GameViewModel
     private lateinit var binding: FragmentGameBinding
@@ -175,6 +179,7 @@ class GameFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         Timber.i("ON START")
+        EventBus.getDefault().register(this)
         viewModel.accept(GameViewModel.Command.ResumeTimer)
     }
 
@@ -230,6 +235,11 @@ class GameFragment : Fragment() {
         binding.setCheckpoint.setOnClickListener { viewModel.accept(GameViewModel.Command.SetCheckpoint) }
         binding.undoToCheckpoint.setOnClickListener { viewModel.accept(GameViewModel.Command.UndoToCheckpoint) }
         binding.undoButton.setOnClickListener { viewModel.accept(GameViewModel.Command.Undo) }
+    }
+
+    @Subscribe
+    fun onMyEvent(evt: MyEvent) {
+        Timber.i("I got the event: $evt")
     }
 }
 

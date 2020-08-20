@@ -6,9 +6,6 @@ import java.util.*
 import kotlin.concurrent.timerTask
 
 class ShinroTimer(val period: TimeSeconds) {
-    init {
-        Timber.i("TIMER CREATED period is $period")
-    }
     private var started = false
     private var isRunning = false
     private var timer: Timer = Timer()
@@ -16,37 +13,25 @@ class ShinroTimer(val period: TimeSeconds) {
 
     fun start(action: () -> Unit) {
         if (!started) {
-                myTask = action
-                Timber.i("starting timer")
-                started = true
-                isRunning = true
-                Timber.i("its started and running")
-                timer.scheduleAtFixedRate( timerTask { myTask() }, 0, period.seconds * 1000)
-        } else{
-            Timber.i("timer is already started. call resume instead")
+            myTask = action
+            started = true
+            isRunning = true
+            timer.scheduleAtFixedRate(timerTask { myTask() }, 0, period.seconds * 1000)
         }
     }
 
     fun resume() {
-        Timber.i("resume called")
-        if (started && !isRunning){
-            isRunning= true
-            Timber.i("its now running")
+        if (started && !isRunning) {
+            isRunning = true
             timer = Timer()
-            timer.scheduleAtFixedRate( timerTask { myTask() }, 0, period.seconds * 1000)
-        } else {
-            Timber.i("Timer is not started. cant resume it")
+            timer.scheduleAtFixedRate(timerTask { myTask() }, 0, period.seconds * 1000)
         }
     }
 
-    fun pause(){
-        Timber.i("try to pausing")
-        if(isRunning){
+    fun pause() {
+        if (isRunning) {
             timer.cancel()
             isRunning = false
-            Timber.i("its no longer running; cancelled")
-        } else {
-            Timber.i("its not running. cant pause it")
         }
     }
 }

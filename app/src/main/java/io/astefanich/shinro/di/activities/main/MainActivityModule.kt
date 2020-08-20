@@ -1,15 +1,10 @@
 package io.astefanich.shinro.di.activities.main
 
-import android.content.Context
-import android.content.SharedPreferences
-import androidx.preference.PreferenceManager
 import dagger.Module
 import dagger.Provides
 import io.astefanich.shinro.di.PerActivity
-import io.astefanich.shinro.di.PerFragment
-import io.astefanich.shinro.ui.MainActivity
+import org.greenrobot.eventbus.EventBus
 import timber.log.Timber
-import javax.inject.Named
 
 @Module
 object MainActivityModule {
@@ -21,6 +16,9 @@ object MainActivityModule {
     @PerActivity
     @Provides
     fun providesADouble(): List<Int> = listOf(1,2,3)
+
+    @PerActivity
+    fun providesBus(): EventBus = EventBus.getDefault()
 
 //    @PerActivity
 //    @Provides
