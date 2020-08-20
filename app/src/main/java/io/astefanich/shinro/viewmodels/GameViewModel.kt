@@ -15,7 +15,6 @@ import org.greenrobot.eventbus.Subscribe
 import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
-import javax.inject.Named
 
 
 data class LoadGameCommand(val playRequest: PlayRequest)
@@ -31,13 +30,15 @@ object SaveGameCommand
 object UndoCommand
 object UseFreebieCommand
 object SurrenderCommand
-object SolveCommand
+object SolveBoardCommand
 
-data class GameLoadedEvent(val grid: Grid, val elapsedTime: Long, val freebiesRemaining: Int)
+
+data class GameLoadedEvent(val difficulty: Difficulty, val grid: Grid, val elapsedTime: Long, val freebiesRemaining: Int )
 data class TimeIncrementedEvent(val sec: Long)
 data class CellChangedEvent(val row: Int, val col: Int, val newVal: String)
 object TwelveMarblesPlacedEvent
-data class BoardRevertedEvent(val newBoard: Grid)
+data class RevertedToCheckpointEvent(val newBoard: Grid)
+data class BoardResetEvent(val newBoard: Grid)
 object UndoStackActivatedEvent
 object UndoStackDeactivatedEvent
 object CheckpointSetEvent
@@ -56,27 +57,22 @@ data class BoardSolvedEvent(val newBoard: Grid)
 class GameViewModel
 @Inject
 constructor(
-    val repo: GameRepository
+    val repo: GameRepository,
+    val gameTimer: ShinroTimer
+//    val bus: EventBus
 ) : ViewModel() {
 
     init {
         Timber.i("game viewmodel created")
+//        bus.register(this)
     }
 
-    @Inject
-    @field:Named("gameTimer")
-    lateinit var gameTimer: ShinroTimer
-
-    @Inject
-    lateinit var bus: EventBus
+    private var bus = EventBus.getDefault()
 
     private lateinit var _game: Game
-    private lateinit var checkpoint: Grid
+    private var checkpoint: Grid = Array(9) { Array(9) { Cell(" ") } }
+    private var checkpointActive = false
     private var undoStack = Stack<Move>()
-
-    init {
-        bus.register(this)
-    }
 
     @Subscribe
     fun handle(cmd: LoadGameCommand) {
@@ -85,10 +81,16 @@ constructor(
                 is PlayRequest.Resume -> repo.getActiveGame()
                 is PlayRequest.NewGame -> repo.getNewGameByDifficulty(cmd.playRequest.difficulty)
             }
-            checkpoint = Array(9) { Array(9) { Cell(" ") } }
             val freebiesRemaining = if (_game.freebie == Freebie(0, 0)) 1 else 0
             delay(2000)
-            bus.post(GameLoadedEvent(_game.board, _game.timeElapsed, freebiesRemaining))
+            bus.post(
+                GameLoadedEvent(
+                    _game.difficulty,
+                    _game.board,
+                    _game.timeElapsed,
+                    freebiesRemaining
+                )
+            )
         }
     }
 
@@ -169,9 +171,10 @@ constructor(
             else marblesPlaced = 1
         }
         undoStack = Stack<Move>()
+        checkpointActive = false
         bus.post(UndoStackDeactivatedEvent)
         bus.post(CheckpointDeactivatedEvent)
-        bus.post(BoardRevertedEvent(_game.board))
+        bus.post(BoardResetEvent(_game.board))
     }
 
     @Subscribe
@@ -179,9 +182,14 @@ constructor(
         for (i in 0..8)
             for (j in 0..8)
                 checkpoint[i][j] = _game.board[i][j]
+        if (checkpointActive)
+            bus.post(CheckpointResetEvent)
+        else {
+            bus.post(CheckpointSetEvent)
+            checkpointActive = true
+        }
         undoStack = Stack<Move>()
         bus.post(UndoStackDeactivatedEvent)
-        bus.post(CheckpointSetEvent)
     }
 
     @Subscribe
@@ -190,9 +198,10 @@ constructor(
             for (j in 0..8)
                 _game.board[i][j] = checkpoint[i][j]
         undoStack = Stack<Move>()
+        checkpointActive = false
         bus.post(UndoStackDeactivatedEvent)
         bus.post(CheckpointDeactivatedEvent)
-        bus.post(BoardRevertedEvent(_game.board))
+        bus.post(RevertedToCheckpointEvent(_game.board))
     }
 
     @Subscribe
@@ -215,8 +224,8 @@ constructor(
 
     @Subscribe
     fun handle(cmd: UndoCommand) {
-//        if (undoStack.isEmpty())
-//            return
+        if (undoStack.isEmpty())
+            return
         val move = undoStack.pop()
         _game.board[move.row][move.col] = move.oldCell
         if (move.newCell.current == "M")
@@ -244,7 +253,7 @@ constructor(
                 val cell = _game.board[i][j]
                 if (cell.actual == "M" && cell.current != "M") {
                     _game.board[i][j] = Cell("M")
-                    bus.post(CellChangedEvent(i, j, "M"))
+//                    bus.post(CellChangedEvent(i, j, "M"))
                     checkpoint[i][j] = Cell("M")
                     _game.freebie = Freebie(i, j)
                     bus.post(FreebiePlacedEvent(i, j, 0))
@@ -262,11 +271,8 @@ constructor(
         bus.post(GameCompletedEvent(GameSummary(_game.difficulty, false, _game.timeElapsed)))
     }
 
-
-    private class Move(val row: Int, val col: Int, val oldCell: Cell, val newCell: Cell)
-
     @Subscribe
-    fun solve(cmd: SolveCommand) {
+    fun solve(cmd: SolveBoardCommand) {
         for (i in 1..8) {
             for (j in 1..8) {
                 if (_game.board[i][j].actual == "M") {
@@ -276,6 +282,8 @@ constructor(
         }
         bus.post(BoardSolvedEvent(_game.board))
     }
+
+    private class Move(val row: Int, val col: Int, val oldCell: Cell, val newCell: Cell)
 }
 
 

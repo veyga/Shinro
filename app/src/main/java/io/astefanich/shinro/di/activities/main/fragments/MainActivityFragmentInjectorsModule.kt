@@ -4,7 +4,10 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import io.astefanich.shinro.di.PerFragment
 import io.astefanich.shinro.di.activities.main.fragments.about.AboutModule
+import io.astefanich.shinro.di.activities.main.fragments.game.GameModule
+import io.astefanich.shinro.di.activities.main.fragments.game.GameViewModelModule
 import io.astefanich.shinro.ui.AboutFragment
+import io.astefanich.shinro.ui.GameFragment
 import io.astefanich.shinro.ui.TitleFragment
 
 //@PerFragment
@@ -19,5 +22,7 @@ abstract class MainActivityFragmentInjectorsModule {
     @ContributesAndroidInjector
     abstract fun providesTitleFragment(): TitleFragment
 
-
+    @PerFragment
+    @ContributesAndroidInjector(modules = [GameModule::class, GameViewModelModule::class])
+    abstract fun providesGameFragment(): GameFragment
 }

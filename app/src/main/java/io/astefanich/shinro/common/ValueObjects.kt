@@ -8,7 +8,11 @@ data class Cell(val current: String, val actual: String = current)
 
 typealias Grid = Array<Array<Cell>>
 
-enum class Difficulty { EASY, MEDIUM, HARD }
+enum class Difficulty(val repr: String) {
+    EASY("EASY"),
+    MEDIUM("MEDIUM"),
+    HARD("HARD")
+}
 
 enum class TimeSeconds(val seconds: Long) {
     ONE(1L),

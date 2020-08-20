@@ -3,26 +3,26 @@ package io.astefanich.shinro.ui
 
 import android.animation.ObjectAnimator
 import android.app.AlertDialog
-import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
 import android.text.format.DateUtils
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.navigation.ui.NavigationUI
+import dagger.android.support.AndroidSupportInjection
 import io.astefanich.shinro.R
-import io.astefanich.shinro.common.TimeSeconds
+import io.astefanich.shinro.common.Difficulty
+import io.astefanich.shinro.common.Grid
+import io.astefanich.shinro.common.PlayRequest
 import io.astefanich.shinro.databinding.FragmentGameBinding
-import io.astefanich.shinro.viewmodels.GameViewModel
-import io.astefanich.shinro.viewmodels.MyEvent
-import io.astefanich.shinro.viewmodels.ViewModelFactory
+import io.astefanich.shinro.util.bindGridSvg
+import io.astefanich.shinro.viewmodels.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -30,9 +30,7 @@ import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import timber.log.Timber
-import java.util.*
 import javax.inject.Inject
-import javax.inject.Named
 
 
 class GameFragment : Fragment() {
@@ -45,221 +43,252 @@ class GameFragment : Fragment() {
     lateinit var viewModelFactory: ViewModelFactory
 
     @Inject
-    @field:Named("winBuzz")
-    lateinit var winBuzzPattern: LongArray
-
-    @Inject
-    @field:Named("resetBuzz")
-    lateinit var resetBuzzPattern: LongArray
-
-    @Inject
     lateinit var toast: @JvmSuppressWildcards(true) (String) -> Unit
 
     @Inject
     lateinit var gameDialogBuilder: @JvmSuppressWildcards(true) (String, String, () -> Unit) -> AlertDialog.Builder
 
-    @Inject
-    lateinit var sharedPreferences: SharedPreferences
 
+//    @Inject
+//    lateinit var bus: EventBus
 
-    val buzz = { pattern: LongArray -> Timber.i("buzzzzinggg ${Arrays.toString(pattern)}") }
-
-    private var timerVisible = false
-//    private lateinit var bus: EventBus
-    private lateinit var uiTimePeriod: TimeSeconds
+    private var bus = EventBus.getDefault()
     private lateinit var viewModel: GameViewModel
     private lateinit var binding: FragmentGameBinding
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
+        AndroidSupportInjection.inject(this)
+
         Timber.i("Game Fragment onCreateView")
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_game, container, false)
-        val gameFragmentArgs by navArgs<GameFragmentArgs>()
-        var playRequest = gameFragmentArgs.playRequest
-        Timber.i("building new game component")
-        (activity as MainActivity)
-            .getMainActivityComponent()
-            .getGameComponentBuilder()
-            .playRequest(playRequest)
-            .build()
-            .inject(this)
-        if (sharedPreferences.getBoolean("timer_visible", true)) {
-            timerVisible = true
-            binding.timeElapsed.visibility = View.VISIBLE
-            uiTimePeriod = when (sharedPreferences.getString("timer_increment", "")) {
-                "5 seconds" -> TimeSeconds.FIVE
-                "10 seconds" -> TimeSeconds.TEN
-                "30 seconds" -> TimeSeconds.THIRTY
-                else -> TimeSeconds.ONE
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(GameViewModel::class.java)
+        for (i in 1..8) {
+            val row = binding.grid[i] as ViewGroup
+            for (j in 1..8) {
+                val cell = row[j]
+                cell.setOnClickListener { bus.post(MoveCommand(i, j)) }
             }
         }
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(GameViewModel::class.java)
-        viewModel.gameEvent.observe(viewLifecycleOwner, Observer { handle(it) })
-        initListeners()
-        binding.vm = viewModel
+        binding.surrenderBoard.setOnClickListener {
+            gameDialogBuilder("Surrender", "Are you sure?") { bus.post(SurrenderCommand) }.show() }
+        binding.resetBoard.setOnClickListener {
+            gameDialogBuilder("Reset", "Clear the board?\n(freebie will persist if used)") { bus.post(ResetBoardCommand) }.show() }
+        binding.freebiesRemaining.setOnClickListener {
+            gameDialogBuilder("Freebie", "Use freebie?\nThis will persist until the game is over") { bus.post(UseFreebieCommand) }.show() }
+        binding.setCheckpoint.setOnClickListener { bus.post(SetCheckpointCommand) }
+        binding.undoToCheckpoint.setOnClickListener { bus.post(UndoToCheckpointCommand) }
+        binding.undoButton.setOnClickListener { bus.post(UndoCommand) }
+        binding.solveButton.setOnClickListener { bus.post(SolveBoardCommand)}
         binding.lifecycleOwner = this
-        setHasOptionsMenu(true)
         return binding.root
     }
 
-
-    private fun handle(evt: GameViewModel.Event) {
-        when (evt) {
-            is GameViewModel.Event.TimeIncremented -> {
-                if (timerVisible && (evt.sec % uiTimePeriod.seconds) == 0L) {
-                    binding.timeElapsed.text = String.format(
-                        resources.getString(R.string.timer_fmt),
-                        DateUtils.formatElapsedTime(evt.sec)
-                    )
-                }
-            }
-            is GameViewModel.Event.IncorrectSolution -> toast("${evt.numIncorrect} of your marbles are wrong")
-            is GameViewModel.Event.TooManyPlaced -> toast("You have placed ${evt.numPlaced} marbles, which is too many")
-            is GameViewModel.Event.OutOfFreebies -> toast("Out of freebies")
-            is GameViewModel.Event.FreebiePlaced -> {
-                ObjectAnimator.ofArgb(
-                    (binding.grid[evt.row] as ViewGroup)[evt.col],
-                    "backgroundColor", Color.RED, resources.getColor(R.color.darkRed)
-                )
-                    .setDuration(3000)
-                    .start()
-            }
-            is GameViewModel.Event.Reset -> {
-                toast("Cleared")
-                buzz(resetBuzzPattern)
-            }
-            is GameViewModel.Event.GameOver -> {
-                viewModel.gameEvent.removeObservers(viewLifecycleOwner)
-                var navDelay = 500L
-                when (evt) {
-                    is GameViewModel.Event.GameOver.Win -> {
-                        toast("You Won!")
-                        buzz(winBuzzPattern)
-                        navDelay = 1500L
-                    }
-                }
-                CoroutineScope(Dispatchers.Main).launch {
-                    delay(navDelay)
-                    findNavController().navigate(GameFragmentDirections.actionGameToGameSummary(evt.summary))
-                }
-            }
-        }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val gameFragmentArgs by navArgs<GameFragmentArgs>()
+        var playRequest = gameFragmentArgs.playRequest
+        bus.post(LoadGameCommand(playRequest))
     }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater?.inflate(R.menu.overflow_menu, menu)
-    }
-
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.settings_destination -> {
-                findNavController().navigate(GameFragmentDirections.actionGameToSettings())
-                true
-            }
-            else -> {
-                (NavigationUI.onNavDestinationSelected(item!!, requireView().findNavController())
-                        || super.onOptionsItemSelected(item))
-            }
-        }
-    }
-
 
     //onDestroy isn't reliably called. This call reliably saves active game
     override fun onStop() {
         super.onStop()
+        bus.unregister(this)
         Timber.i("ON STOP")
-        viewModel.accept(GameViewModel.Command.PauseTimer)
-        viewModel.accept(GameViewModel.Command.SaveGame)
+        bus.post(PauseTimerCommand)
+        bus.post(SaveGameCommand)
     }
 
     override fun onStart() {
         super.onStart()
         Timber.i("ON START")
-        EventBus.getDefault().register(this)
-        viewModel.accept(GameViewModel.Command.ResumeTimer)
+        bus.register(this)
+        bus.post(ResumeTimerCommand)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Timber.i("ON RESUME")
+        Timber.i("ON DESTROY")
     }
 
     //Associating views with command objects (issuing Command objects not possible via XML)
     private fun initListeners() {
-        viewModel.isLoaded.observe(viewLifecycleOwner, Observer {
-            if (it) {
-                binding.progressBar.visibility = View.GONE
-                binding.game.visibility = View.VISIBLE
-            }
-        })
-        for (i in 1..8) {
-            val row = binding.grid[i] as ViewGroup
-            for (j in 1..8) {
-                val cell = row[j]
-                cell.setOnClickListener { viewModel.accept(GameViewModel.Command.Move(i, j)) }
-            }
-        }
+    }
 
-        val gameIsActive = {
-            when (viewModel.gameEvent.value) {
-                is GameViewModel.Event.GameOver -> false
-                else -> true
-            }
-        }
 
-        binding.surrenderBoard.setOnClickListener {
-            if (gameIsActive())
-                gameDialogBuilder("Surrender", "Are you sure?") {
-                    viewModel.accept(GameViewModel.Command.Surrender)
-                }.show()
-        }
-        binding.resetBoard.setOnClickListener {
-            if (gameIsActive())
-                gameDialogBuilder("Reset", "Clear the board?\n(freebie will persist if used)") {
-                    viewModel.accept(GameViewModel.Command.Reset)
-                }.show()
-        }
-        binding.freebiesRemaining.setOnClickListener {
-            if (gameIsActive())
-                gameDialogBuilder(
-                    "Freebie",
-                    "Use freebie?\nThis will persist until the game is over"
-                ) {
-                    viewModel.accept(GameViewModel.Command.UseFreebie)
-                }.show()
-        }
-        binding.setCheckpoint.setOnClickListener { viewModel.accept(GameViewModel.Command.SetCheckpoint) }
-        binding.undoToCheckpoint.setOnClickListener { viewModel.accept(GameViewModel.Command.UndoToCheckpoint) }
-        binding.undoButton.setOnClickListener { viewModel.accept(GameViewModel.Command.Undo) }
+    @Subscribe
+    fun on(evt: GameLoadedEvent) {
+        binding.difficultyText.text = evt.difficulty.repr
+        val drawable =
+            if (evt.difficulty == Difficulty.EASY) R.drawable.ic_green_circle32
+            else if (evt.difficulty == Difficulty.MEDIUM) R.drawable.ic_blue_square32
+            else R.drawable.ic_gray_diamond32
+        binding.difficultyIcon.setImageDrawable(resources.getDrawable(drawable))
+        binding.freebiesRemaining.text = "Freebies Remaining:\n${evt.freebiesRemaining} / 1"
+        binding.timeElapsed.text = String.format(resources.getString(R.string.timer_fmt), DateUtils.formatElapsedTime(evt.elapsedTime))
+        refreshGrid(evt.grid)
+        binding.progressBar.visibility = View.GONE
+        binding.game.visibility = View.VISIBLE
     }
 
     @Subscribe
-    fun onMyEvent(evt: MyEvent) {
-        Timber.i("I got the event: $evt")
+    fun on(evt: TimeIncrementedEvent) {
+//            if (timerVisible && (evt.sec % uiTimePeriod.seconds) == 0L)
+        binding.timeElapsed.text = String.format( resources.getString(R.string.timer_fmt), DateUtils.formatElapsedTime(evt.sec) )
+    }
+
+    @Subscribe
+    fun on(evt: CellChangedEvent) {
+        ((binding.grid[evt.row] as ViewGroup)[evt.col] as SquareImageView).bindSvg(evt.newVal)
+    }
+
+    @Subscribe
+    fun on(evt: TwelveMarblesPlacedEvent) {
+        bus.post(CheckSolutionCommand)
+    }
+
+    @Subscribe
+    fun on(evt: BoardResetEvent) {
+        refreshGrid(evt.newBoard)
+        toast("Cleared")
+    }
+
+    @Subscribe
+    fun on(evt: RevertedToCheckpointEvent){
+        refreshGrid(evt.newBoard)
+        toast("Reverted")
+    }
+
+    @Subscribe
+    fun on(evt: UndoStackActivatedEvent) {
+        binding.undoButton.isClickable = true
+        binding.undoToCheckpoint.setCompoundDrawablesRelativeWithIntrinsicBounds(0,R.drawable.ic_undo_white, 0,0)
+        binding.undoToCheckpoint.setTextColor(resources.getColor(R.color.white))
+    }
+
+    @Subscribe
+    fun on(evt: UndoStackDeactivatedEvent) {
+        binding.undoButton.isClickable = false
+        binding.undoToCheckpoint.setCompoundDrawablesRelativeWithIntrinsicBounds(0,R.drawable.ic_undo_gray, 0,0)
+        binding.undoToCheckpoint.setTextColor(resources.getColor(R.color.lightGray))
+    }
+
+    @Subscribe
+    fun on(evt: CheckpointSetEvent) {
+        binding.undoToCheckpoint.isClickable = true
+        binding.setCheckpoint.text = resources.getString(R.string.reset_checkpoint)
+        binding.undoToCheckpoint.setTextColor(resources.getColor(R.color.white))
+        binding.undoToCheckpoint.setCompoundDrawablesRelativeWithIntrinsicBounds(0,R.drawable.ic_flag_empty_white, 0,0)
+    }
+
+    @Subscribe
+    fun on(evt: CheckpointResetEvent) {
+        toast("Checkpoint Reset")
+    }
+
+    @Subscribe
+    fun on(evt: CheckpointDeactivatedEvent) {
+        binding.undoToCheckpoint.isClickable = false
+        binding.undoToCheckpoint.setCompoundDrawablesRelativeWithIntrinsicBounds(0,R.drawable.ic_flag_empty_gray, 0,0)
+        binding.undoToCheckpoint.setTextColor(resources.getColor(R.color.lightGray))
+    }
+
+
+    @Subscribe
+    fun on(evt: FreebiePlacedEvent) {
+        val targetCell = (binding.grid[evt.row] as ViewGroup)[evt.col] as SquareImageView
+            ObjectAnimator.ofArgb(
+                targetCell,
+                "backgroundColor", Color.RED, resources.getColor(R.color.darkRed))
+                .setDuration(3000)
+                .start()
+        bindGridSvg(targetCell, "M")
+    }
+
+
+    @Subscribe
+    fun on(evt: OutOfFreebiesEvent) {
+        toast("Out of freebies")
+    }
+
+    @Subscribe
+    fun on(evt: IncorrectSolutionEvent) {
+        toast("${evt.numIncorrect} of your marbles are wrong")
+    }
+
+    @Subscribe
+    fun on(evt: TooManyPlacedEvent) {
+        toast("You have placed ${evt.numPlaced} marbles, which is too many")
+    }
+
+    @Subscribe
+    fun on(evt: GameCompletedEvent) {
+        bus.post(PauseTimerCommand)
+        var navDelay = 500L
+        if (evt.summary.isWin) {
+                toast("You Won!")
+                navDelay = 1500L
+        }
+        CoroutineScope(Dispatchers.Main).launch {
+            delay(navDelay)
+            findNavController().navigate(GameFragmentDirections.actionGameToGameSummary(evt.summary))
+        }
+    }
+
+    @Subscribe
+    fun on(evt: BoardSolvedEvent) {
+        bus.post(CheckSolutionCommand) //its solved. but this triggers the remaining teardown cmds/events
+    }
+
+    private fun refreshGrid(grid: Grid){
+        for (i in 1..8) {
+            val row = binding.grid[i] as ViewGroup
+            for (j in 1..8) {
+                val cell = row[j] as SquareImageView
+                cell.bindSvg(grid[i][j].current)
+            }
+        }
     }
 }
 
+//    @Inject
+//    lateinit var sharedPreferences: SharedPreferences
 
-//    private fun buzz(pattern: LongArray) {
-////        VibrationEffect.createOneShot(2000, VibrationEffect.DEFAULT_AMPLITUDE)
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            val effect = VibrationEffect.createOneShot(2000, VibrationEffect.DEFAULT_AMPLITUDE)
-//            Timber.i("buzzzing")
-////                buzzer.vibrate(VibrationEffect.createWaveform(pattern, -1))
-//        } else {
-//            Timber.i("cant buzz yo")
-////                buzzer.vibrate(pattern, -1) //deprecated in API 26
+//    private lateinit var uiTimePeriod: TimeSeconds
+//private var timerVisible = false
+
+//        setHasOptionsMenu(true)
+//
+//        if (sharedPreferences.getBoolean("timer_visible", true)) {
+//            timerVisible = true
+//            binding.timeElapsed.visibility = View.VISIBLE
+//            uiTimePeriod = when (sharedPreferences.getString("timer_increment", "")) {
+//                "5 seconds" -> TimeSeconds.FIVE
+//                "10 seconds" -> TimeSeconds.TEN
+//                "30 seconds" -> TimeSeconds.THIRTY
+//                else -> TimeSeconds.ONE
+//            }
 //        }
-////        val buzzer = activity?.getSystemService<Vibrator>()
-////        buzzer?.let {
-////            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-////                buzzer.vibrate(VibrationEffect.createWaveform(pattern, -1))
-////            } else {
-////                buzzer.vibrate(pattern, -1) //deprecated in API 26
-////            }
-////        }
+//
+//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+//        super.onCreateOptionsMenu(menu, inflater)
+//        inflater?.inflate(R.menu.overflow_menu, menu)
+//    }
+//
+//
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        return when (item.itemId) {
+//            R.id.settings_destination -> {
+//                findNavController().navigate(GameFragmentDirections.actionGameToSettings())
+//                true
+//            }
+//            else -> {
+//                (NavigationUI.onNavDestinationSelected(item!!, requireView().findNavController())
+//                        || super.onOptionsItemSelected(item))
+//            }
+//        }
 //    }

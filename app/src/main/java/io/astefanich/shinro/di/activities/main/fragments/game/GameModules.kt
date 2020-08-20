@@ -15,6 +15,7 @@ import io.astefanich.shinro.di.PerFragment
 import io.astefanich.shinro.di.ViewModelKey
 import io.astefanich.shinro.util.ShinroTimer
 import io.astefanich.shinro.viewmodels.GameViewModel
+import org.greenrobot.eventbus.EventBus
 import javax.inject.Named
 
 //GameComponent is a sub-component, the view model needs to bound here
@@ -48,15 +49,11 @@ object GameModule {
 
     @PerFragment
     @Provides
-    @Named("gameTimer")
     fun providesGameTimer(): ShinroTimer = ShinroTimer(TimeSeconds.ONE)
 
 //    @PerFragment
 //    @Provides
-//    @Named
-//    fun providesUITimerPeriod(prefs: SharedPreferences): TimeSeconds {
-//
-//    }
+//    fun providesEventBus(): EventBus = EventBus.getDefault()
 
     @Provides
     fun providesGameDialogBuilder(@Named("actCtx") ctx: Context): (String, String, () -> Unit) -> AlertDialog.Builder {

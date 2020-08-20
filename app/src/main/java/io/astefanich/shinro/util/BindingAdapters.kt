@@ -38,7 +38,7 @@ fun TextView.toggleSetCheckpointText(isActive: Boolean) {
 
 @BindingAdapter("whiteGrayUndoCheckpoint")
 fun TextView.whiteGrayCheckpoint(isActive: Boolean) {
-    val drawable = if (isActive) R.drawable.ic_flag_empty else R.drawable.ic_flag_empty_gray
+    val drawable = if (isActive) R.drawable.ic_flag_empty_white else R.drawable.ic_flag_empty_gray
     val color = if (isActive) R.color.white else R.color.lightGray
     setTextColor(resources.getColor(color))
     setCompoundDrawablesRelativeWithIntrinsicBounds(0, drawable, 0, 0)
@@ -46,7 +46,7 @@ fun TextView.whiteGrayCheckpoint(isActive: Boolean) {
 
 @BindingAdapter("whiteGrayUndo")
 fun TextView.whiteGrayUndo(isActive: Boolean) {
-    val drawable = if (isActive) R.drawable.ic_undo else R.drawable.ic_undo_gray
+    val drawable = if (isActive) R.drawable.ic_undo_white else R.drawable.ic_undo_gray
     val color = if (isActive) R.color.white else R.color.lightGray
     setTextColor(resources.getColor(color))
     setCompoundDrawablesRelativeWithIntrinsicBounds(0, drawable, 0, 0)
@@ -96,10 +96,10 @@ fun setVideoButtonText(button: Button, isPlaying: Boolean, isStarted: Boolean) {
 //    }
 //}
 
-@BindingAdapter("timer")
-fun TextView.displayTimer(time: Long) {
-    text = String.format(resources.getString(R.string.timer_fmt), DateUtils.formatElapsedTime(time))
-}
+//@BindingAdapter("timer")
+//fun TextView.displayTimer(time: Long) {
+//    text = String.format(resources.getString(R.string.timer_fmt), DateUtils.formatElapsedTime(time))
+//}
 
 @BindingAdapter("timeTaken")
 fun TextView.displayTimeTaken(time: Long) {
