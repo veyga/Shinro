@@ -25,7 +25,6 @@ import io.astefanich.shinro.common.Grid
 import io.astefanich.shinro.common.TimeSeconds
 import io.astefanich.shinro.databinding.FragmentGameBinding
 import io.astefanich.shinro.util.ShinroTimer
-import io.astefanich.shinro.util.UITimer
 import io.astefanich.shinro.util.bindGridSvg
 import io.astefanich.shinro.viewmodels.*
 import kotlinx.coroutines.CoroutineScope

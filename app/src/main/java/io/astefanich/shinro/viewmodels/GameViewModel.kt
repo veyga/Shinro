@@ -101,6 +101,7 @@ constructor(
             gameTimer = ShinroTimer(TimeSeconds.ONE)
         }
         gameTimer!!.start {
+            Timber.i("gameTime= ${_game.timeElapsed}")
             _game.timeElapsed +=  1L
         }
     }
