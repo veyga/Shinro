@@ -1,10 +1,21 @@
-package io.astefanich.shinro.di.activities.main.fragments.about
+package io.astefanich.shinro.di.activities.main.fragments
+
 
 import android.net.Uri
+import dagger.Component
 import dagger.Module
 import dagger.Provides
 import io.astefanich.shinro.R
 import io.astefanich.shinro.di.PerFragment
+import io.astefanich.shinro.ui.AboutFragment
+
+@PerFragment
+@Component(modules = [AboutModule::class])
+interface AboutComponent {
+
+    fun inject(frag: AboutFragment)
+
+}
 
 @Module
 object AboutModule {

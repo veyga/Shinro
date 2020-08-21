@@ -12,7 +12,7 @@ import io.astefanich.shinro.R
 import io.astefanich.shinro.common.Tip
 import io.astefanich.shinro.common.TipChoice
 import io.astefanich.shinro.databinding.FragmentTipsDetailListBinding
-import io.astefanich.shinro.di.activities.main.fragments.tips.DaggerTipsComponent
+import io.astefanich.shinro.di.activities.main.fragments.DaggerTipsComponent
 import io.astefanich.shinro.util.TipsRecyclerAdapter
 import javax.inject.Inject
 
@@ -35,11 +35,11 @@ class TipsDetailListFragment : Fragment() {
         val tipChoiceArg by navArgs<TipsDetailListFragmentArgs>()
         tipChoice = tipChoiceArg.tipChoice
 
-        val component = DaggerTipsComponent
+        DaggerTipsComponent
             .builder()
             .tipChoice(tipChoice)
             .build()
-        component.inject(this)
+            .inject(this)
 
         val recyclerAdapter = TipsRecyclerAdapter(items)
         binding.tipsRecyclerView.apply {

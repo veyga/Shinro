@@ -1,8 +1,8 @@
 package io.astefanich.shinro.ui
 
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import dagger.android.support.DaggerAppCompatActivity
 import io.astefanich.shinro.R
 import io.astefanich.shinro.ShinroApplication
 import io.astefanich.shinro.di.activities.main.MainActivityComponent
@@ -10,7 +10,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 
-class MainActivity : DaggerAppCompatActivity() {
+class MainActivity : AppCompatActivity() {
 
 
     lateinit var activityComponent: MainActivityComponent

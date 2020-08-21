@@ -1,13 +1,37 @@
 package io.astefanich.shinro.di.activities.main
 
+
 import android.content.Context
+import dagger.BindsInstance
 import dagger.Module
 import dagger.Provides
+import dagger.Subcomponent
 import io.astefanich.shinro.di.PerActivity
-import org.greenrobot.eventbus.EventBus
+import io.astefanich.shinro.di.activities.main.fragments.GameComponent
+import io.astefanich.shinro.di.activities.main.fragments.GameSummaryComponent
+import io.astefanich.shinro.ui.MainActivity
 import timber.log.Timber
+import javax.inject.Named
 
-//data class MainActivityContext(val ctx: Context)
+@PerActivity
+@Subcomponent(modules = [MainActivityModule::class])
+interface MainActivityComponent {
+
+    fun inject(activity: MainActivity)
+
+    abstract fun getGameSummaryComponentBuilder(): GameSummaryComponent.Builder
+
+    @Subcomponent.Builder
+    interface Builder {
+
+        @BindsInstance
+        fun actitivtyContext(@Named("actCtx") ctx: Context): Builder
+
+        fun build(): MainActivityComponent
+    }
+}
+
+
 
 @Module
 object MainActivityModule {
@@ -18,7 +42,7 @@ object MainActivityModule {
 
     @PerActivity
     @Provides
-    fun providesADouble(): List<Int> = listOf(1,2,3)
+    fun providesNums(): List<Int> = listOf(1,2,3)
 
 //    @PerActivity
 //    fun providesBus(): EventBus = EventBus.getDefault()

@@ -3,6 +3,7 @@ package io.astefanich.shinro.ui
 
 import android.animation.ObjectAnimator
 import android.app.AlertDialog
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.text.format.DateUtils
@@ -15,7 +16,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import dagger.android.support.AndroidSupportInjection
 import io.astefanich.shinro.R
 import io.astefanich.shinro.common.Difficulty
 import io.astefanich.shinro.common.Grid
@@ -31,6 +31,7 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import timber.log.Timber
 import javax.inject.Inject
+import javax.inject.Named
 
 
 class GameFragment : Fragment() {
@@ -51,6 +52,16 @@ class GameFragment : Fragment() {
 
 //    @Inject
 //    lateinit var bus: EventBus
+    @Inject
+    lateinit var nums: List<Int>
+
+    @Inject
+    @field:Named("actCtx")
+    lateinit var actCtx: Context
+
+    @Inject
+    @field:Named("appCtx")
+    lateinit var appCtx: Context
 
     private var bus = EventBus.getDefault()
     private lateinit var viewModel: GameViewModel
@@ -66,13 +77,16 @@ class GameFragment : Fragment() {
         val gameFragmentArgs by navArgs<GameFragmentArgs>()
         var playRequest = gameFragmentArgs.playRequest
         bus.post(LoadGameCommand(playRequest))
-        (activity as MainActivity)
-            .getMainActivityComponent()
-            .getGameComponentBuilder()
-            .playRequest(playRequest)
-            .build()
-            .inject(this)
+//        (activity as MainActivity)
+//            .getMainActivityComponent()
+//            .getGameComponentBuilder()
+//            .playRequest(playRequest)
+//            .build()
+//            .inject(this)
         Timber.i("Game Fragment onCreateView")
+        Timber.i("I got the nums: $nums")
+        Timber.i("appCtx: $appCtx")
+        Timber.i("actCtx: $actCtx")
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_game, container, false)
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(GameViewModel::class.java)
         for (i in 1..8) {

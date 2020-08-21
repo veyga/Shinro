@@ -1,22 +1,32 @@
-package io.astefanich.shinro.di.activities.main.fragments.game
+package io.astefanich.shinro.di.activities.main.fragments
+
 
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
-import android.content.SharedPreferences
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import dagger.Subcomponent
 import dagger.multibindings.IntoMap
 import io.astefanich.shinro.common.TimeSeconds
 import io.astefanich.shinro.di.PerFragment
 import io.astefanich.shinro.di.ViewModelKey
+import io.astefanich.shinro.ui.GameFragment
 import io.astefanich.shinro.util.ShinroTimer
 import io.astefanich.shinro.viewmodels.GameViewModel
 import org.greenrobot.eventbus.EventBus
 import javax.inject.Named
+
+
+@PerFragment
+@Subcomponent(modules = [GameModule::class, GameViewModelModule::class])
+interface GameComponent {
+
+    fun inject(frag: GameFragment)
+}
 
 //GameComponent is a sub-component, the view model needs to bound here
 @Module
@@ -27,6 +37,7 @@ abstract class GameViewModelModule {
     @ViewModelKey(GameViewModel::class)
     abstract fun bindGameViewModel(gameViewModel: GameViewModel): ViewModel
 }
+
 
 @Module
 object GameModule {

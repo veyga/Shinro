@@ -21,7 +21,6 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Named
 
-//data class ApplicationContext(val ctx: Context)
 
 @Module
 class AppModule {
@@ -36,13 +35,6 @@ class AppModule {
     @Provides
     fun providesSharesPreferences(@Named("appCtx") ctx: Context): SharedPreferences =
         PreferenceManager.getDefaultSharedPreferences(ctx)
-
-
-//    @PerApplication
-//    @Provides
-//    fun providesApplicationContext(application: Application): ApplicationContext {
-//       return ApplicationContext(application.applicationContext)
-//    }
 
     @Provides
     internal fun providesGameDao(database: AppDatabase): GameDao = database.gameDao()

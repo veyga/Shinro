@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModelProvider
 import dagger.Binds
 import dagger.MapKey
 import dagger.Module
-import dagger.multibindings.IntoMap
 import io.astefanich.shinro.viewmodels.ViewModelFactory
 import java.lang.annotation.Documented
 import kotlin.reflect.KClass

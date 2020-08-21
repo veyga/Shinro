@@ -44,14 +44,14 @@ class GameSummaryFragment : Fragment() {
         val gameOverFragmentArgs by navArgs<GameSummaryFragmentArgs>()
         var gameSummary = gameOverFragmentArgs.gameSummary
 
-        (activity as MainActivity)
-            .getMainActivityComponent()
-            .getGameSummaryComponentBuilder()
-            .difficulty(gameSummary.difficulty)
-            .win(gameSummary.isWin)
-            .time(gameSummary.time)
-            .build()
-            .inject(this)
+//        (activity as MainActivity)
+//            .getMainActivityComponent()
+//            .getGameSummaryComponentBuilder()
+//            .difficulty(gameSummary.difficulty)
+//            .win(gameSummary.isWin)
+//            .time(gameSummary.time)
+//            .build()
+//            .inject(this)
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(GameSummaryViewModel::class.java)
         binding.vm = viewModel

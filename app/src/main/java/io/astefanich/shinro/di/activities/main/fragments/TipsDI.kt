@@ -1,11 +1,32 @@
-package io.astefanich.shinro.di.activities.main.fragments.tips
+package io.astefanich.shinro.di.activities.main.fragments
 
+
+import dagger.BindsInstance
+import dagger.Component
 import dagger.Module
 import dagger.Provides
 import io.astefanich.shinro.R
 import io.astefanich.shinro.common.Tip
 import io.astefanich.shinro.common.TipChoice
 import io.astefanich.shinro.di.PerFragment
+import io.astefanich.shinro.ui.TipsDetailListFragment
+
+@PerFragment
+@Component(modules = [TipsModule::class])
+interface TipsComponent {
+
+    fun inject(frag: TipsDetailListFragment)
+
+    @Component.Builder
+    interface Builder {
+
+        @BindsInstance
+        fun tipChoice(choice: TipChoice): Builder
+
+        fun build(): TipsComponent
+    }
+}
+
 
 
 /*

@@ -13,13 +13,12 @@ import android.widget.VideoView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
-import dagger.android.support.AndroidSupportInjection
-import dagger.android.support.DaggerFragment
 import io.astefanich.shinro.R
 import io.astefanich.shinro.databinding.FragmentAboutBinding
+import io.astefanich.shinro.di.activities.main.fragments.DaggerAboutComponent
 import javax.inject.Inject
 
-class AboutFragment : DaggerFragment() {
+class AboutFragment : Fragment() {
 
     @Inject
     lateinit var videoUri: Uri
@@ -35,8 +34,9 @@ class AboutFragment : DaggerFragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-//        AndroidSupportInjection.inject(this)
-
+        DaggerAboutComponent
+            .create()
+            .inject(this)
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_about, container, false)
 
