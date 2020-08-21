@@ -36,24 +36,14 @@ fun TextView.toggleSetCheckpointText(isActive: Boolean) {
     text = resources.getString(stringId)
 }
 
-@BindingAdapter("whiteGrayUndoCheckpoint")
-fun TextView.whiteGrayCheckpoint(isActive: Boolean) {
-    val drawable = if (isActive) R.drawable.ic_flag_empty_white else R.drawable.ic_flag_empty_gray
-    val color = if (isActive) R.color.white else R.color.lightGray
-    setTextColor(resources.getColor(color))
-    setCompoundDrawablesRelativeWithIntrinsicBounds(0, drawable, 0, 0)
-}
-
-@BindingAdapter("whiteGrayUndo")
-fun TextView.whiteGrayUndo(isActive: Boolean) {
-    val drawable = if (isActive) R.drawable.ic_undo_white else R.drawable.ic_undo_gray
-    val color = if (isActive) R.color.white else R.color.lightGray
-    setTextColor(resources.getColor(color))
-    setCompoundDrawablesRelativeWithIntrinsicBounds(0, drawable, 0, 0)
-}
-
-@BindingAdapter("animScoreTime", "pointsEarned")
-fun TextView.animatePointsEarned(animTime: Long, score: Int) {
+@BindingAdapter("difficultyAnim", "pointsEarned")
+fun TextView.animatePointsEarned(difficulty: Difficulty, score: Int) {
+    val scoreAnimTimes =
+        mapOf(
+            Difficulty.EASY to 1000L,
+            Difficulty.MEDIUM to 2500L,
+            Difficulty.HARD to 4000L
+        )
     val delay = 1000L
     ValueAnimator.ofInt(0, score).apply {
         addUpdateListener {
@@ -64,7 +54,7 @@ fun TextView.animatePointsEarned(animTime: Long, score: Int) {
                 )
             )
         }
-        duration = delay + animTime
+        duration = delay + scoreAnimTimes.get(difficulty)!!
         startDelay = delay
         start()
     }

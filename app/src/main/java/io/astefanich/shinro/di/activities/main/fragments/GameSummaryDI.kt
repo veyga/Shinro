@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import dagger.*
 import dagger.multibindings.IntoMap
 import io.astefanich.shinro.common.Difficulty
+import io.astefanich.shinro.common.GameSummary
 import io.astefanich.shinro.di.PerFragment
 import io.astefanich.shinro.di.ViewModelKey
 import io.astefanich.shinro.ui.GameSummaryFragment
@@ -26,14 +27,17 @@ interface GameSummaryComponent {
     @Subcomponent.Builder
     interface Builder {
 
-        @BindsInstance
-        fun difficulty(diff: Difficulty): Builder
+//        @BindsInstance
+//        fun difficulty(diff: Difficulty): Builder
+//
+//        @BindsInstance
+//        fun win(win: Boolean): Builder
+//
+//        @BindsInstance
+//        fun time(time: Long): Builder
 
         @BindsInstance
-        fun win(win: Boolean): Builder
-
-        @BindsInstance
-        fun time(time: Long): Builder
+        fun gameSummary(summary: GameSummary): Builder
 
         fun build(): GameSummaryComponent
     }

@@ -48,9 +48,7 @@ class GameSummaryFragment : Fragment() {
         (activity as MainActivity)
             .mainActivityComponent
             .getGameSummaryComponentBuilder()
-            .difficulty(gameSummary.difficulty)
-            .win(gameSummary.isWin)
-            .time(gameSummary.time)
+            .gameSummary(gameSummary)
             .build()
             .inject(this)
 
