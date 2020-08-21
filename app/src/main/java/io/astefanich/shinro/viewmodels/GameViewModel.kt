@@ -37,7 +37,7 @@ object SurrenderCommand
 object SolveBoardCommand
 
 
-data class GameLoadedEvent(val difficulty: Difficulty, val grid: Grid, val elapsedTime: Long, val freebiesRemaining: Int )
+data class GameLoadedEvent(val difficulty: Difficulty, val grid: Grid, val startTime: Long, val freebiesRemaining: Int )
 data class TimeIncrementedEvent(val sec: Long)
 data class CellChangedEvent(val row: Int, val col: Int, val newVal: String)
 object TwelveMarblesPlacedEvent
@@ -99,6 +99,7 @@ constructor(
 
     @Subscribe
     fun handle(cmd: StartTimerCommand) {
+        Timber.i("StartTimerCommand")
         gameTimer.run {
             if(!isStarted){
                 start {
@@ -111,16 +112,19 @@ constructor(
 
     @Subscribe
     fun handle(cmd: ResumeTimerCommand) {
+        Timber.i("ResumeTimerCommand")
         gameTimer?.resume()
     }
 
     @Subscribe
     fun handle(cmd: PauseTimerCommand) {
+        Timber.i("PauseTimerCommand")
         gameTimer?.pause()
     }
 
     @Subscribe
     fun handle(cmd: MoveCommand) {
+        Timber.i("MoveCommand")
         val r = cmd.row
         val c = cmd.col
         val clicked = _game.board[r][c]
@@ -150,6 +154,7 @@ constructor(
 
     @Subscribe
     fun handle(cmd: CheckSolutionCommand) {
+        Timber.i("CheckSolutionCommand")
         if (_game.marblesPlaced > 12) {
             bus.post(TooManyPlacedEvent(_game.marblesPlaced))
         } else if (_game.marblesPlaced == 12) {
@@ -172,6 +177,7 @@ constructor(
 
     @Subscribe
     fun handle(cmd: ResetBoardCommand) {
+        Timber.i("ResetBoardCommand")
         val cells = _game.board
         for (i in 1..8) {
             for (j in 1..8) {
@@ -196,6 +202,7 @@ constructor(
 
     @Subscribe
     fun handle(cmd: SetCheckpointCommand) {
+        Timber.i("SetCheckpointCommand")
         for (i in 0..8)
             for (j in 0..8)
                 checkpoint[i][j] = _game.board[i][j]
@@ -211,6 +218,7 @@ constructor(
 
     @Subscribe
     fun handle(cmd: UndoToCheckpointCommand) {
+        Timber.i("UndoToCheckpointCommand")
         for (i in 0..8)
             for (j in 0..8)
                 _game.board[i][j] = checkpoint[i][j]
@@ -224,6 +232,7 @@ constructor(
 
     @Subscribe
     fun handle(cmd: SaveGameCommand) {
+        Timber.i("SaveGameCommand")
         viewModelScope.launch(Dispatchers.IO) {
             repo.saveGame(_game)
             Timber.i("game saved. elapsed time: ${_game.timeElapsed}")
@@ -232,6 +241,7 @@ constructor(
 
     @Subscribe
     fun handle(cmd: UndoCommand) {
+        Timber.i("UndoCommand")
         if (undoStack.isEmpty())
             return
         val move = undoStack.pop()
@@ -248,6 +258,7 @@ constructor(
 
     @Subscribe
     fun handle(cmd: UseFreebieCommand) {
+        Timber.i("UseFreebieCommand")
         if (_game.freebie != Freebie(0, 0)) {
             bus.post(OutOfFreebiesEvent)
             return
@@ -276,11 +287,13 @@ constructor(
 
     @Subscribe
     fun handle(cmd: SurrenderCommand) {
+        Timber.i("SurrenderCommand")
         bus.post(GameCompletedEvent(GameSummary(_game.difficulty, false, _game.timeElapsed)))
     }
 
     @Subscribe
     fun solve(cmd: SolveBoardCommand) {
+        Timber.i("SolveBoardCommand")
         for (i in 1..8) {
             for (j in 1..8) {
                 if (_game.board[i][j].actual == "M") {

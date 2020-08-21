@@ -3,10 +3,8 @@ package io.astefanich.shinro.ui
 
 import android.animation.ObjectAnimator
 import android.app.AlertDialog
-import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
-import android.os.SystemClock
 import android.text.format.DateUtils
 import android.view.*
 import androidx.core.view.get
@@ -22,7 +20,6 @@ import arrow.core.Some
 import io.astefanich.shinro.R
 import io.astefanich.shinro.common.Difficulty
 import io.astefanich.shinro.common.Grid
-import io.astefanich.shinro.common.TimeSeconds
 import io.astefanich.shinro.databinding.FragmentGameBinding
 import io.astefanich.shinro.util.ShinroTimer
 import io.astefanich.shinro.util.bindGridSvg
@@ -57,7 +54,7 @@ class GameFragment : Fragment() {
 
     @Inject
     lateinit var uiTimer: Option<ShinroTimer>
-    private var uiTime: Long = 0L
+//    private var uiTime: Long = 0L
     private lateinit var viewModel: GameViewModel
     private lateinit var binding: FragmentGameBinding
 
@@ -139,36 +136,26 @@ class GameFragment : Fragment() {
         binding.apply {
             difficultyText.text = evt.difficulty.repr
             difficultyIcon.setImageDrawable(resources.getDrawable(drawable))
-            freebiesRemaining.text = String.format( resources.getString(R.string.freebies_remaining_fmt), evt.freebiesRemaining )
+            freebiesRemaining.text = String.format(resources.getString(R.string.freebies_remaining_fmt), evt.freebiesRemaining )
             refreshGrid(evt.grid)
             progressBar.visibility = View.GONE
             game.visibility = View.VISIBLE
         }
-        bus.post(StartTimerCommand)
         when (uiTimer) {
             is Some -> {
-                var uiTime = evt.elapsedTime
+                var uiTime = evt.startTime
                 val timer = (uiTimer as Some<ShinroTimer>)
                 binding.timeElapsed.visibility = View.VISIBLE
                 timer.t.start {
-//                    binding.timeElapsed.post(() -> uiTimer)
-                    //binding.view.post(uiTime + (uiTimer + period.seconds)
-                    Timber.i("uiTime =  ${uiTime}")
-                    uiTime += timer.t.period.seconds
+                    binding.timeElapsed.post {
+                        binding.timeElapsed.text = String.format(resources.getString(R.string.timer_fmt), DateUtils.formatElapsedTime(uiTime))
+                        uiTime += timer.t.period.seconds
+                    }
                 }
             }
         }
+        bus.post(StartTimerCommand)
     }
-
-//    @Subscribe
-//    fun on(evt: TimeIncrementedEvent) {
-//        Timber.i("TimeIncrementedEvent")
-//        if (timerVisible && (evt.sec % uiTimePeriod.seconds) == 0L)
-//            binding.timeElapsed.text = String.format(
-//                resources.getString(R.string.timer_fmt),
-//                DateUtils.formatElapsedTime(evt.sec)
-//            )
-//    }
 
     @Subscribe
     fun on(evt: CellChangedEvent) {
