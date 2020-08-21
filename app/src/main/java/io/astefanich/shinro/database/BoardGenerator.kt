@@ -55,7 +55,7 @@ class BoardGenerator() {
             """
         1
         EASY
-        0 1 2 1 1 1 3 2 1
+        Q 1 2 1 1 1 3 2 1
         2 M X C E E M X X
         0 X X X X B X X X
         3 X M H X M E M G
@@ -68,7 +68,7 @@ class BoardGenerator() {
             """
         2
         EASY
-        0 3 1 2 1 1 1 2 1
+        Q 3 1 2 1 1 1 2 1
         2 M X X M X X X X
         2 M X B X X E M X
         1 C X M X X X D X
@@ -81,7 +81,7 @@ class BoardGenerator() {
             """
         3
         EASY
-        0 2 0 2 1 5 1 0 1
+        Q 2 0 2 1 5 1 0 1
         1 M X F F D X X X
         1 X X M X X X X X
         4 M X M C M M X X
@@ -94,7 +94,7 @@ class BoardGenerator() {
             """
         4
         EASY
-        0 0 2 3 1 1 3 2 0
+        Q 0 2 3 1 1 3 2 0
         1 C D M X X X X X
         1 D D X X X M X X
         0 D X A D X X E X
@@ -107,7 +107,7 @@ class BoardGenerator() {
             """
         5
         EASY
-        0 1 0 1 2 1 1 1 5
+        Q 1 0 1 2 1 1 1 5
         3 X X X E X M M M
         4 M X X M M G H M
         1 X X X B X X X M
@@ -120,7 +120,7 @@ class BoardGenerator() {
             """
         6
         EASY
-        0 3 1 3 0 1 1 1 2
+        Q 3 1 3 0 1 1 1 2
         1 X X M X X X X X
         4 M B M X M X X M
         0 E X X X X X X X
@@ -133,7 +133,7 @@ class BoardGenerator() {
             """
         7
         EASY
-        0 5 1 2 0 0 0 1 3
+        Q 5 1 2 0 0 0 1 3
         4 M M M X X X X M
         1 M D H D X X X X
         1 A X F X X X X M
@@ -146,7 +146,7 @@ class BoardGenerator() {
             """
         8
         EASY
-        0 2 3 3 1 0 0 1 2
+        Q 2 3 3 1 0 0 1 2
         3 E M M F X X X M
         1 X M X F X X X X
         1 X M H D X X X X
@@ -159,7 +159,7 @@ class BoardGenerator() {
             """
         9
         EASY
-        0 1 1 3 1 0 3 2 1
+        Q 1 1 3 1 0 3 2 1
         2 X C M X X M X X
         2 X X M C X X M X
         2 X C C M X F E M
@@ -172,7 +172,7 @@ class BoardGenerator() {
             """
         10
         EASY
-        0 1 3 2 3 1 1 1 0
+        Q 1 3 2 3 1 1 1 0
         2 X M G M X X X F
         1 X M F X X X X X
         1 X X M E F X X X
@@ -185,7 +185,7 @@ class BoardGenerator() {
             """
         11
         EASY
-        0 1 3 1 2 0 0 3 2
+        Q 1 3 1 2 0 0 3 2
         3 M X M M X D G X
         0 X E D E X F X X
         3 C M X X X X M M
@@ -198,7 +198,7 @@ class BoardGenerator() {
             """
         12
         EASY
-        0 3 2 1 2 2 1 0 1
+        Q 3 2 1 2 2 1 0 1
         2 M M X X F F X X
         1 X X X X X M X X
         3 C M X M M X H X
@@ -211,7 +211,7 @@ class BoardGenerator() {
             """
         13
         EASY
-        0 0 3 1 1 2 1 1 3
+        Q 0 3 1 1 2 1 1 3
         1 D X X X X X X M
         1 X X X E X X X M
         2 X M X G M X X X
@@ -224,7 +224,7 @@ class BoardGenerator() {
             """
         14
         EASY
-        0 1 0 4 1 2 2 1 1
+        Q 1 0 4 1 2 2 1 1
         2 X C M F X M X G
         1 C X M H F X X X
         3 M X G M M A X X
@@ -237,7 +237,7 @@ class BoardGenerator() {
             """
         15
         EASY
-        0 1 1 1 1 5 1 0 2
+        Q 1 1 1 1 5 1 0 2
         1 E X E D M X X X
         0 E X X B X X X X
         2 X M X M D X F G
@@ -250,7 +250,7 @@ class BoardGenerator() {
             """
         16
         EASY
-        0 3 1 1 1 4 1 1 0
+        Q 3 1 1 1 4 1 1 0
         0 D X D X X X X F
         1 X X E X M X X F
         2 M M X X A F X X
@@ -263,7 +263,7 @@ class BoardGenerator() {
             """
         17
         EASY
-        0 2 1 3 1 1 1 0 3
+        Q 2 1 3 1 1 1 0 3
         2 M X D X X X X M
         1 D M X X X X X X
         2 B C M M F X G X
@@ -276,7 +276,7 @@ class BoardGenerator() {
             """
         18
         EASY
-        0 1 2 1 2 0 2 1 3
+        Q 1 2 1 2 0 2 1 3
         0 X E X X X X X X
         2 X M D M X X G X
         1 C C H E X X X M
@@ -289,7 +289,7 @@ class BoardGenerator() {
             """
         19
         EASY
-        0 3 0 1 2 1 2 0 3
+        Q 3 0 1 2 1 2 0 3
         1 X C X E X X X M
         2 X X D M C M X X
         2 M D X M X X X X
@@ -302,7 +302,7 @@ class BoardGenerator() {
             """
         20
         EASY
-        0 1 2 0 1 2 0 2 4
+        Q 1 2 0 1 2 0 2 4
         2 X M G E E D M X
         1 M X X D X X X X
         1 X X X H X X X M
@@ -315,7 +315,7 @@ class BoardGenerator() {
             """
         21
         EASY
-        0 0 3 1 2 2 1 0 3
+        Q 0 3 1 2 2 1 0 3
         2 X M X G X X F M
         0 X X D X E X X X
         2 X C M M X B X F
@@ -328,7 +328,7 @@ class BoardGenerator() {
             """
         22
         EASY
-        0 2 1 3 0 1 1 1 3
+        Q 2 1 3 0 1 1 1 3
         1 D E X X X F X M
         2 X M X G X M X X
         0 E X X X X X X X
@@ -341,7 +341,7 @@ class BoardGenerator() {
             """
         23
         EASY
-        0 0 1 1 3 4 1 1 1
+        Q 0 1 1 3 4 1 1 1
         1 X X X X M E D X
         1 X X X X D X X M
         2 X X D X M M X X
@@ -354,7 +354,7 @@ class BoardGenerator() {
             """
         24
         EASY
-        0 1 1 1 3 1 1 4 0
+        Q 1 1 1 3 1 1 4 0
         1 X X X M X X X X
         4 M X X M X M M X
         0 X X X X X X X X
@@ -367,7 +367,7 @@ class BoardGenerator() {
             """
         25
         EASY
-        0 3 0 1 2 2 0 1 3
+        Q 3 0 1 2 2 0 1 3
         3 M X G M X X M F
         2 X C M X X X X M
         0 X D X H X X F X
@@ -380,7 +380,7 @@ class BoardGenerator() {
             """
         26
         EASY
-        0 0 3 2 1 0 2 2 2
+        Q 0 3 2 1 0 2 2 2
         1 X X M X X E X X
         2 C C M X F M X X
         2 X D A M X D F M
@@ -393,7 +393,7 @@ class BoardGenerator() {
             """
         27
         EASY
-        0 3 2 1 2 2 0 1 1
+        Q 3 2 1 2 2 0 1 1
         0 E X F X X X X X
         2 X X M G M X X X
         2 M B X E X X X M
@@ -406,7 +406,7 @@ class BoardGenerator() {
             """
         28
         EASY
-        0 0 1 1 3 2 0 2 3
+        Q 0 1 1 3 2 0 2 3
         1 D X F M F X G X
         2 C M X E M X X X
         2 X X M D X X M E
@@ -419,7 +419,7 @@ class BoardGenerator() {
             """
         29
         EASY
-        0 1 1 1 3 1 4 1 0
+        Q 1 1 1 3 1 4 1 0
         3 X M D X X M M X
         1 B X X M X X X X
         3 M X B M X M X X
@@ -432,7 +432,7 @@ class BoardGenerator() {
             """
         30
         EASY
-        0 1 1 2 2 2 2 1 1
+        Q 1 1 2 2 2 2 1 1
         1 E C X X X M X X
         1 X X X M X A X X
         1 D C F X M X X X
@@ -445,7 +445,7 @@ class BoardGenerator() {
             """
         31
         EASY
-        0 1 2 1 1 3 2 1 1
+        Q 1 2 1 1 3 2 1 1
         1 X X X X M D X G
         3 X M X D X M M E
         1 X D X X M A X X
@@ -458,7 +458,7 @@ class BoardGenerator() {
             """
         32
         EASY
-        0 2 0 1 2 2 2 2 1
+        Q 2 0 1 2 2 2 2 1
         2 X X X M M F G G
         1 X X X X X M F X
         0 X D X X X X X X
@@ -471,7 +471,7 @@ class BoardGenerator() {
             """
         33
         EASY
-        0 0 3 1 2 1 2 1 2
+        Q 0 3 1 2 1 2 1 2
         2 X C M E G M X X
         3 X M D M X X X M
         1 C C X X X M X H
@@ -484,7 +484,7 @@ class BoardGenerator() {
             """
         34
         EASY
-        0 2 1 1 2 1 0 2 3
+        Q 2 1 1 2 1 0 2 3
         1 X X X M X X F F
         1 X X X D X X X M
         2 C X M X X X X M
@@ -497,7 +497,7 @@ class BoardGenerator() {
             """
         35
         EASY
-        0 1 1 1 1 3 2 2 1
+        Q 1 1 1 1 3 2 2 1
         0 X X X E E X X X
         1 X X X D E X X M
         2 X X X X M C M X
@@ -510,7 +510,7 @@ class BoardGenerator() {
             """
         36
         EASY
-        0 3 1 2 1 2 2 0 1
+        Q 3 1 2 1 2 2 0 1
         2 M X X X X M X X
         1 D X M X X X X F
         2 M M X X X A X X
@@ -523,7 +523,7 @@ class BoardGenerator() {
             """
         37
         EASY
-        0 2 1 0 0 1 3 1 4
+        Q 2 1 0 0 1 3 1 4
         1 C X D F X M X G
         2 X M X X X F X M
         0 X X X X X X X X
@@ -536,7 +536,7 @@ class BoardGenerator() {
             """
         38
         EASY
-        0 2 1 1 1 0 2 2 3
+        Q 2 1 1 1 0 2 2 3
         1 E X X C D M X E
         2 X X X X X M E M
         0 E X X X X A X X
@@ -549,7 +549,7 @@ class BoardGenerator() {
             """
         39
         EASY
-        0 1 3 1 3 1 2 1 0
+        Q 1 3 1 3 1 2 1 0
         1 C X X M X X X X
         1 X M X X X F X X
         1 D D X A M H X X
@@ -562,7 +562,7 @@ class BoardGenerator() {
             """
         40
         EASY
-        0 1 2 1 1 1 1 3 2
+        Q 1 2 1 1 1 1 3 2
         1 M X X F X X E F
         4 C M M X X M E M
         1 B X D X X X M X
@@ -575,7 +575,7 @@ class BoardGenerator() {
             """
         41
         EASY
-        0 1 1 1 0 1 2 4 2
+        Q 1 1 1 0 1 2 4 2
         1 X X X X X C M X
         1 X X X X X X M E
         1 X X M X X X X X
@@ -588,7 +588,7 @@ class BoardGenerator() {
             """
         42
         EASY
-        0 2 1 1 1 2 1 3 1
+        Q 2 1 1 1 2 1 3 1
         0 X X X D X E X X 
         1 X X M D X X X X
         1 X X X E M D D X
@@ -601,7 +601,7 @@ class BoardGenerator() {
             """
         43
         EASY
-        0 1 5 1 1 1 1 1 1
+        Q 1 5 1 1 1 1 1 1
         1 X E M X X X F X
         1 X M F X X X X X
         0 B X X X X X X X
@@ -614,7 +614,7 @@ class BoardGenerator() {
             """
         44
         EASY
-        0 1 0 2 1 1 1 5 1
+        Q 1 0 2 1 1 1 5 1
         1 X X X X X X M X
         1 X X M X X G X F
         2 X X A X M X M X
@@ -627,7 +627,7 @@ class BoardGenerator() {
             """
         45
         EASY
-        0 1 2 1 2 1 2 2 1
+        Q 1 2 1 2 1 2 2 1
         1 X X X M E D F X
         4 X M X X X M M M
         2 M B M X X G B X
@@ -640,7 +640,7 @@ class BoardGenerator() {
             """
         1
         MEDIUM
-        0 1 3 2 2 1 0 3 0
+        Q 1 3 2 2 1 0 3 0
         1 X X X M D X X X
         1 X X F C X X M F
         3 X M M X X X M X
@@ -653,7 +653,7 @@ class BoardGenerator() {
             """
         2
         MEDIUM
-        0 3 0 4 1 0 1 1 2
+        Q 3 0 4 1 0 1 1 2
         2 M X M X X X X F
         1 M X X X X X X X
         1 C H X X H X X M
@@ -666,7 +666,7 @@ class BoardGenerator() {
             """
         3
         MEDIUM
-        0 3 2 3 0 0 3 0 1
+        Q 3 2 3 0 0 3 0 1
         2 M M F X X X F X
         1 A X E X X X X M
         2 M C X G X M X X
@@ -679,7 +679,7 @@ class BoardGenerator() {
             """
         4
         MEDIUM
-        0 1 0 1 3 2 2 0 3
+        Q 1 0 1 3 2 2 0 3
         1 X X X X M X F X
         0 X X X X X X X X
         1 X X X X F X X M
@@ -692,7 +692,7 @@ class BoardGenerator() {
             """
         5
         MEDIUM
-        0 1 1 0 3 5 1 0 1
+        Q 1 1 0 3 5 1 0 1
         1 X D X X M X X X
         1 X X X X M X X G
         1 X X B D M H X F
@@ -705,7 +705,7 @@ class BoardGenerator() {
             """
         6
         MEDIUM
-        0 2 1 1 2 3 0 2 1
+        Q 2 1 1 2 3 0 2 1
         0 X X X X X X X F
         1 X X X X X X M X
         1 X X M X F D X X
@@ -718,7 +718,7 @@ class BoardGenerator() {
             """
         7
         MEDIUM
-        0 2 2 1 0 2 3 0 2
+        Q 2 2 1 0 2 3 0 2
         1 D X X X X M X X
         1 X M X D X X X X
         2 M A X B X X X M
@@ -731,7 +731,7 @@ class BoardGenerator() {
             """
         8
         MEDIUM
-        0 2 2 1 0 0 2 3 2
+        Q 2 2 1 0 0 2 3 2
         0 X X F X X X X X
         3 M M C X X C X M
         1 X A X X X M X X
@@ -744,7 +744,7 @@ class BoardGenerator() {
             """
         9
         MEDIUM
-        0 2 2 2 1 2 2 0 1
+        Q 2 2 2 1 2 2 0 1
         1 X X X C X M X X
         2 X M M E X X X X
         1 X X X X M A X X
@@ -757,7 +757,7 @@ class BoardGenerator() {
             """
         10
         MEDIUM
-        0 1 0 6 1 0 2 1 1
+        Q 1 0 6 1 0 2 1 1
         2 X D X X X M M X
         2 M X D M F X H X
         1 X X M X X G X F
@@ -770,7 +770,7 @@ class BoardGenerator() {
             """
         11
         MEDIUM
-        0 3 1 1 1 1 2 1 2
+        Q 3 1 1 1 1 2 1 2
         2 D C M X X M X X
         3 X M F M B X X M
         1 M X X X X X X G
@@ -783,7 +783,7 @@ class BoardGenerator() {
             """
         12
         MEDIUM
-        0 1 1 1 2 2 2 2 1
+        Q 1 1 1 2 2 2 2 1
         5 M X C M M M X M
         2 C X M C E M X X
         0 D B X X X X X X
@@ -796,7 +796,7 @@ class BoardGenerator() {
             """
         13
         MEDIUM
-        0 0 0 1 1 5 1 2 2
+        Q 0 0 1 1 5 1 2 2
         2 X X X X M G M X
         1 X X X D M F X X
         1 X X X X M X D X
@@ -809,7 +809,7 @@ class BoardGenerator() {
             """
         14
         MEDIUM
-        0 1 1 1 1 2 3 2 1
+        Q 1 1 1 1 2 3 2 1
         1 X X X X M F X X
         1 D X X X X E M X
         4 M X X M D M M X
@@ -822,7 +822,7 @@ class BoardGenerator() {
             """
         15
         MEDIUM
-        0 2 2 0 0 3 2 1 2
+        Q 2 2 0 0 3 2 1 2
         3 D C C X M M M X
         3 M M D X X X X M
         1 X M X X X X H X
@@ -835,7 +835,7 @@ class BoardGenerator() {
             """
         16
         MEDIUM
-        0 0 3 2 1 3 1 1 1
+        Q 0 3 2 1 3 1 1 1
         2 X M X X M X X X
         1 X X M X X H X X
         3 X M M X M X X G
@@ -848,7 +848,7 @@ class BoardGenerator() {
             """
         17
         MEDIUM
-        0 2 1 2 2 0 2 1 2
+        Q 2 1 2 2 0 2 1 2
         0 X X X X F X X X
         3 C M D M X M G X
         3 M X X F D M X M
@@ -861,7 +861,7 @@ class BoardGenerator() {
             """
         18
         MEDIUM
-        0 2 0 2 1 2 2 3 0
+        Q 2 0 2 1 2 2 3 0
         2 M X X M D X X X
         1 X X X D H X M X
         2 D X X X M X M X
@@ -874,7 +874,7 @@ class BoardGenerator() {
             """
         19
         MEDIUM
-        0 1 1 2 1 1 2 3 1
+        Q 1 1 2 1 1 2 3 1
         3 M G M X X M E X
         1 C X X X X X M X
         0 X X A D X X X X
@@ -887,7 +887,7 @@ class BoardGenerator() {
             """
         20
         MEDIUM
-        0 1 4 1 2 1 0 1 2
+        Q 1 4 1 2 1 0 1 2
         1 X M X X G X E X
         1 C X X X X X X M
         4 C M M M M X X G
@@ -900,7 +900,7 @@ class BoardGenerator() {
             """
         21
         MEDIUM
-        0 2 1 0 2 2 0 4 1
+        Q 2 1 0 2 2 0 4 1
         2 M C X X X G M X
         4 M M X D F X M M
         2 X X X M M G X X
@@ -913,7 +913,7 @@ class BoardGenerator() {
             """
         22
         MEDIUM
-        0 1 1 1 4 3 1 1 0
+        Q 1 1 1 4 3 1 1 0
         1 X D M X X X X G
         1 X X F X M X X X
         2 X M X B F M X X
@@ -926,7 +926,7 @@ class BoardGenerator() {
             """
         23
         MEDIUM
-        0 1 3 1 2 2 0 1 2
+        Q 1 3 1 2 2 0 1 2
         2 C M C X X X X M
         1 X M X D X F X X
         3 X X M M M B G X
@@ -939,7 +939,7 @@ class BoardGenerator() {
             """
         24
         MEDIUM
-        0 1 1 1 0 3 2 3 1
+        Q 1 1 1 0 3 2 3 1
         2 M X E G X X M X
         0 D X X X F X X X
         2 C D X X M M F X
@@ -952,7 +952,7 @@ class BoardGenerator() {
             """
         25
         MEDIUM
-        0 1 4 2 0 1 1 2 1
+        Q 1 4 2 0 1 1 2 1
         3 C M M X X X M F
         2 X M M X D X X X
         0 B X X X X X X X
@@ -965,7 +965,7 @@ class BoardGenerator() {
             """
         26
         MEDIUM
-        0 2 2 0 1 1 1 2 3
+        Q 2 2 0 1 1 1 2 3
         3 X M G X X F M M
         2 X E X M X X X M
         1 M X D X X X X X
@@ -978,7 +978,7 @@ class BoardGenerator() {
             """
         27
         MEDIUM
-        0 3 3 1 1 2 0 1 1
+        Q 3 3 1 1 2 0 1 1
         1 X M D D X X X F
         3 M M C X M X X X
         1 M X X X E X X X
@@ -991,7 +991,7 @@ class BoardGenerator() {
             """
         28
         MEDIUM
-        0 1 0 2 0 1 2 4 2
+        Q 1 0 2 0 1 2 4 2
         1 X X X X D X M X
         1 X X M X X D E X
         1 X X X X X D M X
@@ -1004,7 +1004,7 @@ class BoardGenerator() {
             """
         29
         MEDIUM
-        0 2 2 1 0 2 0 3 2
+        Q 2 2 1 0 2 0 3 2
         1 X X X D F X M X
         1 M X X X X X X X
         1 X X M D X X F X
@@ -1017,7 +1017,7 @@ class BoardGenerator() {
             """
         30
         MEDIUM
-        0 0 4 3 0 1 2 1 1
+        Q 0 4 3 0 1 2 1 1
         3 X M M X X M G X
         0 X X E X X E X X
         0 X X X F D X X X
@@ -1030,7 +1030,7 @@ class BoardGenerator() {
             """
         31
         MEDIUM
-        0 2 1 2 0 2 3 1 1
+        Q 2 1 2 0 2 3 1 1
         0 X X X X E X F F
         1 X X M F X X X X
         1 C D C X X M X X
@@ -1043,7 +1043,7 @@ class BoardGenerator() {
             """
         32
         MEDIUM
-        0 2 0 1 1 3 2 1 2
+        Q 2 0 1 1 3 2 1 2
         4 M C D M M X F M
         1 X D X X X M X X
         0 E X X X X X X X
@@ -1056,7 +1056,7 @@ class BoardGenerator() {
             """
         33
         MEDIUM
-        0 2 4 0 1 2 1 1 1
+        Q 2 4 0 1 2 1 1 1
         1 E X X M E X X F
         2 E M X D X X M X
         1 M E X X X X F H
@@ -1069,7 +1069,7 @@ class BoardGenerator() {
             """
         34
         MEDIUM
-        0 2 1 2 2 1 1 1 2
+        Q 2 1 2 2 1 1 1 2
         3 X D C X M C M M
         3 M G M X X M X X 
         0 X X X E X X X E
@@ -1082,7 +1082,7 @@ class BoardGenerator() {
             """
         35
         MEDIUM
-        0 1 0 2 1 3 3 1 1
+        Q 1 0 2 1 3 3 1 1
         1 D X X X X M X G
         3 M X M M X D X E
         2 X X C X C M M G
@@ -1095,7 +1095,7 @@ class BoardGenerator() {
             """
         36
         MEDIUM
-        0 1 2 1 2 3 1 1 1
+        Q 1 2 1 2 3 1 1 1
         1 X X F X M D X X
         2 X M X X C M X X
         2 X M X D X C G M
@@ -1108,7 +1108,7 @@ class BoardGenerator() {
             """
         37
         MEDIUM
-        0 1 1 3 1 1 3 1 1
+        Q 1 1 3 1 1 3 1 1
         1 X X X X X X M X
         2 X M M F X X X X
         1 X X D X B M X X
@@ -1121,7 +1121,7 @@ class BoardGenerator() {
             """
         38
         MEDIUM
-        0 1 1 0 3 2 3 1 1
+        Q 1 1 0 3 2 3 1 1
         4 X M X X M M M X
         1 X X X M E X X X
         3 M C X C C M X M
@@ -1134,7 +1134,7 @@ class BoardGenerator() {
             """
         39
         MEDIUM
-        0 2 0 2 1 0 5 0 2
+        Q 2 0 2 1 0 5 0 2
         1 X D X X X M F X
         1 C X X X X M X X
         2 D X C C X M X M
@@ -1147,7 +1147,7 @@ class BoardGenerator() {
             """
         40
         MEDIUM
-        0 2 1 1 2 1 1 3 1
+        Q 2 1 1 2 1 1 3 1
         2 M E M F X X X X
         1 X X X X X X M X
         3 C M X C G B M M
@@ -1160,7 +1160,7 @@ class BoardGenerator() {
             """
         41
         MEDIUM
-        0 3 1 2 2 0 1 1 2
+        Q 3 1 2 2 0 1 1 2
         1 D X X M X D X X
         5 D M X M X M M M
         0 B X X A F B X X
@@ -1173,7 +1173,7 @@ class BoardGenerator() {
             """
         42
         MEDIUM
-        0 2 0 2 1 0 5 1 1
+        Q 2 0 2 1 0 5 1 1
         2 X C M X X M X X
         2 M X X X X M X X
         1 X X X X X M X F
@@ -1186,7 +1186,7 @@ class BoardGenerator() {
             """
         43
         MEDIUM
-        0 0 2 2 1 2 0 3 2
+        Q 0 2 2 1 2 0 3 2
         3 C M D X X X M M
         3 X X D M M X M G
         2 X M M X X D G X
@@ -1199,7 +1199,7 @@ class BoardGenerator() {
             """
         44
         MEDIUM
-        0 1 0 2 1 2 1 2 3
+        Q 1 0 2 1 2 1 2 3
         1 X X X E F X X M
         1 X D M E D X X F
         1 X D X E M X X X
@@ -1212,7 +1212,7 @@ class BoardGenerator() {
             """
         45
         MEDIUM
-        0 0 2 2 3 1 1 2 1
+        Q 0 2 2 3 1 1 2 1
         1 X M D X X X X X
         1 C X E M X X X X
         1 D X M F D X X X
@@ -1225,7 +1225,7 @@ class BoardGenerator() {
             """
         1
         HARD
-        0 1 1 1 4 2 0 2 1
+        Q 1 1 1 4 2 0 2 1
         3 D D M M E X M G
         0 X D D X D D F X
         2 X X X M G X M X
@@ -1238,7 +1238,7 @@ class BoardGenerator() {
             """
         2
         HARD
-        0 2 2 1 0 1 1 1 4
+        Q 2 2 1 0 1 1 1 4
         3 M E X F M G X M
         0 X X X X X X X X
         1 E M D X F F X X
@@ -1251,7 +1251,7 @@ class BoardGenerator() {
             """
         3
         HARD
-        0 1 1 3 3 0 2 1 1
+        Q 1 1 3 3 0 2 1 1
         0 E X D X D X X F
         1 X X X X F M X X
         2 X M X X X G C M
@@ -1264,7 +1264,7 @@ class BoardGenerator() {
             """
         4
         HARD
-        0 4 2 3 1 1 0 1 0
+        Q 4 2 3 1 1 0 1 0
         1 X X M X X X E X
         3 M C M G F X M X
         2 M M X X X G F X
@@ -1277,7 +1277,7 @@ class BoardGenerator() {
             """
         5
         HARD
-        0 3 2 1 1 0 2 1 2
+        Q 3 2 1 1 0 2 1 2
         1 X X M X X X G E
         2 E M X X X X X M
         2 X X X X X M B M
@@ -1290,7 +1290,7 @@ class BoardGenerator() {
             """
         6
         HARD
-        0 2 1 0 2 3 1 1 2
+        Q 2 1 0 2 3 1 1 2
         1 X X X E M X X E
         1 E X X M F X X X
         2 M X G M X X X X
@@ -1303,7 +1303,7 @@ class BoardGenerator() {
             """
         7
         HARD
-        0 1 0 1 1 1 4 2 2
+        Q 1 0 1 1 1 4 2 2
         3 X D D X M M E M
         1 X X M D X X X X
         1 X B X X X D M X
@@ -1316,7 +1316,7 @@ class BoardGenerator() {
             """
         8
         HARD
-        0 3 3 1 1 0 1 1 2
+        Q 3 3 1 1 0 1 1 2
         1 M X X X X X E X
         0 X X X X X D X X
         1 X M X X X X X X
@@ -1329,7 +1329,7 @@ class BoardGenerator() {
             """
         9
         HARD
-        0 3 1 1 1 2 2 1 1
+        Q 3 1 1 1 2 2 1 1
         4 M X X F M M G M
         3 D C X M M M E X
         1 C M X X X X X G
@@ -1342,7 +1342,7 @@ class BoardGenerator() {
             """
         10
         HARD
-        0 1 3 1 1 0 2 2 2
+        Q 1 3 1 1 0 2 2 2
         1 X X X X X M X X
         1 X M X X X X X X
         2 X E M B C X M E
@@ -1355,7 +1355,7 @@ class BoardGenerator() {
             """
         11
         HARD
-        0 3 1 2 1 0 2 0 3
+        Q 3 1 2 1 0 2 0 3
         5 M M X M X M X M
         1 D X X X F X X M
         0 E X X X X X X F
@@ -1368,7 +1368,7 @@ class BoardGenerator() {
             """
         12
         HARD
-        0 2 1 2 1 4 1 0 1
+        Q 2 1 2 1 4 1 0 1
         1 E X X X M X X X
         3 X X F M M M G G
         3 D M M X M X H X
@@ -1381,7 +1381,7 @@ class BoardGenerator() {
             """
         13
         HARD
-        0 1 1 2 2 2 1 2 1
+        Q 1 1 2 2 2 1 2 1
         2 M E M G F X E X
         1 X X X M F X X F
         1 X X X X X X M X
@@ -1394,7 +1394,7 @@ class BoardGenerator() {
             """
         14
         HARD
-        0 1 2 2 1 0 0 3 3
+        Q 1 2 2 1 0 0 3 3
         1 X E M X X X X X
         1 D B X X X D M X
         2 X X A M G X X M
@@ -1407,7 +1407,7 @@ class BoardGenerator() {
             """
         15
         HARD
-        0 2 2 1 0 2 1 2 2
+        Q 2 2 1 0 2 1 2 2
         1 X E X F X M F X
         2 X X M X X X X M
         1 M X X F X A X X
@@ -1420,7 +1420,7 @@ class BoardGenerator() {
             """
         16
         HARD
-        0 3 3 1 1 1 2 1 0
+        Q 3 3 1 1 1 2 1 0
         2 M M D X X X X X
         2 M E X X M X X X
         1 X M X D D X F X
@@ -1433,7 +1433,7 @@ class BoardGenerator() {
             """
         17
         HARD
-        0 2 0 3 1 1 2 1 2
+        Q 2 0 3 1 1 2 1 2
         1 X D X M F X X E
         3 M X M G X M X G
         1 A X X X X X X M
@@ -1446,7 +1446,7 @@ class BoardGenerator() {
             """
         18
         HARD
-        0 0 0 3 1 1 5 2 0
+        Q 0 0 3 1 1 5 2 0
         1 X X E D M X F X
         3 D X M X X M M X
         1 X X E X X M X X
@@ -1459,7 +1459,7 @@ class BoardGenerator() {
             """
         19
         HARD
-        0 3 1 1 1 1 2 1 2
+        Q 3 1 1 1 1 2 1 2
         1 M X E F X X X X
         1 E X X X F D M E
         1 D D X M X X X G
@@ -1472,7 +1472,7 @@ class BoardGenerator() {
             """
         20
         HARD
-        0 1 2 2 2 2 1 1 1
+        Q 1 2 2 2 2 1 1 1
         0 X X X X X X F X
         2 X E M C E X X M
         2 X X X M C X M X
@@ -1485,7 +1485,7 @@ class BoardGenerator() {
             """
         21
         HARD
-        0 1 2 1 1 1 2 2 2
+        Q 1 2 1 1 1 2 2 2
         1 X X X E X M E X
         1 X D X M D X X X
         1 X M X F H X X H
@@ -1498,7 +1498,7 @@ class BoardGenerator() {
             """
         22
         HARD
-        0 2 1 1 1 2 1 2 2
+        Q 2 1 1 1 2 1 2 2
         1 X X X M X X F X
         1 X X X X X M X G
         1 M B X X X X H E
@@ -1511,7 +1511,7 @@ class BoardGenerator() {
             """
         23
         HARD
-        0 1 1 1 2 1 1 1 4
+        Q 1 1 1 2 1 1 1 4
         4 M C X M M X G M
         1 C X X B F X X M
         1 X X X X X X X M
@@ -1524,7 +1524,7 @@ class BoardGenerator() {
             """
         24
         HARD
-        0 1 1 1 1 2 2 2 2
+        Q 1 1 1 1 2 2 2 2
         1 C M D X X X F X
         2 X X H X C X M M
         3 X X X M M X M A
@@ -1537,7 +1537,7 @@ class BoardGenerator() {
             """
         25
         HARD
-        0 2 0 1 2 0 2 2 3
+        Q 2 0 1 2 0 2 2 3
         0 X D X X D D X E
         1 X X X X F E M X
         1 X X X X X M X X
@@ -1550,7 +1550,7 @@ class BoardGenerator() {
             """
         26
         HARD
-        0 2 1 0 3 2 1 1 2
+        Q 2 1 0 3 2 1 1 2
         2 C X C M X G X M
         0 X X X D X F X X
         1 D X X X M X X X
@@ -1563,7 +1563,7 @@ class BoardGenerator() {
             """
         27
         HARD
-        0 1 1 5 1 3 0 0 1
+        Q 1 1 5 1 3 0 0 1
         2 X C M X M X G G
         1 X X M X D X X X
         1 B M A F X X X X
@@ -1576,7 +1576,7 @@ class BoardGenerator() {
             """
         28
         HARD
-        0 1 1 5 1 0 0 3 1
+        Q 1 1 5 1 0 0 3 1
         3 M E M M X F E X
         1 C E E X X F M X
         1 X B M X X X X X
@@ -1589,7 +1589,7 @@ class BoardGenerator() {
             """
         29
         HARD
-        0 0 1 2 1 2 4 1 1
+        Q 0 1 2 1 2 4 1 1
         2 X X E X M E G M
         1 X D E X F M X X
         1 D C X M X X X X
@@ -1602,7 +1602,7 @@ class BoardGenerator() {
             """
         30
         HARD
-        0 1 0 1 3 2 3 1 1
+        Q 1 0 1 3 2 3 1 1
         0 X X X X X X X E
         1 D X X X M X F X
         2 X X X M X X M X
@@ -1615,7 +1615,7 @@ class BoardGenerator() {
             """
         31
         HARD
-        0 1 1 3 2 1 1 2 1
+        Q 1 1 3 2 1 1 2 1
         3 M D E X F M E M
         1 D X M D F X X F
         3 X X M X M G M X
@@ -1628,7 +1628,7 @@ class BoardGenerator() {
             """
         32
         HARD
-        0 1 2 1 2 0 0 5 1
+        Q 1 2 1 2 0 0 5 1
         1 E E X M X X X E
         3 X M M X G X M X
         3 X D X M X X M M
@@ -1641,7 +1641,7 @@ class BoardGenerator() {
             """
         33
         HARD
-        0 2 3 2 0 2 0 1 2
+        Q 2 3 2 0 2 0 1 2
         2 D M X X X X M X
         1 E X M X X X X F
         1 M E D H X X X X
@@ -1654,7 +1654,7 @@ class BoardGenerator() {
             """
         34
         HARD
-        0 1 2 2 1 2 1 2 1
+        Q 1 2 2 1 2 1 2 1
         4 X M E C M E M M
         2 D M C C X X M X
         1 B X M X X X X F
@@ -1667,7 +1667,7 @@ class BoardGenerator() {
             """
         35
         HARD
-        0 2 2 1 1 1 1 1 3
+        Q 2 2 1 1 1 1 1 3
         2 X M X C G F X M
         0 X X X D X X X F
         2 D X X H M X M X
@@ -1680,7 +1680,7 @@ class BoardGenerator() {
             """
         36
         HARD
-        0 1 2 1 3 3 0 2 0
+        Q 1 2 1 3 3 0 2 0
         1 X X F X M X X X
         1 X X X M E X X X
         2 M X M E F X E F
@@ -1693,7 +1693,7 @@ class BoardGenerator() {
             """
         37
         HARD
-        0 2 1 1 1 1 2 1 3
+        Q 2 1 1 1 1 2 1 3
         0 X X F D X X X X
         3 X C M X M F M F
         1 M X F X D X X X
@@ -1706,7 +1706,7 @@ class BoardGenerator() {
             """
         38
         HARD
-        0 3 1 1 1 0 1 1 4
+        Q 3 1 1 1 0 1 1 4
         2 M D X X X X X M
         1 M X X X X X X G
         1 X X D X X X X M
@@ -1719,7 +1719,7 @@ class BoardGenerator() {
             """
         39
         HARD
-        0 1 0 2 3 0 1 3 2
+        Q 1 0 2 3 0 1 3 2
         1 X X D X X E M X
         1 X X M D X X E X
         3 X X M F D G M M
@@ -1732,7 +1732,7 @@ class BoardGenerator() {
             """
         40
         HARD
-        0 2 1 3 1 3 1 1 0
+        Q 2 1 3 1 3 1 1 0
         1 X E F X M F X X
         1 X M X X F X X X
         2 M X X M X X X F
@@ -1745,7 +1745,7 @@ class BoardGenerator() {
             """
         41
         HARD
-        0 3 2 1 2 0 1 3 0
+        Q 3 2 1 2 0 1 3 0
         2 M E X X X X M X
         1 X X M X X X X X
         1 E B H D X X M X
@@ -1758,7 +1758,7 @@ class BoardGenerator() {
             """
         42
         HARD
-        0 1 4 1 3 0 1 1 1
+        Q 1 4 1 3 0 1 1 1
         1 C M X X D X X G
         1 C X H M X X X X
         0 X X X X X X X X
@@ -1771,7 +1771,7 @@ class BoardGenerator() {
             """
         43
         HARD
-        0 2 2 0 1 2 2 0 3
+        Q 2 2 0 1 2 2 0 3
         3 M M X X X G X M
         1 D X X X F X X M
         1 D X X X X M X X
@@ -1784,7 +1784,7 @@ class BoardGenerator() {
             """
         44
         HARD
-        0 2 3 1 2 2 0 2 0
+        Q 2 3 1 2 2 0 2 0
         1 X M E E X X X X
         3 M E D M X G M X
         1 M D X X X X X X
@@ -1797,7 +1797,7 @@ class BoardGenerator() {
             """
         45
         HARD
-        0 4 0 1 2 3 1 0 1
+        Q 4 0 1 2 3 1 0 1
         2 D C E X M M X X
         1 M D X X X X X X
         2 E X M G M X X X

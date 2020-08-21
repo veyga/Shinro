@@ -19,9 +19,10 @@ class SquareImageView @JvmOverloads constructor(
         super.onMeasure(widthMeasureSpec, widthMeasureSpec)
     }
 
+
     fun bindSvg(str: String){
         val res = when (str) {
-            " " -> R.drawable.ic_blank_cell
+            "Q" -> R.drawable.ic_blank_cell  //cell 0,0
             "X" -> R.drawable.ic_letter_x
             "M" -> R.drawable.ic_circle_red
             "0" -> R.drawable.ic_number0

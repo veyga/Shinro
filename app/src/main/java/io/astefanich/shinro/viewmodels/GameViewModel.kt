@@ -2,23 +2,17 @@ package io.astefanich.shinro.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import arrow.core.None
-import arrow.core.Option
-import arrow.core.Some
 import io.astefanich.shinro.common.*
 import io.astefanich.shinro.model.Game
 import io.astefanich.shinro.repository.GameRepository
 import io.astefanich.shinro.util.ShinroTimer
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import timber.log.Timber
 import java.util.*
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import kotlin.with
 
 
 data class LoadGameCommand(val playRequest: PlayRequest)
@@ -37,8 +31,13 @@ object SurrenderCommand
 object SolveBoardCommand
 
 
-data class GameLoadedEvent(val difficulty: Difficulty, val grid: Grid, val startTime: Long, val freebiesRemaining: Int )
-data class TimeIncrementedEvent(val sec: Long)
+data class GameLoadedEvent(
+    val difficulty: Difficulty,
+    val grid: Grid,
+    val startTime: Long,
+    val freebiesRemaining: Int
+)
+
 data class CellChangedEvent(val row: Int, val col: Int, val newVal: String)
 object TwelveMarblesPlacedEvent
 data class RevertedToCheckpointEvent(val newBoard: Grid)
@@ -52,8 +51,9 @@ data class FreebiePlacedEvent(val row: Int, val col: Int, val nRemaining: Int)
 object OutOfFreebiesEvent
 data class IncorrectSolutionEvent(val numIncorrect: Int)
 data class TooManyPlacedEvent(val numPlaced: Int)
+
+//data class BoardSolvedEvent(val newBoard: Grid)
 data class GameCompletedEvent(val summary: GameSummary)
-data class BoardSolvedEvent(val newBoard: Grid)
 
 /**
  * Core game logic class
@@ -78,83 +78,97 @@ constructor(
 
     @Subscribe
     fun handle(cmd: LoadGameCommand) {
-        Timber.i("LoadGameCommand")
-        if(gameTimer.isStarted){
-            Timber.i("game already loaded")
-            bus.post( GameLoadedEvent( _game.difficulty, _game.board, _game.timeElapsed, _game.freebiesRemaining() ) )
-            return
-        }
-            Timber.i("loading new game")
-            CoroutineScope(Dispatchers.Main).launch { //need to utilize main so lateinit var loads
+        if (gameTimer.isStarted) {
+            _game.apply {
+                bus.post(
+                    GameLoadedEvent(
+                        difficulty,
+                        board,
+                        timeElapsed,
+                        freebiesRemaining()
+                    )
+                )
+            }
+        } else {
+            viewModelScope.launch(Dispatchers.IO) {
                 _game = when (cmd.playRequest) {
                     is PlayRequest.Resume -> repo.getActiveGame()
                     is PlayRequest.NewGame -> repo.getNewGameByDifficulty(cmd.playRequest.difficulty)
                 }
-                val freebiesRemaining = if (_game.freebie == Freebie(0, 0)) 1 else 0
-                delay(2000)
-                bus.post( GameLoadedEvent( _game.difficulty, _game.board, _game.timeElapsed, _game.freebiesRemaining() ) )
+                withContext(Dispatchers.Main) {
+                    _game.apply {
+                        bus.post(
+                            GameLoadedEvent(
+                                difficulty,
+                                board,
+                                timeElapsed,
+                                freebiesRemaining()
+                            )
+                        )
+                    }
+                }
             }
+        }
     }
-
 
     @Subscribe
     fun handle(cmd: StartTimerCommand) {
-        Timber.i("StartTimerCommand")
         gameTimer.run {
-            if(!isStarted){
-                start {
-                    Timber.i("gameTime= ${_game.timeElapsed}")
-                    _game.timeElapsed +=  1L
-                }
-            }
+            if (!isStarted)
+                start { _game.timeElapsed += 1L }
         }
     }
 
     @Subscribe
     fun handle(cmd: ResumeTimerCommand) {
-        Timber.i("ResumeTimerCommand")
-        gameTimer?.resume()
+        gameTimer.apply {
+            if (isRunning) resume()
+        }
     }
 
     @Subscribe
     fun handle(cmd: PauseTimerCommand) {
-        Timber.i("PauseTimerCommand")
-        gameTimer?.pause()
+        gameTimer.apply {
+            if (!isRunning) pause()
+        }
     }
 
     @Subscribe
     fun handle(cmd: MoveCommand) {
-        Timber.i("MoveCommand")
         val r = cmd.row
         val c = cmd.col
-        val clicked = _game.board[r][c]
-        //user clicked on arrow or freebie
-        if (clicked.actual in "A".."G" || Freebie(r, c) == _game.freebie)
-            return
-
-        var newCell: Cell = Cell("", "")
-        if (clicked.current == " ") {
-            newCell = Cell("X", clicked.actual)
-        } else if (clicked.current == "M") {
-            newCell = Cell(" ", clicked.actual)
-            _game.marblesPlaced -= 1 //can win by placing marbles or taking them away
-        } else {
-            newCell = Cell("M", clicked.actual)
-            _game.marblesPlaced += 1
+        _game.apply {
+            val clicked = board[r][c]
+            if (clicked.actual in "A".."G" || Freebie(r, c) == freebie)
+                return
+            if (undoStack.isEmpty())
+                bus.post(UndoStackActivatedEvent)
+            var newCell: Cell
+            when (clicked.current) {
+                " " -> {
+                    newCell = Cell("X", clicked.actual)
+                }
+                "M" -> {
+                    newCell = Cell(" ", clicked.actual)
+                    marblesPlaced -= 1 //can win by placing marbles or taking them away
+                }
+                else -> {
+                    newCell = Cell("M", clicked.actual)
+                    marblesPlaced += 1
+                    if (marblesPlaced > 12)
+                        bus.post(TooManyPlacedEvent(marblesPlaced))
+                }
+            }
+            board[r][c] = newCell
+            bus.post(CellChangedEvent(r, c, newCell.current))
+            undoStack.push(Move(r, c, clicked, newCell))
+            if (marblesPlaced == 12)
+                bus.post(TwelveMarblesPlacedEvent)
         }
-        _game.board[r][c] = newCell
-        bus.post(CellChangedEvent(r, c, newCell.current))
-        undoStack.push(Move(r, c, clicked, newCell))
-        bus.post(UndoStackActivatedEvent)
-        if (_game.marblesPlaced > 12)
-            bus.post(TooManyPlacedEvent(_game.marblesPlaced))
-        else if (_game.marblesPlaced == 12)
-            bus.post(TwelveMarblesPlacedEvent)
     }
 
     @Subscribe
     fun handle(cmd: CheckSolutionCommand) {
-        Timber.i("CheckSolutionCommand")
         if (_game.marblesPlaced > 12) {
             bus.post(TooManyPlacedEvent(_game.marblesPlaced))
         } else if (_game.marblesPlaced == 12) {
@@ -167,9 +181,9 @@ constructor(
                         numIncorrect += 1
                 }
             }
-            if (numIncorrect == 0)
+            if (numIncorrect == 0) {
                 bus.post(GameCompletedEvent(GameSummary(_game.difficulty, true, _game.timeElapsed)))
-            else
+            } else
                 bus.post(IncorrectSolutionEvent(numIncorrect))
         }
     }
@@ -177,19 +191,17 @@ constructor(
 
     @Subscribe
     fun handle(cmd: ResetBoardCommand) {
-        Timber.i("ResetBoardCommand")
-        val cells = _game.board
-        for (i in 1..8) {
-            for (j in 1..8) {
-                if (_game.freebie == Freebie(i, j))
-                    continue
-                val cell = cells[i][j]
-                if (cell.actual == "M" || cell.actual == "X")
-                    _game.board[i][j] = Cell(" ", cell.actual)
-            }
-        }
-
         with(_game) {
+            val cells = board
+            for (i in 1..8) {
+                for (j in 1..8) {
+                    if (freebie == Freebie(i, j))
+                        continue
+                    val cell = cells[i][j]
+                    if (cell.actual == "M" || cell.actual == "X")
+                        board[i][j] = Cell(" ", cell.actual)
+                }
+            }
             if (freebie == Freebie(0, 0)) marblesPlaced = 0
             else marblesPlaced = 1
         }
@@ -202,7 +214,6 @@ constructor(
 
     @Subscribe
     fun handle(cmd: SetCheckpointCommand) {
-        Timber.i("SetCheckpointCommand")
         for (i in 0..8)
             for (j in 0..8)
                 checkpoint[i][j] = _game.board[i][j]
@@ -218,7 +229,6 @@ constructor(
 
     @Subscribe
     fun handle(cmd: UndoToCheckpointCommand) {
-        Timber.i("UndoToCheckpointCommand")
         for (i in 0..8)
             for (j in 0..8)
                 _game.board[i][j] = checkpoint[i][j]
@@ -232,7 +242,6 @@ constructor(
 
     @Subscribe
     fun handle(cmd: SaveGameCommand) {
-        Timber.i("SaveGameCommand")
         viewModelScope.launch(Dispatchers.IO) {
             repo.saveGame(_game)
             Timber.i("game saved. elapsed time: ${_game.timeElapsed}")
@@ -241,15 +250,14 @@ constructor(
 
     @Subscribe
     fun handle(cmd: UndoCommand) {
-        Timber.i("UndoCommand")
         if (undoStack.isEmpty())
             return
         val move = undoStack.pop()
-        _game.board[move.row][move.col] = move.oldCell
-        if (move.newCell.current == "M")
-            _game.marblesPlaced -= 1
-        else if (move.oldCell.current == "M")
-            _game.marblesPlaced += 1
+        with(_game) {
+            board[move.row][move.col] = move.oldCell
+            if (move.newCell.current == "M") marblesPlaced -= 1
+            else if (move.oldCell.current == "M") marblesPlaced += 1
+        }
         if (undoStack.isEmpty())
             bus.post(UndoStackDeactivatedEvent)
         bus.post(CellChangedEvent(move.row, move.col, move.oldCell.current))
@@ -258,7 +266,6 @@ constructor(
 
     @Subscribe
     fun handle(cmd: UseFreebieCommand) {
-        Timber.i("UseFreebieCommand")
         if (_game.freebie != Freebie(0, 0)) {
             bus.post(OutOfFreebiesEvent)
             return
@@ -267,33 +274,32 @@ constructor(
         val rand = Random()
         val verticalStrategy = ranges[rand.nextInt(2)]
         val horizontalStrategy = ranges[rand.nextInt(2)]
-        outer@ for (i in verticalStrategy) {
-            for (j in horizontalStrategy) {
-                val cell = _game.board[i][j]
-                if (cell.actual == "M" && cell.current != "M") {
-                    _game.board[i][j] = Cell("M")
-//                    bus.post(CellChangedEvent(i, j, "M"))
-                    checkpoint[i][j] = Cell("M")
-                    _game.freebie = Freebie(i, j)
-                    bus.post(FreebiePlacedEvent(i, j, 0))
-                    break@outer
+        with(_game) {
+            outer@ for (i in verticalStrategy) {
+                for (j in horizontalStrategy) {
+                    val cell = _game.board[i][j]
+                    if (cell.actual == "M" && cell.current != "M") {
+                        board[i][j] = Cell("M")
+                        checkpoint[i][j] = Cell("M")
+                        freebie = Freebie(i, j)
+                        bus.post(FreebiePlacedEvent(i, j, 0))
+                        break@outer
+                    }
                 }
             }
+            marblesPlaced += 1
+            if (marblesPlaced == 12)
+                bus.post(TwelveMarblesPlacedEvent)
         }
-        _game.marblesPlaced += 1
-        if (_game.marblesPlaced == 12)
-            bus.post(TwelveMarblesPlacedEvent)
     }
 
     @Subscribe
     fun handle(cmd: SurrenderCommand) {
-        Timber.i("SurrenderCommand")
         bus.post(GameCompletedEvent(GameSummary(_game.difficulty, false, _game.timeElapsed)))
     }
 
     @Subscribe
-    fun solve(cmd: SolveBoardCommand) {
-        Timber.i("SolveBoardCommand")
+    fun handle(cmd: SolveBoardCommand) {
         for (i in 1..8) {
             for (j in 1..8) {
                 if (_game.board[i][j].actual == "M") {
@@ -301,7 +307,13 @@ constructor(
                 }
             }
         }
-        bus.post(BoardSolvedEvent(_game.board))
+        bus.post(RevertedToCheckpointEvent(_game.board)) //trigger grid refresh
+        bus.post(GameCompletedEvent(GameSummary(_game.difficulty, true, _game.timeElapsed)))
+    }
+
+    override fun onCleared() {
+        bus.unregister(this) //stop accepting commands
+        super.onCleared()
     }
 
     private class Move(val row: Int, val col: Int, val oldCell: Cell, val newCell: Cell)
