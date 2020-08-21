@@ -17,6 +17,7 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import timber.log.Timber
 import java.util.*
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 
@@ -70,19 +71,20 @@ constructor(
     }
 
     private lateinit var _game: Game
-    private var gameTimer: ShinroTimer? = null
+    private var gameTimer = ShinroTimer(TimeSeconds.ONE)
     private var checkpoint: Grid = Array(9) { Array(9) { Cell(" ") } }
     private var checkpointActive = false
     private var undoStack = Stack<Move>()
 
     @Subscribe
     fun handle(cmd: LoadGameCommand) {
-        if(gameTimer != null){
-            Timber.i("gametimer is not null")
+        Timber.i("LoadGameCommand")
+        if(gameTimer.isStarted){
+            Timber.i("game already loaded")
             bus.post( GameLoadedEvent( _game.difficulty, _game.board, _game.timeElapsed, _game.freebiesRemaining() ) )
             return
         }
-            Timber.i("gametimer is null")
+            Timber.i("loading new game")
             CoroutineScope(Dispatchers.Main).launch { //need to utilize main so lateinit var loads
                 _game = when (cmd.playRequest) {
                     is PlayRequest.Resume -> repo.getActiveGame()
@@ -97,12 +99,13 @@ constructor(
 
     @Subscribe
     fun handle(cmd: StartTimerCommand) {
-        if(gameTimer == null){
-            gameTimer = ShinroTimer(TimeSeconds.ONE)
-        }
-        gameTimer!!.start {
-            Timber.i("gameTime= ${_game.timeElapsed}")
-            _game.timeElapsed +=  1L
+        gameTimer.run {
+            if(!isStarted){
+                start {
+                    Timber.i("gameTime= ${_game.timeElapsed}")
+                    _game.timeElapsed +=  1L
+                }
+            }
         }
     }
 
