@@ -3,24 +3,29 @@ package io.astefanich.shinro.ui
 
 import android.animation.ObjectAnimator
 import android.app.AlertDialog
-import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
+import android.os.SystemClock
 import android.text.format.DateUtils
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.navigation.ui.NavigationUI
+import arrow.core.Option
+import arrow.core.Some
 import io.astefanich.shinro.R
 import io.astefanich.shinro.common.Difficulty
 import io.astefanich.shinro.common.Grid
-import io.astefanich.shinro.common.PlayRequest
+import io.astefanich.shinro.common.TimeSeconds
 import io.astefanich.shinro.databinding.FragmentGameBinding
+import io.astefanich.shinro.util.ShinroTimer
+import io.astefanich.shinro.util.UITimer
 import io.astefanich.shinro.util.bindGridSvg
 import io.astefanich.shinro.viewmodels.*
 import kotlinx.coroutines.CoroutineScope
@@ -31,7 +36,6 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import timber.log.Timber
 import javax.inject.Inject
-import javax.inject.Named
 
 
 class GameFragment : Fragment() {
@@ -49,46 +53,28 @@ class GameFragment : Fragment() {
     @Inject
     lateinit var gameDialogBuilder: @JvmSuppressWildcards(true) (String, String, () -> Unit) -> AlertDialog.Builder
 
-
-//    @Inject
-//    lateinit var bus: EventBus
     @Inject
-    lateinit var nums: List<Int>
+    lateinit var bus: EventBus
 
     @Inject
-    @field:Named("actCtx")
-    lateinit var actCtx: Context
-
-    @Inject
-    @field:Named("appCtx")
-    lateinit var appCtx: Context
-
-    private var bus = EventBus.getDefault()
+    lateinit var uiTimer: Option<ShinroTimer>
+    private var uiTime: Long = 0L
     private lateinit var viewModel: GameViewModel
     private lateinit var binding: FragmentGameBinding
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        Timber.i("gameFragment onCreateView")
 
-//        AndroidSupportInjection.inject(this)
-
-        val gameFragmentArgs by navArgs<GameFragmentArgs>()
-        var playRequest = gameFragmentArgs.playRequest
-        bus.post(LoadGameCommand(playRequest))
-//        (activity as MainActivity)
-//            .getMainActivityComponent()
-//            .getGameComponentBuilder()
-//            .playRequest(playRequest)
-//            .build()
-//            .inject(this)
-        Timber.i("Game Fragment onCreateView")
-        Timber.i("I got the nums: $nums")
-        Timber.i("appCtx: $appCtx")
-        Timber.i("actCtx: $actCtx")
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_game, container, false)
+        (activity as MainActivity)
+            .mainActivityComponent
+            .getGameComponent()
+            .inject(this)
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(GameViewModel::class.java)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_game, container, false)
         for (i in 1..8) {
             val row = binding.grid[i] as ViewGroup
             for (j in 1..8) {
@@ -96,26 +82,25 @@ class GameFragment : Fragment() {
                 cell.setOnClickListener { bus.post(MoveCommand(i, j)) }
             }
         }
-        binding.surrenderBoard.setOnClickListener {
-            gameDialogBuilder("Surrender", "Are you sure?") { bus.post(SurrenderCommand) }.show() }
-        binding.resetBoard.setOnClickListener {
-            gameDialogBuilder("Reset", "Clear the board?\n(freebie will persist if used)") { bus.post(ResetBoardCommand) }.show() }
-        binding.freebiesRemaining.setOnClickListener {
-            gameDialogBuilder("Freebie", "Use freebie?\nThis will persist until the game is over") { bus.post(UseFreebieCommand) }.show() }
-        binding.setCheckpoint.setOnClickListener { bus.post(SetCheckpointCommand) }
-        binding.undoToCheckpoint.setOnClickListener { bus.post(UndoToCheckpointCommand) }
-        binding.undoButton.setOnClickListener { bus.post(UndoCommand) }
-        binding.solveButton.setOnClickListener { bus.post(SolveBoardCommand)}
-        binding.lifecycleOwner = this
+        binding.apply {
+            surrenderBoard.setOnClickListener { gameDialogBuilder( "Surrender", "Are you sure?" ) { bus.post(SurrenderCommand) }.show() }
+            resetBoard.setOnClickListener { gameDialogBuilder( "Reset", "Clear the board?\n(freebie will persist if used)" ) { bus.post(ResetBoardCommand) }.show() }
+            freebiesRemaining.setOnClickListener { gameDialogBuilder( "Freebie", "Use freebie?\nThis will persist until the game is over" ) { bus.post(UseFreebieCommand) }.show() }
+            setCheckpoint.setOnClickListener { bus.post(SetCheckpointCommand) }
+            undoToCheckpoint.setOnClickListener { bus.post(UndoToCheckpointCommand) }
+            undoButton.setOnClickListener { bus.post(UndoCommand) }
+            solveButton.setOnClickListener { bus.post(SolveBoardCommand) }
+            lifecycleOwner = this@GameFragment
+        }
+        setHasOptionsMenu(true)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         Timber.i("game fragment onViewCreated")
-//        super.onViewCreated(view, savedInstanceState)
-//        val gameFragmentArgs by navArgs<GameFragmentArgs>()
-//        var playRequest = gameFragmentArgs.playRequest
-//        bus.post(LoadGameCommand(playRequest))
+        super.onViewCreated(view, savedInstanceState)
+        val gameFragmentArgs by navArgs<GameFragmentArgs>()
+        bus.post(LoadGameCommand(gameFragmentArgs.playRequest))
     }
 
     //onDestroy isn't reliably called. This call reliably saves active game
@@ -125,6 +110,9 @@ class GameFragment : Fragment() {
         Timber.i("ON STOP")
         bus.post(PauseTimerCommand)
         bus.post(SaveGameCommand)
+        when (uiTimer) {
+            is Some -> (uiTimer as Some<ShinroTimer>).t.pause()
+        }
     }
 
     override fun onStart() {
@@ -132,6 +120,9 @@ class GameFragment : Fragment() {
         Timber.i("ON START")
         bus.register(this)
         bus.post(ResumeTimerCommand)
+        when (uiTimer) {
+            is Some -> (uiTimer as Some<ShinroTimer>).t.resume()
+        }
     }
 
     override fun onDestroy() {
@@ -139,123 +130,163 @@ class GameFragment : Fragment() {
         Timber.i("ON DESTROY")
     }
 
-    //Associating views with command objects (issuing Command objects not possible via XML)
-    private fun initListeners() {
-    }
-
-
     @Subscribe
     fun on(evt: GameLoadedEvent) {
-        binding.difficultyText.text = evt.difficulty.repr
+        Timber.i("GameLoadedEvent")
         val drawable =
             if (evt.difficulty == Difficulty.EASY) R.drawable.ic_green_circle32
             else if (evt.difficulty == Difficulty.MEDIUM) R.drawable.ic_blue_square32
             else R.drawable.ic_gray_diamond32
-        binding.difficultyIcon.setImageDrawable(resources.getDrawable(drawable))
-        binding.freebiesRemaining.text = "Freebies Remaining:\n${evt.freebiesRemaining} / 1"
-        binding.timeElapsed.text = String.format(resources.getString(R.string.timer_fmt), DateUtils.formatElapsedTime(evt.elapsedTime))
-        refreshGrid(evt.grid)
-        binding.progressBar.visibility = View.GONE
-        binding.game.visibility = View.VISIBLE
+        binding.apply {
+            difficultyText.text = evt.difficulty.repr
+            difficultyIcon.setImageDrawable(resources.getDrawable(drawable))
+            freebiesRemaining.text = String.format( resources.getString(R.string.freebies_remaining_fmt), evt.freebiesRemaining )
+            refreshGrid(evt.grid)
+            progressBar.visibility = View.GONE
+            game.visibility = View.VISIBLE
+        }
+        bus.post(StartTimerCommand)
+        when (uiTimer) {
+            is Some -> {
+                var uiTime = evt.elapsedTime
+                val timer = (uiTimer as Some<ShinroTimer>)
+                binding.timeElapsed.visibility = View.VISIBLE
+                timer.t.start {
+//                    binding.timeElapsed.post(() -> uiTimer)
+                    //binding.view.post(uiTime + (uiTimer + period.seconds)
+                    Timber.i("uiTime =  ${uiTime}")
+                    uiTime += timer.t.period.seconds
+                }
+            }
+        }
     }
 
-    @Subscribe
-    fun on(evt: TimeIncrementedEvent) {
-//            if (timerVisible && (evt.sec % uiTimePeriod.seconds) == 0L)
-        binding.timeElapsed.text = String.format( resources.getString(R.string.timer_fmt), DateUtils.formatElapsedTime(evt.sec) )
-    }
+//    @Subscribe
+//    fun on(evt: TimeIncrementedEvent) {
+//        Timber.i("TimeIncrementedEvent")
+//        if (timerVisible && (evt.sec % uiTimePeriod.seconds) == 0L)
+//            binding.timeElapsed.text = String.format(
+//                resources.getString(R.string.timer_fmt),
+//                DateUtils.formatElapsedTime(evt.sec)
+//            )
+//    }
 
     @Subscribe
     fun on(evt: CellChangedEvent) {
+        Timber.i("CellChangedEvent")
         ((binding.grid[evt.row] as ViewGroup)[evt.col] as SquareImageView).bindSvg(evt.newVal)
     }
 
     @Subscribe
     fun on(evt: TwelveMarblesPlacedEvent) {
+        Timber.i("TwelveMarblesPlacedEvent")
         bus.post(CheckSolutionCommand)
     }
 
     @Subscribe
     fun on(evt: BoardResetEvent) {
+        Timber.i("BoardResetEvent")
         refreshGrid(evt.newBoard)
         toast("Cleared")
     }
 
     @Subscribe
-    fun on(evt: RevertedToCheckpointEvent){
+    fun on(evt: RevertedToCheckpointEvent) {
+        Timber.i("RevertedToCheckpointEvent")
         refreshGrid(evt.newBoard)
         toast("Reverted")
     }
 
     @Subscribe
     fun on(evt: UndoStackActivatedEvent) {
+        Timber.i("UndoStackActivatedEvent")
         binding.undoButton.isClickable = true
-        binding.undoToCheckpoint.setCompoundDrawablesRelativeWithIntrinsicBounds(0,R.drawable.ic_undo_white, 0,0)
-        binding.undoToCheckpoint.setTextColor(resources.getColor(R.color.white))
+        binding.undoToCheckpoint.apply {
+            setCompoundDrawablesRelativeWithIntrinsicBounds(0, R.drawable.ic_undo_white, 0, 0)
+            setTextColor(resources.getColor(R.color.white))
+        }
     }
 
     @Subscribe
     fun on(evt: UndoStackDeactivatedEvent) {
+        Timber.i("UndoStackDeactivatedEvent")
         binding.undoButton.isClickable = false
-        binding.undoToCheckpoint.setCompoundDrawablesRelativeWithIntrinsicBounds(0,R.drawable.ic_undo_gray, 0,0)
-        binding.undoToCheckpoint.setTextColor(resources.getColor(R.color.lightGray))
+        binding.undoToCheckpoint.apply {
+            setCompoundDrawablesRelativeWithIntrinsicBounds(0, R.drawable.ic_undo_gray, 0, 0)
+            setTextColor(resources.getColor(R.color.lightGray))
+        }
     }
 
     @Subscribe
     fun on(evt: CheckpointSetEvent) {
-        binding.undoToCheckpoint.isClickable = true
+        Timber.i("CheckpointSetEvent")
         binding.setCheckpoint.text = resources.getString(R.string.reset_checkpoint)
-        binding.undoToCheckpoint.setTextColor(resources.getColor(R.color.white))
-        binding.undoToCheckpoint.setCompoundDrawablesRelativeWithIntrinsicBounds(0,R.drawable.ic_flag_empty_white, 0,0)
+        binding.undoToCheckpoint.apply {
+            isClickable = true
+            setTextColor(resources.getColor(R.color.white))
+            setCompoundDrawablesRelativeWithIntrinsicBounds(0, R.drawable.ic_flag_empty_white, 0, 0)
+        }
     }
 
     @Subscribe
     fun on(evt: CheckpointResetEvent) {
+        Timber.i("CheckpointResetEvent")
         toast("Checkpoint Reset")
     }
 
     @Subscribe
     fun on(evt: CheckpointDeactivatedEvent) {
-        binding.undoToCheckpoint.isClickable = false
-        binding.undoToCheckpoint.setCompoundDrawablesRelativeWithIntrinsicBounds(0,R.drawable.ic_flag_empty_gray, 0,0)
-        binding.undoToCheckpoint.setTextColor(resources.getColor(R.color.lightGray))
+        Timber.i("CheckpointDeactivatedEvent")
+        binding.undoToCheckpoint.apply {
+            isClickable = false
+            setCompoundDrawablesRelativeWithIntrinsicBounds(0, R.drawable.ic_flag_empty_gray, 0, 0)
+            setTextColor(resources.getColor(R.color.lightGray))
+        }
     }
 
 
     @Subscribe
     fun on(evt: FreebiePlacedEvent) {
+        Timber.i("FreebiePlacedEvent")
         val targetCell = (binding.grid[evt.row] as ViewGroup)[evt.col] as SquareImageView
-            ObjectAnimator.ofArgb(
-                targetCell,
-                "backgroundColor", Color.RED, resources.getColor(R.color.darkRed))
-                .setDuration(3000)
-                .start()
+        ObjectAnimator.ofArgb(
+            targetCell,
+            "backgroundColor",
+            Color.RED,
+            resources.getColor(R.color.darkRed)
+        )
+            .setDuration(3000)
+            .start()
         bindGridSvg(targetCell, "M")
     }
 
 
     @Subscribe
     fun on(evt: OutOfFreebiesEvent) {
+        Timber.i("OutOfFreebiesEvent")
         toast("Out of freebies")
     }
 
     @Subscribe
     fun on(evt: IncorrectSolutionEvent) {
+        Timber.i("IncorrectSolutionEvent")
         toast("${evt.numIncorrect} of your marbles are wrong")
     }
 
     @Subscribe
     fun on(evt: TooManyPlacedEvent) {
+        Timber.i("TooManyPlacedEvent")
         toast("You have placed ${evt.numPlaced} marbles, which is too many")
     }
 
     @Subscribe
     fun on(evt: GameCompletedEvent) {
+        Timber.i("GameCompletedEvent")
         bus.post(PauseTimerCommand)
         var navDelay = 500L
         if (evt.summary.isWin) {
-                toast("You Won!")
-                navDelay = 1500L
+            toast("You Won!")
+            navDelay = 1500L
         }
         CoroutineScope(Dispatchers.Main).launch {
             delay(navDelay)
@@ -265,54 +296,38 @@ class GameFragment : Fragment() {
 
     @Subscribe
     fun on(evt: BoardSolvedEvent) {
+        Timber.i("BoardSolvedEvent")
         bus.post(CheckSolutionCommand) //its solved. but this triggers the remaining teardown cmds/events
     }
 
-    private fun refreshGrid(grid: Grid){
-        for (i in 1..8) {
+    private fun refreshGrid(grid: Grid) {
+        for (i in 0..8) {
             val row = binding.grid[i] as ViewGroup
-            for (j in 1..8) {
+            for (j in 0..8) {
                 val cell = row[j] as SquareImageView
                 cell.bindSvg(grid[i][j].current)
             }
         }
     }
-}
 
-//    @Inject
-//    lateinit var sharedPreferences: SharedPreferences
 
-//    private lateinit var uiTimePeriod: TimeSeconds
-//private var timerVisible = false
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater?.inflate(R.menu.overflow_menu, menu)
+    }
 
-//        setHasOptionsMenu(true)
-//
-//        if (sharedPreferences.getBoolean("timer_visible", true)) {
-//            timerVisible = true
-//            binding.timeElapsed.visibility = View.VISIBLE
-//            uiTimePeriod = when (sharedPreferences.getString("timer_increment", "")) {
-//                "5 seconds" -> TimeSeconds.FIVE
-//                "10 seconds" -> TimeSeconds.TEN
-//                "30 seconds" -> TimeSeconds.THIRTY
-//                else -> TimeSeconds.ONE
-//            }
-//        }
-//
-//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-//        super.onCreateOptionsMenu(menu, inflater)
-//        inflater?.inflate(R.menu.overflow_menu, menu)
-//    }
-//
-//
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
 //        return when (item.itemId) {
 //            R.id.settings_destination -> {
 //                findNavController().navigate(GameFragmentDirections.actionGameToSettings())
 //                true
 //            }
 //            else -> {
-//                (NavigationUI.onNavDestinationSelected(item!!, requireView().findNavController())
-//                        || super.onOptionsItemSelected(item))
+        return (NavigationUI.onNavDestinationSelected(item!!, requireView().findNavController())
+                || super.onOptionsItemSelected(item))
 //            }
 //        }
-//    }
+    }
+
+}

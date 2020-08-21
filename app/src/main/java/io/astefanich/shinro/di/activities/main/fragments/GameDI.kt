@@ -4,8 +4,13 @@ package io.astefanich.shinro.di.activities.main.fragments
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
+import android.content.SharedPreferences
+import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
+import arrow.core.None
+import arrow.core.Option
+import arrow.core.Some
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -44,6 +49,10 @@ object GameModule {
 
     @PerFragment
     @Provides
+    fun providesEventBus(): EventBus = EventBus.getDefault()
+
+    @PerFragment
+    @Provides
     @Named("winBuzz")
     fun providesWinBuzzPattern(): LongArray = longArrayOf(0, 500)
 
@@ -58,13 +67,26 @@ object GameModule {
     fun providesToaster(@Named("appCtx") ctx: Context): (String) -> Unit =
         { msg -> Toast.makeText(ctx, msg, Toast.LENGTH_SHORT).show() }
 
-    @PerFragment
-    @Provides
-    fun providesGameTimer(): ShinroTimer = ShinroTimer(TimeSeconds.ONE)
+//    @PerFragment
+//    @Provides
+//    @Named("gameTimer")
+//    fun providesGameTimer(): ShinroTimer = ShinroTimer(TimeSeconds.ONE)
 
-    @PerFragment
+//    @PerFragment
     @Provides
-    fun providesEventBus(): EventBus = EventBus.getDefault()
+    fun providesUITimer(prefs: SharedPreferences): Option<ShinroTimer> {
+        if (prefs.getBoolean("timer_visible", true)) {
+            return when (prefs.getString("timer_increment", "")) {
+                "1 second" -> Some(ShinroTimer(TimeSeconds.ONE))
+                "5 seconds" -> Some(ShinroTimer(TimeSeconds.FIVE))
+                "10 seconds" -> Some(ShinroTimer(TimeSeconds.TEN))
+                "30 seconds" -> Some(ShinroTimer(TimeSeconds.THIRTY))
+                else -> None
+            }
+        } else
+            return None
+    }
+
 
     @Provides
     fun providesGameDialogBuilder(@Named("actCtx") ctx: Context): (String, String, () -> Unit) -> AlertDialog.Builder {

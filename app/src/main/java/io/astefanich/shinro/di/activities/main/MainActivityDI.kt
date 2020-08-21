@@ -21,11 +21,13 @@ interface MainActivityComponent {
 
     abstract fun getGameSummaryComponentBuilder(): GameSummaryComponent.Builder
 
+    abstract fun getGameComponent(): GameComponent
+
     @Subcomponent.Builder
     interface Builder {
 
         @BindsInstance
-        fun actitivtyContext(@Named("actCtx") ctx: Context): Builder
+        fun activityContext(@Named("actCtx") ctx: Context): Builder
 
         fun build(): MainActivityComponent
     }

@@ -30,7 +30,7 @@
     <string name="victory">Victory</string>
     <string name="defeat">Defeat</string>
     <string name="current_difficulty_fmt">Current Difficulty: %s</string>
-    <string name="timer_placholder">Time:\n00:00</string>
+    <string name="timer_placeholder">Time:\n00:00</string>
     <string name="timer_fmt">Time:\n%s</string>
     <string name="time_taken_fmt">Time: %s</string>
     <string name="points_earned_fmt">Points Earned: %d</string>

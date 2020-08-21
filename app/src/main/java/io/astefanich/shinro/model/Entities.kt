@@ -24,8 +24,11 @@ data class Game(
     var timeElapsed: Long = 0,
 
     @ColumnInfo(name = "freebie")
-    var freebie: Freebie = Freebie(0,0) //0,0 -> freebie available
-)
+    var freebie: Freebie = Freebie(0,0)
+){
+    //0,0 -> freebie available
+    fun freebiesRemaining(): Int = if (freebie == Freebie(0, 0)) 1 else 0
+}
 
 @Entity(tableName = "results_table")
 data class GameResult(

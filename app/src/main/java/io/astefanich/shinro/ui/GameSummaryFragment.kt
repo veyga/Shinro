@@ -4,20 +4,21 @@ import android.app.AlertDialog
 import android.content.DialogInterface
 import android.graphics.Typeface
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.navigation.ui.NavigationUI
 import io.astefanich.shinro.R
 import io.astefanich.shinro.common.Difficulty
 import io.astefanich.shinro.common.PlayRequest
 import io.astefanich.shinro.databinding.FragmentGameSummaryBinding
 import io.astefanich.shinro.viewmodels.GameSummaryViewModel
 import io.astefanich.shinro.viewmodels.ViewModelFactory
+import timber.log.Timber
 import javax.inject.Inject
 
 class GameSummaryFragment : Fragment() {
@@ -44,16 +45,18 @@ class GameSummaryFragment : Fragment() {
         val gameOverFragmentArgs by navArgs<GameSummaryFragmentArgs>()
         var gameSummary = gameOverFragmentArgs.gameSummary
 
-//        (activity as MainActivity)
-//            .getMainActivityComponent()
-//            .getGameSummaryComponentBuilder()
-//            .difficulty(gameSummary.difficulty)
-//            .win(gameSummary.isWin)
-//            .time(gameSummary.time)
-//            .build()
-//            .inject(this)
+        (activity as MainActivity)
+            .mainActivityComponent
+            .getGameSummaryComponentBuilder()
+            .difficulty(gameSummary.difficulty)
+            .win(gameSummary.isWin)
+            .time(gameSummary.time)
+            .build()
+            .inject(this)
 
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(GameSummaryViewModel::class.java)
+        Timber.i("Game Summary fragment got reprs: $difficultiesReprs")
+        viewModel =
+            ViewModelProviders.of(this, viewModelFactory).get(GameSummaryViewModel::class.java)
         binding.vm = viewModel
         binding.lifecycleOwner = this
 
@@ -77,8 +80,20 @@ class GameSummaryFragment : Fragment() {
                 .show()
         }
 
+        setHasOptionsMenu(true)
         return binding.root
 //        return layoutInflater.inflate(R.layout.fragment_game_summary, container, false)
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater?.inflate(R.menu.overflow_menu, menu)
+    }
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return (NavigationUI.onNavDestinationSelected(item!!, requireView().findNavController())
+                || super.onOptionsItemSelected(item))
     }
 }

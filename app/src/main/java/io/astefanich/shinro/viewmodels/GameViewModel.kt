@@ -2,6 +2,9 @@ package io.astefanich.shinro.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import arrow.core.None
+import arrow.core.Option
+import arrow.core.Some
 import io.astefanich.shinro.common.*
 import io.astefanich.shinro.model.Game
 import io.astefanich.shinro.repository.GameRepository
@@ -58,48 +61,58 @@ class GameViewModel
 @Inject
 constructor(
     val repo: GameRepository,
-    val gameTimer: ShinroTimer
-//    val bus: EventBus
+    val bus: EventBus
 ) : ViewModel() {
 
     init {
         Timber.i("game viewmodel created")
-//        bus.register(this)
+        bus.register(this)
     }
 
-    private var bus = EventBus.getDefault()
-
     private lateinit var _game: Game
+    private var gameTimer: ShinroTimer? = null
     private var checkpoint: Grid = Array(9) { Array(9) { Cell(" ") } }
     private var checkpointActive = false
     private var undoStack = Stack<Move>()
 
     @Subscribe
     fun handle(cmd: LoadGameCommand) {
-        CoroutineScope(Dispatchers.Main).launch { //need to utilize main so lateinit var loads
-            _game = when (cmd.playRequest) {
-                is PlayRequest.Resume -> repo.getActiveGame()
-                is PlayRequest.NewGame -> repo.getNewGameByDifficulty(cmd.playRequest.difficulty)
+        if(gameTimer != null){
+            Timber.i("gametimer is not null")
+            bus.post( GameLoadedEvent( _game.difficulty, _game.board, _game.timeElapsed, _game.freebiesRemaining() ) )
+            return
+        }
+            Timber.i("gametimer is null")
+            CoroutineScope(Dispatchers.Main).launch { //need to utilize main so lateinit var loads
+                _game = when (cmd.playRequest) {
+                    is PlayRequest.Resume -> repo.getActiveGame()
+                    is PlayRequest.NewGame -> repo.getNewGameByDifficulty(cmd.playRequest.difficulty)
+                }
+                val freebiesRemaining = if (_game.freebie == Freebie(0, 0)) 1 else 0
+                delay(2000)
+                bus.post( GameLoadedEvent( _game.difficulty, _game.board, _game.timeElapsed, _game.freebiesRemaining() ) )
             }
-            val freebiesRemaining = if (_game.freebie == Freebie(0, 0)) 1 else 0
-            delay(2000)
-            bus.post(
-                GameLoadedEvent(
-                    _game.difficulty,
-                    _game.board,
-                    _game.timeElapsed,
-                    freebiesRemaining
-                )
-            )
+    }
+
+
+    @Subscribe
+    fun handle(cmd: StartTimerCommand) {
+        if(gameTimer == null){
+            gameTimer = ShinroTimer(TimeSeconds.ONE)
+        }
+        gameTimer!!.start {
+            _game.timeElapsed +=  1L
         }
     }
 
     @Subscribe
-    fun handle(cmd: StartTimerCommand) {
-        gameTimer.start {
-            _game.timeElapsed += gameTimer.period.seconds
-            bus.post(TimeIncrementedEvent(_game.timeElapsed))
-        }
+    fun handle(cmd: ResumeTimerCommand) {
+        gameTimer?.resume()
+    }
+
+    @Subscribe
+    fun handle(cmd: PauseTimerCommand) {
+        gameTimer?.pause()
     }
 
     @Subscribe
@@ -204,15 +217,6 @@ constructor(
         bus.post(RevertedToCheckpointEvent(_game.board))
     }
 
-    @Subscribe
-    fun handle(cmd: ResumeTimerCommand) {
-        gameTimer.resume()
-    }
-
-    @Subscribe
-    fun handle(cmd: PauseTimerCommand) {
-        gameTimer.pause()
-    }
 
     @Subscribe
     fun handle(cmd: SaveGameCommand) {
