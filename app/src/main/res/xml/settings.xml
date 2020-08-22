@@ -3,12 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory
+        android:icon="@drawable/ic_timer"
         app:key="timer"
         app:title="Timer">
         <SwitchPreferenceCompat
+            android:defaultValue="true"
             app:key="timer_visible"
             app:title="Visible" />
         <DropDownPreference
+            android:defaultValue="1 second"
             android:entries="@array/timer_periods"
             android:entryValues="@array/timer_periods"
             app:dependency="timer_visible"

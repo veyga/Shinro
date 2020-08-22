@@ -23,20 +23,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         AppCompatDelegate.MODE_NIGHT_YES
         mainActivityComponent.inject(this)
-//        (application as ShinroApplication)
-//            .appComponent
-//            .getMainActivityComponentBuilder()
-//            .actitivtyContext(this)
-//            .build()
-//        val appComponent = (application as ShinroApplication).appComponent
-//        activityComponent = appComponent.getMainActivityComponentBuilder()
-//            .actitivtyContext(this)
-//            .build()
     }
-
-//   fun getMainActivityComponent(): MainActivityComponent {
-//       Timber.i("getting main activity component")
-//       return activityComponent
-//   }
 
 }

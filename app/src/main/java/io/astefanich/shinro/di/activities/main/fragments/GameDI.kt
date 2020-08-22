@@ -5,7 +5,6 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.content.SharedPreferences
-import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import arrow.core.None
@@ -77,11 +76,10 @@ object GameModule {
     fun providesUITimer(prefs: SharedPreferences): Option<ShinroTimer> {
         if (prefs.getBoolean("timer_visible", true)) {
             return when (prefs.getString("timer_increment", "")) {
-                "1 second" -> Some(ShinroTimer(TimeSeconds.ONE))
                 "5 seconds" -> Some(ShinroTimer(TimeSeconds.FIVE))
                 "10 seconds" -> Some(ShinroTimer(TimeSeconds.TEN))
                 "30 seconds" -> Some(ShinroTimer(TimeSeconds.THIRTY))
-                else -> None
+                else ->  Some(ShinroTimer(TimeSeconds.ONE))
             }
         } else
             return None

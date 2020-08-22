@@ -4,12 +4,12 @@
         <item name="colorPrimary">@color/lightBlue</item>
         <item name="colorPrimaryDark">@color/darkBlue</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:colorBackground">@color/trueBlack</item>
         <item name="colorSurface">@color/materialBlack</item>
         <item name="android:textColor">@color/nearWhite</item>
+        <item name="android:colorBackground">@color/trueBlack</item>
         <item name="android:navigationBarColor">@color/materialBlack</item>
     </style>
-<!--    <item name="fontFamily">@font/convergence</item>-->
+    <!--    <item name="fontFamily">@font/convergence</item>-->
 
 
     <style name="ChipStyle" parent="Widget.MaterialComponents.Chip.Choice">

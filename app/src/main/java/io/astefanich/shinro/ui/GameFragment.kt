@@ -7,6 +7,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.text.format.DateUtils
 import android.view.*
+import androidx.activity.addCallback
 import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -56,6 +57,13 @@ class GameFragment : Fragment() {
 
     private lateinit var viewModel: GameViewModel
     private lateinit var binding: FragmentGameBinding
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        requireActivity().onBackPressedDispatcher.addCallback(this){
+            //disable back button during active game
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

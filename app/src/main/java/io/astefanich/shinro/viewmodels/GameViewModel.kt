@@ -69,9 +69,6 @@ constructor(
     private var checkpoint: Grid = Array(9) { Array(9) { Cell(" ") } }
     private var checkpointActive = false
     private var undoStack = Stack<Move>()
-    private lateinit var saveJob: Job
-    private var viewModelJob = Job()
-    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
     @Subscribe
     fun handle(cmd: LoadGameCommand) {
@@ -227,7 +224,7 @@ constructor(
 
     @Subscribe
     fun handle(cmd: SaveGameCommand) {
-        saveJob = viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {
             Timber.i("repo saving the game")
             repo.saveGame(_game)
             delay(3000L)
@@ -244,7 +241,6 @@ constructor(
                 bus.post(GameTornDownEvent(GameSummary(_game.difficulty, _game.isWin, _game.timeElapsed)))
             }
         }
-//        bus.unregister(this) //stop accepting commands
     }
 
     @Subscribe
@@ -315,26 +311,11 @@ constructor(
     }
 
     override fun onCleared() {
-        //User hitting back potentially disrupts the cmd/event flow. Overriding happy path here..
-        super.onCleared()
         gameTimer.pause()
-        runBlocking {
-            if (!saveJob.isActive) {
-                withContext(Dispatchers.IO) {
-                    repo.saveGame(_game)
-                    Timber.i("game saved in oncleared")
-                }
-            }
-        }
         if(bus.isRegistered(this))
             bus.unregister(this)
-//            Timber.i("waiting to join")
-//            Timber.i("isActive? ${saveJob.isActive}")
-//            Timber.i("isCancelled? ${saveJob.isCancelled}")
-//            delay(6000L)
-//            Timber.i("isCompleted? ${saveJob.isCompleted}")
-//            saveJob.join()
-//            Timber.i("joined")
+        Timber.i("vm unregistered")
+        super.onCleared()
     }
 
     private class Move(val row: Int, val col: Int, val oldCell: Cell, val newCell: Cell)
