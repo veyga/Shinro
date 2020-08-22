@@ -22,6 +22,7 @@ import io.astefanich.shinro.ui.GameFragment
 import io.astefanich.shinro.util.ShinroTimer
 import io.astefanich.shinro.viewmodels.GameViewModel
 import org.greenrobot.eventbus.EventBus
+import timber.log.Timber
 import javax.inject.Named
 
 
@@ -71,15 +72,16 @@ object GameModule {
 //    @Named("gameTimer")
 //    fun providesGameTimer(): ShinroTimer = ShinroTimer(TimeSeconds.ONE)
 
-//    @PerFragment
+    @PerFragment
     @Provides
     fun providesUITimer(prefs: SharedPreferences): Option<ShinroTimer> {
+        Timber.i("providing ui timer")
         if (prefs.getBoolean("timer_visible", true)) {
             return when (prefs.getString("timer_increment", "")) {
                 "5 seconds" -> Some(ShinroTimer(TimeSeconds.FIVE))
                 "10 seconds" -> Some(ShinroTimer(TimeSeconds.TEN))
                 "30 seconds" -> Some(ShinroTimer(TimeSeconds.THIRTY))
-                else ->  Some(ShinroTimer(TimeSeconds.ONE))
+                else -> Some(ShinroTimer(TimeSeconds.ONE))
             }
         } else
             return None

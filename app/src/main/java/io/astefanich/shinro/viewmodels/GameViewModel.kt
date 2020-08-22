@@ -61,7 +61,8 @@ constructor(
 
     init {
         Timber.i("game viewmodel created")
-        bus.register(this)
+        if(!bus.isRegistered(this))
+            bus.register(this)
     }
 
     private lateinit var _game: Game
@@ -314,7 +315,7 @@ constructor(
         gameTimer.pause()
         if(bus.isRegistered(this))
             bus.unregister(this)
-        Timber.i("vm unregistered")
+        Timber.i("vm onCleared. vm unregistered from bus")
         super.onCleared()
     }
 

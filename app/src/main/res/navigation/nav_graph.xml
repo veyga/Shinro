@@ -50,9 +50,6 @@
             app:popExitAnim="@anim/slide_out_right"
             app:popUpTo="@id/title_destination"
             app:popUpToInclusive="false" />
-        <action
-            android:id="@+id/action_game_to_settings"
-            app:destination="@id/settings_destination" />
     </fragment>
     <fragment
         android:id="@+id/tips_choice_destination"
@@ -104,6 +101,13 @@
     <fragment
         android:id="@+id/settings_destination"
         android:name="io.astefanich.shinro.ui.SettingsFragment"
-        android:label="fragment_settings" >
+        android:label="fragment_settings">
+        <action
+            android:id="@+id/action_settings_to_game"
+            app:destination="@id/game_destination"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
     </fragment>
 </navigation>

@@ -61,8 +61,13 @@ class GameFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requireActivity().onBackPressedDispatcher.addCallback(this){
-            //disable back button during active game
+            //disable back button during active game. users can access home via home button
         }
+        (activity as MainActivity)
+            .mainActivityComponent
+            .getGameComponent()
+            .inject(this)
+        bus.register(this)
     }
 
     override fun onCreateView(
@@ -70,12 +75,6 @@ class GameFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        (activity as MainActivity)
-            .mainActivityComponent
-            .getGameComponent()
-            .inject(this)
-        bus.register(this)
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(GameViewModel::class.java)
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_game, container, false)
         bus.post(SetOnClickListenersCommand)
@@ -88,10 +87,12 @@ class GameFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val gameFragmentArgs by navArgs<GameFragmentArgs>()
         bus.post(LoadGameCommand(gameFragmentArgs.playRequest))
+        //navigating to the settings doesn't destroy the fragment. move this?
     }
 
     @Subscribe
     fun on(evt: GameLoadedEvent) {
+        Timber.i("GameLoadedEvent")
         val drawable =
             if (evt.difficulty == Difficulty.EASY) R.drawable.ic_green_circle32
             else if (evt.difficulty == Difficulty.MEDIUM) R.drawable.ic_blue_square32
@@ -322,12 +323,13 @@ class GameFragment : Fragment() {
 //                findNavController().navigate(GameFragmentDirections.actionGameToSettings())
 //                true
 //            }
-//            else -> {
-        return (NavigationUI.onNavDestinationSelected(item!!, requireView().findNavController())
-                || super.onOptionsItemSelected(item))
-//            }
+//            else -> (NavigationUI.onNavDestinationSelected( item!!, requireView().findNavController() )
+//                    || super.onOptionsItemSelected(item))
 //        }
+        return (NavigationUI.onNavDestinationSelected( item!!, requireView().findNavController() )
+                || super.onOptionsItemSelected(item))
     }
+
 
     data class RedrawGridCommand(val newBoard: Grid)
     object SetOnClickListenersCommand
