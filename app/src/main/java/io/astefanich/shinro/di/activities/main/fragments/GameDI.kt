@@ -75,7 +75,6 @@ object GameModule {
     @PerFragment
     @Provides
     fun providesUITimer(prefs: SharedPreferences): Option<ShinroTimer> {
-        Timber.i("providing ui timer")
         if (prefs.getBoolean("timer_visible", true)) {
             return when (prefs.getString("timer_increment", "")) {
                 "5 seconds" -> Some(ShinroTimer(TimeSeconds.FIVE))
@@ -88,6 +87,7 @@ object GameModule {
     }
 
 
+    @PerFragment
     @Provides
     fun providesGameDialogBuilder(@Named("actCtx") ctx: Context): (String, String, () -> Unit) -> AlertDialog.Builder {
         return { title, message, posAction ->

@@ -18,6 +18,7 @@ class ShinroApplication : Application() {
         super.onCreate()
         Timber.plant(Timber.DebugTree())
         appComponent.inject(this)
+//        LeakCanary.dumpHeap()
     }
 }
 

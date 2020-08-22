@@ -5,6 +5,7 @@ import android.content.DialogInterface
 import android.graphics.Typeface
 import android.os.Bundle
 import android.view.*
+import androidx.activity.addCallback
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders

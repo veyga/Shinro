@@ -60,14 +60,17 @@ class GameFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        requireActivity().onBackPressedDispatcher.addCallback(this){
-            //disable back button during active game. users can access home via home button
-        }
         (activity as MainActivity)
             .mainActivityComponent
             .getGameComponent()
             .inject(this)
         bus.register(this)
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            //disable back button during active game. users can access home via home button
+//            bus.post(SaveGameCommand)
+//            val manager = (activity as MainActivity).supportFragmentManager
+//            manager.popBackStackImmediate()
+        }
     }
 
     override fun onCreateView(
@@ -100,7 +103,10 @@ class GameFragment : Fragment() {
         binding.apply {
             difficultyText.text = evt.difficulty.repr
             difficultyIcon.setImageDrawable(resources.getDrawable(drawable))
-            freebiesRemaining.text = String.format( resources.getString(R.string.freebies_remaining_fmt), evt.freebiesRemaining )
+            freebiesRemaining.text = String.format(
+                resources.getString(R.string.freebies_remaining_fmt),
+                evt.freebiesRemaining
+            )
             bus.post(RedrawGridCommand(evt.grid))
             progressBar.visibility = View.GONE
             game.visibility = View.VISIBLE
@@ -112,7 +118,10 @@ class GameFragment : Fragment() {
                 binding.timeElapsed.visibility = View.VISIBLE
                 timer.t.start {
                     binding.timeElapsed.post {
-                        binding.timeElapsed.text = String.format( resources.getString(R.string.timer_fmt), DateUtils.formatElapsedTime(uiTime) )
+                        binding.timeElapsed.text = String.format(
+                            resources.getString(R.string.timer_fmt),
+                            DateUtils.formatElapsedTime(uiTime)
+                        )
                         uiTime += timer.t.period.seconds
                     }
                 }
@@ -216,16 +225,16 @@ class GameFragment : Fragment() {
     }
 
     @Subscribe
-    fun on(evt: GameCompletedEvent){
-        if(evt.isWin)
+    fun on(evt: GameCompletedEvent) {
+        if (evt.isWin)
             toast("You Won!")
         bus.post(PauseGameTimerCommand)
         bus.post(TearDownGameCommand)
     }
 
     @Subscribe
-    fun on(evt: GameTornDownEvent){
-        var navDelay = if(evt.summary.isWin) 2000L else 1000L
+    fun on(evt: GameTornDownEvent) {
+        var navDelay = if (evt.summary.isWin) 2000L else 1000L
         when (uiTimer) {
             is Some -> (uiTimer as Some<ShinroTimer>).t.pause()
         }
@@ -239,7 +248,7 @@ class GameFragment : Fragment() {
     }
 
     @Subscribe
-    fun handle(cmd: SetOnClickListenersCommand){
+    fun handle(cmd: SetOnClickListenersCommand) {
         for (i in 1..8) {
             val row = binding.grid[i] as ViewGroup
             for (j in 1..8) {
@@ -274,7 +283,7 @@ class GameFragment : Fragment() {
     }
 
     @Subscribe
-    fun handle(cmd: RedrawGridCommand){
+    fun handle(cmd: RedrawGridCommand) {
         for (i in 0..8) {
             val row = binding.grid[i] as ViewGroup
             for (j in 0..8) {
@@ -304,10 +313,10 @@ class GameFragment : Fragment() {
     }
 
     override fun onDestroy() {
-        Timber.i("onDestroy")
-        if(bus.isRegistered(this))
-            bus.unregister(this)
         super.onDestroy()
+        Timber.i("onDestroy")
+        if (bus.isRegistered(this))
+            bus.unregister(this)
     }
 
 
@@ -326,7 +335,7 @@ class GameFragment : Fragment() {
 //            else -> (NavigationUI.onNavDestinationSelected( item!!, requireView().findNavController() )
 //                    || super.onOptionsItemSelected(item))
 //        }
-        return (NavigationUI.onNavDestinationSelected( item!!, requireView().findNavController() )
+        return (NavigationUI.onNavDestinationSelected(item!!, requireView().findNavController())
                 || super.onOptionsItemSelected(item))
     }
 
