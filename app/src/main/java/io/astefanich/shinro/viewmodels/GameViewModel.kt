@@ -84,7 +84,9 @@ constructor(
                     is PlayRequest.Resume -> repo.getActiveGame()
                     is PlayRequest.NewGame -> repo.getNewGameByDifficulty(cmd.playRequest.difficulty)
                 }
-                if(_game.isComplete) //back stack navigation can lead to completed boards being reloaded
+                //back stack navigation can lead to completed boards being reloaded
+                //game --> summary --> home --> game  (home always asks to resume game)
+                if(_game.isComplete)
                     _game = repo.getNewGameByDifficulty(_game.difficulty)
                 withContext(Dispatchers.Main) {
                     _game.apply {

@@ -65,12 +65,12 @@ class GameFragment : Fragment() {
             .getGameComponent()
             .inject(this)
         bus.register(this)
-        requireActivity().onBackPressedDispatcher.addCallback(this) {
+//        requireActivity().onBackPressedDispatcher.addCallback(this) {
             //disable back button during active game. users can access home via home button
 //            bus.post(SaveGameCommand)
 //            val manager = (activity as MainActivity).supportFragmentManager
 //            manager.popBackStackImmediate()
-        }
+//        }
     }
 
     override fun onCreateView(
@@ -335,6 +335,7 @@ class GameFragment : Fragment() {
 //            else -> (NavigationUI.onNavDestinationSelected( item!!, requireView().findNavController() )
 //                    || super.onOptionsItemSelected(item))
 //        }
+        Timber.i("you selected an option")
         return (NavigationUI.onNavDestinationSelected(item!!, requireView().findNavController())
                 || super.onOptionsItemSelected(item))
     }

@@ -38,6 +38,7 @@ class TipsChoiceFragment : Fragment() {
         binding.pigeonholeChip.typeface = Typeface.DEFAULT_BOLD
         binding.pigeonholeChip.setOnClickListener { navToChoice(TipChoice.PIGEONHOLE) }
 
+        binding.lifecycleOwner = this
         return binding.root
     }
 

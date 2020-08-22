@@ -39,6 +39,7 @@ class TitleFragment  : Fragment() {
             findNavController().navigate(TitleFragmentDirections.actionTitleToAbout())
         }
 
+        binding.lifecycleOwner = this
         return binding.root
     }
 
