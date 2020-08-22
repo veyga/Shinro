@@ -21,14 +21,15 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:icon="@drawable/ic_music_note"
         app:key="sound"
         app:title="Sound">
         <SwitchPreferenceCompat
-            app:key="touch_sound_enabled"
-            app:title="Touch sounds" />
+            app:key="click_sound_enabled"
+            app:title="Cell clicks" />
         <SwitchPreferenceCompat
-            app:key="game_event_sound_enabled"
-            app:title="Game event sounds" />
+            app:key="buttons_events_sound_enabled"
+            app:title="Buttons/Events" />
     </PreferenceCategory>
 
     <PreferenceCategory

@@ -7,7 +7,6 @@ import android.graphics.Color
 import android.os.Bundle
 import android.text.format.DateUtils
 import android.view.*
-import androidx.activity.addCallback
 import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -24,6 +23,7 @@ import io.astefanich.shinro.common.Difficulty
 import io.astefanich.shinro.common.Grid
 import io.astefanich.shinro.databinding.FragmentGameBinding
 import io.astefanich.shinro.util.ShinroTimer
+import io.astefanich.shinro.util.SoundEffectPlayer
 import io.astefanich.shinro.viewmodels.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -41,6 +41,15 @@ import javax.inject.Inject
 class GameFragment : Fragment() {
 
     @Inject
+    lateinit var bus: EventBus
+
+    @Inject
+    lateinit var uiTimer: Option<ShinroTimer>
+
+    @Inject
+    lateinit var soundEffectPlayer: SoundEffectPlayer
+
+    @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
     @Inject
@@ -49,14 +58,10 @@ class GameFragment : Fragment() {
     @Inject
     lateinit var gameDialogBuilder: @JvmSuppressWildcards(true) (String, String, () -> Unit) -> AlertDialog.Builder
 
-    @Inject
-    lateinit var bus: EventBus
-
-    @Inject
-    lateinit var uiTimer: Option<ShinroTimer>
-
     private lateinit var viewModel: GameViewModel
+
     private lateinit var binding: FragmentGameBinding
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,12 +70,14 @@ class GameFragment : Fragment() {
             .getGameComponent()
             .inject(this)
         bus.register(this)
+        bus.register(soundEffectPlayer)
 //        requireActivity().onBackPressedDispatcher.addCallback(this) {
             //disable back button during active game. users can access home via home button
 //            bus.post(SaveGameCommand)
 //            val manager = (activity as MainActivity).supportFragmentManager
 //            manager.popBackStackImmediate()
 //        }
+
     }
 
     override fun onCreateView(
@@ -90,7 +97,6 @@ class GameFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val gameFragmentArgs by navArgs<GameFragmentArgs>()
         bus.post(LoadGameCommand(gameFragmentArgs.playRequest))
-        //navigating to the settings doesn't destroy the fragment. move this?
     }
 
     @Subscribe
@@ -131,9 +137,10 @@ class GameFragment : Fragment() {
     }
 
     @Subscribe
-    fun on(evt: CellChangedEvent) {
+    fun on(evt: MoveRecordedEvent) {
         ((binding.grid[evt.row] as ViewGroup)[evt.col] as SquareImageView).bindSvg(evt.newVal)
     }
+
 
     @Subscribe
     fun on(evt: TwelveMarblesPlacedEvent) {
@@ -195,6 +202,11 @@ class GameFragment : Fragment() {
 
 
     @Subscribe
+    fun on(evt: CellUndoneEvent) {
+        ((binding.grid[evt.row] as ViewGroup)[evt.col] as SquareImageView).bindSvg(evt.newVal)
+    }
+
+    @Subscribe
     fun on(evt: FreebiePlacedEvent) {
         val targetCell = (binding.grid[evt.row] as ViewGroup)[evt.col] as SquareImageView
         ObjectAnimator.ofArgb(
@@ -225,9 +237,14 @@ class GameFragment : Fragment() {
     }
 
     @Subscribe
-    fun on(evt: GameCompletedEvent) {
-        if (evt.isWin)
-            toast("You Won!")
+    fun on(evt: GameWonEvent) {
+        toast("You Won!")
+        bus.post(PauseGameTimerCommand)
+        bus.post(TearDownGameCommand)
+    }
+
+    @Subscribe
+    fun on(evt: GameLostEvent) {
         bus.post(PauseGameTimerCommand)
         bus.post(TearDownGameCommand)
     }
@@ -317,6 +334,8 @@ class GameFragment : Fragment() {
         Timber.i("onDestroy")
         if (bus.isRegistered(this))
             bus.unregister(this)
+        if(bus.isRegistered(soundEffectPlayer))
+            bus.unregister(soundEffectPlayer)
     }
 
 

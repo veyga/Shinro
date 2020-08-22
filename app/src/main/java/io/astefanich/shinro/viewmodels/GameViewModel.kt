@@ -32,8 +32,10 @@ object SolveBoardCommand
 object TearDownGameCommand
 
 
+//object GameEvent
 data class GameLoadedEvent( val difficulty: Difficulty, val grid: Grid, val startTime: Long, val freebiesRemaining: Int )
-data class CellChangedEvent(val row: Int, val col: Int, val newVal: String)
+data class MoveRecordedEvent(val row: Int, val col: Int, val newVal: String)
+data class CellUndoneEvent(val row: Int, val col: Int, val newVal: String)
 object TwelveMarblesPlacedEvent
 data class RevertedToCheckpointEvent(val newBoard: Grid)
 data class BoardResetEvent(val newBoard: Grid)
@@ -46,7 +48,8 @@ data class FreebiePlacedEvent(val row: Int, val col: Int, val nRemaining: Int)
 object OutOfFreebiesEvent
 data class IncorrectSolutionEvent(val numIncorrect: Int)
 data class TooManyPlacedEvent(val numPlaced: Int)
-data class GameCompletedEvent(val isWin: Boolean)
+object GameWonEvent
+object GameLostEvent
 data class GameTornDownEvent(val summary: GameSummary)
 
 /**
@@ -143,7 +146,7 @@ constructor(
                 }
             }
             board[r][c] = newCell
-            bus.post(CellChangedEvent(r, c, newCell.current))
+            bus.post(MoveRecordedEvent(r, c, newCell.current))
             undoStack.push(Move(r, c, clicked, newCell))
             if (marblesPlaced == 12)
                 bus.post(TwelveMarblesPlacedEvent)
@@ -167,7 +170,7 @@ constructor(
             if (numIncorrect == 0) {
                 _game.isWin = true
                 _game.isComplete = true
-                bus.post(GameCompletedEvent(true))
+                bus.post(GameWonEvent)
             } else
                 bus.post(IncorrectSolutionEvent(numIncorrect))
         }
@@ -258,7 +261,7 @@ constructor(
         }
         if (undoStack.isEmpty())
             bus.post(UndoStackDeactivatedEvent)
-        bus.post(CellChangedEvent(move.row, move.col, move.oldCell.current))
+        bus.post(CellUndoneEvent(move.row, move.col, move.oldCell.current))
 
     }
 
@@ -295,7 +298,7 @@ constructor(
     fun handle(cmd: SurrenderCommand) {
         _game.isComplete = true
         _game.isWin = false
-        bus.post(GameCompletedEvent(false))
+        bus.post(GameLostEvent)
     }
 
     @Subscribe
@@ -310,7 +313,7 @@ constructor(
         bus.post(RevertedToCheckpointEvent(_game.board)) //trigger grid refresh
         _game.isComplete = true
         _game.isWin = true
-        bus.post(GameCompletedEvent(true))
+        bus.post(GameWonEvent)
     }
 
     override fun onCleared() {

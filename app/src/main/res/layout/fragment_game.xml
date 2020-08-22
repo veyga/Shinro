@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.GameFragment">
 
-<!--    <data>-->
+    <!--    <data>-->
 
-<!--        <variable-->
-<!--            name="vm"-->
-<!--            type="io.astefanich.shinro.viewmodels.GameViewModel" />-->
-<!--    </data>-->
+    <!--        <variable-->
+    <!--            name="vm"-->
+    <!--            type="io.astefanich.shinro.viewmodels.GameViewModel" />-->
+    <!--    </data>-->
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -38,9 +38,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:text="Freebies Remaining:\n 1 / 1"
                 android:drawableTop="@drawable/ic_circle_red_no_outline"
                 android:gravity="center"
+                android:text="Freebies Remaining:\n 1 / 1"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Freebies\n1 / 1" />
@@ -63,9 +63,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
+                android:layout_marginTop="4dp"
                 android:foregroundGravity="center"
                 android:scaleType="centerInside"
-                android:layout_marginTop="4dp"
                 app:layout_constraintBottom_toBottomOf="@+id/difficulty_text"
                 app:layout_constraintLeft_toRightOf="@+id/difficulty_text"
                 app:layout_constraintTop_toTopOf="@+id/difficulty_text" />
@@ -96,7 +96,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Time:\n1:21"
-                tools:visibility="visible"/>
+                tools:visibility="visible" />
 
             <LinearLayout
                 android:id="@+id/grid"
@@ -123,7 +123,7 @@
                         android:id="@+id/cell00"
                         style="@style/CellStyle" />
 
-<!--                    app:gridSvg="@{vm.grid[0][1].current}"-->
+                    <!--                    app:gridSvg="@{vm.grid[0][1].current}"-->
                     <io.astefanich.shinro.ui.SquareImageView
                         android:id="@+id/cell01"
                         style="@style/CellStyle"
@@ -549,7 +549,7 @@
                     android:textSize="14sp"
                     tools:text="@string/reset" />
 
-<!--                app:setResetCheckpointText="@{vm.checkpointSet}"-->
+                <!--                app:setResetCheckpointText="@{vm.checkpointSet}"-->
                 <TextView
                     android:id="@+id/set_checkpoint"
                     android:layout_width="0dp"
@@ -562,29 +562,29 @@
                     tools:drawableTop="@drawable/ic_flag_filled"
                     tools:text="Set" />
 
-<!--                app:whiteGrayUndoCheckpoint="@{vm.checkpointSet}"-->
+                <!--                app:whiteGrayUndoCheckpoint="@{vm.checkpointSet}"-->
                 <TextView
                     android:id="@+id/undo_to_checkpoint"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:gravity="center"
-                    android:textColor="@color/lightGray"
                     android:drawableTop="@drawable/ic_flag_empty_gray"
+                    android:gravity="center"
                     android:text="@string/undo_to_checkpoint"
+                    android:textColor="@color/lightGray"
                     android:textSize="14sp"
                     tools:text="Undo to" />
 
-<!--                app:whiteGrayUndo="@{vm.undoStackActive}"-->
+                <!--                app:whiteGrayUndo="@{vm.undoStackActive}"-->
                 <TextView
                     android:id="@+id/undo_button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:textColor="@color/lightGray"
                     android:drawableTop="@drawable/ic_undo_gray"
                     android:gravity="center"
                     android:text="@string/undo"
+                    android:textColor="@color/lightGray"
                     android:textSize="14sp"
                     tools:text="@string/undo" />
             </LinearLayout>
