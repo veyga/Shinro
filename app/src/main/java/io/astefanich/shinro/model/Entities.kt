@@ -20,6 +20,12 @@ data class Game(
     @ColumnInfo(name = "marbles_placed")
     var marblesPlaced: Int = 0,
 
+    @ColumnInfo(name = "is_complete")
+    var isComplete: Boolean = false,
+
+    @ColumnInfo(name= "is_win")
+    var isWin: Boolean = false,
+
     @ColumnInfo(name = "time_elapsed")
     var timeElapsed: Long = 0,
 

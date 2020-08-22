@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import io.astefanich.shinro.common.Difficulty
 import io.astefanich.shinro.common.GameSummary
 import io.astefanich.shinro.database.ResultsDao
-import io.astefanich.shinro.di.`AppModule_ProvidesResultsDao$app_debugFactory`
 import io.astefanich.shinro.model.GameResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

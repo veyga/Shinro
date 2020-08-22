@@ -42,7 +42,7 @@ constructor(
 //        boardHistoryDao.updateBoardHistory(history)
         var newBoard: Board? = null
         withContext(Dispatchers.IO){
-            delay(2000)
+            delay(500) //RACE CONDTION during inMemoryDB. boards need to be loaded first
             newBoard = boardDao.getBoardByNumAndDifficulty(1, difficulty)
             Timber.i("board repo serving up board#: ${newBoard!!.boardNum} diff: ${newBoard!!.difficulty}. Thread: ${Thread.currentThread()}")
         }

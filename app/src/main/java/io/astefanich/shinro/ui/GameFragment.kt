@@ -23,7 +23,6 @@ import io.astefanich.shinro.common.Difficulty
 import io.astefanich.shinro.common.Grid
 import io.astefanich.shinro.databinding.FragmentGameBinding
 import io.astefanich.shinro.util.ShinroTimer
-import io.astefanich.shinro.util.bindGridSvg
 import io.astefanich.shinro.viewmodels.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -31,9 +30,13 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
+import timber.log.Timber
 import javax.inject.Inject
 
 
+/**
+ * Game UI controller
+ */
 class GameFragment : Fragment() {
 
     @Inject
@@ -67,38 +70,8 @@ class GameFragment : Fragment() {
         bus.register(this)
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(GameViewModel::class.java)
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_game, container, false)
-        for (i in 1..8) {
-            val row = binding.grid[i] as ViewGroup
-            for (j in 1..8) {
-                val cell = row[j]
-                cell.setOnClickListener { bus.post(MoveCommand(i, j)) }
-            }
-        }
-        binding.apply {
-            surrenderBoard.setOnClickListener {
-                gameDialogBuilder(
-                    "Surrender",
-                    "Are you sure?"
-                ) { bus.post(SurrenderCommand) }.show()
-            }
-            resetBoard.setOnClickListener {
-                gameDialogBuilder(
-                    "Reset",
-                    "Clear the board?\n(freebie will persist if used)"
-                ) { bus.post(ResetBoardCommand) }.show()
-            }
-            freebiesRemaining.setOnClickListener {
-                gameDialogBuilder(
-                    "Freebie",
-                    "Use freebie?\nThis will persist until the game is over"
-                ) { bus.post(UseFreebieCommand) }.show()
-            }
-            setCheckpoint.setOnClickListener { bus.post(SetCheckpointCommand) }
-            undoToCheckpoint.setOnClickListener { bus.post(UndoToCheckpointCommand) }
-            undoButton.setOnClickListener { bus.post(UndoCommand) }
-            solveButton.setOnClickListener { bus.post(SolveBoardCommand) }
-            lifecycleOwner = this@GameFragment
-        }
+        bus.post(SetOnClickListenersCommand)
+        binding.lifecycleOwner = this@GameFragment
         setHasOptionsMenu(true)
         return binding.root
     }
@@ -107,29 +80,6 @@ class GameFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val gameFragmentArgs by navArgs<GameFragmentArgs>()
         bus.post(LoadGameCommand(gameFragmentArgs.playRequest))
-    }
-
-    //onDestroy isn't reliably called? This call reliably saves active game
-    override fun onStop() {
-        super.onStop()
-        bus.post(PauseTimerCommand)
-        bus.post(SaveGameCommand)
-        when (uiTimer) {
-            is Some -> (uiTimer as Some<ShinroTimer>).t.pause()
-        }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        bus.post(ResumeTimerCommand)
-        when (uiTimer) {
-            is Some -> (uiTimer as Some<ShinroTimer>).t.resume()
-        }
-    }
-
-    override fun onDestroy() {
-        bus.unregister(this)
-        super.onDestroy()
     }
 
     @Subscribe
@@ -141,31 +91,25 @@ class GameFragment : Fragment() {
         binding.apply {
             difficultyText.text = evt.difficulty.repr
             difficultyIcon.setImageDrawable(resources.getDrawable(drawable))
-            freebiesRemaining.text = String.format(
-                resources.getString(R.string.freebies_remaining_fmt),
-                evt.freebiesRemaining
-            )
-            refreshGrid(evt.grid)
+            freebiesRemaining.text = String.format( resources.getString(R.string.freebies_remaining_fmt), evt.freebiesRemaining )
+            bus.post(RedrawGridCommand(evt.grid))
             progressBar.visibility = View.GONE
             game.visibility = View.VISIBLE
         }
-        when (uiTimer) {
+        when (uiTimer) { //initialize UI timer
             is Some -> {
                 var uiTime = evt.startTime
                 val timer = (uiTimer as Some<ShinroTimer>)
                 binding.timeElapsed.visibility = View.VISIBLE
                 timer.t.start {
                     binding.timeElapsed.post {
-                        binding.timeElapsed.text = String.format(
-                            resources.getString(R.string.timer_fmt),
-                            DateUtils.formatElapsedTime(uiTime)
-                        )
+                        binding.timeElapsed.text = String.format( resources.getString(R.string.timer_fmt), DateUtils.formatElapsedTime(uiTime) )
                         uiTime += timer.t.period.seconds
                     }
                 }
             }
         }
-        bus.post(StartTimerCommand)
+        bus.post(StartGameTimerCommand)
     }
 
     @Subscribe
@@ -180,12 +124,12 @@ class GameFragment : Fragment() {
 
     @Subscribe
     fun on(evt: BoardResetEvent) {
-        refreshGrid(evt.newBoard)
+        bus.post(RedrawGridCommand(evt.newBoard))
     }
 
     @Subscribe
     fun on(evt: RevertedToCheckpointEvent) {
-        refreshGrid(evt.newBoard)
+        bus.post(RedrawGridCommand(evt.newBoard))
     }
 
     @Subscribe
@@ -243,7 +187,7 @@ class GameFragment : Fragment() {
         )
             .setDuration(3000)
             .start()
-        bindGridSvg(targetCell, "M")
+        targetCell.bindSvg("M")
     }
 
 
@@ -263,13 +207,16 @@ class GameFragment : Fragment() {
     }
 
     @Subscribe
-    fun on(evt: GameCompletedEvent) {
-        var navDelay = 1000L
-        if (evt.summary.isWin) {
+    fun on(evt: GameCompletedEvent){
+        if(evt.isWin)
             toast("You Won!")
-            navDelay = 2000L
-        }
-        bus.post(PauseTimerCommand)
+        bus.post(PauseGameTimerCommand)
+        bus.post(TearDownGameCommand)
+    }
+
+    @Subscribe
+    fun on(evt: GameTornDownEvent){
+        var navDelay = if(evt.summary.isWin) 2000L else 1000L
         when (uiTimer) {
             is Some -> (uiTimer as Some<ShinroTimer>).t.pause()
         }
@@ -279,16 +226,79 @@ class GameFragment : Fragment() {
                 findNavController().navigate(GameFragmentDirections.actionGameToGameSummary(evt.summary))
             }
         }
+
     }
 
-    private fun refreshGrid(grid: Grid) {
+    @Subscribe
+    fun handle(cmd: SetOnClickListenersCommand){
+        for (i in 1..8) {
+            val row = binding.grid[i] as ViewGroup
+            for (j in 1..8) {
+                val cell = row[j]
+                cell.setOnClickListener { bus.post(MoveCommand(i, j)) }
+            }
+        }
+        binding.apply {
+            surrenderBoard.setOnClickListener {
+                gameDialogBuilder(
+                    "Surrender",
+                    "Are you sure?"
+                ) { bus.post(SurrenderCommand) }.show()
+            }
+            resetBoard.setOnClickListener {
+                gameDialogBuilder(
+                    "Reset",
+                    "Clear the board?\n(freebie will persist if used)"
+                ) { bus.post(ResetBoardCommand) }.show()
+            }
+            freebiesRemaining.setOnClickListener {
+                gameDialogBuilder(
+                    "Freebie",
+                    "Use freebie?\nThis will persist until the game is over"
+                ) { bus.post(UseFreebieCommand) }.show()
+            }
+            setCheckpoint.setOnClickListener { bus.post(SetCheckpointCommand) }
+            undoToCheckpoint.setOnClickListener { bus.post(UndoToCheckpointCommand) }
+            undoButton.setOnClickListener { bus.post(UndoCommand) }
+            solveButton.setOnClickListener { bus.post(SolveBoardCommand) }
+        }
+    }
+
+    @Subscribe
+    fun handle(cmd: RedrawGridCommand){
         for (i in 0..8) {
             val row = binding.grid[i] as ViewGroup
             for (j in 0..8) {
                 val cell = row[j] as SquareImageView
-                cell.bindSvg(grid[i][j].current)
+                cell.bindSvg(cmd.newBoard[i][j].current)
             }
         }
+    }
+
+    override fun onStart() {
+        Timber.i("onStart")
+        super.onStart()
+        bus.post(ResumeGameTimerCommand)
+        when (uiTimer) {
+            is Some -> (uiTimer as Some<ShinroTimer>).t.resume()
+        }
+    }
+
+    override fun onStop() {
+        Timber.i("onStop")
+        bus.post(PauseGameTimerCommand)
+        bus.post(SaveGameCommand) //leave this here. not in onDestroy
+        when (uiTimer) {
+            is Some -> (uiTimer as Some<ShinroTimer>).t.pause()
+        }
+        super.onStop()
+    }
+
+    override fun onDestroy() {
+        Timber.i("onDestroy")
+        if(bus.isRegistered(this))
+            bus.unregister(this)
+        super.onDestroy()
     }
 
 
@@ -311,4 +321,6 @@ class GameFragment : Fragment() {
 //        }
     }
 
+    data class RedrawGridCommand(val newBoard: Grid)
+    object SetOnClickListenersCommand
 }

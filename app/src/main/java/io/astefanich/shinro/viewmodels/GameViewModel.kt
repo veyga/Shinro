@@ -20,24 +20,19 @@ data class MoveCommand(val row: Int, val col: Int)
 object ResetBoardCommand
 object SetCheckpointCommand
 object UndoToCheckpointCommand
-object StartTimerCommand
-object ResumeTimerCommand
-object PauseTimerCommand
+object StartGameTimerCommand
+object ResumeGameTimerCommand
+object PauseGameTimerCommand
 object CheckSolutionCommand
 object SaveGameCommand
 object UndoCommand
 object UseFreebieCommand
 object SurrenderCommand
 object SolveBoardCommand
+object TearDownGameCommand
 
 
-data class GameLoadedEvent(
-    val difficulty: Difficulty,
-    val grid: Grid,
-    val startTime: Long,
-    val freebiesRemaining: Int
-)
-
+data class GameLoadedEvent( val difficulty: Difficulty, val grid: Grid, val startTime: Long, val freebiesRemaining: Int )
 data class CellChangedEvent(val row: Int, val col: Int, val newVal: String)
 object TwelveMarblesPlacedEvent
 data class RevertedToCheckpointEvent(val newBoard: Grid)
@@ -51,9 +46,8 @@ data class FreebiePlacedEvent(val row: Int, val col: Int, val nRemaining: Int)
 object OutOfFreebiesEvent
 data class IncorrectSolutionEvent(val numIncorrect: Int)
 data class TooManyPlacedEvent(val numPlaced: Int)
-
-//data class BoardSolvedEvent(val newBoard: Grid)
-data class GameCompletedEvent(val summary: GameSummary)
+data class GameCompletedEvent(val isWin: Boolean)
+data class GameTornDownEvent(val summary: GameSummary)
 
 /**
  * Core game logic class
@@ -75,36 +69,28 @@ constructor(
     private var checkpoint: Grid = Array(9) { Array(9) { Cell(" ") } }
     private var checkpointActive = false
     private var undoStack = Stack<Move>()
+    private lateinit var saveJob: Job
+    private var viewModelJob = Job()
+    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
     @Subscribe
     fun handle(cmd: LoadGameCommand) {
+        Timber.i("LoadGameCommand")
         if (gameTimer.isStarted) {
+            Timber.i("timer already started")
             _game.apply {
-                bus.post(
-                    GameLoadedEvent(
-                        difficulty,
-                        board,
-                        timeElapsed,
-                        freebiesRemaining()
-                    )
-                )
-            }
+                bus.post( GameLoadedEvent( difficulty, board, timeElapsed, freebiesRemaining() ) ) }
         } else {
             viewModelScope.launch(Dispatchers.IO) {
                 _game = when (cmd.playRequest) {
                     is PlayRequest.Resume -> repo.getActiveGame()
                     is PlayRequest.NewGame -> repo.getNewGameByDifficulty(cmd.playRequest.difficulty)
                 }
+                if(_game.isComplete) //back stack navigation can lead to completed boards being reloaded
+                    _game = repo.getNewGameByDifficulty(_game.difficulty)
                 withContext(Dispatchers.Main) {
                     _game.apply {
-                        bus.post(
-                            GameLoadedEvent(
-                                difficulty,
-                                board,
-                                timeElapsed,
-                                freebiesRemaining()
-                            )
-                        )
+                        bus.post( GameLoadedEvent( difficulty, board, timeElapsed, freebiesRemaining() ) )
                     }
                 }
             }
@@ -112,7 +98,7 @@ constructor(
     }
 
     @Subscribe
-    fun handle(cmd: StartTimerCommand) {
+    fun handle(cmd: StartGameTimerCommand) {
         gameTimer.run {
             if (!isStarted)
                 start { _game.timeElapsed += 1L }
@@ -120,17 +106,14 @@ constructor(
     }
 
     @Subscribe
-    fun handle(cmd: ResumeTimerCommand) {
-        gameTimer.apply {
-            if (isRunning) resume()
-        }
+    fun handle(cmd: ResumeGameTimerCommand) {
+        gameTimer.resume()
     }
 
     @Subscribe
-    fun handle(cmd: PauseTimerCommand) {
-        gameTimer.apply {
-            if (!isRunning) pause()
-        }
+    fun handle(cmd: PauseGameTimerCommand) {
+        Timber.i("pausing timer")
+        gameTimer.pause()
     }
 
     @Subscribe
@@ -182,7 +165,9 @@ constructor(
                 }
             }
             if (numIncorrect == 0) {
-                bus.post(GameCompletedEvent(GameSummary(_game.difficulty, true, _game.timeElapsed)))
+                _game.isWin = true
+                _game.isComplete = true
+                bus.post(GameCompletedEvent(true))
             } else
                 bus.post(IncorrectSolutionEvent(numIncorrect))
         }
@@ -242,10 +227,24 @@ constructor(
 
     @Subscribe
     fun handle(cmd: SaveGameCommand) {
+        saveJob = viewModelScope.launch(Dispatchers.IO) {
+            Timber.i("repo saving the game")
+            repo.saveGame(_game)
+            delay(3000L)
+            Timber.i("repo saved the game")
+        }
+    }
+
+    @Subscribe
+    fun handle(cmd: TearDownGameCommand){
         viewModelScope.launch(Dispatchers.IO) {
             repo.saveGame(_game)
-            Timber.i("game saved. elapsed time: ${_game.timeElapsed}")
+            Timber.i("game torn down. elapsed time: ${_game.timeElapsed}")
+            withContext(Dispatchers.Main){
+                bus.post(GameTornDownEvent(GameSummary(_game.difficulty, _game.isWin, _game.timeElapsed)))
+            }
         }
+//        bus.unregister(this) //stop accepting commands
     }
 
     @Subscribe
@@ -295,7 +294,9 @@ constructor(
 
     @Subscribe
     fun handle(cmd: SurrenderCommand) {
-        bus.post(GameCompletedEvent(GameSummary(_game.difficulty, false, _game.timeElapsed)))
+        _game.isComplete = true
+        _game.isWin = false
+        bus.post(GameCompletedEvent(false))
     }
 
     @Subscribe
@@ -308,12 +309,32 @@ constructor(
             }
         }
         bus.post(RevertedToCheckpointEvent(_game.board)) //trigger grid refresh
-        bus.post(GameCompletedEvent(GameSummary(_game.difficulty, true, _game.timeElapsed)))
+        _game.isComplete = true
+        _game.isWin = true
+        bus.post(GameCompletedEvent(true))
     }
 
     override fun onCleared() {
-        bus.unregister(this) //stop accepting commands
+        //User hitting back potentially disrupts the cmd/event flow. Overriding happy path here..
         super.onCleared()
+        gameTimer.pause()
+        runBlocking {
+            if (!saveJob.isActive) {
+                withContext(Dispatchers.IO) {
+                    repo.saveGame(_game)
+                    Timber.i("game saved in oncleared")
+                }
+            }
+        }
+        if(bus.isRegistered(this))
+            bus.unregister(this)
+//            Timber.i("waiting to join")
+//            Timber.i("isActive? ${saveJob.isActive}")
+//            Timber.i("isCancelled? ${saveJob.isCancelled}")
+//            delay(6000L)
+//            Timber.i("isCompleted? ${saveJob.isCompleted}")
+//            saveJob.join()
+//            Timber.i("joined")
     }
 
     private class Move(val row: Int, val col: Int, val oldCell: Cell, val newCell: Cell)
