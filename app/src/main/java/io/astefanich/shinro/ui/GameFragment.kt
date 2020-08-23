@@ -22,6 +22,7 @@ import io.astefanich.shinro.R
 import io.astefanich.shinro.common.Difficulty
 import io.astefanich.shinro.common.Grid
 import io.astefanich.shinro.databinding.FragmentGameBinding
+import io.astefanich.shinro.util.GameVibrator
 import io.astefanich.shinro.util.ShinroTimer
 import io.astefanich.shinro.util.sound.GameSoundPlayer
 import io.astefanich.shinro.util.sound.SoundPlayer
@@ -53,6 +54,9 @@ class GameFragment : Fragment() {
     lateinit var soundPlayer: SoundPlayer
 
     @Inject
+    lateinit var gameVibrator: GameVibrator
+
+    @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
     @Inject
@@ -74,8 +78,9 @@ class GameFragment : Fragment() {
             .inject(this)
         bus.register(this)
         bus.register(soundPlayer)
+        bus.register(gameVibrator)
 //        requireActivity().onBackPressedDispatcher.addCallback(this) {
-            //disable back button during active game. users can access home via home button
+        //disable back button during active game. users can access home via home button
 //            bus.post(SaveGameCommand)
 //            val manager = (activity as MainActivity).supportFragmentManager
 //            manager.popBackStackImmediate()
@@ -335,10 +340,9 @@ class GameFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         Timber.i("onDestroy")
-        if (bus.isRegistered(this))
-            bus.unregister(this)
-        if(bus.isRegistered(soundPlayer))
-            bus.unregister(soundPlayer)
+        bus.unregister(soundPlayer)
+        bus.unregister(gameVibrator)
+        bus.unregister(this)
     }
 
 

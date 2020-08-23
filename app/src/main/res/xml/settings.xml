@@ -25,9 +25,11 @@
         app:key="sound"
         app:title="Sound">
         <SwitchPreferenceCompat
+            android:defaultValue="true"
             app:key="click_sound_enabled"
             app:title="Cell clicks" />
         <SwitchPreferenceCompat
+            android:defaultValue="true"
             app:key="buttons_events_sound_enabled"
             app:title="Buttons/Events" />
     </PreferenceCategory>
@@ -36,11 +38,9 @@
         app:key="vibrations"
         app:title="Vibrations">
         <SwitchPreferenceCompat
-            app:key="touch_vibrations_enabled"
-            app:title="Touch vibrations" />
-        <SwitchPreferenceCompat
-            app:key="game_event_vibrations_enabled"
-            app:title="Game event vibrations" />
+            android:defaultValue="true"
+            app:key="vibrations_enabled"
+            app:title="Touch/Event vibrations" />
     </PreferenceCategory>
 
 
