@@ -24,7 +24,6 @@ import io.astefanich.shinro.common.Grid
 import io.astefanich.shinro.databinding.FragmentGameBinding
 import io.astefanich.shinro.util.GameVibrator
 import io.astefanich.shinro.util.ShinroTimer
-import io.astefanich.shinro.util.sound.GameSoundPlayer
 import io.astefanich.shinro.util.sound.SoundPlayer
 import io.astefanich.shinro.viewmodels.*
 import kotlinx.coroutines.Dispatchers
@@ -50,8 +49,9 @@ class GameFragment : Fragment() {
     lateinit var uiTimer: Option<ShinroTimer>
 
     @Inject
+    @JvmSuppressWildcards
     @field:Named("gameSoundPlayer")
-    lateinit var soundPlayer: SoundPlayer
+    lateinit var soundPlayer: Option<SoundPlayer>
 
     @Inject
     lateinit var vibrator: Option<GameVibrator>
@@ -60,10 +60,12 @@ class GameFragment : Fragment() {
     lateinit var viewModelFactory: ViewModelFactory
 
     @Inject
-    lateinit var toast: @JvmSuppressWildcards(true) (String) -> Unit
+    @JvmSuppressWildcards
+    lateinit var toast: (String) -> Unit
 
     @Inject
-    lateinit var gameDialogBuilder: @JvmSuppressWildcards(true) (String, String, () -> Unit) -> AlertDialog.Builder
+    @JvmSuppressWildcards
+    lateinit var gameDialogBuilder: (String, String, () -> Unit) -> AlertDialog.Builder
 
     private lateinit var viewModel: GameViewModel
 
@@ -77,16 +79,12 @@ class GameFragment : Fragment() {
             .getGameComponent()
             .inject(this)
         bus.register(this)
-        bus.register(soundPlayer)
-        when(vibrator){ is Some -> bus.register((vibrator as Some<GameVibrator>).t) }
-//        bus.register(gameVibrator)
-//        requireActivity().onBackPressedDispatcher.addCallback(this) {
-        //disable back button during active game. users can access home via home button
-//            bus.post(SaveGameCommand)
-//            val manager = (activity as MainActivity).supportFragmentManager
-//            manager.popBackStackImmediate()
-//        }
-
+        when (vibrator) {
+            is Some -> bus.register((vibrator as Some<GameVibrator>).t)
+        }
+        when (soundPlayer) {
+            is Some -> bus.register((soundPlayer as Some<SoundPlayer>).t)
+        }
     }
 
     override fun onCreateView(
@@ -320,7 +318,6 @@ class GameFragment : Fragment() {
     }
 
     override fun onStart() {
-        Timber.i("onStart")
         super.onStart()
         bus.post(ResumeGameTimerCommand)
         when (uiTimer) {
@@ -329,7 +326,6 @@ class GameFragment : Fragment() {
     }
 
     override fun onStop() {
-        Timber.i("onStop")
         bus.post(PauseGameTimerCommand)
         bus.post(SaveGameCommand) //leave this here. not in onDestroy
         when (uiTimer) {
@@ -340,9 +336,13 @@ class GameFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        Timber.i("onDestroy")
         bus.unregister(soundPlayer)
-        when(vibrator){ is Some -> bus.unregister((vibrator as Some<GameVibrator>).t) }
+        when (vibrator) {
+            is Some -> bus.unregister((vibrator as Some<GameVibrator>).t)
+        }
+        when (soundPlayer) {
+            is Some -> bus.unregister((soundPlayer as Some<SoundPlayer>).t)
+        }
         bus.unregister(this)
     }
 

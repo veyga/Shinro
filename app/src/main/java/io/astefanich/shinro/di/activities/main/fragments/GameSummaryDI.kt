@@ -4,15 +4,16 @@ package io.astefanich.shinro.di.activities.main.fragments
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
+import arrow.core.None
+import arrow.core.Option
+import arrow.core.Some
 import dagger.*
 import dagger.multibindings.IntoMap
 import io.astefanich.shinro.common.GameSummary
 import io.astefanich.shinro.di.PerFragment
 import io.astefanich.shinro.di.ViewModelKey
 import io.astefanich.shinro.ui.GameSummaryFragment
-import io.astefanich.shinro.util.sound.AbstractSoundPlayer
-import io.astefanich.shinro.util.sound.SoundEffect
-import io.astefanich.shinro.util.sound.SoundPlayer
+import io.astefanich.shinro.util.sound.*
 import io.astefanich.shinro.viewmodels.GameSummaryViewModel
 import javax.inject.Named
 
@@ -47,18 +48,25 @@ abstract class GameSummaryViewModelModule {
 @Module
 class GameSummaryModule {
 
-    @PerFragment
+
     @Provides
     @Named("gameSummarySoundPlayer")
-    fun providesGameSoundPlayer(
+    fun providesGameSummarySoundPlayer(
+        @Named("actCtx") ctx: Context,
         prefs: SharedPreferences,
-        @Named("actCtx") ctx: Context
-    ): SoundPlayer =
-        object : AbstractSoundPlayer(ctx, prefs, 1) {
-            init {
-                loadSound(SoundEffect.ButtonEventSound.ScoreClick)
-            }
+    ): Option<SoundPlayer> {
+        return if (!prefs.getBoolean("buttons_events_sound_enabled", true))
+            None
+        else {
+            val player =
+                object : AbstractSoundPlayer(ctx, buttonsEventsEnabled = true, numStreams = 1) {
+                    init {
+                        loadSound(SoundEffect.ButtonEventSound.ScoreClick)
+                    }
+                }
+            Some(player)
         }
+    }
 
     @Provides
     fun providesDifficultiesReprs(): Array<String> = arrayOf("EASY", "MEDIUM", "HARD")

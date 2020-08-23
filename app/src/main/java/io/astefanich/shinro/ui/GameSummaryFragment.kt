@@ -15,6 +15,8 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.NavigationUI
+import arrow.core.Option
+import arrow.core.Some
 import io.astefanich.shinro.R
 import io.astefanich.shinro.common.Difficulty
 import io.astefanich.shinro.common.PlayRequest
@@ -38,8 +40,9 @@ class GameSummaryFragment : Fragment() {
     lateinit var difficultiesReprs: Array<String>
 
     @Inject
+    @JvmSuppressWildcards
     @field:Named("gameSummarySoundPlayer")
-    lateinit var soundplayer: SoundPlayer
+    lateinit var soundplayer: Option<SoundPlayer>
 
     private lateinit var viewModel: GameSummaryViewModel
 
@@ -85,7 +88,18 @@ class GameSummaryFragment : Fragment() {
                 .show()
         }
 
-        viewModel.pointsEarned.observe(viewLifecycleOwner, scoreAnimator)
+        viewModel.pointsEarned.observe(viewLifecycleOwner, { score ->
+            lifecycleScope.launch(Dispatchers.Main) {
+                delay(1000L)
+                val animTime = score / 2L
+                launch {
+                    animateScoreText(score, animTime)
+                }
+                launch {
+                    playScoreSound(animTime)
+                }
+            }
+        })
 
         binding.lifecycleOwner = this
         setHasOptionsMenu(true)
@@ -93,28 +107,28 @@ class GameSummaryFragment : Fragment() {
 //        return layoutInflater.inflate(R.layout.fragment_game_summary, container, false)
     }
 
-    val scoreAnimator = Observer<Int> { score ->
-        lifecycleScope.launch(Dispatchers.Main) {
-            delay(1000L)
-            val animTime = score / 2L
-            launch {
-                ValueAnimator.ofInt(0, score).apply {
-                    addUpdateListener {
-                        binding.gameSummaryPoints.text = String.format(
-                            resources.getString(
-                                R.string.points_earned_fmt,
-                                it.animatedValue as Int
-                            )
-                        )
-                    }
-                    duration = animTime
-                    start()
-                }
-                launch {
-                    soundplayer.playLoop(SoundEffect.ButtonEventSound.ScoreClick)
-                    delay(animTime)
-                    soundplayer.pauseAll()
-                }
+    private suspend fun animateScoreText(score: Int, animTime: Long) {
+        ValueAnimator.ofInt(0, score).apply {
+            addUpdateListener {
+                binding.gameSummaryPoints.text = String.format(
+                    resources.getString(
+                        R.string.points_earned_fmt,
+                        it.animatedValue as Int
+                    )
+                )
+            }
+            duration = animTime
+            start()
+        }
+    }
+
+    private suspend fun playScoreSound(animTime: Long) {
+        when (soundplayer) {
+            is Some -> {
+                val player = (soundplayer as Some<SoundPlayer>).t
+                player.playLoop(SoundEffect.ButtonEventSound.ScoreClick)
+                delay(animTime)
+                player.pauseAll()
             }
         }
     }

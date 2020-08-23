@@ -76,13 +76,6 @@ object GameModule {
     @Provides
     fun providesStartingCheckpoint(): Grid = Array(9) { Array(9) { Cell(" ") } }
 
-    @PerFragment
-    @Provides
-    @Named("gameSoundPlayer")
-    fun providesGameSoundPlayer(
-        @Named("actCtx") ctx: Context,
-        prefs: SharedPreferences,
-    ): SoundPlayer = GameSoundPlayer(ctx, prefs)
 
     @PerFragment
     @Provides
@@ -112,6 +105,21 @@ object GameModule {
                 .setNegativeButton("NO", DialogInterface.OnClickListener { dialog, id ->
                 })
         }
+    }
+
+
+    @Provides
+    @Named("gameSoundPlayer")
+    fun providesGameSoundPlayer(
+        @Named("actCtx") ctx: Context,
+        prefs: SharedPreferences,
+    ): Option<SoundPlayer> {
+        val clicksEnabled = prefs.getBoolean("click_sound_enabled", true)
+        val buttonsEventsEnabled = prefs.getBoolean("buttons_events_sound_enabled", true)
+        if (!clicksEnabled && !buttonsEventsEnabled)
+            return None
+
+        return Some(GameSoundPlayer(ctx, clicksEnabled, buttonsEventsEnabled))
     }
 
     @PerFragment

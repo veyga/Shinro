@@ -1,30 +1,21 @@
 package io.astefanich.shinro.util.sound
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.media.AudioAttributes
 import android.media.SoundPool
-import timber.log.Timber
 
 abstract class AbstractSoundPlayer(
     val ctx: Context,
-    prefs: SharedPreferences,
+    private val clicksEnabled: Boolean = true,
+    private val buttonsEventsEnabled: Boolean = true,
     numStreams: Int
 ) : SoundPlayer {
 
     private lateinit var soundPool: SoundPool
 
-    private var clicksEnabled = false
-
-    private var buttonsEventsEnabled = false
-
     private val soundMap: MutableMap<SoundEffect, Int> = mutableMapOf()
 
     init {
-        clicksEnabled = prefs.getBoolean("click_sound_enabled", true)
-        buttonsEventsEnabled = prefs.getBoolean("buttons_events_sound_enabled", true)
-        Timber.i("clicks enabled? $clicksEnabled")
-        Timber.i("buttonsEvents enabled? $buttonsEventsEnabled")
         val audioAttributes = AudioAttributes.Builder()
             .setUsage(AudioAttributes.USAGE_GAME)
             .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)

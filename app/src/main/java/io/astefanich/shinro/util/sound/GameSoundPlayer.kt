@@ -1,15 +1,15 @@
 package io.astefanich.shinro.util.sound
 
 import android.content.Context
-import android.content.SharedPreferences
 import io.astefanich.shinro.viewmodels.*
 import org.greenrobot.eventbus.Subscribe
 
 
 class GameSoundPlayer(
     ctx: Context,
-    prefs: SharedPreferences
-) : AbstractSoundPlayer(ctx, prefs, 8) {
+    clicksEnabled: Boolean,
+    buttonsEventsEnabled: Boolean
+) : AbstractSoundPlayer(ctx, clicksEnabled, buttonsEventsEnabled, 8) {
 
 
     init {
