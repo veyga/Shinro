@@ -38,11 +38,8 @@
         android:icon="@drawable/ic_vibration"
         app:key="vibrations"
         app:title="Vibrations">
-        <!--        app:min="1"-->
-        <!--        app:max="255"-->
-        <!--        android:defaultValue="50"/>-->
         <SwitchPreferenceCompat
-            android:defaultValue="true"
+            android:defaultValue="false"
             app:key="vibrations_enabled"
             app:title="Enabled" />
         <SeekBarPreference

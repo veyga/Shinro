@@ -5,7 +5,9 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.content.SharedPreferences
+import android.os.Vibrator
 import android.widget.Toast
+import androidx.core.content.getSystemService
 import androidx.lifecycle.ViewModel
 import arrow.core.None
 import arrow.core.Option
@@ -21,6 +23,7 @@ import io.astefanich.shinro.common.TimeSeconds
 import io.astefanich.shinro.di.PerFragment
 import io.astefanich.shinro.di.ViewModelKey
 import io.astefanich.shinro.ui.GameFragment
+import io.astefanich.shinro.util.GameVibrator
 import io.astefanich.shinro.util.ShinroTimer
 import io.astefanich.shinro.util.sound.GameSoundPlayer
 import io.astefanich.shinro.util.sound.SoundPlayer
@@ -110,5 +113,27 @@ object GameModule {
                 })
         }
     }
+
+    @PerFragment
+    @Provides
+    fun providesGameVibrator(
+        @Named("actCtx") ctx: Context,
+        prefs: SharedPreferences
+    ): Option<GameVibrator> {
+        val enabled = prefs.getBoolean("vibrations_enabled", false)
+        if (!enabled)
+            return None
+
+        val strengthPct = prefs.getInt("vibration_strength", 50)
+        var amplitude = Math.round(255 * (strengthPct / 100.0f))
+        if (amplitude <= 0) {
+            amplitude = 1
+        }
+        val sysVibrator = ctx.getSystemService<Vibrator>()
+        return if (sysVibrator == null)
+            None
+        else Some(GameVibrator(sysVibrator!!, amplitude))
+    }
+
 }
 

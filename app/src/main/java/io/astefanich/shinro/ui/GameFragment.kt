@@ -54,7 +54,7 @@ class GameFragment : Fragment() {
     lateinit var soundPlayer: SoundPlayer
 
     @Inject
-    lateinit var gameVibrator: GameVibrator
+    lateinit var vibrator: Option<GameVibrator>
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -78,7 +78,8 @@ class GameFragment : Fragment() {
             .inject(this)
         bus.register(this)
         bus.register(soundPlayer)
-        bus.register(gameVibrator)
+        when(vibrator){ is Some -> bus.register((vibrator as Some<GameVibrator>).t) }
+//        bus.register(gameVibrator)
 //        requireActivity().onBackPressedDispatcher.addCallback(this) {
         //disable back button during active game. users can access home via home button
 //            bus.post(SaveGameCommand)
@@ -341,7 +342,7 @@ class GameFragment : Fragment() {
         super.onDestroy()
         Timber.i("onDestroy")
         bus.unregister(soundPlayer)
-        bus.unregister(gameVibrator)
+        when(vibrator){ is Some -> bus.unregister((vibrator as Some<GameVibrator>).t) }
         bus.unregister(this)
     }
 
@@ -353,15 +354,6 @@ class GameFragment : Fragment() {
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        return when (item.itemId) {
-//            R.id.settings_destination -> {
-//                findNavController().navigate(GameFragmentDirections.actionGameToSettings())
-//                true
-//            }
-//            else -> (NavigationUI.onNavDestinationSelected( item!!, requireView().findNavController() )
-//                    || super.onOptionsItemSelected(item))
-//        }
-        Timber.i("you selected an option")
         return (NavigationUI.onNavDestinationSelected(item!!, requireView().findNavController())
                 || super.onOptionsItemSelected(item))
     }
