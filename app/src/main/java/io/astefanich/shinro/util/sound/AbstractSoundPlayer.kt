@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.media.AudioAttributes
 import android.media.SoundPool
+import timber.log.Timber
 
 abstract class AbstractSoundPlayer(
     val ctx: Context,
@@ -20,8 +21,10 @@ abstract class AbstractSoundPlayer(
     private val soundMap: MutableMap<SoundEffect, Int> = mutableMapOf()
 
     init {
-        clicksEnabled = prefs.getBoolean("click_sound_enabled", false)
-        buttonsEventsEnabled = prefs.getBoolean("buttons_events_sound_enabled", false)
+        clicksEnabled = prefs.getBoolean("click_sound_enabled", true)
+        buttonsEventsEnabled = prefs.getBoolean("buttons_events_sound_enabled", true)
+        Timber.i("clicks enabled? $clicksEnabled")
+        Timber.i("buttonsEvents enabled? $buttonsEventsEnabled")
         val audioAttributes = AudioAttributes.Builder()
             .setUsage(AudioAttributes.USAGE_GAME)
             .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
@@ -47,12 +50,12 @@ abstract class AbstractSoundPlayer(
 
     override fun playOnce(sound: SoundEffect) {
         if (soundMap.containsKey(sound))
-            soundPool.play(soundMap[sound]!!, .3f, .3f, 0, 0, 1f)
+            soundPool.play(soundMap[sound]!!, .25f, .25f, 0, 0, 1f)
     }
 
     override fun playLoop(sound: SoundEffect, rate: Float) {
         if (soundMap.containsKey(sound))
-            soundPool.play(soundMap[sound]!!, .3f, .3f, 0, -1, rate)
+            soundPool.play(soundMap[sound]!!, .25f, .25f, 0, -1, rate)
     }
 
     override fun pauseAll() {
