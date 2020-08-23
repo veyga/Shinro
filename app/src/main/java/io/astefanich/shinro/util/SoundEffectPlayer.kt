@@ -34,7 +34,6 @@ constructor(
     private var checkpointRevertedSound = 0
 
     init {
-        Timber.i("I have the context. its $ctx")
         val audioAttributes = AudioAttributes.Builder()
             .setUsage(AudioAttributes.USAGE_GAME)
             .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
@@ -46,13 +45,8 @@ constructor(
         clicksEnabled = prefs.getBoolean("click_sound_enabled", false)
         buttonsEventsEnabled = prefs.getBoolean("buttons_events_sound_enabled", false)
         if (clicksEnabled) {
-            Timber.i("CLICKS are enabled")
             cellClickSound = soundPool.load(ctx, R.raw.click, 1)
-        } else{
-            Timber.i("CLICKS are NOT enabled")
-        }
         if (buttonsEventsEnabled) {
-            Timber.i("BUTTONS/EVENTS are enabled")
             checkpointSetResetSound = soundPool.load(ctx, R.raw.checkpoint_set, 1)
             freebieSound = soundPool.load(ctx, R.raw.freebie, 1)
             gameWonSound = soundPool.load(ctx, R.raw.game_won, 1)
@@ -60,8 +54,6 @@ constructor(
             gameLostSound = soundPool.load(ctx, R.raw.surrender, 1)
             undoneSound = soundPool.load(ctx, R.raw.undo, 1)
             checkpointRevertedSound = soundPool.load(ctx, R.raw.undo_checkpoint, 1)
-        } else{
-            Timber.i("BUTTONS/EVENTS are NOT enabled")
         }
 
     }
