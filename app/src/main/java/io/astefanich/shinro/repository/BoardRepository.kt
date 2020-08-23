@@ -9,6 +9,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
+import kotlin.random.Random
 
 
 class BoardRepository
@@ -43,7 +44,8 @@ constructor(
         var newBoard: Board? = null
         withContext(Dispatchers.IO){
             delay(500) //RACE CONDTION during inMemoryDB. boards need to be loaded first
-            newBoard = boardDao.getBoardByNumAndDifficulty(1, difficulty)
+            val rand = Random.nextInt(1,45)
+            newBoard = boardDao.getBoardByNumAndDifficulty(rand, difficulty)
             Timber.i("board repo serving up board#: ${newBoard!!.boardNum} diff: ${newBoard!!.difficulty}. Thread: ${Thread.currentThread()}")
         }
         return newBoard!!
