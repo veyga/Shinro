@@ -4,10 +4,6 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: "androidx.navigation.safeargs.kotlin"
 
-//needed for dagger
-kapt {
-    generateStubs = true
-}
 
 android {
     compileSdkVersion 29
@@ -75,11 +71,20 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.0'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.0'
     implementation 'org.greenrobot:eventbus:3.2.0'
+    kapt 'org.greenrobot:eventbus-annotation-processor:3.2.0'
     compile 'io.arrow-kt:arrow-core:0.10.4'
     compile 'io.arrow-kt:arrow-syntax:0.10.4'
     kapt 'io.arrow-kt:arrow-meta:0.10.4'
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.4'
+//    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.4'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+}
+
+kapt {
+    //needed for dagger?
+    //generateStubs = true
+    arguments {
+        arg('eventBusIndex', 'io.astefanich.shinro.util.EventBusIndex')
+    }
 }

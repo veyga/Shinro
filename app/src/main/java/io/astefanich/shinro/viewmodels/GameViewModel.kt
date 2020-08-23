@@ -33,7 +33,13 @@ object TearDownGameCommand
 
 
 //object GameEvent
-data class GameLoadedEvent( val difficulty: Difficulty, val grid: Grid, val startTime: Long, val freebiesRemaining: Int )
+data class GameLoadedEvent(
+    val difficulty: Difficulty,
+    val grid: Grid,
+    val startTime: Long,
+    val freebiesRemaining: Int
+)
+
 data class MoveRecordedEvent(val row: Int, val col: Int, val newVal: String)
 data class CellUndoneEvent(val row: Int, val col: Int, val newVal: String)
 object TwelveMarblesPlacedEvent
@@ -59,18 +65,17 @@ class GameViewModel
 @Inject
 constructor(
     val repo: GameRepository,
-    val bus: EventBus
+    val bus: EventBus,
+    val gameTimer: ShinroTimer,
+    val checkpoint: Grid
 ) : ViewModel() {
 
     init {
-        Timber.i("game viewmodel created")
-        if(!bus.isRegistered(this))
+        if (!bus.isRegistered(this))
             bus.register(this)
     }
 
     private lateinit var _game: Game
-    private var gameTimer = ShinroTimer(TimeSeconds.ONE)
-    private var checkpoint: Grid = Array(9) { Array(9) { Cell(" ") } }
     private var checkpointActive = false
     private var undoStack = Stack<Move>()
 
@@ -80,7 +85,8 @@ constructor(
         if (gameTimer.isStarted) {
             Timber.i("timer already started")
             _game.apply {
-                bus.post( GameLoadedEvent( difficulty, board, timeElapsed, freebiesRemaining() ) ) }
+                bus.post(GameLoadedEvent(difficulty, board, timeElapsed, freebiesRemaining()))
+            }
         } else {
             viewModelScope.launch(Dispatchers.IO) {
                 _game = when (cmd.playRequest) {
@@ -89,11 +95,18 @@ constructor(
                 }
                 //back stack navigation can lead to completed boards being reloaded
                 //game --> summary --> home --> game  (home always asks to resume game)
-                if(_game.isComplete)
+                if (_game.isComplete)
                     _game = repo.getNewGameByDifficulty(_game.difficulty)
                 withContext(Dispatchers.Main) {
                     _game.apply {
-                        bus.post( GameLoadedEvent( difficulty, board, timeElapsed, freebiesRemaining() ) )
+                        bus.post(
+                            GameLoadedEvent(
+                                difficulty,
+                                board,
+                                timeElapsed,
+                                freebiesRemaining()
+                            )
+                        )
                     }
                 }
             }
@@ -217,14 +230,16 @@ constructor(
 
     @Subscribe
     fun handle(cmd: UndoToCheckpointCommand) {
-        for (i in 0..8)
-            for (j in 0..8)
-                _game.board[i][j] = checkpoint[i][j]
-        undoStack = Stack<Move>()
-        checkpointActive = false
-        bus.post(UndoStackDeactivatedEvent)
-        bus.post(CheckpointDeactivatedEvent)
-        bus.post(RevertedToCheckpointEvent(_game.board))
+        if (checkpointActive) {
+            for (i in 0..8)
+                for (j in 0..8)
+                    _game.board[i][j] = checkpoint[i][j]
+            undoStack = Stack<Move>()
+            checkpointActive = false
+            bus.post(UndoStackDeactivatedEvent)
+            bus.post(CheckpointDeactivatedEvent)
+            bus.post(RevertedToCheckpointEvent(_game.board))
+        }
     }
 
 
@@ -239,12 +254,20 @@ constructor(
     }
 
     @Subscribe
-    fun handle(cmd: TearDownGameCommand){
+    fun handle(cmd: TearDownGameCommand) {
         viewModelScope.launch(Dispatchers.IO) {
             repo.saveGame(_game)
             Timber.i("game torn down. elapsed time: ${_game.timeElapsed}")
-            withContext(Dispatchers.Main){
-                bus.post(GameTornDownEvent(GameSummary(_game.difficulty, _game.isWin, _game.timeElapsed)))
+            withContext(Dispatchers.Main) {
+                bus.post(
+                    GameTornDownEvent(
+                        GameSummary(
+                            _game.difficulty,
+                            _game.isWin,
+                            _game.timeElapsed
+                        )
+                    )
+                )
             }
         }
     }
@@ -318,7 +341,7 @@ constructor(
 
     override fun onCleared() {
         gameTimer.pause()
-        if(bus.isRegistered(this))
+        if (bus.isRegistered(this))
             bus.unregister(this)
         Timber.i("vm onCleared. vm unregistered from bus")
         super.onCleared()

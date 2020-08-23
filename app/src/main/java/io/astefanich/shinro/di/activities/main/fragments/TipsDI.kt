@@ -8,10 +8,8 @@ import dagger.Provides
 import io.astefanich.shinro.R
 import io.astefanich.shinro.common.Tip
 import io.astefanich.shinro.common.TipChoice
-import io.astefanich.shinro.di.PerFragment
 import io.astefanich.shinro.ui.TipsDetailListFragment
 
-@PerFragment
 @Component(modules = [TipsModule::class])
 interface TipsComponent {
 
@@ -31,14 +29,11 @@ interface TipsComponent {
 
 /*
  * Hard coding tips since they won't change.
- * They are allocated/freed with the lifecycle of the tips fragment
  */
 @Module
 object TipsModule {
 
-    @PerFragment
     @Provides
-    @JvmStatic
     fun provideTips(tipChoice: TipChoice): List<Tip> = when (tipChoice) {
         TipChoice.PATHFINDER -> pathfinderTips
         TipChoice.BLOCKER -> blockerTips

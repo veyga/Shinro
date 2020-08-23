@@ -7,7 +7,6 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import io.astefanich.shinro.R
-import io.astefanich.shinro.common.Difficulty
 import io.astefanich.shinro.common.TipChoice
 
 @BindingAdapter("winLoss")
@@ -25,29 +24,23 @@ fun hideViewIfFalseCondition(view: View, isActive: Boolean) = when (isActive) {
     else -> view.visibility = View.INVISIBLE
 }
 
-@BindingAdapter("difficultyAnim", "pointsEarned")
-fun TextView.animatePointsEarned(difficulty: Difficulty, score: Int) {
-    val scoreAnimTimes =
-        mapOf(
-            Difficulty.EASY to 1000L,
-            Difficulty.MEDIUM to 2500L,
-            Difficulty.HARD to 4000L
-        )
-    val delay = 1000L
-    ValueAnimator.ofInt(0, score).apply {
-        addUpdateListener {
-            text = String.format(
-                resources.getString(
-                    R.string.points_earned_fmt,
-                    it.animatedValue as Int
-                )
-            )
-        }
-        duration = delay + scoreAnimTimes.get(difficulty)!!
-        startDelay = delay
-        start()
-    }
-}
+//@BindingAdapter("pointsEarned")
+//fun TextView.animatePointsEarned(score: Int) {
+//    val delay = 1000L
+//    ValueAnimator.ofInt(0, score).apply {
+//        addUpdateListener {
+//            text = String.format(
+//                resources.getString(
+//                    R.string.points_earned_fmt,
+//                    it.animatedValue as Int
+//                )
+//            )
+//        }
+//        duration = delay + score / 2
+//        startDelay = delay
+//        start()
+//    }
+//}
 
 @BindingAdapter("videoPlaying", "videoStarted")
 fun setVideoButtonText(button: Button, isPlaying: Boolean, isStarted: Boolean) {

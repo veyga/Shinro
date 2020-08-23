@@ -15,14 +15,17 @@ import dagger.Module
 import dagger.Provides
 import dagger.Subcomponent
 import dagger.multibindings.IntoMap
+import io.astefanich.shinro.common.Cell
+import io.astefanich.shinro.common.Grid
 import io.astefanich.shinro.common.TimeSeconds
 import io.astefanich.shinro.di.PerFragment
 import io.astefanich.shinro.di.ViewModelKey
 import io.astefanich.shinro.ui.GameFragment
 import io.astefanich.shinro.util.ShinroTimer
 import io.astefanich.shinro.viewmodels.GameViewModel
-import org.greenrobot.eventbus.EventBus
 import timber.log.Timber
+import java.lang.StringBuilder
+import java.util.*
 import javax.inject.Named
 
 
@@ -49,10 +52,6 @@ object GameModule {
 
     @PerFragment
     @Provides
-    fun providesEventBus(): EventBus = EventBus.getDefault()
-
-    @PerFragment
-    @Provides
     @Named("winBuzz")
     fun providesWinBuzzPattern(): LongArray = longArrayOf(0, 500)
 
@@ -64,13 +63,27 @@ object GameModule {
     @PerFragment
     @Provides
     @JvmStatic
-    fun providesToaster(@Named("appCtx") ctx: Context): (String) -> Unit =
+    fun providesToaster(@Named("actCtx") ctx: Context): (String) -> Unit =
         { msg -> Toast.makeText(ctx, msg, Toast.LENGTH_SHORT).show() }
 
-//    @PerFragment
-//    @Provides
-//    @Named("gameTimer")
-//    fun providesGameTimer(): ShinroTimer = ShinroTimer(TimeSeconds.ONE)
+    @PerFragment
+    @Provides
+    fun providesGameTimer(): ShinroTimer = ShinroTimer(TimeSeconds.ONE)
+
+    @PerFragment
+    @Provides
+    fun providesStartingCheckpoint(): Grid = Array(9) { Array(9) { Cell(" ") } }
+//        val checkpoint = Array(9) { Array(9) { Cell(" ") } }
+//        val sb = StringBuilder()
+//        for(i in 0..8){
+//            for(j in 0..8){
+//                sb.append(checkpoint[i][j].current)
+//            }
+//            sb.append("\n")
+//        }
+//        Timber.i("providing checkpoint ${sb.toString()}")
+//        return checkpoint
+//    }
 
     @PerFragment
     @Provides

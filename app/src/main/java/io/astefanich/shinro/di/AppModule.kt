@@ -15,9 +15,11 @@ import io.astefanich.shinro.model.Blacklist
 import io.astefanich.shinro.model.Board
 import io.astefanich.shinro.model.BoardHistory
 import io.astefanich.shinro.model.Game
+import io.astefanich.shinro.util.EventBusIndex
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import org.greenrobot.eventbus.EventBus
 import timber.log.Timber
 import javax.inject.Named
 
@@ -35,6 +37,13 @@ class AppModule {
     @Provides
     fun providesSharesPreferences(@Named("appCtx") ctx: Context): SharedPreferences =
         PreferenceManager.getDefaultSharedPreferences(ctx)
+
+    @PerApplication
+    @Provides
+    fun providesEventBus(): EventBus {
+        EventBus.builder().addIndex(EventBusIndex()).installDefaultEventBus()
+        return EventBus.getDefault()
+    }
 
     @Provides
     internal fun providesGameDao(database: AppDatabase): GameDao = database.gameDao()

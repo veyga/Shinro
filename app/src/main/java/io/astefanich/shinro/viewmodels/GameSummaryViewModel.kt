@@ -23,12 +23,12 @@ constructor(
     val nextGameDifficulty: LiveData<Difficulty>
         get() = _nextGameDifficulty
 
-    var pointsEarned: Int
+    val pointsEarned = MutableLiveData<Int>()
 
     init {
         with(summary) {
             _nextGameDifficulty.value = difficulty
-            pointsEarned = if(summary.isWin) calcScore(difficulty = difficulty, timeTaken = time) else 0
+            pointsEarned.value = if(summary.isWin) calcScore(difficulty = difficulty, timeTaken = time) else 0
         }
         saveToStatistics()
     }
@@ -61,7 +61,7 @@ constructor(
                         difficulty = difficulty,
                         win = isWin,
                         time = time,
-                        points = pointsEarned
+                        points = pointsEarned.value ?: 0
                     )
                 )
             }
@@ -70,7 +70,6 @@ constructor(
 
     fun saveToLeaderboard(): Unit {
         with(Dispatchers.IO) {
-
         }
     }
 }

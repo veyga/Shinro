@@ -56,9 +56,8 @@
             android:textAlignment="center"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:difficultyAnim="@{vm.summary.difficulty}"
-            app:pointsEarned="@{vm.pointsEarned}"
             tools:text="Points earned: 120000" />
+<!--        app:pointsEarned="@{vm.pointsEarned}"-->
 
         <TextView
             android:id="@+id/game_summary_current_difficulty"

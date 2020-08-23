@@ -23,7 +23,7 @@ import io.astefanich.shinro.common.Difficulty
 import io.astefanich.shinro.common.Grid
 import io.astefanich.shinro.databinding.FragmentGameBinding
 import io.astefanich.shinro.util.ShinroTimer
-import io.astefanich.shinro.util.SoundEffectPlayer
+import io.astefanich.shinro.util.GameSoundPlayer
 import io.astefanich.shinro.viewmodels.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -47,7 +47,7 @@ class GameFragment : Fragment() {
     lateinit var uiTimer: Option<ShinroTimer>
 
     @Inject
-    lateinit var soundEffectPlayer: SoundEffectPlayer
+    lateinit var soundEffectPlayer: GameSoundPlayer
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory

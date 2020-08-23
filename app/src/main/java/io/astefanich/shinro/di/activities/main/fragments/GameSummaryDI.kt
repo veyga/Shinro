@@ -11,11 +11,6 @@ import io.astefanich.shinro.di.ViewModelKey
 import io.astefanich.shinro.ui.GameSummaryFragment
 import io.astefanich.shinro.viewmodels.GameSummaryViewModel
 
-//@PerFragment
-//@Component(
-//    dependencies = [AppComponent::class],
-//    modules = [GameSummaryModule::class, GameSummaryViewModelModule::class])
-//interface GameSummaryComponent : AndroidInjector<GameSummaryFragment> {
 @PerFragment
 @Subcomponent(
     modules = [GameSummaryModule::class, GameSummaryViewModelModule::class]
@@ -26,15 +21,6 @@ interface GameSummaryComponent {
 
     @Subcomponent.Builder
     interface Builder {
-
-//        @BindsInstance
-//        fun difficulty(diff: Difficulty): Builder
-//
-//        @BindsInstance
-//        fun win(win: Boolean): Builder
-//
-//        @BindsInstance
-//        fun time(time: Long): Builder
 
         @BindsInstance
         fun gameSummary(summary: GameSummary): Builder
@@ -60,6 +46,4 @@ class GameSummaryModule {
     @Provides
     fun providesDifficultiesReprs(): Array<String> = arrayOf("EASY", "MEDIUM", "HARD")
 
-    @Provides
-    fun providesChangeDifficultyPrompt(): String = "Change Difficulty:"
 }
