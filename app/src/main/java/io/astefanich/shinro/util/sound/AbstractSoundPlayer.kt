@@ -47,12 +47,12 @@ abstract class AbstractSoundPlayer(
 
     override fun playOnce(sound: SoundEffect) {
         if (soundMap.containsKey(sound))
-            soundPool.play(soundMap[sound]!!, 1f, 1f, 0, 0, 1f)
+            soundPool.play(soundMap[sound]!!, .3f, .3f, 0, 0, 1f)
     }
 
     override fun playLoop(sound: SoundEffect, rate: Float) {
         if (soundMap.containsKey(sound))
-            soundPool.play(soundMap[sound]!!, 1f, 1f, 0, -1, rate)
+            soundPool.play(soundMap[sound]!!, .3f, .3f, 0, -1, rate)
     }
 
     override fun pauseAll() {

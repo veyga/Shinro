@@ -56,7 +56,7 @@ class GameSummaryModule {
     ): SoundPlayer =
         object : AbstractSoundPlayer(ctx, prefs, 1) {
             init {
-                loadSound(SoundEffect.CellClick)
+                loadSound(SoundEffect.ButtonEventSound.ScoreClick)
             }
         }
 

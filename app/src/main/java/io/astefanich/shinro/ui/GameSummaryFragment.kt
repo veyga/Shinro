@@ -111,7 +111,7 @@ class GameSummaryFragment : Fragment() {
                     start()
                 }
                 launch {
-                    soundplayer.playLoop(SoundEffect.CellClick)
+                    soundplayer.playLoop(SoundEffect.ButtonEventSound.ScoreClick)
                     delay(animTime)
                     soundplayer.pauseAll()
                 }

@@ -12,5 +12,6 @@ sealed class SoundEffect(val raw: Int) {
         object GameLost : ButtonEventSound(R.raw.surrender)
         object MoveUndone : ButtonEventSound(R.raw.undo)
         object CheckpointReverted : ButtonEventSound(R.raw.undo_checkpoint)
+        object ScoreClick: ButtonEventSound(R.raw.score_click)
     }
 }
