@@ -44,7 +44,7 @@ constructor(
             .build()
         clicksEnabled = prefs.getBoolean("click_sound_enabled", false)
         buttonsEventsEnabled = prefs.getBoolean("buttons_events_sound_enabled", false)
-        if (clicksEnabled) {
+        if (clicksEnabled)
             cellClickSound = soundPool.load(ctx, R.raw.click, 1)
         if (buttonsEventsEnabled) {
             checkpointSetResetSound = soundPool.load(ctx, R.raw.checkpoint_set, 1)
