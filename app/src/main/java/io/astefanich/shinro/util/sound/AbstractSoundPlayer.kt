@@ -1,28 +1,15 @@
-package io.astefanich.shinro.util
+package io.astefanich.shinro.util.sound
 
 import android.content.Context
 import android.content.SharedPreferences
 import android.media.AudioAttributes
 import android.media.SoundPool
 
-sealed class SoundEffect {
-    object CellClick : SoundEffect()
-    sealed class ButtonEventSound : SoundEffect() {
-        object CheckpointSet : ButtonEventSound()
-        object FreebiePlaced : ButtonEventSound()
-        object GameWon : ButtonEventSound()
-        object BoardReset : ButtonEventSound()
-        object GameLost : ButtonEventSound()
-        object MoveUndone : ButtonEventSound()
-        object CheckpointReverted : ButtonEventSound()
-    }
-}
-
-open class SoundPlayer(
-    val prefs: SharedPreferences,
+abstract class AbstractSoundPlayer(
     val ctx: Context,
+    prefs: SharedPreferences,
     numStreams: Int
-) {
+) : SoundPlayer {
 
     private lateinit var soundPool: SoundPool
 
@@ -45,30 +32,30 @@ open class SoundPlayer(
             .build()
     }
 
-    fun loadSound(key: SoundEffect, raw: Int) {
-        when (key) {
+    override fun loadSound(sound: SoundEffect) {
+        when (sound) {
             is SoundEffect.CellClick -> {
                 if (clicksEnabled)
-                    soundMap.put(key, soundPool.load(ctx, raw, 1))
+                    soundMap.put(sound, soundPool.load(ctx, sound.raw, 1))
             }
             else -> {
                 if (buttonsEventsEnabled)
-                    soundMap.put(key, soundPool.load(ctx, raw, 1))
+                    soundMap.put(sound, soundPool.load(ctx, sound.raw, 1))
             }
         }
     }
 
-    fun playOnce(key: SoundEffect) {
-        if (soundMap.containsKey(key))
-            soundPool.play(soundMap[key]!!, 1f, 1f, 0, 0, 1f)
+    override fun playOnce(sound: SoundEffect) {
+        if (soundMap.containsKey(sound))
+            soundPool.play(soundMap[sound]!!, 1f, 1f, 0, 0, 1f)
     }
 
-    fun playLoop(key: SoundEffect, rate: Float = 1f){
-        if (soundMap.containsKey(key))
-            soundPool.play(soundMap[key]!!, 1f, 1f, 0, -1, rate)
+    override fun playLoop(sound: SoundEffect, rate: Float) {
+        if (soundMap.containsKey(sound))
+            soundPool.play(soundMap[sound]!!, 1f, 1f, 0, -1, rate)
     }
 
-    fun pauseAll(){
+    override fun pauseAll() {
         soundPool.autoPause()
     }
 

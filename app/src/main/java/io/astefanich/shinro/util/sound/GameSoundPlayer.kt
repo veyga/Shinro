@@ -1,31 +1,26 @@
-package io.astefanich.shinro.util
+package io.astefanich.shinro.util.sound
 
 import android.content.Context
 import android.content.SharedPreferences
-import io.astefanich.shinro.R
 import io.astefanich.shinro.viewmodels.*
 import org.greenrobot.eventbus.Subscribe
-import javax.inject.Inject
-import javax.inject.Named
 
 
-class GameSoundPlayer
-@Inject
-constructor(
-    prefs: SharedPreferences,
-    @Named("actCtx")ctx: Context
-) : SoundPlayer(prefs, ctx, 8) {
+class GameSoundPlayer(
+    ctx: Context,
+    prefs: SharedPreferences
+) : AbstractSoundPlayer(ctx, prefs, 8) {
 
 
     init {
-        loadSound(SoundEffect.CellClick, R.raw.click)
-        loadSound(SoundEffect.ButtonEventSound.CheckpointSet, R.raw.checkpoint_set)
-        loadSound(SoundEffect.ButtonEventSound.FreebiePlaced, R.raw.freebie)
-        loadSound(SoundEffect.ButtonEventSound.GameWon, R.raw.game_won)
-        loadSound(SoundEffect.ButtonEventSound.BoardReset, R.raw.reset)
-        loadSound(SoundEffect.ButtonEventSound.GameLost, R.raw.surrender)
-        loadSound(SoundEffect.ButtonEventSound.MoveUndone, R.raw.undo)
-        loadSound(SoundEffect.ButtonEventSound.CheckpointReverted, R.raw.undo_checkpoint)
+        loadSound(SoundEffect.CellClick)
+        loadSound(SoundEffect.ButtonEventSound.CheckpointSet)
+        loadSound(SoundEffect.ButtonEventSound.FreebiePlaced)
+        loadSound(SoundEffect.ButtonEventSound.GameWon)
+        loadSound(SoundEffect.ButtonEventSound.BoardReset)
+        loadSound(SoundEffect.ButtonEventSound.GameLost)
+        loadSound(SoundEffect.ButtonEventSound.MoveUndone)
+        loadSound(SoundEffect.ButtonEventSound.CheckpointReverted)
     }
 
     @Subscribe

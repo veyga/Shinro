@@ -19,13 +19,15 @@ import io.astefanich.shinro.R
 import io.astefanich.shinro.common.Difficulty
 import io.astefanich.shinro.common.PlayRequest
 import io.astefanich.shinro.databinding.FragmentGameSummaryBinding
-import io.astefanich.shinro.util.GameSummarySoundPlayer
+import io.astefanich.shinro.util.sound.SoundEffect
+import io.astefanich.shinro.util.sound.SoundPlayer
 import io.astefanich.shinro.viewmodels.GameSummaryViewModel
 import io.astefanich.shinro.viewmodels.ViewModelFactory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import javax.inject.Named
 
 class GameSummaryFragment : Fragment() {
 
@@ -36,7 +38,8 @@ class GameSummaryFragment : Fragment() {
     lateinit var difficultiesReprs: Array<String>
 
     @Inject
-    lateinit var soundEffectPlayer: GameSummarySoundPlayer
+    @field:Named("gameSummarySoundPlayer")
+    lateinit var soundplayer: SoundPlayer
 
     private lateinit var viewModel: GameSummaryViewModel
 
@@ -108,9 +111,9 @@ class GameSummaryFragment : Fragment() {
                     start()
                 }
                 launch {
-                    soundEffectPlayer.playWinSound()
+                    soundplayer.playLoop(SoundEffect.CellClick)
                     delay(animTime)
-                    soundEffectPlayer.pauseWinSound()
+                    soundplayer.pauseAll()
                 }
             }
         }

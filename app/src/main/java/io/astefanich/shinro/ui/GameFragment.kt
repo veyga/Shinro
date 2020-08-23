@@ -23,7 +23,8 @@ import io.astefanich.shinro.common.Difficulty
 import io.astefanich.shinro.common.Grid
 import io.astefanich.shinro.databinding.FragmentGameBinding
 import io.astefanich.shinro.util.ShinroTimer
-import io.astefanich.shinro.util.GameSoundPlayer
+import io.astefanich.shinro.util.sound.GameSoundPlayer
+import io.astefanich.shinro.util.sound.SoundPlayer
 import io.astefanich.shinro.viewmodels.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -33,6 +34,7 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import timber.log.Timber
 import javax.inject.Inject
+import javax.inject.Named
 
 
 /**
@@ -47,7 +49,8 @@ class GameFragment : Fragment() {
     lateinit var uiTimer: Option<ShinroTimer>
 
     @Inject
-    lateinit var soundEffectPlayer: GameSoundPlayer
+    @field:Named("gameSoundPlayer")
+    lateinit var soundPlayer: SoundPlayer
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -70,7 +73,7 @@ class GameFragment : Fragment() {
             .getGameComponent()
             .inject(this)
         bus.register(this)
-        bus.register(soundEffectPlayer)
+        bus.register(soundPlayer)
 //        requireActivity().onBackPressedDispatcher.addCallback(this) {
             //disable back button during active game. users can access home via home button
 //            bus.post(SaveGameCommand)
@@ -334,8 +337,8 @@ class GameFragment : Fragment() {
         Timber.i("onDestroy")
         if (bus.isRegistered(this))
             bus.unregister(this)
-        if(bus.isRegistered(soundEffectPlayer))
-            bus.unregister(soundEffectPlayer)
+        if(bus.isRegistered(soundPlayer))
+            bus.unregister(soundPlayer)
     }
 
 

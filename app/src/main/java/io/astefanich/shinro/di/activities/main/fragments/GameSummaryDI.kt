@@ -1,15 +1,20 @@
 package io.astefanich.shinro.di.activities.main.fragments
 
 
+import android.content.Context
+import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
 import dagger.*
 import dagger.multibindings.IntoMap
-import io.astefanich.shinro.common.Difficulty
 import io.astefanich.shinro.common.GameSummary
 import io.astefanich.shinro.di.PerFragment
 import io.astefanich.shinro.di.ViewModelKey
 import io.astefanich.shinro.ui.GameSummaryFragment
+import io.astefanich.shinro.util.sound.AbstractSoundPlayer
+import io.astefanich.shinro.util.sound.SoundEffect
+import io.astefanich.shinro.util.sound.SoundPlayer
 import io.astefanich.shinro.viewmodels.GameSummaryViewModel
+import javax.inject.Named
 
 @PerFragment
 @Subcomponent(
@@ -42,7 +47,19 @@ abstract class GameSummaryViewModelModule {
 @Module
 class GameSummaryModule {
 
-    //provide way to keep track of user's total score
+    @PerFragment
+    @Provides
+    @Named("gameSummarySoundPlayer")
+    fun providesGameSoundPlayer(
+        prefs: SharedPreferences,
+        @Named("actCtx") ctx: Context
+    ): SoundPlayer =
+        object : AbstractSoundPlayer(ctx, prefs, 1) {
+            init {
+                loadSound(SoundEffect.CellClick)
+            }
+        }
+
     @Provides
     fun providesDifficultiesReprs(): Array<String> = arrayOf("EASY", "MEDIUM", "HARD")
 

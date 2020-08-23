@@ -22,10 +22,9 @@ import io.astefanich.shinro.di.PerFragment
 import io.astefanich.shinro.di.ViewModelKey
 import io.astefanich.shinro.ui.GameFragment
 import io.astefanich.shinro.util.ShinroTimer
+import io.astefanich.shinro.util.sound.GameSoundPlayer
+import io.astefanich.shinro.util.sound.SoundPlayer
 import io.astefanich.shinro.viewmodels.GameViewModel
-import timber.log.Timber
-import java.lang.StringBuilder
-import java.util.*
 import javax.inject.Named
 
 
@@ -73,17 +72,14 @@ object GameModule {
     @PerFragment
     @Provides
     fun providesStartingCheckpoint(): Grid = Array(9) { Array(9) { Cell(" ") } }
-//        val checkpoint = Array(9) { Array(9) { Cell(" ") } }
-//        val sb = StringBuilder()
-//        for(i in 0..8){
-//            for(j in 0..8){
-//                sb.append(checkpoint[i][j].current)
-//            }
-//            sb.append("\n")
-//        }
-//        Timber.i("providing checkpoint ${sb.toString()}")
-//        return checkpoint
-//    }
+
+    @PerFragment
+    @Provides
+    @Named("gameSoundPlayer")
+    fun providesGameSoundPlayer(
+        @Named("actCtx") ctx: Context,
+        prefs: SharedPreferences,
+    ): SoundPlayer = GameSoundPlayer(ctx, prefs)
 
     @PerFragment
     @Provides
