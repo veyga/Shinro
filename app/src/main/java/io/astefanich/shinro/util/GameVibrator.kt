@@ -26,10 +26,10 @@ constructor(
     val prefs: SharedPreferences,
 ) {
 
-    private val BUZZ_AMPLITUDE = 250
+    private var BUZZ_AMPLITUDE = 50
 
     enum class BuzzDuration(val value: Long){
-        SHORT(50),
+        SHORT(25),
         MEDIUM(250),
         LONG(500)
     }
@@ -47,7 +47,12 @@ constructor(
     init {
         vibrationsEnabled = prefs.getBoolean("vibrations_enabled", true)
         Timber.i("vibrationsEnabled? $vibrationsEnabled")
-
+        var strengthPct = prefs.getInt("vibration_strength", 50)
+        BUZZ_AMPLITUDE = Math.round(255 * (strengthPct / 100.0f))
+        if(BUZZ_AMPLITUDE <= 0){
+            BUZZ_AMPLITUDE = 1
+        }
+        Timber.i("strength is $BUZZ_AMPLITUDE")
     }
 
     @Subscribe

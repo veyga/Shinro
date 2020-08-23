@@ -35,13 +35,20 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:icon="@drawable/ic_vibration"
         app:key="vibrations"
         app:title="Vibrations">
+        <!--        app:min="1"-->
+        <!--        app:max="255"-->
+        <!--        android:defaultValue="50"/>-->
         <SwitchPreferenceCompat
             android:defaultValue="true"
             app:key="vibrations_enabled"
-            app:title="Touch/Event vibrations" />
+            app:title="Enabled" />
+        <SeekBarPreference
+            android:defaultValue="50"
+            app:dependency="vibrations_enabled"
+            app:key="vibration_strength"
+            app:title="Strength" />
     </PreferenceCategory>
-
-
 </PreferenceScreen>
