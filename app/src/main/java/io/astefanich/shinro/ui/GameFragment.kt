@@ -107,7 +107,6 @@ class GameFragment : Fragment() {
 
     @Subscribe
     fun on(evt: GameLoadedEvent) {
-        Timber.i("GameLoadedEvent")
         val drawable =
             if (evt.difficulty == Difficulty.EASY) R.drawable.ic_green_circle32
             else if (evt.difficulty == Difficulty.MEDIUM) R.drawable.ic_blue_square32

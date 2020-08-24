@@ -7,13 +7,14 @@ import timber.log.Timber
 
 class ShinroApplication : Application() {
 
+//    lateinit var appComponent: AppComponent
     val appComponent: AppComponent by lazy {
         DaggerAppComponent
             .builder()
             .application(this)
             .build()
     }
-
+//
     override fun onCreate() {
         super.onCreate()
         Timber.plant(Timber.DebugTree())

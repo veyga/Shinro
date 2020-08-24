@@ -1,76 +1,56 @@
 package io.astefanich.shinro.repository
 
+import arrow.core.extensions.list.foldable.foldLeft
 import io.astefanich.shinro.common.Difficulty
-import io.astefanich.shinro.database.BoardHistoryDao
 import io.astefanich.shinro.database.BoardDao
 import io.astefanich.shinro.model.Board
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import timber.log.Timber
+import java.io.File
 import javax.inject.Inject
-import kotlin.random.Random
 
 
 class BoardRepository
 @Inject
 constructor(
     val boardDao: BoardDao,
-    val boardHistoryDao: BoardHistoryDao
+    val maxBlacklistSize: Int,
+    val blacklist: @JvmSuppressWildcards (Difficulty) -> File,
+    val randomId: @JvmSuppressWildcards () -> Int
 ) {
 
-//    private val randomBoardIdGen = { Random.nextInt(1, 46) }
+
 
     suspend fun getRandomBoardByDifficulty(difficulty: Difficulty): Board {
-        //TODO select random number, assert not in blacklist
-//        var targetBoard = randomBoardIdGen() //use 1 for testing
-//        var history = boardHistoryDao.getBoardHistoryByDifficulty(difficulty)
-//        if(history == null) {
-//            delay(1000)
-//        }
-//        history = boardHistoryDao.getBoardHistoryByDifficulty(difficulty)
-//        val blacklist = history.blacklist
-//        while (blacklist.contains(targetBoard)) {
-//            Timber.i("$targetBoard is blacklisted. continuing..")
-//            targetBoard = randomBoardIdGen()
-//        }
-//        Timber.i("$targetBoard is NOT blacklisted. adding to blacklist")
-//        if (blacklist.size >= 3) { //arraydeque default == 16
-//            val whitelisted = blacklist.remove()
-//            Timber.i("blacklist full. adding $whitelisted to whitelist")
-//        }
-//        blacklist.add(targetBoard)
-//        boardHistoryDao.updateBoardHistory(history)
-        var newBoard: Board? = null
-        withContext(Dispatchers.IO){
-            delay(500) //RACE CONDTION during inMemoryDB. boards need to be loaded first
-            val rand = Random.nextInt(1,5)
-            newBoard = boardDao.getBoardByNumAndDifficulty(rand, difficulty)
-            Timber.i("board repo serving up board#: ${newBoard!!.boardNum} diff: ${newBoard!!.difficulty}. Thread: ${Thread.currentThread()}")
+        return withContext(Dispatchers.IO) {
+            try {
+                delay(500) //TODO RACE CONDTION during inMemoryDB. boards need to be loaded first
+                val queue = ArrayDeque<Int>(maxBlacklistSize) //keep track of ordering
+                val reserved = mutableSetOf<Int>()
+                val file = blacklist(difficulty)
+                file.forEachLine {
+                    val current = Integer.parseInt(it)
+                    queue.addLast(current)
+                    reserved.add(current)
+                }
+                var targetId = randomId()
+                while (reserved.contains(targetId))
+                    targetId = randomId()
+
+                if (reserved.size >= maxBlacklistSize)
+                    queue.removeFirst()
+                queue.addLast(targetId)
+                file.writeText(queue.foldLeft("", { s, i -> s + "${i}\n"}))
+                Timber.i("board repo serving up is $targetId - ${difficulty.repr}")
+                boardDao.getBoardByNumAndDifficulty(targetId, difficulty)
+            } catch (e: Exception) {
+                Timber.d("blacklist failed. Serving random board. $e")
+                boardDao.getBoardByNumAndDifficulty(randomId(), difficulty)
+            }
         }
-        return newBoard!!
     }
-
-
-//    fun getBoardById(boardId: Int): Board = boardDao.getBoardById(boardId)
-//
-//    fun insertBoards(vararg boards: Board) = boardDao.insertBoards(*boards)
-//
-//    fun updateBoard(board: Board) = boardDao.updateBoard(board)
-//
-//    fun updateLastViewedBoardId(id: Int) {
-//        val fileOut = ctx.openFileOutput(lastVisitedFileName, Context.MODE_PRIVATE)
-//        val writer = fileOut.writer(Charsets.UTF_8)
-//        writer.use { it.write("$id") }
-//    }
-//
-//    fun getLastViewedBoardId(): Int {
-//        return try {
-//            val fileIn = InputStreamReader(ctx.openFileInput(lastVisitedFileName))
-//            val lastVisitedId = fileIn.readLines()[0]
-//            Integer.parseInt(lastVisitedId)
-//        } catch (e: Exception) {
-//            1 //file not yet created, start from board 1
-//        }
-//    }
 }
+
+

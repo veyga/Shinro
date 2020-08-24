@@ -15,8 +15,6 @@ import javax.inject.Inject
 import kotlin.with
 
 
-
-
 /**
  * Core game logic class
  */
@@ -40,9 +38,7 @@ constructor(
 
     @Subscribe
     fun handle(cmd: LoadGameCommand) {
-        Timber.i("LoadGameCommand")
         if (gameTimer.isStarted) {
-            Timber.i("timer already started")
             _game.apply {
                 bus.post(GameLoadedEvent(difficulty, board, timeElapsed, freebiesRemaining()))
             }
@@ -87,7 +83,6 @@ constructor(
 
     @Subscribe
     fun handle(cmd: PauseGameTimerCommand) {
-        Timber.i("pausing timer")
         gameTimer.pause()
     }
 
@@ -103,9 +98,7 @@ constructor(
                 bus.post(UndoStackActivatedEvent)
             var newCell: Cell
             when (clicked.current) {
-                " " -> {
-                    newCell = Cell("X", clicked.actual)
-                }
+                " " -> newCell = Cell("X", clicked.actual)
                 "M" -> {
                     newCell = Cell(" ", clicked.actual)
                     marblesPlaced -= 1 //can win by placing marbles or taking them away

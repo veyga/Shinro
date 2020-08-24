@@ -2,7 +2,6 @@ package io.astefanich.shinro.database
 
 import androidx.room.*
 import io.astefanich.shinro.common.Difficulty
-import io.astefanich.shinro.model.BoardHistory
 import io.astefanich.shinro.model.Board
 import io.astefanich.shinro.model.Game
 import io.astefanich.shinro.model.GameResult
@@ -38,19 +37,5 @@ interface BoardDao {
     @Insert
     suspend fun insertBoards(vararg boards: Board)
 
-}
-
-@Dao
-interface BoardHistoryDao {
-
-    @Query("SELECT * FROM board_history_table WHERE difficulty = :difficulty ")
-    suspend fun getBoardHistoryByDifficulty(difficulty: Difficulty): BoardHistory
-
-    @Update
-    suspend fun updateBoardHistory(blackList: BoardHistory)
-
-    //inserted on db create
-    @Insert
-    suspend fun insertBoardHistory(blackList: BoardHistory)
 }
 

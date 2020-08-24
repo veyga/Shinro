@@ -65,17 +65,3 @@ data class Board(
     val cells: Grid
 )
 
-typealias Blacklist = java.util.ArrayDeque<Int>
-
-@Entity(tableName = "board_history_table")
-data class BoardHistory(
-
-    @PrimaryKey(autoGenerate = true)
-    val id: Long = 0L,
-
-    val difficulty: Difficulty,
-
-    val blacklist: Blacklist
-//    val reserved: IntArray
-//    val reserved: ArrayDeque<Int>
-)

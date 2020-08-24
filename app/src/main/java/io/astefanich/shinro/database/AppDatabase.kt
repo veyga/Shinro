@@ -7,13 +7,15 @@ import io.astefanich.shinro.model.*
 
 data class DatabaseName(val name: String)
 
-@Database(entities = [
-    Game::class,
-    GameResult::class,
-    Board::class,
-    BoardHistory::class],
+@Database(
+    entities = [
+        Game::class,
+        GameResult::class,
+        Board::class,
+    ],
     version = 1,
-    exportSchema = false)
+    exportSchema = false
+)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
 
@@ -22,6 +24,4 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun gameDao(): GameDao
 
     abstract fun resultsDao(): ResultsDao
-
-    abstract fun boardHistoryDao(): BoardHistoryDao
 }
