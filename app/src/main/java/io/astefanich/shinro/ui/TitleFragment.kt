@@ -35,6 +35,12 @@ class TitleFragment  : Fragment() {
             )
         }
 
+        binding.statisticsChip.setOnClickListener {
+            findNavController().navigate(
+                TitleFragmentDirections.actionTitleToStatistics()
+            )
+        }
+
         binding.aboutChip.setOnClickListener {
             findNavController().navigate(TitleFragmentDirections.actionTitleToAbout())
         }

@@ -36,5 +36,10 @@
     <string name="points_earned_fmt">Points Earned: %d</string>
     <string name="new_game">New Game</string>
     <string name="change_difficulty">Change Difficulty</string>
+    <string name="difficulty">Difficulty</string>
+    <string name="num_played">Played</string>
+    <string name="win_pct">Win %</string>
+    <string name="best_time">Best</string>
+    <string name="average_time">Average</string>
 </resources>
 

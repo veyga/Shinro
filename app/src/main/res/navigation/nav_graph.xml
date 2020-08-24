@@ -31,6 +31,9 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_title_to_statistics"
+            app:destination="@id/statistics_destination" />
     </fragment>
     <fragment
         android:id="@+id/game_destination"
@@ -109,4 +112,8 @@
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out" />
     </fragment>
+    <fragment
+        android:id="@+id/statistics_destination"
+        android:name="io.astefanich.shinro.ui.StatisticsFragment"
+        android:label="fragment_statistics" />
 </navigation>

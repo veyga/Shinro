@@ -1,9 +1,8 @@
 package io.astefanich.shinro.repository
 
-import io.astefanich.shinro.database.GameDao
 import io.astefanich.shinro.common.Difficulty
+import io.astefanich.shinro.database.GameDao
 import io.astefanich.shinro.model.Game
-import timber.log.Timber
 import javax.inject.Inject
 
 class GameRepository
@@ -23,7 +22,6 @@ constructor(
     suspend fun getNewGameByDifficulty(difficulty: Difficulty): Game {
         val newBoard = boardRepo.getRandomBoardByDifficulty(difficulty)
         val newGame = Game(difficulty = newBoard.difficulty, board = newBoard.cells)
-        Timber.i("getting new game. freebie is ${newGame.freebie}")
         gameDao.insertGame(newGame)
         return newGame
     }

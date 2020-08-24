@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.StatisticsFragment">
+
+    <!--        <data>-->
+    <!--            <variable-->
+    <!--                name="vm"-->
+    <!--                type="io.astefanich.shinro.viewmodels.GameViewModel" />-->
+    <!--        </data>-->
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/stats_table"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="16dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:id="@+id/header_row"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/TableEntryStyle"
+                    android:text="@string/difficulty"
+                    android:textStyle="bold" />
+
+                <TextView
+                    style="@style/TableEntryStyle"
+                    android:text="@string/num_played"
+                    android:textStyle="bold" />
+
+                <TextView
+                    style="@style/TableEntryStyle"
+                    android:text="@string/win_pct"
+                    android:textStyle="bold" />
+
+                <TextView
+                    style="@style/TableEntryStyle"
+                    android:text="@string/best_time"
+                    android:textStyle="bold" />
+
+                <TextView
+                    style="@style/TableEntryStyle"
+                    android:text="@string/average_time"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/easy_row"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_green_circle32" />
+
+                <TextView
+                    style="@style/TableEntryStyle"
+                    android:text="Played" />
+
+                <TextView
+                    style="@style/TableEntryStyle"
+                    android:text="Win Rate" />
+
+                <TextView
+                    style="@style/TableEntryStyle"
+                    android:text="Best Time" />
+
+                <TextView
+                    style="@style/TableEntryStyle"
+                    android:text="Avg Time" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/medium_row"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_blue_square32" />
+
+                <TextView
+                    style="@style/TableEntryStyle"
+                    android:text="Played" />
+
+                <TextView
+                    style="@style/TableEntryStyle"
+                    android:text="Win Rate" />
+
+                <TextView
+                    style="@style/TableEntryStyle"
+                    android:text="Best Time" />
+
+                <TextView
+                    style="@style/TableEntryStyle"
+                    android:text="Avg Time" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/hard_row"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_gray_diamond32" />
+
+                <TextView
+                    style="@style/TableEntryStyle"
+                    android:text="Played" />
+
+                <TextView
+                    style="@style/TableEntryStyle"
+                    android:text="Win Rate" />
+
+                <TextView
+                    style="@style/TableEntryStyle"
+                    android:text="Best Time" />
+
+                <TextView
+                    style="@style/TableEntryStyle"
+                    android:text="Avg Time" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/all_row"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/TableEntryStyle"
+                    android:text="All" />
+
+                <TextView
+                    style="@style/TableEntryStyle"
+                    android:text="Played" />
+
+                <TextView
+                    style="@style/TableEntryStyle"
+                    android:text="Win Rate" />
+
+                <TextView
+                    style="@style/TableEntryStyle"
+                    android:text="Best Time" />
+
+                <TextView
+                    style="@style/TableEntryStyle"
+                    android:text="Avg Time" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

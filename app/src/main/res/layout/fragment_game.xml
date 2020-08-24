@@ -33,7 +33,6 @@
             tools:visibility="visible">
 
 
-            <!--            android:drawableTop="@drawable/ic_circle_red_no_outline"-->
             <TextView
                 android:id="@+id/freebies_remaining"
                 android:layout_width="wrap_content"

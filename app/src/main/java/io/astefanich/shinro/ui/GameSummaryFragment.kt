@@ -21,6 +21,7 @@ import arrow.core.Some
 import io.astefanich.shinro.R
 import io.astefanich.shinro.common.Difficulty
 import io.astefanich.shinro.common.PlayRequest
+import io.astefanich.shinro.database.ResultsDao
 import io.astefanich.shinro.databinding.FragmentGameSummaryBinding
 import io.astefanich.shinro.util.sound.SoundEffect
 import io.astefanich.shinro.util.sound.SoundPlayer

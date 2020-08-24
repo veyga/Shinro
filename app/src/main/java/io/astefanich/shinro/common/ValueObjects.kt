@@ -20,6 +20,13 @@ enum class TimeSeconds(val seconds: Long) {
     TEN(10L),
     THIRTY(30L)
 }
+data class Statistic(
+    val difficulty: Difficulty,
+    val nPlayed: Int,
+    val winRate: Int,
+    val bestTime: Long,
+    val avgTime: Long
+)
 
 // between gameVM and gameOver
 @Parcelize
