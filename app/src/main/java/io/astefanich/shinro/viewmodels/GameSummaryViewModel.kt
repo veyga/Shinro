@@ -10,6 +10,7 @@ import io.astefanich.shinro.database.ResultsDao
 import io.astefanich.shinro.model.GameResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 class GameSummaryViewModel
@@ -54,6 +55,7 @@ constructor(
 
     fun saveToStatistics(): Unit {
         with(summary) {
+            Timber.i("saving to stats")
             viewModelScope.launch(Dispatchers.IO) {
                 resultsDao.insertGameResult(
                     GameResult(

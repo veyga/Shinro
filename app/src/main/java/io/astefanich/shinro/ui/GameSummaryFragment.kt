@@ -70,13 +70,6 @@ class GameSummaryFragment : Fragment() {
             ViewModelProviders.of(this, viewModelFactory).get(GameSummaryViewModel::class.java)
         binding.vm = viewModel
         binding.newGameChip.typeface = Typeface.DEFAULT_BOLD
-        binding.newGameChip.setOnClickListener {
-            findNavController().navigate(
-                GameSummaryFragmentDirections.actionGameSummaryToGame(
-                    PlayRequest.NewGame(viewModel.nextGameDifficulty.value!!)
-                )
-            )
-        }
         binding.changeDifficultyChip.typeface = Typeface.DEFAULT_BOLD
         binding.changeDifficultyChip.setOnClickListener {
             AlertDialog.Builder(activity)
@@ -97,6 +90,16 @@ class GameSummaryFragment : Fragment() {
                 }
                 launch {
                     playScoreSound(animTime)
+                }
+                launch {
+                    delay(animTime)
+                    binding.newGameChip.setOnClickListener {//dont allow navigation until animation complete
+                        findNavController().navigate(
+                            GameSummaryFragmentDirections.actionGameSummaryToGame(
+                                PlayRequest.NewGame(viewModel.nextGameDifficulty.value!!)
+                            )
+                        )
+                    }
                 }
             }
         })

@@ -19,8 +19,7 @@ import androidx.navigation.ui.NavigationUI
 import arrow.core.Option
 import arrow.core.Some
 import io.astefanich.shinro.R
-import io.astefanich.shinro.common.Difficulty
-import io.astefanich.shinro.common.Grid
+import io.astefanich.shinro.common.*
 import io.astefanich.shinro.databinding.FragmentGameBinding
 import io.astefanich.shinro.util.GameVibrator
 import io.astefanich.shinro.util.ShinroTimer
@@ -225,6 +224,10 @@ class GameFragment : Fragment() {
             .setDuration(3000)
             .start()
         targetCell.bindSvg("M")
+        binding.freebiesRemaining.text = String.format(
+            resources.getString(R.string.freebies_remaining_fmt),
+            evt.nRemaining
+        )
     }
 
 
@@ -252,22 +255,29 @@ class GameFragment : Fragment() {
 
     @Subscribe
     fun on(evt: GameLostEvent) {
+        toast(":(")
         bus.post(PauseGameTimerCommand)
         bus.post(TearDownGameCommand)
     }
 
     @Subscribe
     fun on(evt: GameTornDownEvent) {
-        var navDelay = if (evt.summary.isWin) 2000L else 1000L
+        Timber.i("game torn down")
+        bus.unregister(this)
         when (uiTimer) {
             is Some -> (uiTimer as Some<ShinroTimer>).t.pause()
         }
-        lifecycleScope.launch(Dispatchers.IO) {
-            delay(navDelay)
-            withContext(Dispatchers.Main) {
+
+        binding.nextBoard.setOnClickListener {
                 findNavController().navigate(GameFragmentDirections.actionGameToGameSummary(evt.summary))
-            }
         }
+//        var navDelay = if (evt.summary.isWin) 2500L else 1000L
+//        lifecycleScope.launch(Dispatchers.IO) {
+//            delay(navDelay)
+//            withContext(Dispatchers.Main) {
+//                findNavController().navigate(GameFragmentDirections.actionGameToGameSummary(evt.summary))
+//            }
+//        }
 
     }
 
@@ -336,14 +346,14 @@ class GameFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        bus.unregister(soundPlayer)
         when (vibrator) {
             is Some -> bus.unregister((vibrator as Some<GameVibrator>).t)
         }
         when (soundPlayer) {
             is Some -> bus.unregister((soundPlayer as Some<SoundPlayer>).t)
         }
-        bus.unregister(this)
+        if(bus.isRegistered(this))
+            bus.unregister(this)
     }
 
 

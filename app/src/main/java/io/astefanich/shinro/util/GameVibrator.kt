@@ -3,7 +3,7 @@ package io.astefanich.shinro.util
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
-import io.astefanich.shinro.viewmodels.*
+import io.astefanich.shinro.common.*
 import org.greenrobot.eventbus.Subscribe
 
 class GameVibrator(

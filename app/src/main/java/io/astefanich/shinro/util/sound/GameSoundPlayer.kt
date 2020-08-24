@@ -1,7 +1,7 @@
 package io.astefanich.shinro.util.sound
 
 import android.content.Context
-import io.astefanich.shinro.viewmodels.*
+import io.astefanich.shinro.common.*
 import org.greenrobot.eventbus.Subscribe
 
 

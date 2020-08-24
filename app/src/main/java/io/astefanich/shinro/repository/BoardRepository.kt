@@ -44,7 +44,7 @@ constructor(
         var newBoard: Board? = null
         withContext(Dispatchers.IO){
             delay(500) //RACE CONDTION during inMemoryDB. boards need to be loaded first
-            val rand = Random.nextInt(1,45)
+            val rand = Random.nextInt(1,5)
             newBoard = boardDao.getBoardByNumAndDifficulty(rand, difficulty)
             Timber.i("board repo serving up board#: ${newBoard!!.boardNum} diff: ${newBoard!!.difficulty}. Thread: ${Thread.currentThread()}")
         }
