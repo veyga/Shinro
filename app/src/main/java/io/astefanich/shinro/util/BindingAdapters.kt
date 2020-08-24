@@ -1,6 +1,5 @@
 package io.astefanich.shinro.util
 
-import android.animation.ValueAnimator
 import android.text.format.DateUtils
 import android.view.View
 import android.widget.Button
@@ -24,23 +23,15 @@ fun hideViewIfFalseCondition(view: View, isActive: Boolean) = when (isActive) {
     else -> view.visibility = View.INVISIBLE
 }
 
-//@BindingAdapter("pointsEarned")
-//fun TextView.animatePointsEarned(score: Int) {
-//    val delay = 1000L
-//    ValueAnimator.ofInt(0, score).apply {
-//        addUpdateListener {
-//            text = String.format(
-//                resources.getString(
-//                    R.string.points_earned_fmt,
-//                    it.animatedValue as Int
-//                )
-//            )
-//        }
-//        duration = delay + score / 2
-//        startDelay = delay
-//        start()
-//    }
-//}
+@BindingAdapter("timeFmt")
+fun TextView.formatTime(time: Long) {
+    text = DateUtils.formatElapsedTime(time)
+}
+
+@BindingAdapter("percentRound")
+fun TextView.formatPct(pct: Float){
+    text = Math.round(pct).toString()
+}
 
 @BindingAdapter("videoPlaying", "videoStarted")
 fun setVideoButtonText(button: Button, isPlaying: Boolean, isStarted: Boolean) {
@@ -55,6 +46,13 @@ fun setVideoButtonText(button: Button, isPlaying: Boolean, isStarted: Boolean) {
     }
 }
 
+
+//The view doesn't align correctly (vertically) across the different types/screen resolutions..
+@BindingAdapter("tipText")
+fun setTipText(view: TextView, type: TipChoice) {
+    view.setText("")
+}
+
 @BindingAdapter("timeTaken")
 fun TextView.displayTimeTaken(time: Long) {
     val fmt = "Time: %s"
@@ -62,12 +60,6 @@ fun TextView.displayTimeTaken(time: Long) {
         resources.getString(R.string.time_taken_fmt),
         DateUtils.formatElapsedTime(time)
     )
-}
-
-//The view doesn't align correctly (vertically) across the different types/screen resolutions..
-@BindingAdapter("tipText")
-fun setTipText(view: TextView, type: TipChoice) {
-    view.setText("")
 }
 
 //@BindingAdapter("tipText")

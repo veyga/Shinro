@@ -22,10 +22,10 @@ enum class TimeSeconds(val seconds: Long) {
 }
 data class Statistic(
     val difficulty: Difficulty,
-    val nPlayed: Int,
-    val winRate: Int,
-    val bestTime: Long,
-    val avgTime: Long
+    val numPlayed: Int,
+    val winPct: Float,
+    val bestTimeSec: Long,
+    val avgTimeSec: Long
 )
 
 // between gameVM and gameOver

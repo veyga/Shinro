@@ -31,9 +31,9 @@ constructor(
         get() = _allStats
 
     init {
-        _easyStats.value = Statistic(Difficulty.EASY, 10, 55, 10000, 12000)
-        _mediumStats.value = Statistic(Difficulty.MEDIUM, 10, 55, 10000, 12000)
-        _hardStats.value = Statistic(Difficulty.HARD, 10, 55, 10000, 12000)
-        _allStats.value = Statistic(Difficulty.HARD, 10, 55, 10000, 12000)
+        _easyStats.value = Statistic(Difficulty.EASY, 10, 85f, 10, 12)
+        _mediumStats.value = Statistic(Difficulty.MEDIUM, 35, 76.5f, 61, 75)
+        _hardStats.value = Statistic(Difficulty.HARD, 20, 55.3f, 10000, 1000)
+        _allStats.value = Statistic(Difficulty.HARD, 65, 73.999f, 1000, 1000)
     }
 }

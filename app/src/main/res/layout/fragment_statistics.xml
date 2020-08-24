@@ -4,11 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.StatisticsFragment">
 
-    <!--        <data>-->
-    <!--            <variable-->
-    <!--                name="vm"-->
-    <!--                type="io.astefanich.shinro.viewmodels.GameViewModel" />-->
-    <!--        </data>-->
+    <data>
+
+        <variable
+            name="vm"
+            type="io.astefanich.shinro.viewmodels.StatisticsViewModel" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -77,20 +78,28 @@
                     android:src="@drawable/ic_green_circle32" />
 
                 <TextView
+                    android:id="@+id/easy_num_played"
                     style="@style/TableEntryStyle"
-                    android:text="Played" />
+                    android:text="@{String.valueOf(vm.easyStats.numPlayed)}"
+                    tools:text="100" />
 
                 <TextView
+                    android:id="@+id/easy_win_pct"
                     style="@style/TableEntryStyle"
-                    android:text="Win Rate" />
+                    app:percentRound="@{vm.easyStats.winPct}"
+                    tools:text="100" />
 
                 <TextView
+                    android:id="@+id/easy_best_time"
                     style="@style/TableEntryStyle"
-                    android:text="Best Time" />
+                    app:timeFmt="@{vm.easyStats.bestTimeSec}"
+                    tools:text="100" />
 
                 <TextView
+                    android:id="@+id/easy_avg_time"
                     style="@style/TableEntryStyle"
-                    android:text="Avg Time" />
+                    app:timeFmt="@{vm.easyStats.avgTimeSec}"
+                    tools:text="100" />
 
             </LinearLayout>
 
@@ -110,20 +119,28 @@
                     android:src="@drawable/ic_blue_square32" />
 
                 <TextView
+                    android:id="@+id/medium_num_played"
                     style="@style/TableEntryStyle"
-                    android:text="Played" />
+                    android:text="@{String.valueOf(vm.mediumStats.numPlayed)}"
+                    tools:text="100" />
 
                 <TextView
+                    android:id="@+id/medium_win_pct"
                     style="@style/TableEntryStyle"
-                    android:text="Win Rate" />
+                    app:percentRound="@{vm.mediumStats.winPct}"
+                    tools:text="100" />
 
                 <TextView
+                    android:id="@+id/medium_best_time"
                     style="@style/TableEntryStyle"
-                    android:text="Best Time" />
+                    app:timeFmt="@{vm.mediumStats.bestTimeSec}"
+                    tools:text="100" />
 
                 <TextView
+                    android:id="@+id/medium_avg_time"
                     style="@style/TableEntryStyle"
-                    android:text="Avg Time" />
+                    app:timeFmt="@{vm.mediumStats.avgTimeSec}"
+                    tools:text="100" />
 
             </LinearLayout>
 
@@ -143,22 +160,31 @@
                     android:src="@drawable/ic_gray_diamond32" />
 
                 <TextView
+                    android:id="@+id/hard_num_played"
                     style="@style/TableEntryStyle"
-                    android:text="Played" />
+                    android:text="@{String.valueOf(vm.hardStats.numPlayed)}"
+                    tools:text="100" />
 
                 <TextView
+                    android:id="@+id/hard_win_pct"
                     style="@style/TableEntryStyle"
-                    android:text="Win Rate" />
+                    app:percentRound="@{vm.hardStats.winPct}"
+                    tools:text="100" />
 
                 <TextView
+                    android:id="@+id/hard_best_time"
                     style="@style/TableEntryStyle"
-                    android:text="Best Time" />
+                    app:timeFmt="@{vm.hardStats.bestTimeSec}"
+                    tools:text="100" />
 
                 <TextView
+                    android:id="@+id/hard_avg_time"
                     style="@style/TableEntryStyle"
-                    android:text="Avg Time" />
+                    app:timeFmt="@{vm.hardStats.avgTimeSec}"
+                    tools:text="100" />
 
             </LinearLayout>
+
 
             <LinearLayout
                 android:id="@+id/all_row"
@@ -170,23 +196,28 @@
 
                 <TextView
                     style="@style/TableEntryStyle"
-                    android:text="All" />
+                    android:text="All"
+                    android:textStyle="italic" />
 
                 <TextView
                     style="@style/TableEntryStyle"
-                    android:text="Played" />
+                    android:text="@{String.valueOf(vm.allStats.numPlayed)}"
+                    tools:text="100" />
 
                 <TextView
                     style="@style/TableEntryStyle"
-                    android:text="Win Rate" />
+                    app:percentRound="@{vm.allStats.winPct}"
+                    tools:text="100" />
 
                 <TextView
                     style="@style/TableEntryStyle"
-                    android:text="Best Time" />
+                    app:timeFmt="@{vm.allStats.bestTimeSec}"
+                    tools:text="100" />
 
                 <TextView
                     style="@style/TableEntryStyle"
-                    android:text="Avg Time" />
+                    app:timeFmt="@{vm.allStats.avgTimeSec}"
+                    tools:text="100" />
 
             </LinearLayout>
         </LinearLayout>
