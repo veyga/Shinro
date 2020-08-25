@@ -3,6 +3,7 @@ package io.astefanich.shinro.di.activities.main.fragments
 import androidx.lifecycle.ViewModel
 import dagger.Binds
 import dagger.Module
+import dagger.Provides
 import dagger.Subcomponent
 import dagger.multibindings.IntoMap
 import io.astefanich.shinro.di.PerFragment
@@ -24,5 +25,10 @@ abstract class StatisticsViewModelModule {
     @IntoMap
     @ViewModelKey(StatisticsViewModel::class)
     abstract fun bindStatisticsViewModel(vm: StatisticsViewModel): ViewModel
+}
+
+@Module
+class StatisticsModule {
+
 }
 

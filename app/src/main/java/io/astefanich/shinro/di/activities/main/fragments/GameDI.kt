@@ -63,16 +63,6 @@ object GameModule {
 
     @PerFragment
     @Provides
-    @Named("winBuzz")
-    fun providesWinBuzzPattern(): LongArray = longArrayOf(0, 500)
-
-    @PerFragment
-    @Provides
-    @Named("resetBuzz")
-    fun providesResetBuzzPattern(): LongArray = longArrayOf(0, 50)
-
-    @PerFragment
-    @Provides
     @JvmStatic
     fun providesToaster(@Named("actCtx") ctx: Context): (String) -> Unit =
         { msg -> Toast.makeText(ctx, msg, Toast.LENGTH_SHORT).show() }
@@ -167,7 +157,7 @@ class BoardModule {
             when (difficulty) {
                 Difficulty.EASY -> createIfNotExistent(File(dir, "easy_blacklist.txt"))
                 Difficulty.MEDIUM -> createIfNotExistent(File(dir, "medium_blacklist.txt"))
-                Difficulty.HARD -> createIfNotExistent(File(dir, "hard_blacklist.txt"))
+                else -> createIfNotExistent(File(dir, "hard_blacklist.txt"))
             }
         }
     }

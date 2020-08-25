@@ -10,8 +10,8 @@ data class DatabaseName(val name: String)
 @Database(
     entities = [
         Game::class,
-        GameResult::class,
         Board::class,
+        ResultAggregate::class
     ],
     version = 1,
     exportSchema = false

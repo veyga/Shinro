@@ -12,7 +12,7 @@ import dagger.Provides
 import io.astefanich.shinro.common.Difficulty
 import io.astefanich.shinro.database.*
 import io.astefanich.shinro.model.Board
-import io.astefanich.shinro.model.Game
+import io.astefanich.shinro.model.ResultAggregate
 import io.astefanich.shinro.util.EventBusIndex
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -52,21 +52,18 @@ class AppModule {
     @Provides
     internal fun providesBoardDao(database: AppDatabase): BoardDao = database.boardDao()
 
-
-    //    @PerApplication
-//    @Provides
-    internal fun providesDatabaseName(): DatabaseName = DatabaseName("shinro.db")
+    @Provides
+    internal fun providesDatabaseName(): DatabaseName = DatabaseName("shinroinitial.db")
 
 
-    //    @PerApplication
-//    @Provides
+    @PerApplication
+    @Provides
     internal fun providesDatabaseFromFile(
         application: Application,
         databaseName: DatabaseName
     ): AppDatabase {
         Timber.i("creating db")
         return Room.databaseBuilder(application, AppDatabase::class.java, databaseName.name)
-            .allowMainThreadQueries()
             .fallbackToDestructiveMigration()
             .createFromAsset(databaseName.name)
             .build()
@@ -77,37 +74,26 @@ class AppModule {
         The below are for testing/board creation.
         Releases should output to DB file, and app should load from file
      */
-    @PerApplication
-    @Provides
-    internal fun providesBoards(): Array<Board?> = BoardGenerator().genBoards()
 
-    @PerApplication
-    @Provides
-    internal fun providesInitialBoard(boards: Array<Board>): Board = boards[0]
-
-    @PerApplication
-    @Provides
-    internal fun providesInitialGame(board: Board): Game =
-        Game(difficulty = board.difficulty, board = board.cells)
-
-
-    @PerApplication
-    @Provides
-    internal fun providesInMemoryAppDatabase(
+    //    @PerApplication
+//    @Provides
+    fun providesDatabaseFromFileWithCallback(
         application: Application,
+        databaseName: DatabaseName,
         boards: Array<Board>,
+        seeds: Array<ResultAggregate>,
     ): AppDatabase {
+        Timber.i("creating db with cb")
         lateinit var appDatabase: AppDatabase
-        appDatabase = Room.inMemoryDatabaseBuilder(
-            application, AppDatabase::class.java
-        )
+        appDatabase = Room.databaseBuilder(application, AppDatabase::class.java, databaseName.name)
             .fallbackToDestructiveMigration()
             .addCallback(object : RoomDatabase.Callback() {
                 override fun onCreate(db: SupportSQLiteDatabase) {
                     super.onCreate(db)
                     GlobalScope.launch(Dispatchers.IO) {
                         //race condition
-                        Timber.i("BLACKLISTS INSERTED")
+                        appDatabase.resultsDao().insertAggregates(*seeds)
+                        Timber.i("AGGREGATE SEEDS INSERTED")
                         appDatabase.boardDao().insertBoards(*boards)
                         Timber.i("BOARDS INSERTED")
                     }
@@ -116,6 +102,57 @@ class AppModule {
             .build()
         return appDatabase
     }
+
+    //    @PerApplication
+//    @Provides
+    internal fun providesInMemoryAppDatabase(
+        application: Application,
+        boards: Array<Board>,
+        seeds: Array<ResultAggregate>,
+    ): AppDatabase {
+        lateinit var appDatabase: AppDatabase
+        appDatabase = Room.inMemoryDatabaseBuilder(application, AppDatabase::class.java)
+            .fallbackToDestructiveMigration()
+            .addCallback(object : RoomDatabase.Callback() {
+                override fun onCreate(db: SupportSQLiteDatabase) {
+                    super.onCreate(db)
+                    GlobalScope.launch(Dispatchers.IO) {
+                        //race condition
+                        appDatabase.resultsDao().insertAggregates(*seeds)
+                        Timber.i("AGGREGATE SEEDS INSERTED")
+                        appDatabase.boardDao().insertBoards(*boards)
+                        Timber.i("BOARDS INSERTED")
+                    }
+                }
+            })
+            .build()
+        return appDatabase
+    }
+
+    //    @PerApplication
+//    @Provides
+    internal fun providesBoards(): Array<Board?> = BoardGenerator().genBoards()
+
+    //    @PerApplication
+//    @Provides
+    fun providesAggregateSeeds(): Array<ResultAggregate> {
+        val gen = { diff: Difficulty ->
+            ResultAggregate(
+                difficulty = diff,
+                numPlayed = 0,
+                numWins = 0,
+                bestTimeSec = Long.MAX_VALUE,
+                totalTimeSeconds = 0L
+            )
+        }
+        return arrayOf(
+            gen(Difficulty.EASY),
+            gen(Difficulty.MEDIUM),
+            gen(Difficulty.HARD),
+            gen(Difficulty.ANY),
+        )
+    }
+
 }
 
 

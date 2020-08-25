@@ -6,18 +6,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import io.astefanich.shinro.common.Difficulty
 import io.astefanich.shinro.common.GameSummary
-import io.astefanich.shinro.database.ResultsDao
-import io.astefanich.shinro.model.GameResult
+import io.astefanich.shinro.repository.ResultsRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 class GameSummaryViewModel
 @Inject
 constructor(
     val summary: GameSummary,
-    val resultsDao: ResultsDao
+    val resultsRepo: ResultsRepository
 ) : ViewModel() {
 
     private var _nextGameDifficulty = MutableLiveData<Difficulty>()
@@ -29,7 +27,8 @@ constructor(
     init {
         with(summary) {
             _nextGameDifficulty.value = difficulty
-            pointsEarned.value = if(summary.isWin) calcScore(difficulty = difficulty, timeTaken = time) else 0
+            pointsEarned.value =
+                if (summary.isWin) calcScore(difficulty = difficulty, timeTaken = time) else 0
         }
         saveToStatistics()
     }
@@ -37,7 +36,6 @@ constructor(
     //taking 0 seconds doubles your score. You never drop below base on a win
     fun calcScore(difficulty: Difficulty, timeTaken: Long): Int {
         data class ScorePair(val baseScore: Int, val allottedTime: Int)
-
         val scoreMap: Map<Difficulty, ScorePair> =
             mapOf(
                 Difficulty.EASY to ScorePair(2000, 5 * 60), //easy = 5min
@@ -49,24 +47,13 @@ constructor(
         return (pair.baseScore + ((pair.baseScore / pair.allottedTime) * timeBonus)).toInt()
     }
 
-    fun difficultyChanged(newDiff: Difficulty) {
+    fun changeDifficulty(newDiff: Difficulty) {
         _nextGameDifficulty.value = newDiff
     }
 
     fun saveToStatistics(): Unit {
-        with(summary) {
-            Timber.i("saving to stats")
-            viewModelScope.launch(Dispatchers.IO) {
-                resultsDao.insertGameResult(
-                    GameResult(
-                        id = 0L,
-                        difficulty = difficulty,
-                        win = isWin,
-                        time = time,
-                        points = pointsEarned.value ?: 0
-                    )
-                )
-            }
+        viewModelScope.launch(Dispatchers.IO) {
+            resultsRepo.addGameToAggregate(summary)
         }
     }
 

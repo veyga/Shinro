@@ -4,9 +4,8 @@ import io.astefanich.shinro.common.Cell
 import io.astefanich.shinro.common.Difficulty
 import io.astefanich.shinro.model.Board
 import timber.log.Timber
-import java.lang.IllegalStateException
 
-class BoardGenerator() {
+class BoardGenerator {
 
     private val boardCount = 135
 

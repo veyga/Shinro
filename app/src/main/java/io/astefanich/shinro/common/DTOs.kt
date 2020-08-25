@@ -11,7 +11,8 @@ typealias Grid = Array<Array<Cell>>
 enum class Difficulty(val repr: String) {
     EASY("Easy"),
     MEDIUM("Medium"),
-    HARD("Hard")
+    HARD("Hard"),
+    ANY("Any")
 }
 
 enum class TimeSeconds(val seconds: Long) {
@@ -21,14 +22,14 @@ enum class TimeSeconds(val seconds: Long) {
     THIRTY(30L)
 }
 
-data class ResultAggregate (
+data class Statistic(
+    val difficulty: Difficulty,
     val numPlayed: Int,
     val winPct: Float,
     val bestTimeSec: Long,
-    val avgTimeSec: Long
+    val avgTimeSec: Long,
 )
 
-// between gameVM and gameOver
 @Parcelize
 data class GameSummary(val difficulty: Difficulty, val isWin: Boolean, val time: Long) : Parcelable
 

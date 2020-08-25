@@ -37,18 +37,24 @@ data class Game(
 }
 
 @Entity(tableName = "results_table")
-data class GameResult(
+data class ResultAggregate (
 
     @PrimaryKey(autoGenerate = true)
-    val id: Long,
+    val id: Long = 0L,
 
     val difficulty: Difficulty,
 
-    val win: Boolean,
+    @ColumnInfo(name = "num_played")
+    val numPlayed: Int,
 
-    val time: Long,
+    @ColumnInfo(name = "num_wins")
+    val numWins: Int,
 
-    val points: Int
+    @ColumnInfo(name = "best_time")
+    val bestTimeSec: Long,
+
+    @ColumnInfo(name = "total_time")
+    val totalTimeSeconds: Long
 )
 
 @Entity(tableName = "board_table")

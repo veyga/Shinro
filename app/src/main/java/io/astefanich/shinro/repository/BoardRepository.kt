@@ -21,8 +21,6 @@ constructor(
     val randomId: @JvmSuppressWildcards () -> Int
 ) {
 
-
-
     suspend fun getRandomBoardByDifficulty(difficulty: Difficulty): Board {
         return withContext(Dispatchers.IO) {
             try {
@@ -42,9 +40,9 @@ constructor(
                 if (reserved.size >= maxBlacklistSize)
                     queue.removeFirst()
                 queue.addLast(targetId)
-                file.writeText(queue.foldLeft("", { s, i -> s + "${i}\n"}))
-                Timber.i("board repo serving up is $targetId - ${difficulty.repr}")
-                boardDao.getBoardByNumAndDifficulty(targetId, difficulty)
+                file.writeText(queue.foldLeft("", { s, i -> s + "${i}\n" }))
+                Timber.i("board repo serving up is 1 - ${difficulty.repr}")
+                boardDao.getBoardByNumAndDifficulty(1, difficulty)
             } catch (e: Exception) {
                 Timber.d("blacklist failed. Serving random board. $e")
                 boardDao.getBoardByNumAndDifficulty(randomId(), difficulty)

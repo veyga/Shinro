@@ -4,7 +4,7 @@ import androidx.room.*
 import io.astefanich.shinro.common.Difficulty
 import io.astefanich.shinro.model.Board
 import io.astefanich.shinro.model.Game
-import io.astefanich.shinro.model.GameResult
+import io.astefanich.shinro.model.ResultAggregate
 
 @Dao
 interface GameDao {
@@ -23,11 +23,14 @@ interface GameDao {
 @Dao
 interface ResultsDao {
 
-    @Query("SELECT * FROM results_table")
-    suspend fun getAllResults(): List<GameResult>
+    @Query("SELECT * FROM results_table WHERE difficulty = :difficulty")
+    suspend fun getAggregateByDifficulty(difficulty: Difficulty): ResultAggregate
 
     @Insert
-    suspend fun insertGameResult(result: GameResult)
+    suspend fun insertAggregates(vararg aggregates: ResultAggregate)
+
+    @Update
+    suspend fun updateAggregate(aggregate: ResultAggregate)
 }
 
 @Dao

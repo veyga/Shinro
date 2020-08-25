@@ -78,7 +78,7 @@ class GameSummaryFragment : Fragment() {
                 .setTitle("Change Difficulty")
                 .setCancelable(true)
                 .setItems(difficultiesReprs, DialogInterface.OnClickListener { dialog, choice ->
-                    viewModel.difficultyChanged(Difficulty.valueOf(difficultiesReprs[choice]))
+                    viewModel.changeDifficulty(Difficulty.valueOf(difficultiesReprs[choice]))
                 })
                 .show()
         }
