@@ -25,3 +25,4 @@ abstract class StatisticsViewModelModule {
     @ViewModelKey(StatisticsViewModel::class)
     abstract fun bindStatisticsViewModel(vm: StatisticsViewModel): ViewModel
 }
+

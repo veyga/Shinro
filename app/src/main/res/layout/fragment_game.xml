@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.GameFragment">
 
-<!--    <data>-->
+    <data>
 
-<!--        <variable-->
-<!--            name="vm"-->
-<!--            type="io.astefanich.shinro.viewmodels.GameViewModel" />-->
-<!--    </data>-->
+        <variable
+            name="vm"
+            type="io.astefanich.shinro.viewmodels.GameViewModel" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

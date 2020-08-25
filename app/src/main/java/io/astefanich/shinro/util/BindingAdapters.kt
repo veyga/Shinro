@@ -25,11 +25,11 @@ fun hideViewIfFalseCondition(view: View, isActive: Boolean) = when (isActive) {
 
 @BindingAdapter("timeFmt")
 fun TextView.formatTime(time: Long) {
-    text = DateUtils.formatElapsedTime(time)
+    text = if (time == 0L) "-" else DateUtils.formatElapsedTime(time)
 }
 
 @BindingAdapter("percentRound")
-fun TextView.formatPct(pct: Float){
+fun TextView.formatPct(pct: Float) {
     text = Math.round(pct).toString()
 }
 

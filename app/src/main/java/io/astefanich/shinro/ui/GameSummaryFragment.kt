@@ -9,7 +9,6 @@ import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
@@ -21,7 +20,6 @@ import arrow.core.Some
 import io.astefanich.shinro.R
 import io.astefanich.shinro.common.Difficulty
 import io.astefanich.shinro.common.PlayRequest
-import io.astefanich.shinro.database.ResultsDao
 import io.astefanich.shinro.databinding.FragmentGameSummaryBinding
 import io.astefanich.shinro.util.sound.SoundEffect
 import io.astefanich.shinro.util.sound.SoundPlayer
@@ -111,16 +109,16 @@ class GameSummaryFragment : Fragment() {
                         )
                     )
                 }
-                setHasOptionsMenu(true)
             }
         })
 
         binding.lifecycleOwner = this
+        setHasOptionsMenu(true)
         return binding.root
 //        return layoutInflater.inflate(R.layout.fragment_game_summary, container, false)
     }
 
-    private suspend fun animateScoreText(score: Int, animTime: Long) {
+    private fun animateScoreText(score: Int, animTime: Long) {
         ValueAnimator.ofInt(0, score).apply {
             addUpdateListener {
                 binding.gameSummaryPoints.text = String.format(
@@ -153,7 +151,9 @@ class GameSummaryFragment : Fragment() {
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return (NavigationUI.onNavDestinationSelected(item!!, requireView().findNavController())
-                || super.onOptionsItemSelected(item))
+        return if (animationFinished.value ?: false)
+            (NavigationUI.onNavDestinationSelected(item!!, requireView().findNavController())
+                    || super.onOptionsItemSelected(item))
+        else false
     }
 }

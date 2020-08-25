@@ -41,5 +41,6 @@
     <string name="win_pct">Win %</string>
     <string name="best_time">Best</string>
     <string name="average_time">Average</string>
+    <string name="gathering_stats">Aggregating your stats…</string>
 </resources>
 

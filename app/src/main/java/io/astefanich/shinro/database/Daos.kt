@@ -23,6 +23,9 @@ interface GameDao {
 @Dao
 interface ResultsDao {
 
+    @Query("SELECT * FROM results_table")
+    suspend fun getAllResults(): List<GameResult>
+
     @Insert
     suspend fun insertGameResult(result: GameResult)
 }

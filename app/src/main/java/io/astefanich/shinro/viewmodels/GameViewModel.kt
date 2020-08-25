@@ -199,7 +199,6 @@ constructor(
     fun handle(cmd: SaveGameCommand) {
         viewModelScope.launch(Dispatchers.IO) {
             repo.saveGame(_game)
-            Timber.i("Repo saved the game")
         }
     }
 
@@ -293,7 +292,6 @@ constructor(
         gameTimer.pause()
         if (bus.isRegistered(this))
             bus.unregister(this)
-        Timber.i("vm onCleared. vm unregistered from bus")
         super.onCleared()
     }
 

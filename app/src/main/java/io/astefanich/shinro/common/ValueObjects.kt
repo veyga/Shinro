@@ -20,8 +20,8 @@ enum class TimeSeconds(val seconds: Long) {
     TEN(10L),
     THIRTY(30L)
 }
-data class Statistic(
-    val difficulty: Difficulty,
+
+data class ResultAggregate (
     val numPlayed: Int,
     val winPct: Float,
     val bestTimeSec: Long,

@@ -261,22 +261,21 @@ class GameFragment : Fragment() {
 
     @Subscribe
     fun on(evt: GameTornDownEvent) {
-        Timber.i("game torn down")
         bus.unregister(this)
         when (uiTimer) {
             is Some -> (uiTimer as Some<ShinroTimer>).t.pause()
         }
 
-        binding.nextBoard.setOnClickListener {
-                findNavController().navigate(GameFragmentDirections.actionGameToGameSummary(evt.summary))
-        }
-//        var navDelay = if (evt.summary.isWin) 2500L else 1000L
-//        lifecycleScope.launch(Dispatchers.IO) {
-//            delay(navDelay)
-//            withContext(Dispatchers.Main) {
+//        binding.nextBoard.setOnClickListener {
 //                findNavController().navigate(GameFragmentDirections.actionGameToGameSummary(evt.summary))
-//            }
 //        }
+        var navDelay = if (evt.summary.isWin) 2500L else 1000L
+        lifecycleScope.launch(Dispatchers.IO) {
+            delay(navDelay)
+            withContext(Dispatchers.Main) {
+                findNavController().navigate(GameFragmentDirections.actionGameToGameSummary(evt.summary))
+            }
+        }
 
     }
 

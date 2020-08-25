@@ -11,7 +11,6 @@ import io.astefanich.shinro.R
 import io.astefanich.shinro.databinding.FragmentStatisticsBinding
 import io.astefanich.shinro.viewmodels.StatisticsViewModel
 import io.astefanich.shinro.viewmodels.ViewModelFactory
-import timber.log.Timber
 import javax.inject.Inject
 
 class StatisticsFragment : Fragment() {
@@ -37,17 +36,18 @@ class StatisticsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        Timber.i("got the factory: $viewModelFactory")
         viewModel =
             ViewModelProviders.of(this, viewModelFactory).get(StatisticsViewModel::class.java)
-        Timber.i("created the vm: $viewModel")
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_statistics, container, false)
         binding.vm = viewModel
         binding.lifecycleOwner = this
-//        viewModel.easyStats.observe(viewLifecycleOwner, {stat ->
-//            binding.easyNumPlayed.text = stat.numPlayed
-//        })
+        viewModel.show.observe(viewLifecycleOwner, { calculated ->
+            if (calculated) {
+                binding.progressBar.visibility = View.GONE
+                binding.progressText.visibility = View.GONE
+                binding.statisticsLayout.visibility = View.VISIBLE
+            }
+        })
         return binding.root
-//        return super.onCreateView(inflater, container, savedInstanceState)
     }
 }
