@@ -1,7 +1,7 @@
 package io.astefanich.shinro
 
 import android.app.Application
-import io.astefanich.shinro.di.AppComponent
+import io.astefanich.shinro.di.app.AppComponent
 import io.astefanich.shinro.di.DaggerAppComponent
 import timber.log.Timber
 

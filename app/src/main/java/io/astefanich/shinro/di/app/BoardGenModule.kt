@@ -1,17 +1,30 @@
-package io.astefanich.shinro.database
+package io.astefanich.shinro.di.app
 
+import dagger.Module
+import dagger.Provides
 import io.astefanich.shinro.common.Cell
 import io.astefanich.shinro.common.Difficulty
 import io.astefanich.shinro.model.Board
-import timber.log.Timber
 
-class BoardGenerator {
+
+/**
+ * Board generator for initialization and in-memory DBs
+ */
+@Module
+class BoardGenModule {
+
+    @Provides
+    fun providesBoards(): Array<Board?> {
+        val boards = arrayOfNulls<Board>(boardCount)
+
+        for (i in 0 until boardCount)
+            boards[i] = boardFromString(stringz[i])
+
+        return boards
+    }
 
     private val boardCount = 135
 
-    init {
-        Timber.i("BOARD GENERATOR CREATED")
-    }
 
     private fun boardFromString(str: String): Board {
         var numMarbles = 0
@@ -37,15 +50,6 @@ class BoardGenerator {
             throw IllegalStateException("Board $boardNum has $numMarbles !!!")
         return Board(boardNum = boardNum, difficulty = difficulty, cells = cells)
 
-    }
-
-    fun genBoards(): Array<Board?> {
-        val boards = arrayOfNulls<Board>(boardCount)
-
-        for (i in 0 until boardCount)
-            boards[i] = boardFromString(stringz[i])
-
-        return boards
     }
 
 
@@ -1808,5 +1812,4 @@ class BoardGenerator {
         """.trimIndent()
         )
     }
-
 }

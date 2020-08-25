@@ -1,9 +1,6 @@
-package io.astefanich.shinro.di
+package io.astefanich.shinro.di.app
 
 import android.app.Application
-import android.content.Context
-import android.content.SharedPreferences
-import androidx.preference.PreferenceManager
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
@@ -11,60 +8,42 @@ import dagger.Module
 import dagger.Provides
 import io.astefanich.shinro.common.Difficulty
 import io.astefanich.shinro.database.*
+import io.astefanich.shinro.di.PerApplication
 import io.astefanich.shinro.model.Board
 import io.astefanich.shinro.model.ResultAggregate
-import io.astefanich.shinro.util.EventBusIndex
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import org.greenrobot.eventbus.EventBus
 import timber.log.Timber
-import java.io.File
 import javax.inject.Named
 
-
 @Module
-class AppModule {
-
-    @PerApplication
-    @Provides
-    @Named("appCtx")
-    internal fun providesAppContext(application: Application): Context =
-        application.applicationContext
-
-    @PerApplication
-    @Provides
-    fun providesSharesPreferences(@Named("appCtx") ctx: Context): SharedPreferences =
-        PreferenceManager.getDefaultSharedPreferences(ctx)
-
-    @PerApplication
-    @Provides
-    fun providesEventBus(): EventBus {
-        EventBus.builder().addIndex(EventBusIndex()).installDefaultEventBus()
-        return EventBus.getDefault()
-    }
+class DBModule {
 
     @Provides
-    internal fun providesGameDao(database: AppDatabase): GameDao = database.gameDao()
+    internal fun providesGameDao(@Named("inMemory") database: AppDatabase): GameDao =
+        database.gameDao()
 
     @Provides
-    internal fun providesResultsDao(database: AppDatabase): ResultsDao = database.resultsDao()
+    internal fun providesResultsDao(@Named("inMemory") database: AppDatabase): ResultsDao =
+        database.resultsDao()
 
     @Provides
-    internal fun providesBoardDao(database: AppDatabase): BoardDao = database.boardDao()
+    internal fun providesBoardDao(@Named("inMemory") database: AppDatabase): BoardDao =
+        database.boardDao()
 
     @Provides
     internal fun providesDatabaseName(): DatabaseName = DatabaseName("shinroinitial.db")
 
 
-
-//    @PerApplication
-//    @Provides
+    @PerApplication
+    @Provides
+    @Named("production")
     internal fun providesDatabaseFromFile(
         application: Application,
         databaseName: DatabaseName
     ): AppDatabase {
-        Timber.i("creating db")
+        Timber.i("creating from production DB")
         return Room.databaseBuilder(application, AppDatabase::class.java, databaseName.name)
             .fallbackToDestructiveMigration()
             .createFromAsset(databaseName.name)
@@ -72,20 +51,23 @@ class AppModule {
     }
 
 
-    /*
-        The below are for testing/board creation.
-        Releases should output to DB file, and app should load from file
-     */
+/*
+    The below are for testing/board creation.
+    Releases should output to DB file, and app should load from file.
+    Using the below DBs can lead to race conditions on initialization.
+    Implement delays accordingly in appropriate coroutines
+ */
 
-        @PerApplication
+    @PerApplication
     @Provides
-    fun providesDatabaseFromFileWithInitializationCallback(
+    @Named("fileOverwrite")
+    fun providesDatabaseFromFileWithFullInitialization(
         application: Application,
         databaseName: DatabaseName,
         boards: Array<Board>,
         seeds: Array<ResultAggregate>,
     ): AppDatabase {
-        Timber.i("creating db to file with initilization")
+        Timber.i("creating db to file with full initialization")
         lateinit var appDatabase: AppDatabase
         appDatabase = Room.databaseBuilder(application, AppDatabase::class.java, databaseName.name)
             .fallbackToDestructiveMigration()
@@ -104,8 +86,9 @@ class AppModule {
         return appDatabase
     }
 
-    //    @PerApplication
-//    @Provides
+    @PerApplication
+    @Provides
+    @Named("inMemory")
     internal fun providesInMemoryAppDatabase(
         application: Application,
         boards: Array<Board>,
@@ -118,7 +101,6 @@ class AppModule {
                 override fun onCreate(db: SupportSQLiteDatabase) {
                     super.onCreate(db)
                     GlobalScope.launch(Dispatchers.IO) {
-                        //race condition
                         appDatabase.resultsDao().insertAggregates(*seeds)
                         Timber.i("AGGREGATE SEEDS INSERTED")
                         appDatabase.boardDao().insertBoards(*boards)
@@ -129,9 +111,6 @@ class AppModule {
             .build()
         return appDatabase
     }
-
-    @Provides
-    internal fun providesBoards(): Array<Board?> = BoardGenerator().genBoards()
 
     @Provides
     fun providesAggregateSeeds(): Array<ResultAggregate> {
@@ -151,7 +130,4 @@ class AppModule {
             gen(Difficulty.ANY),
         )
     }
-
 }
-
-
