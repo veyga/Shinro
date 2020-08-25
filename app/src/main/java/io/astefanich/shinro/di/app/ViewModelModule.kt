@@ -1,4 +1,4 @@
-package io.astefanich.shinro.di
+package io.astefanich.shinro.di.app
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

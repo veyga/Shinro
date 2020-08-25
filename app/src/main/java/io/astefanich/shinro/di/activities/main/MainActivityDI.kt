@@ -18,11 +18,11 @@ interface MainActivityComponent {
 
     fun inject(activity: MainActivity)
 
-    abstract fun getGameSummaryComponentBuilder(): GameSummaryComponent.Builder
+    fun getGameSummaryComponentBuilder(): GameSummaryComponent.Builder
 
-    abstract fun getGameComponent(): GameComponent
+    fun getGameComponent(): GameComponent
 
-    abstract fun getStatisticsComponent(): StatisticsComponent
+    fun getStatisticsComponent(): StatisticsComponent
 
     @Subcomponent.Builder
     interface Builder {

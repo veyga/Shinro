@@ -18,20 +18,17 @@ import dagger.Provides
 import dagger.Subcomponent
 import dagger.multibindings.IntoMap
 import io.astefanich.shinro.common.Cell
-import io.astefanich.shinro.common.Difficulty
 import io.astefanich.shinro.common.Grid
 import io.astefanich.shinro.common.TimeSeconds
 import io.astefanich.shinro.di.PerFragment
-import io.astefanich.shinro.di.ViewModelKey
+import io.astefanich.shinro.di.app.ViewModelKey
 import io.astefanich.shinro.ui.GameFragment
 import io.astefanich.shinro.util.GameVibrator
 import io.astefanich.shinro.util.ShinroTimer
 import io.astefanich.shinro.util.sound.GameSoundPlayer
 import io.astefanich.shinro.util.sound.SoundPlayer
 import io.astefanich.shinro.viewmodels.GameViewModel
-import java.io.File
 import javax.inject.Named
-import kotlin.random.Random
 
 
 @PerFragment

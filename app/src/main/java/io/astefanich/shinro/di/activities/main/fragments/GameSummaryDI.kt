@@ -11,7 +11,7 @@ import dagger.*
 import dagger.multibindings.IntoMap
 import io.astefanich.shinro.common.GameSummary
 import io.astefanich.shinro.di.PerFragment
-import io.astefanich.shinro.di.ViewModelKey
+import io.astefanich.shinro.di.app.ViewModelKey
 import io.astefanich.shinro.ui.GameSummaryFragment
 import io.astefanich.shinro.util.sound.*
 import io.astefanich.shinro.viewmodels.GameSummaryViewModel

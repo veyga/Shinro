@@ -21,15 +21,15 @@ import javax.inject.Named
 class DBModule {
 
     @Provides
-    internal fun providesGameDao(@Named("inMemory") database: AppDatabase): GameDao =
+    internal fun providesGameDao(@Named("production") database: AppDatabase): GameDao =
         database.gameDao()
 
     @Provides
-    internal fun providesResultsDao(@Named("inMemory") database: AppDatabase): ResultsDao =
+    internal fun providesResultsDao(@Named("production") database: AppDatabase): ResultsDao =
         database.resultsDao()
 
     @Provides
-    internal fun providesBoardDao(@Named("inMemory") database: AppDatabase): BoardDao =
+    internal fun providesBoardDao(@Named("production") database: AppDatabase): BoardDao =
         database.boardDao()
 
     @Provides

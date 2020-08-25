@@ -5,6 +5,7 @@ import dagger.Provides
 import io.astefanich.shinro.common.Cell
 import io.astefanich.shinro.common.Difficulty
 import io.astefanich.shinro.model.Board
+import timber.log.Timber
 
 
 /**
@@ -12,6 +13,10 @@ import io.astefanich.shinro.model.Board
  */
 @Module
 class BoardGenModule {
+
+    init {
+        Timber.i("BoardGenModule init")
+    }
 
     @Provides
     fun providesBoards(): Array<Board?> {

@@ -1,15 +1,12 @@
 package io.astefanich.shinro.repository
 
-import androidx.lifecycle.LiveData
 import io.astefanich.shinro.common.Difficulty
 import io.astefanich.shinro.common.GameSummary
 import io.astefanich.shinro.common.Statistic
 import io.astefanich.shinro.database.ResultsDao
 import io.astefanich.shinro.model.ResultAggregate
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 import javax.inject.Inject
 
 class ResultsRepository
@@ -23,18 +20,13 @@ constructor(
         withContext(Dispatchers.IO) {
             val targetDifficulty = dao.getAggregateByDifficulty(game.difficulty)
             val anyDifficulty = dao.getAggregateByDifficulty(Difficulty.ANY)
-            Timber.i("targetAggregate is ${targetDifficulty}")
-            val updated = targetDifficulty + game.toResultAggregate()
-            Timber.i("targetUpdated is $updated")
-            dao.updateAggregate(targetDifficulty + game.toResultAggregate())
-            dao.updateAggregate(anyDifficulty + game.toResultAggregate())
+            val resultAggregate = game.toResultAggregate()
+            dao.updateAggregate(targetDifficulty + resultAggregate)
+            dao.updateAggregate(anyDifficulty + resultAggregate)
         }
     }
 
     suspend fun getStatisticForDifficulty(difficulty: Difficulty): Statistic {
-        dao.getAggregateByDifficulty(Difficulty.ANY)
-        delay(500) //TODO race condition. aggregates need to load first
-        Timber.i("statistics for ${difficulty.repr} is ${dao.getAggregateByDifficulty(difficulty)}")
         return with(dao.getAggregateByDifficulty(difficulty)) {
             Statistic(
                 difficulty = difficulty,
@@ -55,13 +47,13 @@ constructor(
             totalTimeSeconds = time
         )
 
-    infix operator fun ResultAggregate.plus(other: ResultAggregate): ResultAggregate =
+    infix operator fun ResultAggregate.plus(o: ResultAggregate): ResultAggregate =
         ResultAggregate(
             id = this.id,
             difficulty = this.difficulty,
-            numPlayed = this.numPlayed + other.numPlayed,
-            numWins = this.numWins + other.numWins,
-            bestTimeSec = minOf(this.bestTimeSec, other.bestTimeSec),
-            totalTimeSeconds = this.totalTimeSeconds + other.totalTimeSeconds
+            numPlayed = this.numPlayed + o.numPlayed,
+            numWins = this.numWins + o.numWins,
+            bestTimeSec = if (o.numWins == 1) minOf(bestTimeSec, o.bestTimeSec) else bestTimeSec,
+            totalTimeSeconds = this.totalTimeSeconds + o.totalTimeSeconds
         )
 }

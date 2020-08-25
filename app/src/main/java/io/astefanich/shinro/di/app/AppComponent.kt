@@ -5,7 +5,6 @@ import dagger.BindsInstance
 import dagger.Component
 import io.astefanich.shinro.ShinroApplication
 import io.astefanich.shinro.di.PerApplication
-import io.astefanich.shinro.di.ViewModelModule
 import io.astefanich.shinro.di.activities.main.MainActivityComponent
 
 @PerApplication
