@@ -5,7 +5,6 @@ import io.astefanich.shinro.common.Difficulty
 import io.astefanich.shinro.database.BoardDao
 import io.astefanich.shinro.model.Board
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.File
@@ -24,7 +23,6 @@ constructor(
     suspend fun getRandomBoardByDifficulty(difficulty: Difficulty): Board {
         return withContext(Dispatchers.IO) {
             try {
-                delay(500) //TODO RACE CONDTION during inMemoryDB. boards need to be loaded first
                 val queue = ArrayDeque<Int>(maxBlacklistSize) //keep track of ordering
                 val reserved = mutableSetOf<Int>()
                 val file = blacklist(difficulty)
@@ -41,8 +39,8 @@ constructor(
                     queue.removeFirst()
                 queue.addLast(targetId)
                 file.writeText(queue.foldLeft("", { s, i -> s + "${i}\n" }))
-                Timber.i("board repo serving up is 1 - ${difficulty.repr}")
-                boardDao.getBoardByNumAndDifficulty(1, difficulty)
+                Timber.i("board repo serving up $targetId - ${difficulty.repr}")
+                boardDao.getBoardByNumAndDifficulty(targetId, difficulty)
             } catch (e: Exception) {
                 Timber.d("blacklist failed. Serving random board. $e")
                 boardDao.getBoardByNumAndDifficulty(randomId(), difficulty)

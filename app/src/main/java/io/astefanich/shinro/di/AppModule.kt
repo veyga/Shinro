@@ -19,6 +19,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import timber.log.Timber
+import java.io.File
 import javax.inject.Named
 
 
@@ -56,8 +57,9 @@ class AppModule {
     internal fun providesDatabaseName(): DatabaseName = DatabaseName("shinroinitial.db")
 
 
-    @PerApplication
-    @Provides
+
+//    @PerApplication
+//    @Provides
     internal fun providesDatabaseFromFile(
         application: Application,
         databaseName: DatabaseName
@@ -75,15 +77,15 @@ class AppModule {
         Releases should output to DB file, and app should load from file
      */
 
-    //    @PerApplication
-//    @Provides
-    fun providesDatabaseFromFileWithCallback(
+        @PerApplication
+    @Provides
+    fun providesDatabaseFromFileWithInitializationCallback(
         application: Application,
         databaseName: DatabaseName,
         boards: Array<Board>,
         seeds: Array<ResultAggregate>,
     ): AppDatabase {
-        Timber.i("creating db with cb")
+        Timber.i("creating db to file with initilization")
         lateinit var appDatabase: AppDatabase
         appDatabase = Room.databaseBuilder(application, AppDatabase::class.java, databaseName.name)
             .fallbackToDestructiveMigration()
@@ -91,7 +93,6 @@ class AppModule {
                 override fun onCreate(db: SupportSQLiteDatabase) {
                     super.onCreate(db)
                     GlobalScope.launch(Dispatchers.IO) {
-                        //race condition
                         appDatabase.resultsDao().insertAggregates(*seeds)
                         Timber.i("AGGREGATE SEEDS INSERTED")
                         appDatabase.boardDao().insertBoards(*boards)
@@ -129,12 +130,10 @@ class AppModule {
         return appDatabase
     }
 
-    //    @PerApplication
-//    @Provides
+    @Provides
     internal fun providesBoards(): Array<Board?> = BoardGenerator().genBoards()
 
-    //    @PerApplication
-//    @Provides
+    @Provides
     fun providesAggregateSeeds(): Array<ResultAggregate> {
         val gen = { diff: Difficulty ->
             ResultAggregate(
