@@ -42,12 +42,12 @@
     <string name="best_time">Best</string>
     <string name="average_time">Average</string>
     <string name="gathering_stats">Aggregating your stats…</string>
-    <string name="games_connection_failed">Failed to connect to Google Games.\nYour points/achievements will be
+    <string name="games_connection_failed">Failed to connect to Google Games.\nSome features will be disabled</string>
+    <string name="signed_out">You must have signed out. Please restart the app to prompt the sign in</string>
     <string name="application_id">29512077397</string>
     <string name="leaderboard_total_points_id">CggI1aC6-G0QAhAB</string>
     <string name="leaderboard_winpct_hard_id">CggI1aC6-G0QAhAD</string>
     <string name="leaderboard_winpct_medium_id">CggI1aC6-G0QAhAC</string>
-    uploaded the next time you connect</string>
     <string name="achievement_10easy">CggI1aC6-G0QAhAE</string>
     <string name="achievement_25easy">CggI1aC6-G0QAhAF</string>
     <string name="achievement_50easy">CggI1aC6-G0QAhAG</string>

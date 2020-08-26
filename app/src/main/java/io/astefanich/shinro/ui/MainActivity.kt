@@ -24,5 +24,7 @@ class MainActivity : AppCompatActivity() {
         AppCompatDelegate.MODE_NIGHT_YES
         mainActivityComponent.inject(this)
     }
-
 }
+
+
+
