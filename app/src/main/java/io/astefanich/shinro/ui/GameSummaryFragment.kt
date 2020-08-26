@@ -3,6 +3,7 @@ package io.astefanich.shinro.ui
 import android.animation.ValueAnimator
 import android.app.AlertDialog
 import android.content.DialogInterface
+import android.content.SharedPreferences
 import android.graphics.Typeface
 import android.os.Bundle
 import android.view.*
@@ -17,6 +18,10 @@ import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.NavigationUI
 import arrow.core.Option
 import arrow.core.Some
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.games.Games
 import io.astefanich.shinro.R
 import io.astefanich.shinro.common.Difficulty
 import io.astefanich.shinro.common.PlayRequest
@@ -118,6 +123,7 @@ class GameSummaryFragment : Fragment() {
 //        return layoutInflater.inflate(R.layout.fragment_game_summary, container, false)
     }
 
+
     private fun animateScoreText(score: Int, animTime: Long) {
         ValueAnimator.ofInt(0, score).apply {
             addUpdateListener {
@@ -156,4 +162,6 @@ class GameSummaryFragment : Fragment() {
                     || super.onOptionsItemSelected(item))
         else false
     }
+
+
 }

@@ -76,6 +76,8 @@ class TitleFragment : Fragment() {
 
 
     private fun showLeaderboard(signedInAccount: GoogleSignInAccount) {
+//        (activity as MainActivity)
+//            .getL
         Timber.i("trying to show leaderboard client. account = $signedInAccount")
         val client = Games.getLeaderboardsClient(requireActivity(), signedInAccount)
         val leaderboardIntent = client.allLeaderboardsIntent

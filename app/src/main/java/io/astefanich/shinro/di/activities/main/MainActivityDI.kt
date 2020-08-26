@@ -24,6 +24,7 @@ interface MainActivityComponent {
 
     fun getStatisticsComponent(): StatisticsComponent
 
+
     @Subcomponent.Builder
     interface Builder {
 
