@@ -42,5 +42,11 @@
     <string name="best_time">Best</string>
     <string name="average_time">Average</string>
     <string name="gathering_stats">Aggregating your stats…</string>
+    <string name="application_id">29512077397</string>
+    <string name="leaderboard_total_points_id">CggI1aC6-G0QAhAB</string>
+    <string name="leaderboard_winpct_hard_id">CggI1aC6-G0QAhAD</string>
+    <string name="leaderboard_winpct_medium_id">CggI1aC6-G0QAhAC</string>
+    <string name="games_connection_failed">Failed to connect to Google Games.\nYour points/achievements will be
+    uploaded the next time you connect</string>
 </resources>
 
