@@ -36,6 +36,7 @@ data class Game(
     fun freebiesRemaining(): Int = if (freebie == Freebie(0, 0)) 1 else 0
 }
 
+//Aggregated scores/statistics
 @Entity(tableName = "results_table")
 data class ResultAggregate (
 
@@ -56,6 +57,16 @@ data class ResultAggregate (
     @ColumnInfo(name = "total_time")
     val totalTimeSeconds: Long
 )
+
+infix operator fun ResultAggregate.plus(o: ResultAggregate): ResultAggregate =
+    ResultAggregate(
+        id = this.id,
+        difficulty = this.difficulty,
+        numPlayed = this.numPlayed + o.numPlayed,
+        numWins = this.numWins + o.numWins,
+        bestTimeSec = if (o.numWins == 1) minOf(bestTimeSec, o.bestTimeSec) else bestTimeSec,
+        totalTimeSeconds = this.totalTimeSeconds + o.totalTimeSeconds
+    )
 
 @Entity(tableName = "board_table")
 data class Board(

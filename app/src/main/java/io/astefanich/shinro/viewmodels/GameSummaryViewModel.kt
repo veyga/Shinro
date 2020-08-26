@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import io.astefanich.shinro.common.Difficulty
 import io.astefanich.shinro.common.GameSummary
+import io.astefanich.shinro.model.plus
 import io.astefanich.shinro.repository.ResultsRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -53,7 +54,12 @@ constructor(
 
     fun saveToStatistics(): Unit {
         viewModelScope.launch(Dispatchers.IO) {
-            resultsRepo.addGameToAggregate(summary)
+            val gameAsAgg = summary.toResultAggregate()
+            val targetDiffAgg = resultsRepo.getAggregateForDifficulty(summary.difficulty) + gameAsAgg
+            val anyDiffAgg = resultsRepo.getAggregateForDifficulty(Difficulty.ANY) + gameAsAgg
+            resultsRepo.updateAggregate(targetDiffAgg)
+            resultsRepo.updateAggregate(anyDiffAgg)
+            //TODO publish to games leaderboard. calculateAchievements etc
         }
     }
 

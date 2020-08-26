@@ -1,6 +1,7 @@
 package io.astefanich.shinro.common
 
 import android.os.Parcelable
+import io.astefanich.shinro.model.ResultAggregate
 import kotlinx.android.parcel.Parcelize
 
 
@@ -31,7 +32,17 @@ data class Statistic(
 )
 
 @Parcelize
-data class GameSummary(val difficulty: Difficulty, val isWin: Boolean, val time: Long) : Parcelable
+data class GameSummary(val difficulty: Difficulty, val isWin: Boolean, val time: Long) : Parcelable{
+
+    fun toResultAggregate(): ResultAggregate =
+        ResultAggregate(
+            difficulty = this.difficulty,
+            numPlayed = 1,
+            numWins = if (isWin) 1 else 0,
+            bestTimeSec = time,
+            totalTimeSeconds = time
+        )
+}
 
 sealed class PlayRequest : Parcelable {
     @Parcelize
