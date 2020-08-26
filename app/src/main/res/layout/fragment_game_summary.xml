@@ -44,7 +44,7 @@
             android:textAlignment="center"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:timeTaken="@{vm.summary.time}"
+            app:timeTaken="@{vm.summary.timeTaken}"
             tools:text="Time 12:01" />
 
         <TextView

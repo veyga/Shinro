@@ -25,22 +25,6 @@ constructor(
             dao.updateAggregate(aggregate)
         }
     }
-    //calculating total statistics upon entry into DB
-    //calculates new Aggregate
-//    suspend fun update(aggregate: ResultAggregate) {
-//        withContext(Dispatchers.IO) {
-//            val gameAsAggregate = game.toResultAggregate()
-//            val updatedTargetDifficutlyAggregate = gameAsAggregate + dao.getAggregateByDifficulty(game.difficulty)
-//            val updateAnyDifficultyAggregate = gameAsAggregate + dao.getAggregateByDifficulty(Difficulty.ANY)
-//            //TODO fire games events here?
-//            dao.updateAggregate(updatedTargetDifficutlyAggregate)
-//            dao.updateAggregate(updateAnyDifficultyAggregate)
-////            dao.updateAggregate(currentTargetDifficultyAggregate + gameAsAggregate)
-////            dao.updateAggregate(currentAnyDifficultyAggregate + gameAsAggregate)
-//            dao.updateAggregate(aggregate)
-//            dao.updateAggregate(aggregate)
-//        }
-//    }
 
     suspend fun getStatisticForDifficulty(difficulty: Difficulty): Statistic {
         return with(dao.getAggregateByDifficulty(difficulty)) {

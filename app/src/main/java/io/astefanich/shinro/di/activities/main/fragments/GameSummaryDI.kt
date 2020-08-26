@@ -9,6 +9,7 @@ import arrow.core.Option
 import arrow.core.Some
 import dagger.*
 import dagger.multibindings.IntoMap
+import io.astefanich.shinro.common.Difficulty
 import io.astefanich.shinro.common.GameSummary
 import io.astefanich.shinro.di.PerFragment
 import io.astefanich.shinro.di.app.ViewModelKey
@@ -71,4 +72,18 @@ class GameSummaryModule {
     @Provides
     fun providesDifficultiesReprs(): Array<String> = arrayOf("EASY", "MEDIUM", "HARD")
 
+    @Provides
+    fun providesScoreCalculator(): (Difficulty, Long) -> Int =
+        { difficulty, timeTaken ->
+            data class ScorePair(val baseScore: Int, val allottedTime: Int)
+            val scoreMap: Map<Difficulty, ScorePair> =
+                mapOf(
+                    Difficulty.EASY to ScorePair(2000, 5 * 60), //easy = 5min
+                    Difficulty.MEDIUM to ScorePair(5000, 10 * 60), //medium = 10min
+                    Difficulty.HARD to ScorePair(10000, 20 * 60) //hard = 20min
+                )
+            val pair = scoreMap.get(difficulty)!!
+            val timeBonus = pair.allottedTime - timeTaken
+            (pair.baseScore + ((pair.baseScore / pair.allottedTime) * timeBonus)).toInt()
+        }
 }

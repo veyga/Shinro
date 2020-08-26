@@ -32,15 +32,15 @@ data class Statistic(
 )
 
 @Parcelize
-data class GameSummary(val difficulty: Difficulty, val isWin: Boolean, val time: Long) : Parcelable{
+data class GameSummary(val difficulty: Difficulty, val isWin: Boolean, val timeTaken: Long) : Parcelable{
 
     fun toResultAggregate(): ResultAggregate =
         ResultAggregate(
             difficulty = this.difficulty,
             numPlayed = 1,
             numWins = if (isWin) 1 else 0,
-            bestTimeSec = time,
-            totalTimeSeconds = time
+            bestTimeSec = timeTaken,
+            totalTimeSeconds = timeTaken
         )
 }
 
