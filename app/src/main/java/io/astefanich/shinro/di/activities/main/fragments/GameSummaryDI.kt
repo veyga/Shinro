@@ -15,7 +15,9 @@ import io.astefanich.shinro.common.GameSummary
 import io.astefanich.shinro.di.PerFragment
 import io.astefanich.shinro.di.app.ViewModelKey
 import io.astefanich.shinro.ui.GameSummaryFragment
-import io.astefanich.shinro.util.sound.*
+import io.astefanich.shinro.util.sound.AbstractSoundPlayer
+import io.astefanich.shinro.util.sound.SoundEffect
+import io.astefanich.shinro.util.sound.SoundPlayer
 import io.astefanich.shinro.viewmodels.GameSummaryViewModel
 import javax.inject.Named
 
@@ -46,10 +48,11 @@ abstract class GameSummaryViewModelModule {
     abstract fun bindGameSummaryViewModel(gameViewModel: GameSummaryViewModel): ViewModel
 }
 
-
 @Module
 class GameSummaryModule {
 
+    @Provides
+    fun providesResources(@Named("actCtx") ctx: Context): Resources = ctx.resources
 
     @Provides
     @Named("gameSummarySoundPlayer")
@@ -73,14 +76,12 @@ class GameSummaryModule {
     @Provides
     fun providesDifficultiesReprs(): Array<String> = arrayOf("EASY", "MEDIUM", "HARD")
 
-    //allow VM to access string resources
-    @Provides
-    fun providesResources(@Named("actCtx") ctx: Context) : Resources = ctx.resources
 
     @Provides
     fun providesScoreCalculator(): (Difficulty, Long) -> Int =
         { difficulty, timeTaken ->
             data class ScorePair(val baseScore: Int, val allottedTime: Int)
+
             val scoreMap: Map<Difficulty, ScorePair> =
                 mapOf(
                     Difficulty.EASY to ScorePair(2000, 5 * 60), //easy = 5min

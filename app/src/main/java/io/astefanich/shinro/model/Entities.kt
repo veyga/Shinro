@@ -58,6 +58,8 @@ data class ResultAggregate (
     val totalTimeSeconds: Long
 )
 
+
+//Not commutative!!
 infix operator fun ResultAggregate.plus(o: ResultAggregate): ResultAggregate =
     ResultAggregate(
         id = this.id,

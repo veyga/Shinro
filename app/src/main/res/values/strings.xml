@@ -44,7 +44,7 @@
     <string name="average_time">Average</string>
     <string name="gathering_stats">Aggregating your stats…</string>
     <string name="games_connection_failed">Failed to connect to Google Games.\nSome features will be disabled</string>
-    <string name="signed_out">You must have signed out. Please restart the app to prompt the sign in</string>
+    <string name="signed_out">Google Games is either inaccessible or you must have signed out.\nPlease try restarting the app to prompt the sign in.\nIf sign-in is still unsuccessful, then you dont an internet connection.\nYou may continue to play, but certain features will be inaccessible.</string>
     <string name="application_id">29512077397</string>
     <string name="leaderboard_total_points">CggI1aC6-G0QAhAB</string>
     <string name="leaderboard_winpct_hard">CggI1aC6-G0QAhAD</string>
