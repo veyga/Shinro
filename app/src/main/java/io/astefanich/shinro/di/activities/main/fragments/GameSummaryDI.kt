@@ -3,6 +3,7 @@ package io.astefanich.shinro.di.activities.main.fragments
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.content.res.Resources
 import androidx.lifecycle.ViewModel
 import arrow.core.None
 import arrow.core.Option
@@ -71,6 +72,10 @@ class GameSummaryModule {
 
     @Provides
     fun providesDifficultiesReprs(): Array<String> = arrayOf("EASY", "MEDIUM", "HARD")
+
+    //allow VM to access string resources
+    @Provides
+    fun providesResources(@Named("actCtx") ctx: Context) : Resources = ctx.resources
 
     @Provides
     fun providesScoreCalculator(): (Difficulty, Long) -> Int =

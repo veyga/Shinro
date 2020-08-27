@@ -1,6 +1,7 @@
 package io.astefanich.shinro.viewmodels
 
 import android.content.SharedPreferences
+import android.content.res.Resources
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,6 +10,7 @@ import arrow.core.Option
 import arrow.core.Some
 import com.google.android.gms.games.AchievementsClient
 import com.google.android.gms.games.LeaderboardsClient
+import io.astefanich.shinro.R
 import io.astefanich.shinro.common.Difficulty
 import io.astefanich.shinro.common.GameSummary
 import io.astefanich.shinro.model.plus
@@ -24,6 +26,7 @@ constructor(
     val summary: GameSummary,
     val resultsRepo: ResultsRepository,
     val prefs: SharedPreferences,
+    val resources: Resources,
     val leaderboardsClient: @JvmSuppressWildcards Option<LeaderboardsClient>,
     val achievementsClient: @JvmSuppressWildcards Option<AchievementsClient>,
     val calculateScore: @JvmSuppressWildcards (Difficulty, Long) -> Int
@@ -62,7 +65,7 @@ constructor(
             Timber.i("newTotal is $newTotal")
             prefs.edit().putLong("total_points", newTotal).apply()
             when(leaderboardsClient) {
-                is Some -> (leaderboardsClient as Some<LeaderboardsClient>).t.submitScore("CggI1aC6-G0QAhAB", newTotal)
+                is Some -> leaderboardsClient.t.submitScore(resources.getString(R.string.leaderboard_total_points), newTotal)
             }
         }
     }
