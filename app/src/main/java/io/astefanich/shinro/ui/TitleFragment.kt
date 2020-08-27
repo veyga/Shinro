@@ -10,13 +10,11 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import arrow.core.Option
 import arrow.core.Some
 import com.google.android.gms.auth.api.Auth
-import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.games.AchievementsClient
 import com.google.android.gms.games.Games
 import com.google.android.gms.games.LeaderboardsClient
 import io.astefanich.shinro.R
@@ -27,12 +25,10 @@ import javax.inject.Inject
 
 class TitleFragment : Fragment() {
 
-//    @Inject
-//    lateinit var leaderboardsClient: LeaderboardsClient
-
-
     companion object {
         const val SIGN_IN_REQUEST_CODE = 1001
+        const val SIGN_IN_AND_SHOW_LEADERBOARDS = 1005
+        const val SIGN_IN_AND_SHOW_ACHIEVEMENTS = 1006
         const val SHOW_LEADERBOARDS_REQUEST_CODE = 1002
         const val SHOW_ACHIEVEMENTS_REQUEST_CODE = 1003
     }
@@ -43,13 +39,13 @@ class TitleFragment : Fragment() {
 
     @Inject
     @JvmSuppressWildcards
+    lateinit var achievementsClient: Option<AchievementsClient>
+
+    @Inject
+    @JvmSuppressWildcards
     lateinit var googleSignInClient: GoogleSignInClient
 
     private lateinit var binding: FragmentTitleBinding
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -80,12 +76,30 @@ class TitleFragment : Fragment() {
         binding.leaderboardChip.setOnClickListener {
             when (leaderboardsClient) {
                 is Some -> {
+                    Timber.i("leaderboad client SOME")
                     showLeaderboard((leaderboardsClient as Some<LeaderboardsClient>).t)
                 }
                 else -> {
+                    Timber.i("leaderboard client NONE")
                     startActivityForResult(
                         googleSignInClient.signInIntent,
-                        TitleFragment.SIGN_IN_REQUEST_CODE
+                        SIGN_IN_AND_SHOW_LEADERBOARDS
+                    )
+                }
+            }
+        }
+
+        binding.achievementsChip.setOnClickListener {
+            when (achievementsClient) {
+                is Some -> {
+                    Timber.i("achievement client SOME")
+                    showAchievements((achievementsClient as Some<AchievementsClient>).t)
+                }
+                else -> {
+                    Timber.i("achievement client NONE")
+                    startActivityForResult(
+                        googleSignInClient.signInIntent,
+                        SIGN_IN_AND_SHOW_ACHIEVEMENTS
                     )
                 }
             }
@@ -102,11 +116,11 @@ class TitleFragment : Fragment() {
         }
 
         binding.lifecycleOwner = this
+
         return binding.root
     }
 
     private fun showLeaderboard(client: LeaderboardsClient) {
-        Timber.i("showing leaderboard..")
         val leaderboardIntent = client.allLeaderboardsIntent
         leaderboardIntent.addOnSuccessListener { intent ->
             startActivityForResult(intent, TitleFragment.SHOW_LEADERBOARDS_REQUEST_CODE)
@@ -119,18 +133,35 @@ class TitleFragment : Fragment() {
 
     }
 
+    private fun showAchievements(client: AchievementsClient) {
+        val achievementsClient = client.achievementsIntent
+        achievementsClient.addOnSuccessListener { intent ->
+            startActivityForResult(intent, TitleFragment.SHOW_ACHIEVEMENTS_REQUEST_CODE)
+        }
+        achievementsClient.addOnFailureListener { ex ->
+            AlertDialog.Builder(requireActivity())
+                .setMessage(R.string.signed_out)
+                .setNeutralButton(android.R.string.ok, null).show()
+        }
+
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        Timber.i("request code from result is $requestCode")
-        if (requestCode == TitleFragment.SIGN_IN_REQUEST_CODE) {
+        if (requestCode == SIGN_IN_AND_SHOW_LEADERBOARDS || requestCode == SIGN_IN_AND_SHOW_ACHIEVEMENTS) {
             val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
-            if (result == null) {
-                Timber.i("the result is null yo")
-            }
             result?.apply {
                 if (isSuccess) {
-                    Timber.i("sign in success . acct is $signInAccount")
-                    showLeaderboard(Games.getLeaderboardsClient(requireActivity(), signInAccount!!))
+                    val rawLeaderboardsClient =
+                        Games.getLeaderboardsClient(requireActivity(), signInAccount!!)
+                    val rawAchievementsClient =
+                        Games.getAchievementsClient(requireActivity(), signInAccount!!)
+                    leaderboardsClient = Some(rawLeaderboardsClient)
+                    achievementsClient = Some(rawAchievementsClient)
+                    if (requestCode == SIGN_IN_AND_SHOW_LEADERBOARDS)
+                        showLeaderboard(rawLeaderboardsClient)
+                    else
+                        showAchievements(rawAchievementsClient)
                 } else {
                     AlertDialog.Builder(requireActivity())
                         .setMessage(R.string.games_connection_failed)
@@ -139,25 +170,6 @@ class TitleFragment : Fragment() {
             }
         }
     }
-
-//    private fun showLeaderboard(signedInAccount: GoogleSignInAccount) {
-////        (activity as MainActivity)
-////            .getL
-//        Timber.i("trying to show leaderboard client. account = $signedInAccount")
-//        val client = Games.getLeaderboardsClient(requireActivity(), signedInAccount)
-//        val leaderboardIntent = client.allLeaderboardsIntent
-//        leaderboardIntent.addOnSuccessListener { intent ->
-//            startActivityForResult(intent, TitleFragment.SHOW_LEADERBOARDS_REQUEST_CODE)
-//        }
-//        leaderboardIntent.addOnFailureListener { intent ->
-//            Timber.i("failed to show leaderboard")
-//        }
-////        client.allLeaderboardsIntent.addOnSuccessListener { intent ->
-////            startActivityForResult(intent, TitleFragment.SHOW_LEADERBOARDS_REQUEST_CODE)
-////            TODO inject the leaderboards client
-////        }
-//    }
-
 
     //text reverts from bold to normal when popping/exiting from fragment
     override fun onStart() {
@@ -168,6 +180,7 @@ class TitleFragment : Fragment() {
             binding.howToPlayTipsChip.typeface = Typeface.DEFAULT_BOLD
             binding.statisticsChip.typeface = Typeface.DEFAULT_BOLD
             binding.leaderboardChip.typeface = Typeface.DEFAULT_BOLD
+            binding.achievementsChip.typeface = Typeface.DEFAULT_BOLD
             binding.aboutChip.typeface = Typeface.DEFAULT_BOLD
         }
     }

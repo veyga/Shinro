@@ -22,7 +22,6 @@ import io.astefanich.shinro.di.activities.main.fragments.GameSummaryComponent
 import io.astefanich.shinro.di.activities.main.fragments.StatisticsComponent
 import io.astefanich.shinro.ui.MainActivity
 import io.astefanich.shinro.ui.TitleFragment
-import timber.log.Timber
 import javax.inject.Named
 
 @PerActivity
@@ -69,18 +68,17 @@ object MainActivityModule {
     ): GoogleSignInClient =
         GoogleSignIn.getClient(ctx, options)
 
+
     @Provides
     fun providesLeaderboardsClient(
         @Named("actCtx") ctx: Context,
         googleSignInAccount: GoogleSignInAccount?
     ): Option<LeaderboardsClient> {
-        return if (googleSignInAccount == null) {
-            Timber.i("leader: last signed in account is null")
+        return if (googleSignInAccount == null)
             None
-        } else {
-            Timber.i("leader: last signed in account is NOT null")
+        else
             Some(Games.getLeaderboardsClient(ctx, googleSignInAccount))
-        }
+
     }
 
     @Provides
@@ -88,13 +86,10 @@ object MainActivityModule {
         @Named("actCtx") ctx: Context,
         googleSignInAccount: GoogleSignInAccount?
     ): Option<AchievementsClient> {
-        return if (googleSignInAccount == null) {
-            Timber.i("achieve: last signed in account is null")
+        return if (googleSignInAccount == null)
             None
-        } else {
-            Timber.i("achieve: last signed in account is NOT null")
+        else
             Some(Games.getAchievementsClient(ctx, googleSignInAccount))
-        }
     }
 }
 
