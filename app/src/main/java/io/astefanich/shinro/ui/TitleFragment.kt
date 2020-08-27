@@ -60,8 +60,6 @@ class TitleFragment : Fragment() {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_title, container, false)
 
-//        leaderboardsClient?.submitScore(resources.getString(R.string.leaderboard_total_points_id), 3000)
-//        leaderboardsClient?.submitScore("id", 3000)
 
         binding.playResumeChip.setOnClickListener {
             findNavController().navigate(

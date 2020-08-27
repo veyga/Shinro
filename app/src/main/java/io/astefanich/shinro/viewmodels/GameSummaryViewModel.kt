@@ -5,12 +5,17 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import arrow.core.Option
+import arrow.core.Some
+import com.google.android.gms.games.AchievementsClient
+import com.google.android.gms.games.LeaderboardsClient
 import io.astefanich.shinro.common.Difficulty
 import io.astefanich.shinro.common.GameSummary
 import io.astefanich.shinro.model.plus
 import io.astefanich.shinro.repository.ResultsRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 class GameSummaryViewModel
@@ -18,8 +23,12 @@ class GameSummaryViewModel
 constructor(
     val summary: GameSummary,
     val resultsRepo: ResultsRepository,
+    val prefs: SharedPreferences,
+    val leaderboardsClient: @JvmSuppressWildcards Option<LeaderboardsClient>,
+    val achievementsClient: @JvmSuppressWildcards Option<AchievementsClient>,
     val calculateScore: @JvmSuppressWildcards (Difficulty, Long) -> Int
 ) : ViewModel() {
+
 
     private var _nextGameDifficulty = MutableLiveData<Difficulty>()
     val nextGameDifficulty: LiveData<Difficulty>
@@ -33,27 +42,36 @@ constructor(
             pointsEarned.value =
                 if (summary.isWin) calculateScore(difficulty, timeTaken) else 0
         }
-        saveToStatistics()
-    }
-
-
-    fun changeDifficulty(newDiff: Difficulty) {
-        _nextGameDifficulty.value = newDiff
-    }
-
-    fun saveToStatistics(): Unit {
+        //save/publish results
         viewModelScope.launch(Dispatchers.IO) {
             val gameAsAgg = summary.toResultAggregate()
-            val targetDiffAgg = resultsRepo.getAggregateForDifficulty(summary.difficulty) + gameAsAgg
+            val targetDiffAgg =
+                resultsRepo.getAggregateForDifficulty(summary.difficulty) + gameAsAgg
             val anyDiffAgg = resultsRepo.getAggregateForDifficulty(Difficulty.ANY) + gameAsAgg
             resultsRepo.updateAggregate(targetDiffAgg)
             resultsRepo.updateAggregate(anyDiffAgg)
-            //TODO publish to games leaderboard. calculateAchievements etc
+            publishNewScore()
         }
     }
 
-    fun saveToLeaderboard(): Unit {
-        with(Dispatchers.IO) {
+    private suspend fun publishNewScore(){
+        if(pointsEarned.value!! > 0){
+            val currentTotal = prefs.getLong("total_points", 0)
+            Timber.i("currentTotal is $currentTotal")
+            val newTotal = currentTotal + pointsEarned.value!!
+            Timber.i("newTotal is $newTotal")
+            prefs.edit().putLong("total_points", newTotal).apply()
+            when(leaderboardsClient) {
+                is Some -> (leaderboardsClient as Some<LeaderboardsClient>).t.submitScore("CggI1aC6-G0QAhAB", newTotal)
+            }
         }
+    }
+
+    private suspend fun publishAchievements(){
+
+    }
+
+    fun changeDifficulty(newDiff: Difficulty) {
+        _nextGameDifficulty.value = newDiff
     }
 }
