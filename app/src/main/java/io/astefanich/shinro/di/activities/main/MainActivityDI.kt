@@ -7,8 +7,6 @@ import arrow.core.Option
 import arrow.core.Some
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.games.AchievementsClient
 import com.google.android.gms.games.Games
 import com.google.android.gms.games.LeaderboardsClient
@@ -20,8 +18,8 @@ import io.astefanich.shinro.di.PerActivity
 import io.astefanich.shinro.di.activities.main.fragments.GameComponent
 import io.astefanich.shinro.di.activities.main.fragments.GameSummaryComponent
 import io.astefanich.shinro.di.activities.main.fragments.StatisticsComponent
+import io.astefanich.shinro.di.activities.main.fragments.TitleComponent
 import io.astefanich.shinro.ui.MainActivity
-import io.astefanich.shinro.ui.TitleFragment
 import javax.inject.Named
 
 @PerActivity
@@ -30,14 +28,13 @@ interface MainActivityComponent {
 
     fun inject(activity: MainActivity)
 
-    fun inject(titleFragment: TitleFragment)
-
     fun getGameSummaryComponentBuilder(): GameSummaryComponent.Builder
 
     fun getGameComponent(): GameComponent
 
     fun getStatisticsComponent(): StatisticsComponent
 
+    fun getTitleComponent(): TitleComponent
 
     @Subcomponent.Builder
     interface Builder {
@@ -50,23 +47,14 @@ interface MainActivityComponent {
 }
 
 
+//@Module(subcomponents = [TitleComponent::class])
 @Module
 object MainActivityModule {
 
-    @Provides
-    fun providesGoogleSignInOption(): GoogleSignInOptions =
-        GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN
 
     @Provides
     fun providesLastSignedInAccount(@Named("actCtx") ctx: Context): GoogleSignInAccount? =
         GoogleSignIn.getLastSignedInAccount(ctx)
-
-    @Provides
-    fun providesGoogleSignInClient(
-        @Named("actCtx") ctx: Context,
-        options: GoogleSignInOptions
-    ): GoogleSignInClient =
-        GoogleSignIn.getClient(ctx, options)
 
 
     @Provides

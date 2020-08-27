@@ -7,7 +7,7 @@ import timber.log.Timber
 
 class ShinroApplication : Application() {
 
-    //    lateinit var appComponent: AppComponent
+    //        lateinit var appComponent: AppComponent
     val appComponent: AppComponent by lazy {
         DaggerAppComponent
             .builder()

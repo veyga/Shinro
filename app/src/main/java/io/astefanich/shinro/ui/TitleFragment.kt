@@ -52,12 +52,14 @@ class TitleFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_title, container, false)
+
         (activity as MainActivity)
             .mainActivityComponent
+            .getTitleComponent()
             .inject(this)
 
-//        initGoogleClientSignIn()
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_title, container, false)
+
 //        leaderboardsClient?.submitScore(resources.getString(R.string.leaderboard_total_points_id), 3000)
 //        leaderboardsClient?.submitScore("id", 3000)
 
@@ -76,11 +78,9 @@ class TitleFragment : Fragment() {
         binding.leaderboardChip.setOnClickListener {
             when (leaderboardsClient) {
                 is Some -> {
-                    Timber.i("leaderboad client SOME")
                     showLeaderboard((leaderboardsClient as Some<LeaderboardsClient>).t)
                 }
                 else -> {
-                    Timber.i("leaderboard client NONE")
                     startActivityForResult(
                         googleSignInClient.signInIntent,
                         SIGN_IN_AND_SHOW_LEADERBOARDS
@@ -92,11 +92,9 @@ class TitleFragment : Fragment() {
         binding.achievementsChip.setOnClickListener {
             when (achievementsClient) {
                 is Some -> {
-                    Timber.i("achievement client SOME")
                     showAchievements((achievementsClient as Some<AchievementsClient>).t)
                 }
                 else -> {
-                    Timber.i("achievement client NONE")
                     startActivityForResult(
                         googleSignInClient.signInIntent,
                         SIGN_IN_AND_SHOW_ACHIEVEMENTS
