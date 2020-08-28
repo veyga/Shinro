@@ -116,6 +116,21 @@ class TitleFragment : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        Timber.i("onViewCreated")
+        val silentSignInTask = googleSignInClient.silentSignIn()
+        //this is redundant after first sign-in if user has auto sign-in (DI provides last signed in account)
+        silentSignInTask.addOnSuccessListener { acct ->
+            Timber.d("signed in silently...")
+            leaderboardsClient = Some(Games.getLeaderboardsClient(requireActivity(), acct))
+            achievementsClient = Some(Games.getAchievementsClient(requireActivity(), acct))
+        }
+        silentSignInTask.addOnFailureListener {
+            Timber.d("failed to sign in silently")
+        }
+    }
+
     private fun showLeaderboard(client: LeaderboardsClient) {
         val leaderboardIntent = client.allLeaderboardsIntent
         leaderboardIntent.addOnSuccessListener { intent ->
@@ -141,6 +156,7 @@ class TitleFragment : Fragment() {
         }
 
     }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

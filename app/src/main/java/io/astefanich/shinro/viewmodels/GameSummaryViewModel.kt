@@ -51,7 +51,8 @@ constructor(
         //save/publish results
         viewModelScope.launch(Dispatchers.IO) {
             val gameAsAgg = summary.toResultAggregate()
-            val targetDiffAgg = resultsRepo.getAggregateForDifficulty(summary.difficulty) + gameAsAgg
+            val targetDiffAgg =
+                resultsRepo.getAggregateForDifficulty(summary.difficulty) + gameAsAgg
             val anyDiffAgg = resultsRepo.getAggregateForDifficulty(Difficulty.ANY) + gameAsAgg
             resultsRepo.updateAggregate(targetDiffAgg)
             resultsRepo.updateAggregate(anyDiffAgg)
@@ -63,7 +64,10 @@ constructor(
             if (summary.isWin) {
                 val newTotal = recordNewTotal()
                 when (leaderboardsClient) {
-                    is Some -> leaderboardsClient.t.submitScore(rez.getString(Metric.Leaderboard.TotalPoints.id), newTotal)
+                    is Some -> leaderboardsClient.t.submitScore(
+                        rez.getString(Metric.Leaderboard.TotalPoints.id),
+                        newTotal
+                    )
                 }
                 when (achievementsClient) {
                     is Some -> publishAchievements(achievementsClient.t, targetDiffAgg)
@@ -109,73 +113,40 @@ constructor(
     ) {
 
         //cant change achievement after publishing! ideally would've used incremental achievement
-        fun publishWins() {
-            with(aggregate) {
-                when (difficulty) {
-                    Difficulty.EASY -> {
-                        //unlocking multiple times not an issue; provide some buffer
-                        when (numWins) {
-                            in 10..24 -> client.unlock(rez.getString(Metric.Achievement.Wins.Easy._10.id))
-                            in 25..49 -> client.unlock(rez.getString(Metric.Achievement.Wins.Easy._25.id))
-                            in 50..99 -> client.unlock(rez.getString(Metric.Achievement.Wins.Easy._50.id))
-                        }
+        //publish win achievement
+        val buffer10Wins = 10..24
+        val buffer25Wins = 25..49
+        val buffer50Wins = 50..99
+        listOf(
+            Triple(Difficulty.EASY, buffer10Wins, Metric.Achievement.Wins.Easy._10),
+            Triple(Difficulty.EASY, buffer25Wins, Metric.Achievement.Wins.Easy._25),
+            Triple(Difficulty.EASY, buffer50Wins, Metric.Achievement.Wins.Easy._50),
+            Triple(Difficulty.MEDIUM, buffer10Wins, Metric.Achievement.Wins.Medium._10),
+            Triple(Difficulty.MEDIUM, buffer25Wins, Metric.Achievement.Wins.Medium._25),
+            Triple(Difficulty.MEDIUM, buffer50Wins, Metric.Achievement.Wins.Medium._50),
+            Triple(Difficulty.HARD, buffer10Wins, Metric.Achievement.Wins.Hard._10),
+            Triple(Difficulty.HARD, buffer25Wins, Metric.Achievement.Wins.Hard._25),
+            Triple(Difficulty.HARD, buffer50Wins, Metric.Achievement.Wins.Hard._50),
+        )
+            .filter { aggregate.difficulty == it.first && aggregate.numWins in it.second }
+            .map { rez.getString(it.third.id) }
+            .forEach { Timber.i("you've unlocked $it"); client.unlock(it) }
 
-                    }
-                    Difficulty.MEDIUM -> {
-                        when (numWins) {
-                            in 10..24 -> client.unlock(rez.getString(Metric.Achievement.Wins.Medium._10.id))
-                            in 25..49 -> client.unlock(rez.getString(Metric.Achievement.Wins.Medium._25.id))
-                            in 50..99 -> client.unlock(rez.getString(Metric.Achievement.Wins.Medium._50.id))
-                        }
-                    }
-                    Difficulty.HARD -> {
-                        when (numWins) {
-                            in 10..24 -> client.unlock(rez.getString(Metric.Achievement.Wins.Hard._10.id))
-                            in 25..49 -> client.unlock(rez.getString(Metric.Achievement.Wins.Hard._25.id))
-                            in 50..99 -> client.unlock(rez.getString(Metric.Achievement.Wins.Hard._50.id))
-                        }
-                    }
-                }
-            }
-        }
 
-        fun publishTimeAchievements() {
-            with(aggregate) {
-                val timeIds = when (difficulty) {
-                    Difficulty.EASY -> {
-                        val ids = mutableSetOf<Metric>()
-                        if (summary.timeTaken <= 5 * 60)
-                            ids.add(Metric.Achievement.Time.Easy._5Min)
-                        if (summary.timeTaken <= 3 * 60) {
-                            ids.add(Metric.Achievement.Time.Easy._3Min)
-                        }
-                        ids
-                    }
-                    Difficulty.MEDIUM -> {
-                        val ids = mutableSetOf<Metric>()
-                        if (summary.timeTaken <= 10 * 60)
-                            ids.add(Metric.Achievement.Time.Medium._10Min)
-                        if (summary.timeTaken <= 6 * 60) {
-                            ids.add(Metric.Achievement.Time.Medium._6Min)
-                        }
-                        ids
-                    }
-                    else -> {
-                        val ids = mutableSetOf<Metric>()
-                        if (summary.timeTaken <= 20 * 60)
-                            ids.add(Metric.Achievement.Time.Hard._20Min)
-                        if (summary.timeTaken <= 10 * 60) {
-                            ids.add(Metric.Achievement.Time.Hard._10Min)
-                        }
-                        ids
-                    }
-                }
-                timeIds.map { rez.getString(it.id) }.forEach { client.unlock(it) }
-            }
-        }
-
-        publishWins()
-        publishTimeAchievements()
+        //publish time achievement
+        listOf(
+            Triple(Difficulty.EASY, 5, Metric.Achievement.Time.Easy._5Min),
+            Triple(Difficulty.EASY, 3, Metric.Achievement.Time.Easy._3Min),
+            Triple(Difficulty.MEDIUM, 10, Metric.Achievement.Time.Medium._10Min),
+            Triple(Difficulty.MEDIUM, 6, Metric.Achievement.Time.Medium._6Min),
+            Triple(Difficulty.HARD, 20, Metric.Achievement.Time.Hard._20Min),
+            Triple(Difficulty.HARD, 10, Metric.Achievement.Time.Hard._10Min),
+        )
+            .filter { summary.difficulty == it.first }
+            .takeWhile { summary.timeTaken <= (it.second * 60) }
+            .map { rez.getString(it.third.id) }
+            .forEach { Timber.i("you've unlocked $it"); client.unlock(it) }
     }
+
 
 }
