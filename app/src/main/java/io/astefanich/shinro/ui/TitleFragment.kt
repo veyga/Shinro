@@ -164,10 +164,8 @@ class TitleFragment : Fragment() {
             val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
             result?.apply {
                 if (isSuccess) {
-                    val rawLeaderboardsClient =
-                        Games.getLeaderboardsClient(requireActivity(), signInAccount!!)
-                    val rawAchievementsClient =
-                        Games.getAchievementsClient(requireActivity(), signInAccount!!)
+                    val rawLeaderboardsClient = Games.getLeaderboardsClient(requireActivity(), signInAccount!!)
+                    val rawAchievementsClient = Games.getAchievementsClient(requireActivity(), signInAccount!!)
                     leaderboardsClient = Some(rawLeaderboardsClient)
                     achievementsClient = Some(rawAchievementsClient)
                     if (requestCode == SIGN_IN_AND_SHOW_LEADERBOARDS)

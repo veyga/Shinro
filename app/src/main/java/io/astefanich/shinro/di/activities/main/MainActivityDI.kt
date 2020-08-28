@@ -18,7 +18,6 @@ import io.astefanich.shinro.di.activities.main.fragments.GameSummaryComponent
 import io.astefanich.shinro.di.activities.main.fragments.StatisticsComponent
 import io.astefanich.shinro.di.activities.main.fragments.TitleComponent
 import io.astefanich.shinro.ui.MainActivity
-import io.astefanich.shinro.util.PlayGamesClient
 import timber.log.Timber
 import javax.inject.Named
 
@@ -57,43 +56,10 @@ object MainActivityModule {
         GoogleSignIn.getLastSignedInAccount(ctx)
 
     @Provides
-    fun providesNullableLeaderboards(
-        @Named("actCtx")ctx: Context,
-        account: GoogleSignInAccount?): LeaderboardsClient? =
-        if(account != null) Games.getLeaderboardsClient(ctx, account) else null
-
-    @Provides
-    fun providesNullableAchievements(
-        @Named("actCtx")ctx: Context,
-        account: GoogleSignInAccount?): AchievementsClient? =
-        if(account != null) Games.getAchievementsClient(ctx, account) else null
-
-    @Provides
-    fun providesPlayGamesClient(
-        @Named("ctx") ctx: Context,
-        leaderboards: LeaderboardsClient?,
-        achievements: AchievementsClient?
-    ): Option<PlayGamesClient> = None
-
-    @Provides
-    fun providesGamesClient(
-        @Named("actCtx") ctx: Context,
-        googleSignInAccount: GoogleSignInAccount?
-    ): Option<GamesClient> {
-        return if (googleSignInAccount == null)
-            None
-        else
-            Some(Games.getGamesClient(ctx, googleSignInAccount))
-
-    }
-
-
-    @Provides
     fun providesLeaderboardsClient(
         @Named("actCtx") ctx: Context,
         googleSignInAccount: GoogleSignInAccount?
     ): Option<LeaderboardsClient> {
-
         return if (googleSignInAccount == null) {
             Timber.i("last sign in account == null")
             None
