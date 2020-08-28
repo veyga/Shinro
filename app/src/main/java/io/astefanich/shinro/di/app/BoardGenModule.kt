@@ -5,18 +5,14 @@ import dagger.Provides
 import io.astefanich.shinro.common.Cell
 import io.astefanich.shinro.common.Difficulty
 import io.astefanich.shinro.model.Board
-import timber.log.Timber
 
 
 /**
- * Board generator for initialization and in-memory DBs
+ * Board generator for initialization and in-memory DBs.
+ * Releases should use pre-populated DB and not this module.
  */
 @Module
 class BoardGenModule {
-
-    init {
-        Timber.i("BoardGenModule init")
-    }
 
     @Provides
     fun providesBoards(): Array<Board?> {
@@ -27,9 +23,6 @@ class BoardGenModule {
 
         return boards
     }
-
-    private val boardCount = 135
-
 
     private fun boardFromString(str: String): Board {
         var numMarbles = 0
@@ -1817,4 +1810,6 @@ class BoardGenModule {
         """.trimIndent()
         )
     }
+
+    private val boardCount = 135
 }

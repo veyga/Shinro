@@ -11,9 +11,7 @@ import com.google.android.gms.games.AchievementsClient
 import com.google.android.gms.games.LeaderboardsClient
 import com.google.android.gms.games.achievement.Achievement
 import com.google.android.gms.games.achievement.AchievementBuffer
-import io.astefanich.shinro.common.Difficulty
-import io.astefanich.shinro.common.GameSummary
-import io.astefanich.shinro.common.Metric
+import io.astefanich.shinro.common.*
 import io.astefanich.shinro.model.ResultAggregate
 import io.astefanich.shinro.model.plus
 import io.astefanich.shinro.repository.ResultsRepository
@@ -53,13 +51,14 @@ constructor(
         //save/publish results
         viewModelScope.launch(Dispatchers.IO) {
             val gameAsAgg = summary.toResultAggregate()
-            val targetDiffAgg =
-                resultsRepo.getAggregateForDifficulty(summary.difficulty) + gameAsAgg
+            val targetDiffAgg = resultsRepo.getAggregateForDifficulty(summary.difficulty) + gameAsAgg
             val anyDiffAgg = resultsRepo.getAggregateForDifficulty(Difficulty.ANY) + gameAsAgg
             resultsRepo.updateAggregate(targetDiffAgg)
             resultsRepo.updateAggregate(anyDiffAgg)
-            launch {
-                updateAchievements(newAggregate = targetDiffAgg)
+            if(summary.isWin){
+                launch {
+                    updateAchievements(newAggregate = targetDiffAgg)
+                }
             }
             launch {
                 updateLeaderboard(newAggregate = targetDiffAgg)
@@ -77,15 +76,11 @@ constructor(
         prefs.edit().putLong("total_points", newTotal).apply() //save total even if offline
         when (leaderboardsClient) {
             is Some -> {
-                leaderboardsClient.t.submitScore(
-                    metricStr(Metric.Leaderboard.TotalPoints),
-                    newTotal
-                )
+                leaderboardsClient.t.submitScore(metricStr(Metric.Leaderboard.TotalPoints), newTotal)
                 with(newAggregate) {
                     Timber.i("num played for ${difficulty} is currently $numPlayed") //min 10 plays before posting
                     if (numPlayed >= 10 && difficulty != Difficulty.EASY) {
-                        val metric =
-                            if (difficulty == Difficulty.MEDIUM) Metric.Leaderboard.WinPctMedium else Metric.Leaderboard.WinPctHard
+                        val metric = if (difficulty == Difficulty.MEDIUM) Metric.Leaderboard.WinPctMedium else Metric.Leaderboard.WinPctHard
                         val newWinRate = ((numWins * 100f) / numPlayed).roundToLong()
                         leaderboardsClient.t.submitScore(metricStr(metric), newWinRate)
                     }
@@ -107,50 +102,22 @@ constructor(
         }
     }
 
+    private fun updateAchievements(client: AchievementsClient, buffer: AchievementBuffer?, aggregate: ResultAggregate) {
 
-//        val updateAchievementsCB =
-//        { client: AchievementsClient,
-//          buffer: AchievementBuffer?,
-//          aggregate: ResultAggregate ->
-//            {
+        val winAchievementsForGame = WIN_ACHIEVEMENTS
+            .filter { aggregate.difficulty == it.difficulty && aggregate.numWins >= it.count }
+            .map { metricStr(it) }
 
-    private fun updateAchievements(
-        client: AchievementsClient,
-        buffer: AchievementBuffer?,
-        aggregate: ResultAggregate
-    ) {
-        val winAchievements = setOf(
-            Triple(Difficulty.EASY, 10, Metric.Achievement.Wins.Easy._10),
-            Triple(Difficulty.EASY, 25, Metric.Achievement.Wins.Easy._25),
-            Triple(Difficulty.EASY, 50, Metric.Achievement.Wins.Easy._50),
-            Triple(Difficulty.MEDIUM, 10, Metric.Achievement.Wins.Medium._10),
-            Triple(Difficulty.MEDIUM, 20, Metric.Achievement.Wins.Medium._25),
-            Triple(Difficulty.MEDIUM, 50, Metric.Achievement.Wins.Medium._50),
-            Triple(Difficulty.HARD, 10, Metric.Achievement.Wins.Hard._10),
-            Triple(Difficulty.HARD, 25, Metric.Achievement.Wins.Hard._25),
-            Triple(Difficulty.HARD, 50, Metric.Achievement.Wins.Hard._50),
-        )
-            .filter { aggregate.difficulty == it.first && aggregate.numWins >= it.second }
-            .map { metricStr(it.third) }
-
-        val timeAchievements = setOf(
-            Triple(Difficulty.EASY, 5, Metric.Achievement.Time.Easy._5Min),
-            Triple(Difficulty.EASY, 3, Metric.Achievement.Time.Easy._3Min),
-            Triple(Difficulty.MEDIUM, 10, Metric.Achievement.Time.Medium._10Min),
-            Triple(Difficulty.MEDIUM, 6, Metric.Achievement.Time.Medium._6Min),
-            Triple(Difficulty.HARD, 20, Metric.Achievement.Time.Hard._20Min),
-            Triple(Difficulty.HARD, 10, Metric.Achievement.Time.Hard._10Min),
-        )
-            .filter { summary.difficulty == it.first && summary.timeTaken <= (it.second * 60) }
-            .map { metricStr(it.third) }
-
+        val timeAchievementsForGame = TIME_ACHIEVEMENTS
+            .filter { aggregate.difficulty == it.difficulty && summary.timeTaken <= it.timeLimit }
+            .map { metricStr(it) }
 
         buffer?.iterator()?.let {
             while (it.hasNext()) {
                 val achievement = it.next()
                 Timber.i("checking ${achievement.description}")
                 val achId = achievement.achievementId
-                if (achId in winAchievements || achId in timeAchievements) {
+                if (achId in winAchievementsForGame || achId in timeAchievementsForGame) {
                     Timber.i("trying to unlock ${achId}")
                     if (achievement.state != Achievement.STATE_UNLOCKED) {
                         Timber.i("unlocking ${achievement.description}")
