@@ -12,6 +12,7 @@ import dagger.*
 import dagger.multibindings.IntoMap
 import io.astefanich.shinro.common.Difficulty
 import io.astefanich.shinro.common.GameSummary
+import io.astefanich.shinro.common.Metric
 import io.astefanich.shinro.di.PerFragment
 import io.astefanich.shinro.di.app.ViewModelKey
 import io.astefanich.shinro.ui.GameSummaryFragment
@@ -51,8 +52,6 @@ abstract class GameSummaryViewModelModule {
 @Module
 class GameSummaryModule {
 
-    @Provides
-    fun providesResources(@Named("actCtx") ctx: Context): Resources = ctx.resources
 
     @Provides
     @Named("gameSummarySoundPlayer")
@@ -76,6 +75,11 @@ class GameSummaryModule {
     @Provides
     fun providesDifficultiesReprs(): Array<String> = arrayOf("EASY", "MEDIUM", "HARD")
 
+    @Provides
+    fun providesResources(@Named("actCtx") ctx: Context): Resources = ctx.resources
+
+    @Provides
+    fun providesMetricResourceString(rez: Resources): (Metric) -> String = { rez.getString(it.id)}
 
     @Provides
     fun providesScoreCalculator(): (Difficulty, Long) -> Int =

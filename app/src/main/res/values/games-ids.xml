@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+    Google Play game services IDs.
+    Save this file as res/values/games-ids.xml in your project.
+    -->
+<resources>
+
+    <!-- app_id -->
+    <string name="app_id" translatable="false">29512077397</string>
+    <!-- package_name -->
+    <string name="package_name" translatable="false">io.astefanich.shinro</string>
+    <!-- achievement 10 Easy -->
+    <string name="achievement_10_easy" translatable="false">CggI1aC6-G0QAhAE</string>
+    <!-- achievement 25 Easy -->
+    <string name="achievement_25_easy" translatable="false">CggI1aC6-G0QAhAF</string>
+    <!-- achievement 50 Easy -->
+    <string name="achievement_50_easy" translatable="false">CggI1aC6-G0QAhAG</string>
+    <!-- achievement 5 Minute Easy -->
+    <string name="achievement_5_minute_easy" translatable="false">CggI1aC6-G0QAhAH</string>
+    <!-- achievement 3 Minute Easy -->
+    <string name="achievement_3_minute_easy" translatable="false">CggI1aC6-G0QAhAI</string>
+    <!-- achievement 10 Medium -->
+    <string name="achievement_10_medium" translatable="false">CggI1aC6-G0QAhAJ</string>
+    <!-- achievement 25 Medium -->
+    <string name="achievement_25_medium" translatable="false">CggI1aC6-G0QAhAK</string>
+    <!-- achievement 50 Medium -->
+    <string name="achievement_50_medium" translatable="false">CggI1aC6-G0QAhAL</string>
+    <!-- achievement 10 Minute Medium -->
+    <string name="achievement_10_minute_medium" translatable="false">CggI1aC6-G0QAhAM</string>
+    <!-- achievement 6 Minute Medium -->
+    <string name="achievement_6_minute_medium" translatable="false">CggI1aC6-G0QAhAN</string>
+    <!-- achievement 10 Hard -->
+    <string name="achievement_10_hard" translatable="false">CggI1aC6-G0QAhAO</string>
+    <!-- achievement 25 Hard -->
+    <string name="achievement_25_hard" translatable="false">CggI1aC6-G0QAhAP</string>
+    <!-- achievement 50 Hard -->
+    <string name="achievement_50_hard" translatable="false">CggI1aC6-G0QAhAQ</string>
+    <!-- achievement 20 Minute Hard -->
+    <string name="achievement_20_minute_hard" translatable="false">CggI1aC6-G0QAhAR</string>
+    <!-- achievement 10 Minute Hard -->
+    <string name="achievement_10_minute_hard" translatable="false">CggI1aC6-G0QAhAS</string>
+    <!-- leaderboard Total Points -->
+    <string name="leaderboard_total_points" translatable="false">CggI1aC6-G0QAhAB</string>
+    <!-- leaderboard Win % Medium (min 10 games) -->
+    <string name="leaderboard_win__medium_min_10_games" translatable="false">CggI1aC6-G0QAhAC</string>
+    <!-- leaderboard Win % Hard (min 10 games) -->
+    <string name="leaderboard_win__hard_min_10_games" translatable="false">CggI1aC6-G0QAhAD</string>
+</resources>
+

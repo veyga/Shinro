@@ -45,24 +45,5 @@
     <string name="gathering_stats">Aggregating your stats…</string>
     <string name="games_connection_failed">Failed to connect to Google Games.\nSome features will be disabled</string>
     <string name="signed_out">Google Games is either inaccessible or you must have signed out.\nPlease try restarting the app to prompt the sign in.\nIf sign-in is still unsuccessful, then you dont an internet connection.\nYou may continue to play, but certain features will be inaccessible.</string>
-    <string name="application_id">29512077397</string>
-    <string name="leaderboard_total_points">CggI1aC6-G0QAhAB</string>
-    <string name="leaderboard_winpct_hard">CggI1aC6-G0QAhAD</string>
-    <string name="leaderboard_winpct_medium">CggI1aC6-G0QAhAC</string>
-    <string name="achievement_10easy">CggI1aC6-G0QAhAE</string>
-    <string name="achievement_25easy">CggI1aC6-G0QAhAF</string>
-    <string name="achievement_50easy">CggI1aC6-G0QAhAG</string>
-    <string name="achievement_5mineasy">CggI1aC6-G0QAhAH</string>
-    <string name="achievement_3mineasy">CggI1aC6-G0QAhAI</string>
-    <string name="achievement_10medium">CggI1aC6-G0QAhAJ</string>
-    <string name="achievement_25medium">CggI1aC6-G0QAhAK</string>
-    <string name="achievement_50medium">CggI1aC6-G0QAhAL</string>
-    <string name="achievement_10minmedium">CggI1aC6-G0QAhAM</string>
-    <string name="achievement_6minmedium">CggI1aC6-G0QAhAN</string>
-    <string name="achievement_10hard">CggI1aC6-G0QAhAO</string>
-    <string name="achievement_25hard">CggI1aC6-G0QAhAP</string>
-    <string name="achievement_50hard">CggI1aC6-G0QAhAQ</string>
-    <string name="achievement_20minhard">CggI1aC6-G0QAhAR</string>
-    <string name="achievement_10minhard">CggI1aC6-G0QAhAS</string>
 </resources>
 

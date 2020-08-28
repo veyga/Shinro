@@ -9,6 +9,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.games.AchievementsClient
 import com.google.android.gms.games.Games
+import com.google.android.gms.games.GamesClient
 import com.google.android.gms.games.LeaderboardsClient
 import dagger.BindsInstance
 import dagger.Module
@@ -57,6 +58,18 @@ object MainActivityModule {
     fun providesLastSignedInAccount(@Named("actCtx") ctx: Context): GoogleSignInAccount? =
         GoogleSignIn.getLastSignedInAccount(ctx)
 
+    @Provides
+    fun providesGamesClient(
+        @Named("actCtx") ctx: Context,
+        googleSignInAccount: GoogleSignInAccount?
+    ): Option<GamesClient> {
+        return if (googleSignInAccount == null)
+            None
+        else
+            Some(Games.getGamesClient(ctx, googleSignInAccount))
+
+    }
+
 
     @Provides
     fun providesLeaderboardsClient(
@@ -64,10 +77,10 @@ object MainActivityModule {
         googleSignInAccount: GoogleSignInAccount?
     ): Option<LeaderboardsClient> {
 
-        return if (googleSignInAccount == null){
+        return if (googleSignInAccount == null) {
             Timber.i("last sign in account == null")
             None
-        } else{
+        } else {
             Timber.i("last sign in account not null")
             Some(Games.getLeaderboardsClient(ctx, googleSignInAccount))
         }
@@ -78,10 +91,10 @@ object MainActivityModule {
         @Named("actCtx") ctx: Context,
         googleSignInAccount: GoogleSignInAccount?
     ): Option<AchievementsClient> {
-        return if (googleSignInAccount == null){
+        return if (googleSignInAccount == null) {
             Timber.i("last sign in account == null")
             None
-        } else{
+        } else {
             Timber.i("last sign in account not null")
             Some(Games.getAchievementsClient(ctx, googleSignInAccount))
         }
