@@ -84,12 +84,12 @@ class GameSummaryModule {
 
             val scoreMap: Map<Difficulty, ScorePair> =
                 mapOf(
-                    Difficulty.EASY to ScorePair(2000, 5 * 60), //easy = 5min
-                    Difficulty.MEDIUM to ScorePair(5000, 10 * 60), //medium = 10min
-                    Difficulty.HARD to ScorePair(10000, 20 * 60) //hard = 20min
+                    Difficulty.EASY to ScorePair(1000, 5 * 60), //easy = 5min
+                    Difficulty.MEDIUM to ScorePair(2500, 10 * 60), //medium = 10min
+                    Difficulty.HARD to ScorePair(5000, 20 * 60) //hard = 20min
                 )
             val pair = scoreMap.get(difficulty)!!
             val timeBonus = pair.allottedTime - timeTaken
-            (pair.baseScore + ((pair.baseScore / pair.allottedTime) * timeBonus)).toInt()
+            maxOf(pair.baseScore, (pair.baseScore + ((pair.baseScore / pair.allottedTime) * timeBonus)).toInt())
         }
 }

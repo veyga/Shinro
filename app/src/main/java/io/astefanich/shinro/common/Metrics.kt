@@ -20,7 +20,7 @@ sealed class Metric(val id: Int) {
             }
 
             sealed class Medium(id: Int) : Wins(id) {
-                object _10 : Medium(R.string.achievement_10easy)
+                object _10 : Medium(R.string.achievement_10medium)
                 object _25 : Medium(R.string.achievement_25medium)
                 object _50 : Medium(R.string.achievement_50medium)
             }

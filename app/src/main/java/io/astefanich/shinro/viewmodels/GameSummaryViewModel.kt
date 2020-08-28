@@ -51,17 +51,19 @@ constructor(
         //save/publish results
         viewModelScope.launch(Dispatchers.IO) {
             val gameAsAgg = summary.toResultAggregate()
-            val targetDiffAgg =
-                resultsRepo.getAggregateForDifficulty(summary.difficulty) + gameAsAgg
+            val targetDiffAgg = resultsRepo.getAggregateForDifficulty(summary.difficulty) + gameAsAgg
             val anyDiffAgg = resultsRepo.getAggregateForDifficulty(Difficulty.ANY) + gameAsAgg
             resultsRepo.updateAggregate(targetDiffAgg)
             resultsRepo.updateAggregate(anyDiffAgg)
             when (leaderboardsClient) {
-                is Some -> publishUpdatedWinRate(leaderboardsClient.t, targetDiffAgg)
+                is Some -> {
+                    publishUpdatedWinRate(leaderboardsClient.t, targetDiffAgg)
+                }
             }
             if (summary.isWin) {
+                val newTotal = recordNewTotal()
                 when (leaderboardsClient) {
-                    is Some -> publishNewScore(leaderboardsClient.t)
+                    is Some -> leaderboardsClient.t.submitScore(rez.getString(Metric.Leaderboard.TotalPoints.id), newTotal)
                 }
                 when (achievementsClient) {
                     is Some -> publishAchievements(achievementsClient.t, targetDiffAgg)
@@ -74,13 +76,14 @@ constructor(
         _nextGameDifficulty.value = newDiff
     }
 
-    private suspend fun publishNewScore(client: LeaderboardsClient) {
+    private suspend fun recordNewTotal(): Long {
+        //save total points when offline
         val currentTotal = prefs.getLong("total_points", 0)
         Timber.i("currentTotal is $currentTotal")
         val newTotal = currentTotal + pointsEarned.value!!
         Timber.i("newTotal is $newTotal")
         prefs.edit().putLong("total_points", newTotal).apply()
-        client.submitScore(rez.getString(Metric.Leaderboard.TotalPoints.id), newTotal)
+        return newTotal
     }
 
     private suspend fun publishUpdatedWinRate(
@@ -110,30 +113,27 @@ constructor(
             with(aggregate) {
                 when (difficulty) {
                     Difficulty.EASY -> {
-                        //unlocking multiple times?
-                        if (numWins >= 10)
-                            client.unlock(rez.getString(Metric.Achievement.Wins.Easy._10.id))
-                        if (numWins >= 25)
-                            client.unlock(rez.getString(Metric.Achievement.Wins.Easy._25.id))
-                        if (numWins >= 50)
-                            client.unlock(rez.getString(Metric.Achievement.Wins.Easy._50.id))
+                        //unlocking multiple times not an issue; provide some buffer
+                        when (numWins) {
+                            in 10..24 -> client.unlock(rez.getString(Metric.Achievement.Wins.Easy._10.id))
+                            in 25..49 -> client.unlock(rez.getString(Metric.Achievement.Wins.Easy._25.id))
+                            in 50..99 -> client.unlock(rez.getString(Metric.Achievement.Wins.Easy._50.id))
+                        }
 
                     }
                     Difficulty.MEDIUM -> {
-                        if (numWins >= 10)
-                            client.unlock(rez.getString(Metric.Achievement.Wins.Medium._10.id))
-                        if (numWins >= 25)
-                            client.unlock(rez.getString(Metric.Achievement.Wins.Medium._25.id))
-                        if (numWins >= 50)
-                            client.unlock(rez.getString(Metric.Achievement.Wins.Medium._50.id))
+                        when (numWins) {
+                            in 10..24 -> client.unlock(rez.getString(Metric.Achievement.Wins.Medium._10.id))
+                            in 25..49 -> client.unlock(rez.getString(Metric.Achievement.Wins.Medium._25.id))
+                            in 50..99 -> client.unlock(rez.getString(Metric.Achievement.Wins.Medium._50.id))
+                        }
                     }
                     Difficulty.HARD -> {
-                        if (numWins >= 10)
-                            client.unlock(rez.getString(Metric.Achievement.Wins.Hard._10.id))
-                        if (numWins >= 25)
-                            client.unlock(rez.getString(Metric.Achievement.Wins.Hard._25.id))
-                        if (numWins >= 50)
-                            client.unlock(rez.getString(Metric.Achievement.Wins.Hard._50.id))
+                        when (numWins) {
+                            in 10..24 -> client.unlock(rez.getString(Metric.Achievement.Wins.Hard._10.id))
+                            in 25..49 -> client.unlock(rez.getString(Metric.Achievement.Wins.Hard._25.id))
+                            in 50..99 -> client.unlock(rez.getString(Metric.Achievement.Wins.Hard._50.id))
+                        }
                     }
                 }
             }
