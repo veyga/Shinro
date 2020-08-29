@@ -132,6 +132,13 @@ class GameSummaryFragment : Fragment() {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        binding.newGameChip.setTextColor(resources.getColor(R.color.nearWhite))
+        binding.changeDifficultyChip.setTextColor(resources.getColor(R.color.nearWhite))
+        binding.newGameChip.typeface = Typeface.DEFAULT_BOLD
+        binding.changeDifficultyChip.typeface = Typeface.DEFAULT_BOLD
+    }
 
     private fun animateScoreText(score: Int, animTime: Long) {
         ValueAnimator.ofInt(0, score).apply {

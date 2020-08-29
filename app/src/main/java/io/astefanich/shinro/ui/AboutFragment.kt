@@ -87,4 +87,10 @@ class AboutFragment : Fragment() {
         videoPosition = videoView.currentPosition
         videoPlaying.value = false
     }
+
+    override fun onStart() {
+        super.onStart()
+        binding.videoPlaybackButton.setTextColor(resources.getColor(R.color.nearWhite))
+        binding.videoPlaybackButton.typeface = Typeface.DEFAULT_BOLD
+    }
 }

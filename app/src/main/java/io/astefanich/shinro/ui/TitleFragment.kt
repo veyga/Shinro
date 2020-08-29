@@ -178,6 +178,12 @@ class TitleFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         if (this::binding.isInitialized) {
+            binding.playResumeChip.setTextColor(resources.getColor(R.color.nearWhite))
+            binding.howToPlayTipsChip.setTextColor(resources.getColor(R.color.nearWhite))
+            binding.statisticsChip.setTextColor(resources.getColor(R.color.nearWhite))
+            binding.leaderboardChip.setTextColor(resources.getColor(R.color.nearWhite))
+            binding.achievementsChip.setTextColor(resources.getColor(R.color.nearWhite))
+            binding.aboutChip.setTextColor(resources.getColor(R.color.nearWhite))
             binding.playResumeChip.typeface = Typeface.DEFAULT_BOLD
             binding.howToPlayTipsChip.typeface = Typeface.DEFAULT_BOLD
             binding.statisticsChip.typeface = Typeface.DEFAULT_BOLD

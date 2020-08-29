@@ -47,4 +47,17 @@ class TipsChoiceFragment : Fragment() {
             TipsChoiceFragmentDirections.actionTipsChoiceToTipsList(choice)
         )
     }
+
+    override fun onStart() {
+        super.onStart()
+        binding.howToPlayChip.setTextColor(resources.getColor(R.color.nearWhite))
+        binding.pathfinderChip.setTextColor(resources.getColor(R.color.nearWhite))
+        binding.blockerChip.setTextColor(resources.getColor(R.color.nearWhite))
+        binding.pigeonholeChip.setTextColor(resources.getColor(R.color.nearWhite))
+        binding.howToPlayChip.typeface = Typeface.DEFAULT_BOLD
+        binding.pathfinderChip.typeface = Typeface.DEFAULT_BOLD
+        binding.blockerChip.typeface = Typeface.DEFAULT_BOLD
+        binding.pigeonholeChip.typeface = Typeface.DEFAULT_BOLD
+
+    }
 }
