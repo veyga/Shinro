@@ -15,14 +15,15 @@ import io.astefanich.shinro.databinding.FragmentTipsChoiceBinding
 
 class TipsChoiceFragment : Fragment() {
 
-    lateinit var binding: FragmentTipsChoiceBinding
+    private var _binding: FragmentTipsChoiceBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_tips_choice, container, false)
+        _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_tips_choice, container, false)
 
         // neither chip style nor raw xml bolds text deterministically....
         binding.howToPlayChip.typeface = Typeface.DEFAULT_BOLD
@@ -50,14 +51,19 @@ class TipsChoiceFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        binding.howToPlayChip.setTextColor(resources.getColor(R.color.nearWhite))
-        binding.pathfinderChip.setTextColor(resources.getColor(R.color.nearWhite))
-        binding.blockerChip.setTextColor(resources.getColor(R.color.nearWhite))
-        binding.pigeonholeChip.setTextColor(resources.getColor(R.color.nearWhite))
+        binding.howToPlayChip.setTextColor(resources.getColor(R.color.white))
+        binding.pathfinderChip.setTextColor(resources.getColor(R.color.white))
+        binding.blockerChip.setTextColor(resources.getColor(R.color.white))
+        binding.pigeonholeChip.setTextColor(resources.getColor(R.color.white))
         binding.howToPlayChip.typeface = Typeface.DEFAULT_BOLD
         binding.pathfinderChip.typeface = Typeface.DEFAULT_BOLD
         binding.blockerChip.typeface = Typeface.DEFAULT_BOLD
         binding.pigeonholeChip.typeface = Typeface.DEFAULT_BOLD
 
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

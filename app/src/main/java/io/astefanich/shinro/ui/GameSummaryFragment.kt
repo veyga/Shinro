@@ -46,7 +46,8 @@ class GameSummaryFragment : Fragment() {
 
     private lateinit var viewModel: GameSummaryViewModel
 
-    private lateinit var binding: FragmentGameSummaryBinding
+    private var _binding: FragmentGameSummaryBinding? = null
+    private val binding get() = _binding!!
 
     private var animationComplete = false
     private var publishingComplete = false
@@ -68,7 +69,7 @@ class GameSummaryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_game_summary, container, false)
+        _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_game_summary, container, false)
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(GameSummaryViewModel::class.java)
         binding.vm = viewModel
         binding.newGameChip.typeface = Typeface.DEFAULT_BOLD
@@ -134,8 +135,8 @@ class GameSummaryFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        binding.newGameChip.setTextColor(resources.getColor(R.color.nearWhite))
-        binding.changeDifficultyChip.setTextColor(resources.getColor(R.color.nearWhite))
+        binding.newGameChip.setTextColor(resources.getColor(R.color.white))
+        binding.changeDifficultyChip.setTextColor(resources.getColor(R.color.white))
         binding.newGameChip.typeface = Typeface.DEFAULT_BOLD
         binding.changeDifficultyChip.typeface = Typeface.DEFAULT_BOLD
     }
@@ -177,5 +178,11 @@ class GameSummaryFragment : Fragment() {
             (NavigationUI.onNavDestinationSelected(item!!, requireView().findNavController())
                     || super.onOptionsItemSelected(item))
         else false
+    }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

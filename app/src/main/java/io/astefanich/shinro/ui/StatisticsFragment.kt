@@ -20,7 +20,8 @@ class StatisticsFragment : Fragment() {
 
     private lateinit var viewModel: StatisticsViewModel
 
-    private lateinit var binding: FragmentStatisticsBinding
+    private var _binding: FragmentStatisticsBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,9 +37,8 @@ class StatisticsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        viewModel =
-            ViewModelProviders.of(this, viewModelFactory).get(StatisticsViewModel::class.java)
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_statistics, container, false)
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(StatisticsViewModel::class.java)
+        _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_statistics, container, false)
         binding.vm = viewModel
         binding.lifecycleOwner = this
         viewModel.show.observe(viewLifecycleOwner, { calculated ->
@@ -49,5 +49,10 @@ class StatisticsFragment : Fragment() {
             }
         })
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

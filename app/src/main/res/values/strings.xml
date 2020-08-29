@@ -12,7 +12,7 @@
     <string name="settings">Settings</string>
     <string name="resume_video">Resume</string>
     <string name="pause_video">Pause</string>
-    <string name="about_text">Shinro (Android) v2.0.0\nDeveloper: Andrew Stefanich\ngithub.com/veyga/Shinro</string>
+    <string name="about_text">Shinro (Android)\nv2.0.0\nDeveloper: Andrew Stefanich\ngithub.com/veyga/Shinro</string>
     <string name="thanks_text">Very special thanks to David Oranchak (PlayShinro.com)\n for providing much of this app\'s content</string>
     <string name="puzzle">Puzzle</string>
     <string name="board_num_fmt">%d</string>

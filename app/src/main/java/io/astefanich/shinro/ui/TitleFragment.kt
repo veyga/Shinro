@@ -44,7 +44,8 @@ class TitleFragment : Fragment() {
     @JvmSuppressWildcards
     lateinit var googleSignInClient: GoogleSignInClient
 
-    private lateinit var binding: FragmentTitleBinding
+    private var _binding: FragmentTitleBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,7 +58,7 @@ class TitleFragment : Fragment() {
             .getTitleComponent()
             .inject(this)
 
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_title, container, false)
+        _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_title, container, false)
 
 
         binding.playResumeChip.setOnClickListener {
@@ -177,20 +178,22 @@ class TitleFragment : Fragment() {
     //text reverts from bold to normal when popping/exiting from fragment
     override fun onStart() {
         super.onStart()
-        if (this::binding.isInitialized) {
-            binding.playResumeChip.setTextColor(resources.getColor(R.color.nearWhite))
-            binding.howToPlayTipsChip.setTextColor(resources.getColor(R.color.nearWhite))
-            binding.statisticsChip.setTextColor(resources.getColor(R.color.nearWhite))
-            binding.leaderboardChip.setTextColor(resources.getColor(R.color.nearWhite))
-            binding.achievementsChip.setTextColor(resources.getColor(R.color.nearWhite))
-            binding.aboutChip.setTextColor(resources.getColor(R.color.nearWhite))
-            binding.playResumeChip.typeface = Typeface.DEFAULT_BOLD
-            binding.howToPlayTipsChip.typeface = Typeface.DEFAULT_BOLD
-            binding.statisticsChip.typeface = Typeface.DEFAULT_BOLD
-            binding.leaderboardChip.typeface = Typeface.DEFAULT_BOLD
-            binding.achievementsChip.typeface = Typeface.DEFAULT_BOLD
-            binding.aboutChip.typeface = Typeface.DEFAULT_BOLD
-        }
+        binding.playResumeChip.setTextColor(resources.getColor(R.color.white))
+        binding.howToPlayTipsChip.setTextColor(resources.getColor(R.color.white))
+        binding.statisticsChip.setTextColor(resources.getColor(R.color.white))
+        binding.leaderboardChip.setTextColor(resources.getColor(R.color.white))
+        binding.achievementsChip.setTextColor(resources.getColor(R.color.white))
+        binding.aboutChip.setTextColor(resources.getColor(R.color.white))
+        binding.playResumeChip.typeface = Typeface.DEFAULT_BOLD
+        binding.howToPlayTipsChip.typeface = Typeface.DEFAULT_BOLD
+        binding.statisticsChip.typeface = Typeface.DEFAULT_BOLD
+        binding.leaderboardChip.typeface = Typeface.DEFAULT_BOLD
+        binding.achievementsChip.typeface = Typeface.DEFAULT_BOLD
+        binding.aboutChip.typeface = Typeface.DEFAULT_BOLD
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

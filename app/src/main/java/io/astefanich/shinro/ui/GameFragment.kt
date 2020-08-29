@@ -68,7 +68,8 @@ class GameFragment : Fragment() {
 
     private lateinit var viewModel: GameViewModel
 
-    private lateinit var binding: FragmentGameBinding
+    private var _binding: FragmentGameBinding? = null
+    private val binding get() = _binding!!
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -92,7 +93,7 @@ class GameFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(GameViewModel::class.java)
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_game, container, false)
+        _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_game, container, false)
         bus.post(SetOnClickListenersCommand)
         binding.lifecycleOwner = this@GameFragment
         setHasOptionsMenu(true)
@@ -352,6 +353,11 @@ class GameFragment : Fragment() {
         }
         if(bus.isRegistered(this))
             bus.unregister(this)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 

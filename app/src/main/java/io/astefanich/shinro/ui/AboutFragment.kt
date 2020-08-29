@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import io.astefanich.shinro.R
 import io.astefanich.shinro.databinding.FragmentAboutBinding
+import io.astefanich.shinro.databinding.FragmentTitleBinding
 import io.astefanich.shinro.di.activities.main.fragments.DaggerAboutComponent
 import javax.inject.Inject
 
@@ -25,9 +26,11 @@ class AboutFragment : Fragment() {
 
     var videoPlaying = MutableLiveData<Boolean>()
     var videoStarted = MutableLiveData<Boolean>()
-    private lateinit var binding: FragmentAboutBinding
     private lateinit var videoView: VideoView
     private var videoPosition = 0
+
+    private var _binding: FragmentAboutBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,7 +41,7 @@ class AboutFragment : Fragment() {
             .create()
             .inject(this)
 
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_about, container, false)
+        _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_about, container, false)
 
         binding.videoPlaybackButton.setTypeface(Typeface.DEFAULT_BOLD)
         videoView = binding.instructionsVideo
@@ -90,7 +93,12 @@ class AboutFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        binding.videoPlaybackButton.setTextColor(resources.getColor(R.color.nearWhite))
+        binding.videoPlaybackButton.setTextColor(resources.getColor(R.color.white))
         binding.videoPlaybackButton.typeface = Typeface.DEFAULT_BOLD
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
