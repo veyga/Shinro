@@ -3,13 +3,11 @@ package io.astefanich.shinro.ui
 import android.animation.ValueAnimator
 import android.app.AlertDialog
 import android.content.DialogInterface
-import android.content.SharedPreferences
 import android.graphics.Typeface
 import android.os.Bundle
 import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
@@ -18,10 +16,6 @@ import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.NavigationUI
 import arrow.core.Option
 import arrow.core.Some
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.games.Games
 import io.astefanich.shinro.R
 import io.astefanich.shinro.common.Difficulty
 import io.astefanich.shinro.common.PlayRequest
@@ -47,13 +41,15 @@ class GameSummaryFragment : Fragment() {
     @Inject
     @JvmSuppressWildcards
     @field:Named("gameSummarySoundPlayer")
-    lateinit var soundplayer: Option<SoundPlayer>
+    lateinit var soundPlayer: Option<SoundPlayer>
 
     private lateinit var viewModel: GameSummaryViewModel
 
     private lateinit var binding: FragmentGameSummaryBinding
 
-    private var animationFinished = MutableLiveData<Boolean>()
+    private var animationComplete = false
+
+    private var publishingComplete = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,10 +67,8 @@ class GameSummaryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        binding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_game_summary, container, false)
-        viewModel =
-            ViewModelProviders.of(this, viewModelFactory).get(GameSummaryViewModel::class.java)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_game_summary, container, false)
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(GameSummaryViewModel::class.java)
         binding.vm = viewModel
         binding.newGameChip.typeface = Typeface.DEFAULT_BOLD
         binding.changeDifficultyChip.typeface = Typeface.DEFAULT_BOLD
@@ -97,23 +91,24 @@ class GameSummaryFragment : Fragment() {
                 }
                 launch {
                     playScoreSound(animTime)
-                }
-                launch {
-                    delay(animTime)
-                    animationFinished.value = true
+                    animationComplete = true
                 }
             }
         })
 
-        animationFinished.observe(viewLifecycleOwner, { isFinished ->
-            if (isFinished) {
-                binding.newGameChip.setOnClickListener {//dont allow navigation until animation complete
-                    findNavController().navigate(
-                        GameSummaryFragmentDirections.actionGameSummaryToGame(
-                            PlayRequest.NewGame(viewModel.nextGameDifficulty.value!!)
-                        )
+        viewModel.scoresPublished.observe(viewLifecycleOwner, { isSaved ->
+            if (!isSaved) {
+                AlertDialog.Builder(requireActivity())
+                    .setMessage(R.string.publishing_failed)
+                    .setNeutralButton(android.R.string.ok, null).show()
+            }
+            publishingComplete = true
+            binding.newGameChip.setOnClickListener {
+                findNavController().navigate(
+                    GameSummaryFragmentDirections.actionGameSummaryToGame(
+                        PlayRequest.NewGame(viewModel.nextGameDifficulty.value!!)
                     )
-                }
+                )
             }
         })
 
@@ -140,9 +135,9 @@ class GameSummaryFragment : Fragment() {
     }
 
     private suspend fun playScoreSound(animTime: Long) {
-        when (soundplayer) {
+        when (soundPlayer) {
             is Some -> {
-                val player = (soundplayer as Some<SoundPlayer>).t
+                val player = (soundPlayer as Some<SoundPlayer>).t
                 player.playLoop(SoundEffect.ButtonEventSound.ScoreClick)
                 delay(animTime)
                 player.pauseAll()
@@ -157,11 +152,9 @@ class GameSummaryFragment : Fragment() {
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return if (animationFinished.value ?: false)
+        return if (animationComplete && publishingComplete)
             (NavigationUI.onNavDestinationSelected(item!!, requireView().findNavController())
                     || super.onOptionsItemSelected(item))
         else false
     }
-
-
 }

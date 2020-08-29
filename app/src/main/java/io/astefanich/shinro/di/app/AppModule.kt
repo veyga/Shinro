@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
 import dagger.Module
 import dagger.Provides
+import io.astefanich.shinro.common.NetworkTimeout
 import io.astefanich.shinro.di.PerApplication
 import io.astefanich.shinro.util.EventBusIndex
 import org.greenrobot.eventbus.EventBus
@@ -32,6 +33,9 @@ class AppModule {
         EventBus.builder().addIndex(EventBusIndex()).installDefaultEventBus()
         return EventBus.getDefault()
     }
+
+    @Provides
+    fun providesNetworkTimeoutPolicy(): NetworkTimeout = NetworkTimeout(3000L)
 
 }
 

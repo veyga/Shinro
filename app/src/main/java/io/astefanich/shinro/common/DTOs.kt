@@ -59,4 +59,4 @@ data class Tip(val drawable: Int, val text: String)
 
 data class Freebie(val row: Int, val col: Int)
 
-
+data class NetworkTimeout(val ms: Long)

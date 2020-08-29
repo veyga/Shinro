@@ -36,6 +36,20 @@ data class Game(
     fun freebiesRemaining(): Int = if (freebie == Freebie(0, 0)) 1 else 0
 }
 
+@Entity(tableName = "board_table")
+data class Board(
+
+    @PrimaryKey(autoGenerate = true)
+    val id: Long = 0L,
+
+    @ColumnInfo(name = "board_num")
+    val boardNum: Int,  //multiple difficulties share puzzle nums
+
+    val difficulty: Difficulty,
+
+    val cells: Grid
+)
+
 //Aggregated scores/statistics
 @Entity(tableName = "results_table")
 data class ResultAggregate (
@@ -70,17 +84,4 @@ infix operator fun ResultAggregate.plus(o: ResultAggregate): ResultAggregate =
         totalTimeSeconds = this.totalTimeSeconds + o.totalTimeSeconds
     )
 
-@Entity(tableName = "board_table")
-data class Board(
-
-    @PrimaryKey(autoGenerate = true)
-    val id: Long = 0L,
-
-    @ColumnInfo(name = "board_num")
-    val boardNum: Int,  //multiple difficulties share puzzle nums
-
-    val difficulty: Difficulty,
-
-    val cells: Grid
-)
 
