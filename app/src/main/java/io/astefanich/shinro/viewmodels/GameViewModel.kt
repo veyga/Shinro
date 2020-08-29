@@ -6,13 +6,13 @@ import io.astefanich.shinro.common.*
 import io.astefanich.shinro.model.Game
 import io.astefanich.shinro.repository.GameRepository
 import io.astefanich.shinro.util.ShinroTimer
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
-import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
-import kotlin.with
 
 
 /**

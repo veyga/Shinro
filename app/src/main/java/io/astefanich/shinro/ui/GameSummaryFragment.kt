@@ -6,6 +6,7 @@ import android.content.DialogInterface
 import android.graphics.Typeface
 import android.os.Bundle
 import android.view.*
+import androidx.activity.addCallback
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
@@ -48,7 +49,6 @@ class GameSummaryFragment : Fragment() {
     private lateinit var binding: FragmentGameSummaryBinding
 
     private var animationComplete = false
-
     private var publishingComplete = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,6 +60,7 @@ class GameSummaryFragment : Fragment() {
             .gameSummary(gameSummaryFragmentArgs.gameSummary)
             .build()
             .inject(this)
+
     }
 
     override fun onCreateView(
@@ -104,11 +105,12 @@ class GameSummaryFragment : Fragment() {
             }
             publishingComplete = true
             binding.newGameChip.setOnClickListener {
-                findNavController().navigate(
-                    GameSummaryFragmentDirections.actionGameSummaryToGame(
-                        PlayRequest.NewGame(viewModel.nextGameDifficulty.value!!)
+                if (animationComplete && publishingComplete)
+                    findNavController().navigate(
+                        GameSummaryFragmentDirections.actionGameSummaryToGame(
+                            PlayRequest.NewGame(viewModel.nextGameDifficulty.value!!)
+                        )
                     )
-                )
             }
         })
 
@@ -116,6 +118,18 @@ class GameSummaryFragment : Fragment() {
         setHasOptionsMenu(true)
         return binding.root
 //        return layoutInflater.inflate(R.layout.fragment_game_summary, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            if (animationComplete && publishingComplete)
+                findNavController().navigate(
+                    GameSummaryFragmentDirections.actionGameSummaryToGame(
+                        PlayRequest.NewGame(viewModel.nextGameDifficulty.value!!)
+                    )
+                )
+        }
     }
 
 

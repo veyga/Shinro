@@ -35,6 +35,7 @@ constructor(
     val calculateScore: @JvmSuppressWildcards (Difficulty, Long) -> Int
 ) : ViewModel() {
 
+
     private var _nextGameDifficulty = MutableLiveData<Difficulty>()
     val nextGameDifficulty: LiveData<Difficulty>
         get() = _nextGameDifficulty
@@ -79,10 +80,14 @@ constructor(
         prefs.edit().putLong("total_points", newTotal).apply() //save total even if offline
         when (leaderboardsClient) {
             is Some -> {
-                leaderboardsClient.t.submitScore(metricStr(Metric.Leaderboard.TotalPoints), newTotal)
+                leaderboardsClient.t.submitScore(
+                    metricStr(Metric.Leaderboard.TotalPoints),
+                    newTotal
+                )
                 with(newAggregate) {
                     if (numPlayed >= 10 && difficulty != Difficulty.EASY) {
-                        val metric = if (difficulty == Difficulty.MEDIUM) Metric.Leaderboard.WinPctMedium else Metric.Leaderboard.WinPctHard
+                        val metric =
+                            if (difficulty == Difficulty.MEDIUM) Metric.Leaderboard.WinPctMedium else Metric.Leaderboard.WinPctHard
                         val newWinRate = ((numWins * 100f) / numPlayed).roundToLong()
                         leaderboardsClient.t.submitScore(metricStr(metric), newWinRate)
                     }

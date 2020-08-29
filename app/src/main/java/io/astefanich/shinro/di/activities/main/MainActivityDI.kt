@@ -7,7 +7,9 @@ import arrow.core.Option
 import arrow.core.Some
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.games.*
+import com.google.android.gms.games.AchievementsClient
+import com.google.android.gms.games.Games
+import com.google.android.gms.games.LeaderboardsClient
 import dagger.BindsInstance
 import dagger.Module
 import dagger.Provides
@@ -18,7 +20,6 @@ import io.astefanich.shinro.di.activities.main.fragments.GameSummaryComponent
 import io.astefanich.shinro.di.activities.main.fragments.StatisticsComponent
 import io.astefanich.shinro.di.activities.main.fragments.TitleComponent
 import io.astefanich.shinro.ui.MainActivity
-import timber.log.Timber
 import javax.inject.Named
 
 @PerActivity
@@ -60,13 +61,10 @@ object MainActivityModule {
         @Named("actCtx") ctx: Context,
         googleSignInAccount: GoogleSignInAccount?
     ): Option<LeaderboardsClient> {
-        return if (googleSignInAccount == null) {
-            Timber.i("last sign in account == null")
+        return if (googleSignInAccount == null)
             None
-        } else {
-            Timber.i("last sign in account not null")
+        else
             Some(Games.getLeaderboardsClient(ctx, googleSignInAccount))
-        }
     }
 
     @Provides
@@ -74,13 +72,10 @@ object MainActivityModule {
         @Named("actCtx") ctx: Context,
         googleSignInAccount: GoogleSignInAccount?
     ): Option<AchievementsClient> {
-        return if (googleSignInAccount == null) {
-            Timber.i("last sign in account == null")
+        return if (googleSignInAccount == null)
             None
-        } else {
-            Timber.i("last sign in account not null")
+        else
             Some(Games.getAchievementsClient(ctx, googleSignInAccount))
-        }
     }
 }
 

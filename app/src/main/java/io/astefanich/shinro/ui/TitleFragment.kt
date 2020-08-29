@@ -20,7 +20,6 @@ import com.google.android.gms.games.LeaderboardsClient
 import io.astefanich.shinro.R
 import io.astefanich.shinro.common.PlayRequest
 import io.astefanich.shinro.databinding.FragmentTitleBinding
-import timber.log.Timber
 import javax.inject.Inject
 
 class TitleFragment : Fragment() {
@@ -118,16 +117,10 @@ class TitleFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Timber.i("onViewCreated")
-        val silentSignInTask = googleSignInClient.silentSignIn()
-        //this is redundant after first sign-in if user has auto sign-in (DI provides last signed in account)
-        silentSignInTask.addOnSuccessListener { acct ->
-            Timber.d("signed in silently...")
+        //this is redundant after first sign-in if user has auto sign-in (dagger provides last signed in account)
+        googleSignInClient.silentSignIn().addOnSuccessListener { acct ->
             leaderboardsClient = Some(Games.getLeaderboardsClient(requireActivity(), acct))
             achievementsClient = Some(Games.getAchievementsClient(requireActivity(), acct))
-        }
-        silentSignInTask.addOnFailureListener {
-            Timber.d("failed to sign in silently")
         }
     }
 
@@ -166,8 +159,8 @@ class TitleFragment : Fragment() {
                 if (isSuccess) {
                     val rawLeaderboardsClient = Games.getLeaderboardsClient(requireActivity(), signInAccount!!)
                     val rawAchievementsClient = Games.getAchievementsClient(requireActivity(), signInAccount!!)
-                    leaderboardsClient = Some(rawLeaderboardsClient)
-                    achievementsClient = Some(rawAchievementsClient)
+                    leaderboardsClient = Option.just(rawLeaderboardsClient)
+                    achievementsClient = Option.just(rawAchievementsClient)
                     if (requestCode == SIGN_IN_AND_SHOW_LEADERBOARDS)
                         showLeaderboard(rawLeaderboardsClient)
                     else
@@ -185,7 +178,6 @@ class TitleFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         if (this::binding.isInitialized) {
-            Timber.i("title frag onStart")
             binding.playResumeChip.typeface = Typeface.DEFAULT_BOLD
             binding.howToPlayTipsChip.typeface = Typeface.DEFAULT_BOLD
             binding.statisticsChip.typeface = Typeface.DEFAULT_BOLD

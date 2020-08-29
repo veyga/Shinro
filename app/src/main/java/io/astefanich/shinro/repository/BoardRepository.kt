@@ -6,7 +6,6 @@ import io.astefanich.shinro.database.BoardDao
 import io.astefanich.shinro.model.Board
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
 
@@ -39,10 +38,8 @@ constructor(
                     queue.removeFirst()
                 queue.addLast(targetId)
                 file.writeText(queue.foldLeft("", { s, i -> s + "${i}\n" }))
-                Timber.i("board repo serving up $targetId - ${difficulty.repr}")
                 boardDao.getBoardByNumAndDifficulty(targetId, difficulty)
             } catch (e: Exception) {
-                Timber.d("blacklist failed. Serving random board. $e")
                 boardDao.getBoardByNumAndDifficulty(randomId(), difficulty)
             }
         }

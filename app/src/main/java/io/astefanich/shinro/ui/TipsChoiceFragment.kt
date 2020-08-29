@@ -12,7 +12,6 @@ import androidx.navigation.fragment.findNavController
 import io.astefanich.shinro.R
 import io.astefanich.shinro.common.TipChoice
 import io.astefanich.shinro.databinding.FragmentTipsChoiceBinding
-import timber.log.Timber
 
 class TipsChoiceFragment : Fragment() {
 

@@ -24,14 +24,14 @@ import io.astefanich.shinro.databinding.FragmentGameBinding
 import io.astefanich.shinro.util.GameVibrator
 import io.astefanich.shinro.util.ShinroTimer
 import io.astefanich.shinro.util.sound.SoundPlayer
-import io.astefanich.shinro.viewmodels.*
+import io.astefanich.shinro.viewmodels.GameViewModel
+import io.astefanich.shinro.viewmodels.ViewModelFactory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
-import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Named
 

@@ -45,6 +45,6 @@
     <string name="gathering_stats">Aggregating your stats…</string>
     <string name="games_connection_failed">Failed to connect to Google Games.\nSome features will be disabled</string>
     <string name="signed_out">Google Games is either inaccessible or you must have signed out.\nPlease try restarting the app to prompt the sign in.\nIf sign-in is still unsuccessful, then you dont an internet connection.\nYou may continue to play, but certain features will be inaccessible.</string>
-    <string name="publishing_failed">Failed to publish results :(\nEither you are not signed in, or your network is currently slow.\nPlease try signing into Google Games via the Leaderboard/Achievements home buttons.\nYour top score will updated/saved, but per-game achievements require an active sign-in</string>
+    <string name="publishing_failed">Failed to publish results :( \n Check your connection; try signing into Google Games via the Leaderboard/Achievements home buttons.</string>
 </resources>
 
