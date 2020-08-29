@@ -10,6 +10,9 @@ app/release/*
 # Java class files
 *.class
 
+# Java keystore for signing
+*.jks
+
 # Generated files
 bin/
 gen/
