@@ -5,6 +5,7 @@ Android app for Shinro puzzle game
 <img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png"
         alt="Get it on Google Play" height="80"/>
 </a>
+</br>
 Shinro is a simple logic puzzle that first appeared in Japanese puzzle magazines. The puzzle company Puzzability discovered the puzzles and coined the name Shinro, which is a Japanese word that means "compass bearing." The company created an international sensation by publishing the puzzles in Spirit, the in-flight magazine of Southwest Airlines. The puzzle's simple rules, and its similarities to Sudoku and Minesweeper, make it very appealing to puzzle enthusiasts. 
 
 A Shinro puzzle is an 8x8 grid. The goal is to locate 12 hidden marbles, based on the clues in the puzzle (numbers and arrows). A number on the top tells you how many marbles there are in each column underneath the number. A number on the side tells you how many marbles are in the row next to the number. Each arrow on the puzzle board points to at least one hidden marble. Not every marble has an arrow pointing to it.
