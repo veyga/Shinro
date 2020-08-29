@@ -54,6 +54,7 @@
                 android:gravity="center"
                 android:text="solve"
                 android:textColor="@color/materialBlack"
+                android:visibility="gone"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/freebies_remaining"
                 tools:text="Solve" />
@@ -104,9 +105,9 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:gravity="center"
-                android:visibility="gone"
                 android:text="next"
                 android:textColor="@color/materialBlack"
+                android:visibility="gone"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/time_elapsed"
                 tools:text="Solve" />
