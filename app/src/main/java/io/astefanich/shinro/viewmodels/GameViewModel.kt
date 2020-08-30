@@ -11,6 +11,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
+import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 
@@ -183,9 +184,14 @@ constructor(
     @Subscribe
     fun handle(cmd: UndoToCheckpointCommand) {
         if (checkpointActive) {
-            for (i in 0..8)
-                for (j in 0..8)
+            _game.marblesPlaced = 0
+            for (i in 0..8) {
+                for (j in 0..8) {
                     _game.board[i][j] = checkpoint[i][j]
+                    if (_game.board[i][j].current == "M")
+                        _game.marblesPlaced += 1
+                }
+            }
             undoStack = Stack<Move>()
             checkpointActive = false
             bus.post(UndoStackDeactivatedEvent)
