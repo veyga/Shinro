@@ -5,6 +5,7 @@ import android.net.Uri
 import dagger.Component
 import dagger.Module
 import dagger.Provides
+import io.astefanich.shinro.BuildConfig
 import io.astefanich.shinro.R
 import io.astefanich.shinro.di.PerFragment
 import io.astefanich.shinro.ui.AboutFragment
@@ -19,6 +20,11 @@ interface AboutComponent {
 
 @Module
 object AboutModule {
+
+    @PerFragment
+    @Provides
+    @JvmStatic
+    fun providesVersionName(): String = BuildConfig.VERSION_NAME
 
     @PerFragment
     @Provides

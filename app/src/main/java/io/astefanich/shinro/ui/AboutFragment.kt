@@ -13,9 +13,9 @@ import android.widget.VideoView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
+import io.astefanich.shinro.BuildConfig
 import io.astefanich.shinro.R
 import io.astefanich.shinro.databinding.FragmentAboutBinding
-import io.astefanich.shinro.databinding.FragmentTitleBinding
 import io.astefanich.shinro.di.activities.main.fragments.DaggerAboutComponent
 import javax.inject.Inject
 
@@ -23,6 +23,9 @@ class AboutFragment : Fragment() {
 
     @Inject
     lateinit var videoUri: Uri
+
+    @Inject
+    lateinit var versionName: String
 
     var videoPlaying = MutableLiveData<Boolean>()
     var videoStarted = MutableLiveData<Boolean>()

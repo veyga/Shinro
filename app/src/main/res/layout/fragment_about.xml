@@ -35,7 +35,7 @@
             android:layout_margin="64dp"
             android:onClick="@{() -> fragment.onVideoButtonPress()}"
             android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@+id/about_text"
+            app:layout_constraintBottom_toTopOf="@+id/about_text_app"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/video_playback_button" />
@@ -46,7 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="64dp"
             android:onClick="@{() -> fragment.onVideoButtonPress()}"
-            app:layout_constraintBottom_toTopOf="@+id/about_text"
+            app:layout_constraintBottom_toTopOf="@+id/about_text_app"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/video_playback_button"
@@ -68,19 +68,21 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Shinro Android" />
+
         <TextView
             android:id="@+id/version_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:text="@string/version"
+            android:text="@{@string/version_name_fmt(fragment.versionName)}"
             android:textAlignment="center"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/about_text_app"
             tools:text="2.0.0" />
+
         <TextView
             android:id="@+id/developer"
             android:layout_width="wrap_content"
@@ -94,13 +96,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/version_name"
             tools:text="Andrew Stefanich" />
+
         <TextView
             android:id="@+id/app_link"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:text="@string/developer"
+            android:text="@string/app_link"
             android:textAlignment="center"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
