@@ -10,8 +10,10 @@ app/release/*
 # Java class files
 *.class
 
-# Java keystore for signing
+# Local keys/stores
 *.jks
+*.pepk
+*.pem
 
 # Generated files
 bin/
