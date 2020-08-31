@@ -3,6 +3,7 @@ package io.astefanich.shinro.ui
 
 import android.animation.ObjectAnimator
 import android.app.AlertDialog
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
 import android.text.format.DateUtils
@@ -32,6 +33,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -65,6 +67,9 @@ class GameFragment : Fragment() {
     @Inject
     @JvmSuppressWildcards
     lateinit var gameDialogBuilder: (String, String, () -> Unit) -> AlertDialog.Builder
+
+    @Inject
+    lateinit var prefs: SharedPreferences
 
     private lateinit var viewModel: GameViewModel
 
@@ -266,6 +271,8 @@ class GameFragment : Fragment() {
         when (uiTimer) {
             is Some -> (uiTimer as Some<ShinroTimer>).t.pause()
         }
+        Timber.i("no longer has active game")
+        prefs.edit().putBoolean("has_active_game", false).apply()
 
 //        binding.nextBoard.setOnClickListener {
 //                findNavController().navigate(GameFragmentDirections.actionGameToGameSummary(evt.summary))

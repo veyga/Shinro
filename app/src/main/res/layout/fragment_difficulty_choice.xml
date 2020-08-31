@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.DifficultyChoiceFragment">
+
+    <data>
+        <variable
+            name="fragment"
+            type="io.astefanich.shinro.ui.DifficultyChoiceFragment" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.google.android.material.chip.ChipGroup
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="48sp">
+
+            <!--            android:onClick="@{() -> fragment.navToChoice(tipChoice.HOWTOPLAY)}"-->
+
+            <!-- chip style doesn't bold text deterministically -->
+            <com.google.android.material.chip.Chip
+                android:id="@+id/easy_chip"
+                style="@style/ChipStyle"
+                android:text="@string/easy"
+                android:textStyle="bold"
+                tools:text="Easy" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/medium_chip"
+                style="@style/ChipStyle"
+                android:text="@string/medium"
+                tools:text="Medium" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/hard_chip"
+                style="@style/ChipStyle"
+                android:text="@string/hard"
+                tools:text="Hard" />
+        </com.google.android.material.chip.ChipGroup>
+    </LinearLayout>
+</layout>

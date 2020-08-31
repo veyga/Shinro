@@ -1,6 +1,7 @@
 package io.astefanich.shinro.di.activities.main.fragments
 
 import android.content.Context
+import android.content.SharedPreferences
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -32,4 +33,10 @@ class TitleModule {
         options: GoogleSignInOptions
     ): GoogleSignInClient =
         GoogleSignIn.getClient(ctx, options)
+
+    @Provides
+    fun providesHasActiveGame(prefs: SharedPreferences): HasActiveGame =
+        HasActiveGame(prefs.getBoolean("has_active_game", false))
 }
+
+data class HasActiveGame(val state: Boolean)

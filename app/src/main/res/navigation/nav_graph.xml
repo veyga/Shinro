@@ -38,6 +38,13 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_title_to_difficulty_choice"
+            app:destination="@id/difficulty_choice_destination"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/game_destination"
@@ -120,4 +127,16 @@
         android:id="@+id/statistics_destination"
         android:name="io.astefanich.shinro.ui.StatisticsFragment"
         android:label="fragment_statistics" />
+    <fragment
+        android:id="@+id/difficulty_choice_destination"
+        android:name="io.astefanich.shinro.ui.DifficultyChoiceFragment"
+        android:label="fragment_difficulty_choice" >
+        <action
+            android:id="@+id/action_difficulty_choice_to_game"
+            app:destination="@id/game_destination"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+    </fragment>
 </navigation>

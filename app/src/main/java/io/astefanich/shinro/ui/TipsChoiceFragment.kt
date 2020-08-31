@@ -25,17 +25,9 @@ class TipsChoiceFragment : Fragment() {
 
         _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_tips_choice, container, false)
 
-        // neither chip style nor raw xml bolds text deterministically....
-        binding.howToPlayChip.typeface = Typeface.DEFAULT_BOLD
         binding.howToPlayChip.setOnClickListener { navToChoice(TipChoice.HOWTOPLAY) }
-
-        binding.pathfinderChip.typeface = Typeface.DEFAULT_BOLD
         binding.pathfinderChip.setOnClickListener { navToChoice(TipChoice.PATHFINDER) }
-
-        binding.blockerChip.typeface = Typeface.DEFAULT_BOLD
         binding.blockerChip.setOnClickListener { navToChoice(TipChoice.BLOCKER) }
-
-        binding.pigeonholeChip.typeface = Typeface.DEFAULT_BOLD
         binding.pigeonholeChip.setOnClickListener { navToChoice(TipChoice.PIGEONHOLE) }
 
         binding.lifecycleOwner = this
@@ -49,6 +41,7 @@ class TipsChoiceFragment : Fragment() {
         )
     }
 
+    // neither chip style nor raw xml bolds text deterministically....
     override fun onStart() {
         super.onStart()
         binding.howToPlayChip.setTextColor(resources.getColor(R.color.white))

@@ -25,7 +25,7 @@ constructor(
     val repo: GameRepository,
     val bus: EventBus,
     val gameTimer: ShinroTimer,
-    val checkpoint: Grid
+    val checkpoint: Grid,
 ) : ViewModel() {
 
     init {

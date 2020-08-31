@@ -20,6 +20,7 @@ import com.google.android.gms.games.LeaderboardsClient
 import io.astefanich.shinro.R
 import io.astefanich.shinro.common.PlayRequest
 import io.astefanich.shinro.databinding.FragmentTitleBinding
+import io.astefanich.shinro.di.activities.main.fragments.HasActiveGame
 import javax.inject.Inject
 
 class TitleFragment : Fragment() {
@@ -44,6 +45,9 @@ class TitleFragment : Fragment() {
     @JvmSuppressWildcards
     lateinit var googleSignInClient: GoogleSignInClient
 
+    @Inject
+    lateinit var hasActiveGame: HasActiveGame
+
     private var _binding: FragmentTitleBinding? = null
     private val binding get() = _binding!!
 
@@ -62,9 +66,15 @@ class TitleFragment : Fragment() {
 
 
         binding.playResumeChip.setOnClickListener {
-            findNavController().navigate(
-                TitleFragmentDirections.actionTitleToGame(PlayRequest.Resume)
-            )
+            if(hasActiveGame.state){
+                findNavController().navigate(
+                    TitleFragmentDirections.actionTitleToGame(PlayRequest.Resume)
+                )
+            } else {
+                findNavController().navigate(
+                    TitleFragmentDirections.actionTitleToDifficultyChoice()
+                )
+            }
         }
 
         binding.howToPlayTipsChip.setOnClickListener {
@@ -112,6 +122,9 @@ class TitleFragment : Fragment() {
         }
 
         binding.lifecycleOwner = this
+        if(hasActiveGame.state)
+            binding.playResumeChip.text = "Resume"
+
 
         return binding.root
     }

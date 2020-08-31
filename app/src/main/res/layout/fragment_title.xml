@@ -50,7 +50,7 @@
             <com.google.android.material.chip.Chip
                 android:id="@+id/play_resume_chip"
                 style="@style/ChipStyle"
-                android:text="@string/play_resume"
+                android:text="@string/play"
                 android:textStyle="bold"
                 tools:text="Play/Resume" />
 

@@ -1,0 +1,69 @@
+package io.astefanich.shinro.ui
+
+
+import android.graphics.Typeface
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import io.astefanich.shinro.R
+import io.astefanich.shinro.common.Difficulty
+import io.astefanich.shinro.common.PlayRequest
+import io.astefanich.shinro.common.TipChoice
+import io.astefanich.shinro.databinding.FragmentDifficultyChoiceBinding
+import io.astefanich.shinro.databinding.FragmentTipsChoiceBinding
+
+class DifficultyChoiceFragment : Fragment() {
+
+    private var _binding: FragmentDifficultyChoiceBinding? = null
+    private val binding get() = _binding!!
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+
+        _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_difficulty_choice, container, false)
+
+        binding.easyChip.setOnClickListener { navForChoice(Difficulty.EASY) }
+        binding.easyChip.setChipIconResource(R.drawable.ic_green_circle32)
+
+        binding.mediumChip.setOnClickListener { navForChoice(Difficulty.MEDIUM) }
+        binding.mediumChip.setChipIconResource(R.drawable.ic_blue_square32)
+
+        binding.hardChip.setOnClickListener { navForChoice(Difficulty.HARD) }
+        binding.hardChip.setChipIconResource(R.drawable.ic_gray_diamond32)
+
+        binding.lifecycleOwner = this
+        return binding.root
+    }
+
+
+    private fun navForChoice(choice: Difficulty) {
+        findNavController().navigate(
+            DifficultyChoiceFragmentDirections.actionDifficultyChoiceToGame(
+                PlayRequest.NewGame(choice)
+            )
+        )
+    }
+
+    // neither chip style nor raw xml bolds text deterministically....
+    override fun onStart() {
+        super.onStart()
+        binding.easyChip.typeface = Typeface.DEFAULT_BOLD
+        binding.mediumChip.typeface = Typeface.DEFAULT_BOLD
+        binding.hardChip.typeface = Typeface.DEFAULT_BOLD
+//        binding.easyChip.setTextColor(resources.getColor(R.color.white))
+//        binding.mediumChip.setTextColor(resources.getColor(R.color.white))
+//        binding.hardChip.setTextColor(resources.getColor(R.color.white))
+
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+}
