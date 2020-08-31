@@ -67,9 +67,6 @@ class GameFragment : Fragment() {
     @JvmSuppressWildcards
     lateinit var gameDialogBuilder: (String, String, () -> Unit) -> AlertDialog.Builder
 
-    @Inject
-    lateinit var prefs: SharedPreferences
-
     private lateinit var viewModel: GameViewModel
 
     private var _binding: FragmentGameBinding? = null
@@ -270,7 +267,6 @@ class GameFragment : Fragment() {
         when (uiTimer) {
             is Some -> (uiTimer as Some<ShinroTimer>).t.pause()
         }
-
 //        binding.nextBoard.setOnClickListener {
 //                findNavController().navigate(GameFragmentDirections.actionGameToGameSummary(evt.summary))
 //        }

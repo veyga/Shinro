@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.DifficultyChoiceFragment">
 
     <data>
+
         <variable
             name="fragment"
             type="io.astefanich.shinro.ui.DifficultyChoiceFragment" />
@@ -19,7 +21,6 @@
             android:layout_height="match_parent"
             android:layout_margin="48sp">
 
-            <!--            android:onClick="@{() -> fragment.navToChoice(tipChoice.HOWTOPLAY)}"-->
 
             <!-- chip style doesn't bold text deterministically -->
             <com.google.android.material.chip.Chip
@@ -33,6 +34,7 @@
                 android:id="@+id/medium_chip"
                 style="@style/ChipStyle"
                 android:text="@string/medium"
+                android:textStyle="bold"
                 tools:text="Medium" />
 
             <com.google.android.material.chip.Chip
