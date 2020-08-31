@@ -51,7 +51,6 @@ interface MainActivityComponent {
 @Module
 object MainActivityModule {
 
-
     @Provides
     fun providesLastSignedInAccount(@Named("actCtx") ctx: Context): GoogleSignInAccount? =
         GoogleSignIn.getLastSignedInAccount(ctx)

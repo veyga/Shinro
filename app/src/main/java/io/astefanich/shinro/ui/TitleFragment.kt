@@ -21,6 +21,7 @@ import io.astefanich.shinro.R
 import io.astefanich.shinro.common.PlayRequest
 import io.astefanich.shinro.databinding.FragmentTitleBinding
 import io.astefanich.shinro.di.activities.main.fragments.HasActiveGame
+import io.astefanich.shinro.util.ActiveGameListener
 import javax.inject.Inject
 
 class TitleFragment : Fragment() {
@@ -45,8 +46,10 @@ class TitleFragment : Fragment() {
     @JvmSuppressWildcards
     lateinit var googleSignInClient: GoogleSignInClient
 
+//    @Inject
+//    lateinit var hasActiveGame: HasActiveGame
     @Inject
-    lateinit var hasActiveGame: HasActiveGame
+    lateinit var activeGameListener: ActiveGameListener
 
     private var _binding: FragmentTitleBinding? = null
     private val binding get() = _binding!!
@@ -66,7 +69,7 @@ class TitleFragment : Fragment() {
 
 
         binding.playResumeChip.setOnClickListener {
-            if(hasActiveGame.state){
+            if(activeGameListener.hasActiveGame()){
                 findNavController().navigate(
                     TitleFragmentDirections.actionTitleToGame(PlayRequest.Resume)
                 )
@@ -122,7 +125,7 @@ class TitleFragment : Fragment() {
         }
 
         binding.lifecycleOwner = this
-        if(hasActiveGame.state)
+        if(activeGameListener.hasActiveGame())
             binding.playResumeChip.text = "Resume"
 
 

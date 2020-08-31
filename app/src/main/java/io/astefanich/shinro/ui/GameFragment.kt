@@ -33,7 +33,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
-import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -271,8 +270,6 @@ class GameFragment : Fragment() {
         when (uiTimer) {
             is Some -> (uiTimer as Some<ShinroTimer>).t.pause()
         }
-        Timber.i("no longer has active game")
-        prefs.edit().putBoolean("has_active_game", false).apply()
 
 //        binding.nextBoard.setOnClickListener {
 //                findNavController().navigate(GameFragmentDirections.actionGameToGameSummary(evt.summary))

@@ -18,6 +18,8 @@ interface GameDao {
     @Update
     suspend fun updateGame(game: Game)
 
+    @Delete
+    suspend fun deleteGame(game: Game)
 }
 
 @Dao

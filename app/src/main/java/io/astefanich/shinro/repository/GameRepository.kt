@@ -16,11 +16,11 @@ constructor(
 ) {
 
     suspend fun getActiveGame(): Game = gameDao.getActiveGame()
-//        gameDao.getActiveGame() ?: getNewGameByDifficulty(Difficulty.EASY)
-    //should only be null on very first game
 
 
     suspend fun saveGame(game: Game) = gameDao.updateGame(game)
+
+    suspend fun evictGame(game: Game) = gameDao.deleteGame(game)
 
     suspend fun getNewGameByDifficulty(difficulty: Difficulty): Game {
         val newBoard = boardRepo.getRandomBoardByDifficulty(difficulty)

@@ -54,7 +54,7 @@
                 android:gravity="center"
                 android:text="solve"
                 android:textColor="@color/materialBlack"
-                android:visibility="gone"
+                android:visibility="visible"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/freebies_remaining"
                 tools:text="Solve" />
