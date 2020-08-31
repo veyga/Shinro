@@ -93,7 +93,7 @@ constructor(
         val c = cmd.col
         _game.apply {
             val clicked = board[r][c]
-            if (clicked.actual in "A".."G" || Freebie(r, c) == freebie)
+            if (clicked.actual in "A".."H" || Freebie(r, c) == freebie)
                 return
             if (undoStack.isEmpty())
                 bus.post(UndoStackActivatedEvent)
