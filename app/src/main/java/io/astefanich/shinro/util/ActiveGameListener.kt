@@ -6,7 +6,6 @@ import io.astefanich.shinro.common.GameTornDownEvent
 import io.astefanich.shinro.di.PerActivity
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
-import timber.log.Timber
 import javax.inject.Inject
 
 @PerActivity
@@ -27,13 +26,11 @@ constructor(
 
     @Subscribe
     fun handle(gameLoadedEvent: GameLoadedEvent) {
-        Timber.i("got gameLoadedEvent: setting active to true")
         prefs.edit().putBoolean(KEY, true).apply()
     }
 
     @Subscribe
     fun handle(gameTornDownEvent: GameTornDownEvent) {
-        Timber.i("got gameTornDownEvent: setting active to false")
         prefs.edit().putBoolean(KEY, false).apply()
     }
 

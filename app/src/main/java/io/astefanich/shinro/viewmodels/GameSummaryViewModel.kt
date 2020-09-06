@@ -80,10 +80,8 @@ constructor(
         prefs.edit().putLong("total_points", newTotal).apply() //save total even if offline
         when (leaderboardsClient) {
             is Some -> {
-                leaderboardsClient.t.submitScore(
-                    metricStr(Metric.Leaderboard.TotalPoints),
-                    newTotal
-                )
+                if(newTotal > 0)
+                    leaderboardsClient.t.submitScore(metricStr(Metric.Leaderboard.TotalPoints), newTotal)
                 with(newAggregate) {
                     if (numPlayed >= 10 && difficulty != Difficulty.EASY) {
                         val metric =

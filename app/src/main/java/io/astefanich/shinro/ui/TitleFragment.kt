@@ -20,7 +20,6 @@ import com.google.android.gms.games.LeaderboardsClient
 import io.astefanich.shinro.R
 import io.astefanich.shinro.common.PlayRequest
 import io.astefanich.shinro.databinding.FragmentTitleBinding
-import io.astefanich.shinro.di.activities.main.fragments.HasActiveGame
 import io.astefanich.shinro.util.ActiveGameListener
 import javax.inject.Inject
 
@@ -46,8 +45,6 @@ class TitleFragment : Fragment() {
     @JvmSuppressWildcards
     lateinit var googleSignInClient: GoogleSignInClient
 
-//    @Inject
-//    lateinit var hasActiveGame: HasActiveGame
     @Inject
     lateinit var activeGameListener: ActiveGameListener
 
@@ -132,9 +129,8 @@ class TitleFragment : Fragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        //this is redundant after first sign-in if user has auto sign-in (dagger provides last signed in account)
+    override fun onResume() {
+        super.onResume()
         googleSignInClient.silentSignIn().addOnSuccessListener { acct ->
             leaderboardsClient = Some(Games.getLeaderboardsClient(requireActivity(), acct))
             achievementsClient = Some(Games.getAchievementsClient(requireActivity(), acct))
@@ -194,12 +190,6 @@ class TitleFragment : Fragment() {
     //text reverts from bold to normal when popping/exiting from fragment
     override fun onStart() {
         super.onStart()
-        binding.playResumeChip.setTextColor(resources.getColor(R.color.white))
-        binding.howToPlayTipsChip.setTextColor(resources.getColor(R.color.white))
-        binding.statisticsChip.setTextColor(resources.getColor(R.color.white))
-        binding.leaderboardChip.setTextColor(resources.getColor(R.color.white))
-        binding.achievementsChip.setTextColor(resources.getColor(R.color.white))
-        binding.aboutChip.setTextColor(resources.getColor(R.color.white))
         binding.playResumeChip.typeface = Typeface.DEFAULT_BOLD
         binding.howToPlayTipsChip.typeface = Typeface.DEFAULT_BOLD
         binding.statisticsChip.typeface = Typeface.DEFAULT_BOLD
