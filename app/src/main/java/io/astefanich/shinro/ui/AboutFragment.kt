@@ -1,6 +1,7 @@
 package io.astefanich.shinro.ui
 
 
+import android.content.Intent
 import android.graphics.Typeface
 import android.media.AudioManager
 import android.net.Uri
@@ -9,6 +10,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.VideoView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -26,6 +28,8 @@ class AboutFragment : Fragment() {
 
     @Inject
     lateinit var versionName: String
+
+    lateinit var appLink: TextView
 
     var videoPlaying = MutableLiveData<Boolean>()
     var videoStarted = MutableLiveData<Boolean>()
@@ -60,6 +64,13 @@ class AboutFragment : Fragment() {
             videoStarted.value = false
             videoPlaying.value = false
             videoPosition = 0
+        }
+
+        appLink = binding.appLink
+        appLink.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW);
+            intent.data = Uri.parse(appLink.text.toString())
+            startActivity(intent)
         }
 
         binding.fragment = this
